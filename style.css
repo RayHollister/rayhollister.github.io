@@ -253,7 +253,7 @@ i {
     background-size: 2rem;
 }
 
-.jaxtdy {
+.JAXTDY {
     background: -moz-linear-gradient(0% 50% 0deg, rgba(118, 203, 234, 1) 0%, rgba(88, 221, 204, 1) 100%);
     background: -webkit-linear-gradient(0deg, rgba(118, 203, 234, 1) 0%, rgba(88, 221, 204, 1) 100%);
     background: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0, rgba(118, 203, 234, 1)), color-stop(1, rgba(88, 221, 204, 1)));
@@ -280,7 +280,7 @@ i {
     border-radius: 50%;
 }
 
-.wjctnews {
+.WJCTNews {
     background-color: #2C3E50;
 }
 
@@ -315,7 +315,7 @@ i {
     width: 1.5rem;
     content: "";
     margin-right: 10px;
-    background: url(/pogo/favicons/apple-touch-icon.png) no-repeat 0 0;
+    background: url(/media/apple-touch-icon.png) no-repeat 0 0;
     border-radius: 50%;
     background-size: 1.5rem 1.5rem;
 }

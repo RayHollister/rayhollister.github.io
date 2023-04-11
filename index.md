@@ -6,6 +6,20 @@ layout: default
 title: Home
 exclude: true
 ---
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700+Open+Sans|PT+Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Montserrat:800' rel='stylesheet' type='text/css'>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/media/apple-touch-icon.png" />
+<link rel="apple-touch-icon" sizes="57x57" href="/media/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/media/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon" sizes="76x76" href="/media/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/media/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="/media/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="/media/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/media/apple-touch-icon-152x152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon-180x180.png" />
 <link href='/style.css' rel='stylesheet' type='text/css'>
 <div id="centered">
     <h1>Ray Hollister</h1>
