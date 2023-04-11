@@ -234,7 +234,7 @@ i {
     width: 1.5rem;
     content: "";
     margin-right: 5px;
-    background: url(https://www.wjct.org/media/2019/08/oddball_header_logo.png) no-repeat 0 0;
+    background: url(/media/2019/08/oddball_header_logo.png) no-repeat 0 0;
     background-size: 1.5rem 1.5rem;
 }
 
