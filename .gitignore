@@ -20,3 +20,7 @@ Gemfile.lock
 .Trashes
 ehthumbs.db
 Thumbs.db
+.vscode
+
+# Additional ignores
+_drafts
