@@ -2,17 +2,17 @@
   <data class="u-url" href="{{ "/" | relative_url }}"></data>
 
   <div class="wrapper">
-
+    <p>{{ site.description | escape }}</p>
+    <!--
     <div class="footer-col-wrapper">
       <div class="footer-col">
-        <!-- <p class="feed-subscribe">
+        <p class="feed-subscribe">
           <a href="{{ site.feed.path | default: 'feed.xml' | absolute_url }}">
             <svg class="svg-icon orange">
               <use xlink:href="{{ 'assets/minima-social-icons.svg#rss' | relative_url }}"></use>
             </svg><span>Subscribe</span>
           </a>
         </p>
-      -->
       {%- if site.author %}
         <ul class="contact-list">
           {% if site.author.name -%}
@@ -32,7 +32,7 @@
     <div class="social-links">
       {%- include social.html -%}
     </div>
-
+    -->
   </div>
 
 </footer>
