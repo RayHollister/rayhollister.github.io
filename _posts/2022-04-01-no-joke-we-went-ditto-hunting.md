@@ -17,4 +17,5 @@ Plus, Jennifer Tucker took the boys for the night, so we didn’t have to herd a
 
 T-58 days.
 
-<figure class="wp-block-image size-large">![](/media/2022/04/img_9966.jpg)<figcaption>I love how we scribbled all over The Fresh Market. We stopped to get a drink because I forgot I had to take my pain meds! ![🤣](https://static.xx.fbcdn.net/images/emoji.php/v9/t52/1/16/1f923.png)![👴🏻](https://static.xx.fbcdn.net/images/emoji.php/v9/t64/1/16/1f474_1f3fb.png)</figcaption></figure>
+![](/media/2022/04/img_9966.jpg)
+I love how we scribbled all over The Fresh Market. We stopped to get a drink because I forgot I had to take my pain meds! 🤣👴🏻

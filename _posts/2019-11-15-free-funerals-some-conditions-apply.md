@@ -8,9 +8,12 @@ guid: 'https://www.rayhollister.com/?p=742'
 permalink: /2019/11/15/free-funerals-some-conditions-apply/
 categories:
     - 'It''s Time For News'
+tiktokId: 6759653460406226181
 ---
 
-<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="700" loading="lazy" src="https://www.tiktok.com/embed/6759653460406226181" width="340"></iframe>Funerals can be expensive! But a South Korean company is giving them away—as long as you’re not dead.
+{% include tiktokPlayer.html id=page.tiktokId %}
+
+Funerals can be expensive! But a South Korean company is giving them away—as long as you’re not dead.
 
 The Hyowon Healing Center is hoping people will live better lives by pretending to die!
 

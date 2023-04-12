@@ -8,9 +8,12 @@ guid: 'https://rayhollister.com/?p=804'
 permalink: /2019/11/26/who-let-the-dog-drive-who-who-who/
 categories:
     - 'It''s Time For News'
+tiktokId: 6763677894565825797
 ---
 
-<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="700" loading="lazy" src="https://www.tiktok.com/embed/6763677894565825797" width="340"></iframe>There’s plenty of Florida Man stories, how about a Florida Dog story?!
+{% include tiktokPlayer.html id=page.tiktokId %}
+
+There’s plenty of Florida Man stories, how about a Florida Dog story?!
 
 A south Florida neighborhood woke up to the sounds of someone doing donuts in their cul-de-sac.
 

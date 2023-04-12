@@ -8,9 +8,12 @@ guid: 'https://rayhollister.com/?p=754'
 permalink: /2019/11/19/did-the-representative-rip-one/
 categories:
     - 'It''s Time For News'
+tiktokId: 6761123545658707206
 ---
 
-<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="700" loading="lazy" src="https://www.tiktok.com/embed/6761123545658707206" width="340"></iframe>Well, I guess this account has turned into a running fart joke, because here we go again.
+{% include tiktokPlayer.html id=page.tiktokId %}
+
+Well, I guess this account has turned into a running fart joke, because here we go again.
 
 Congressman Eric Swalwell appeared to let out a huge fart on live television.
 

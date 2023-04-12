@@ -8,9 +8,12 @@ guid: 'https://rayhollister.com/?p=748'
 permalink: /2019/11/18/getting-caught-like-that-must-really-stink/
 categories:
     - 'It''s Time For News'
+tiktokId: 6760781630442425605
 ---
 
-<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="700" loading="lazy" src="https://www.tiktok.com/embed/6760781630442425605" width="340"></iframe>Note to self: if you’re ever hiding from the police, it might be a good idea to get some Gas-X. #notanad
+{% include tiktokPlayer.html id=page.tiktokId %}
+
+Note to self: if you’re ever hiding from the police, it might be a good idea to get some Gas-X. #notanad
 
 A Missouri man farted so loud that police found his hiding spot.
 

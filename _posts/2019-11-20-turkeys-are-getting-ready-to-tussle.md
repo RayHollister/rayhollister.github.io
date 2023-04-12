@@ -8,9 +8,12 @@ guid: 'https://rayhollister.com/?p=782'
 permalink: /2019/11/20/turkeys-are-getting-ready-to-tussle/
 categories:
     - 'It''s Time For News'
+tiktokId: 6761514968463592709
 ---
 
-<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="700" loading="lazy" src="https://www.tiktok.com/embed/6761514968463592709" width="340"></iframe>It’s almost a week before Thanksgiving here in the US, and some wild turkeys are fighting back.
+{% include tiktokPlayer.html id=page.tiktokId %}
+
+It’s almost a week before Thanksgiving here in the US, and some wild turkeys are fighting back.
 
 Turkeys are taking over a neighborhood in New Jersey.
 
