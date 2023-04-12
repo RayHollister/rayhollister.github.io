@@ -4,6 +4,7 @@ layout: base
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
+    
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape_once }}</h1>
     <p class="post-meta">
       {%- assign date_format = "%B %-d, %Y at %-I:%M %P" -%}
@@ -24,6 +25,9 @@ layout: base
             {%- if forloop.last == false %}, {% endif -%}
         {% endfor %}
       {%- endif -%}</p>
+      {%- if page.image -%}
+      <img src="{{ page.image | relative_url }}" alt="{{ page.title | escape }}" class="post-featured-image">
+    {%- endif -%}
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
@@ -35,4 +39,21 @@ layout: base
   {%- endif -%}
 
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+  <nav class="post-pagination">
+      {%- if page.previous -%}
+      <span class="nav-left">
+          <a href="{{ page.previous.url | relative_url }}" rel="prev">
+            <i class="fa-solid fa-circle-left"></i> {{ page.previous.title | escape_once }}
+          </a>
+        </span>
+      {%- endif -%}
+      {%- if page.next -%}
+      <span class="nav-right">
+          <a href="{{ page.next.url | relative_url }}" rel="next">
+            {{ page.next.title | escape_once }} <i class="fa-solid fa-circle-right"></i>
+          </a>
+        </span>
+      {%- endif -%}
+    </ul>
+  </nav>
 </article>

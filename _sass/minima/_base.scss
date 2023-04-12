@@ -283,3 +283,21 @@ table {
             -ms-overflow-style: -ms-autohiding-scrollbar;
   }
 }
+
+/**
+ * Navigation
+ */
+ nav.post-pagination {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+nav.post-pagination .nav-left {
+  order: 1;
+}
+
+nav.post-pagination .nav-right {
+  order: 2;
+}
+
