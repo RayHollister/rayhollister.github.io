@@ -10,7 +10,6 @@ p, blockquote, pre, hr,
 dl, dd, ol, ul, figure {
   margin: 0;
   padding: 0;
-
 }
 
 
@@ -105,7 +104,13 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: $base-font-weight;
 }
 
-
+/**
+ * Paragraphs
+ */
+p {
+  line-height: 1.8;
+  font-size: $text-font-size;
+}
 
 /**
  * Links
@@ -120,7 +125,7 @@ a {
 
   &:hover {
     color: $link-hover-color;
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   .social-media-list &:hover {
