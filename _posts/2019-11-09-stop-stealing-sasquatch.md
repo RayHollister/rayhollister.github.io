@@ -8,6 +8,9 @@ guid: 'https://www.rayhollister.com/?p=732'
 permalink: /2019/11/09/stop-stealing-sasquatch/
 categories:
     - 'It''s Time For News'
+tiktokId: 6757456548672326917
 ---
 
-<figure><iframe allowfullscreen="" height="700" loading="lazy" src="https://www.tiktok.com/embed/6757456548672326917" width="340"></iframe></figure>**Source:** <https://www.coasttocoastam.com/article/massive-bigfoot-statue-stolen-in-florida>
+{% include tiktokPlayer.html id=page.tiktokId %}
+
+**Source:** <https://www.coasttocoastam.com/article/massive-bigfoot-statue-stolen-in-florida>

@@ -8,6 +8,9 @@ guid: 'https://www.rayhollister.com/?p=736'
 permalink: /2019/11/12/the-real-estate-market-is-tough-to-crack-into/
 categories:
     - 'It''s Time For News'
+tiktokId: 6758481771811196165
 ---
 
-<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="700" loading="lazy" src="https://www.tiktok.com/embed/6758481771811196165" width="340"></iframe>**Source:** <https://www.wxyz.com/news/zillow-listing-of-home-goes-viral-after-photo-shows-white-powder-substance-drawn-in-lines>
+{% include tiktokPlayer.html id=page.tiktokId %}
+
+**Source:** <https://www.wxyz.com/news/zillow-listing-of-home-goes-viral-after-photo-shows-white-powder-substance-drawn-in-lines>

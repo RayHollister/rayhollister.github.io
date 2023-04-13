@@ -8,9 +8,12 @@ guid: 'https://www.rayhollister.com/?p=738'
 permalink: /2019/11/13/the-secret-code-is-extra-lemons/
 categories:
     - 'It''s Time For News'
+tiktokId: 6758906557347515653
 ---
 
-<figure><iframe allowfullscreen="" height="700" loading="lazy" src="https://www.tiktok.com/embed/6758906557347515653" width="340"></iframe></figure>It’s time for news!
+{% include tiktokPlayer.html id=page.tiktokId %}
+
+It’s time for news!
 
 In South Carolina man says his sweet tea had more than just tea leaves in it, it had marijuana leaves too!
 

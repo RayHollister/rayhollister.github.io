@@ -13,6 +13,8 @@ tiktokId: 6760781630442425605
 
 {% include tiktokPlayer.html id=page.tiktokId %}
 
+
+
 Note to self: if you’re ever hiding from the police, it might be a good idea to get some Gas-X. #notanad
 
 A Missouri man farted so loud that police found his hiding spot.
@@ -23,20 +25,15 @@ The man hid from the police, but while he were hiding he was holding one in that
 
 > [“He had the right to remain silent, but he didn’t have the ability.”](https://www.facebook.com/SheriffClayCo/posts/2540680519299957?comment_id=2542142699153739)
 
-Clay County Sheriff’s department found the incident so amusing they posted on Facebook:
+[Clay County Sheriff’s department found the incident so amusing they posted on Facebook:](https://www.facebook.com/SheriffClayCo/posts/2540680519299957)
 
-“If you’ve got a felony warrant for your arrest, the cops are looking for you and you pass gas so loud it gives up your hiding spot, you’re definitely having a ? day. ? [\#ItHappened](https://www.facebook.com/hashtag/ithappened?source=feed_text&epa=HASHTAG&__xts__%5B0%5D=68.ARDWffSBZ2GpLKwiczsB6TZg7NjpzvfQK0VdGHizk7pXuFWs9VLC_N2pVJ9zXmtovu_bI5NOgOs8LmERVwN63_5YwlEOvwQiW_HA_UV0w5mIeVgvqTWViXeev7iXDFAsHV-CrWe-9MxrI8c58hBhqhZN8Gu0pfA2E7Xh6NY3DIIeI_KNdAi1h6VPf98CyYS8gFZxKPUT1WkUEi4CoHzusH6PgbgQ60GzQx4FocS_SlWlgbZke7bNiUGotWVwxzxh0iVq9XlNENfISZvpYxS2-Qu-KoihQ3ScW647bjtXDKQGj2errgGauC3VYgFc1WAnxrsst9hOPHT0dGmgfMBPnoa6qg&__tn__=%2ANK-R)”
+<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FSheriffClayCo%2Fposts%2Fpfbid0WTwico9QWoZZaAzRm7KoRfGZwmiKtbq2BYCs9yprXBLzvqVUCBHqehwF8gBSN49xl&show_text=true&width=500" width="500" height="438" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
 
-<figure class="wp-block-embed-facebook wp-block-embed is-type-rich is-provider-facebook"><div class="wp-block-embed__wrapper"><div id="fb-root"></div><script async="1" crossorigin="anonymous" defer="1" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0"></script><div class="fb-post" data-href="https://www.facebook.com/SheriffClayCo/photos/a.650180298349998/2540679435966732/?type=3&__xts__%5B0%5D=68.ARC_pOAl5Wde9DXLqhsHPBaRkv-BRGFAPQamZ6pjE1E24cFV8WtoMTtpctzbK-c79EC6kq4qqqAH8-cL2j-aRRc1JGUy1pOvrCJ6bTnsclonML_mRl2wRvLV1yV-BdRZPkQhnyDabBemAGWmDJwpvlGCLNF4cFYKZFD9_8RNGe5UKfm93ecUzvxnZ2C8oufFag5Mx2-dx4ejw4mnC0tLilooJWqxNILvy6JZfnXVEZ-_hbBKskBXt-ds6_XR4z6P5n02aDrQVmhUyEL6R7Qr3RK3v83HFt2wgQhn_WOaZycGLVQYhB1oLw9cAKRhQVBrhVL2EN9znf30Uz8-zaR2YtJLig&__tn__=-R" data-width="640">> If you’ve got a felony warrant for your arrest, the cops are looking for you and you pass gas so loud it gives up your hiding spot, you’re definitely having a ? day. ? #ItHappened
-> 
-> Posted by [Clay County, Missouri Sheriff](https://www.facebook.com/SheriffClayCo/) on [Tuesday, July 9, 2019](https://www.facebook.com/SheriffClayCo/photos/a.650180298349998/2540679435966732/?type=3)
+The [Liberty Police Department replied on Twitter](https://twitter.com/LibertyMissouri/status/1148695629075505153):
 
-</div></div></figure>The [Liberty Police Department replied on Twitter](https://twitter.com/LibertyMissouri/status/1148695629075505153):
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Thanks to <a href="https://twitter.com/SheriffClayCo?ref_src=twsrc%5Etfw">@SheriffClayCo</a> for airing out a wanted person&#39;s dirty laundry and fanning the flames. The Liberty Police Department was surprised to see this incident slip out, which stinks for the arrestee. Fortunately, no one was injured during his arrest <a href="https://twitter.com/hashtag/nervousbelly?src=hash&amp;ref_src=twsrc%5Etfw">#nervousbelly</a> <a href="https://twitter.com/hashtag/nocomment?src=hash&amp;ref_src=twsrc%5Etfw">#nocomment</a> <a href="https://t.co/mHPoPds3nv">https://t.co/mHPoPds3nv</a></p>&mdash; Liberty Missouri (@LibertyMissouri) <a href="https://twitter.com/LibertyMissouri/status/1148695629075505153?ref_src=twsrc%5Etfw">July 9, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<figure class="wp-block-embed-twitter wp-block-embed is-type-rich is-provider-twitter"><div class="wp-block-embed__wrapper">> Thanks to [@SheriffClayCo](https://twitter.com/SheriffClayCo?ref_src=twsrc%5Etfw) for airing out a wanted person's dirty laundry and fanning the flames. The Liberty Police Department was surprised to see this incident slip out, which stinks for the arrestee. Fortunately, no one was injured during his arrest [\#nervousbelly](https://twitter.com/hashtag/nervousbelly?src=hash&ref_src=twsrc%5Etfw) [\#nocomment](https://twitter.com/hashtag/nocomment?src=hash&ref_src=twsrc%5Etfw) <https://t.co/mHPoPds3nv>
-> 
-> — Liberty Missouri (@LibertyMissouri) [July 9, 2019](https://twitter.com/LibertyMissouri/status/1148695629075505153?ref_src=twsrc%5Etfw)
+That’s all the news worth TikToking.
 
-<script async="" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script></div></figure>That’s all the news worth TikToking.
 
-Follow me for more [humorous headlines](http://tiktok.com/@rayhollister3)!
+Follow me for more [humorous headlines](https://tiktok.com/@rayhollister)!
