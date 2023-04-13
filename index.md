@@ -6,6 +6,8 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 #
 layout: page
+title: Ray Hollister
+exclude: true
 ---
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700+Open+Sans|PT+Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -23,7 +25,6 @@ layout: page
 <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon-180x180.png" />
 <link href='/businesscard-style.css' rel='stylesheet' type='text/css'>
 <div id="centered">
-    <h1>Ray Hollister</h1>
     <h2><a href="https://wjct.org">WJCT Public Media</a><br />Digital Media Director</h2>
     <h3>Places on the interwebs to find me:</h3>
     <a title="Ray Hollister on Facebook" href="https://facebook.com/rayhollister">
