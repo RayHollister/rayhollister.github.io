@@ -7,7 +7,7 @@ layout: post
 guid: 'https://www.rayhollister.com/?p=136'
 permalink: /2010/02/09/fou-horrible-pairs-of-shoes-from-payless/
 categories:
-    - Uncategorised
+    - Reviews
 tags:
     - Payless
     - pleather

@@ -13,7 +13,7 @@ blogger_author:
 blogger_permalink:
     - /2008/11/fdl-you-gotta-either-fix-it-deal-with.html
 categories:
-    - Uncategorised
+    - Personal Blog
 tags:
     - complaining
     - 'or leave'

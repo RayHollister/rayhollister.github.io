@@ -13,7 +13,7 @@ blogger_author:
 blogger_permalink:
     - /2009/02/can-i-help-you-find-something.html
 categories:
-    - 'Personal Blog'
+    - Personal Blog
     - Reviews
 tags:
     - 'Cracker Barrel'
