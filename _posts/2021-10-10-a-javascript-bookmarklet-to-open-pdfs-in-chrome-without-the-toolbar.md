@@ -21,10 +21,8 @@ I finally decided to take the time to automate this process as a JavaScript book
 
 I wish Google would just put a button on the toolbar to make it go away, but until they do, here’s a decent solution:
 
-```
-<pre class="wp-block-code">```
+```javascript
 javascript: (function () { notoolbar = '#toolbar=0'; window.open(location + notoolbar)})()
-```
 ```
 
 Here’s what to do if you don’t know [how to install a bookmarklet](https://mreidsma.github.io/bookmarklets/installing.html).

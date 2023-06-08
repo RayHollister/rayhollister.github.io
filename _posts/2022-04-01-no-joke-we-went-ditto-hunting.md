@@ -9,6 +9,7 @@ permalink: /2022/04/01/no-joke-we-went-ditto-hunting/
 image: /media/2022/04/img_9963-scaled.jpg
 categories:
     - 'I broke my back'
+    - Pokémon GO
 ---
 
 The family went on a Pokémon hunt to catch Dittos tonight! I wanted to go walking Wednesday, but I was still sore from my little adventure on Tuesday. Thursday got rained out. I was going to be lazy and not go tonight, but there was a special event on Pokémon GO, and I couldn’t resist. ![😀](https://static.xx.fbcdn.net/images/emoji.php/v9/tce/1/16/1f600.png)

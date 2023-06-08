@@ -18,7 +18,7 @@ categories:
 
 Yup, that’s me. You’re probably wondering how I ended up in this situation. LOL
 
-On Sunday my son Zach had a birthday party to go to at the new skating rink in the old CompUSA in Regency. Since [Amber](https://www.facebook.com/amberhollister?__cft__%5B0%5D=AZU25ka7935ISJFPifhfRlVSzg4PGDuN2q2YCAnRzBbs7MOtyQls48NUpKw1oaW0VBZqut6iChOeDft1sxVOVNH1JkZT1YNj9vj2G92r1kuxWnGt9Nr2bbrUB1K4KOctNA8&__tn__=-%5DK-R) has bad knees, and I used to skate a lot when I was younger, I decided I would take him.
+On Sunday my son Zach had a birthday party to go to at the new skating rink in the old CompUSA in Regency. Since Amber has bad knees, and I used to skate a lot when I was younger, I decided I would take him.
 
 We rented our skates, got them laced up and headed out on the floor. Since it was Zach‘s first time in rollerskates, it took him a while to get accustomed to them. For me, it only took about three laps around the floor to get my legs under me.
 

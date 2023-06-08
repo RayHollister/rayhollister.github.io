@@ -38,7 +38,7 @@ Open the Working tag, and search for “Shiny”
 - Put 9 of the remaining highest level in Free Agent tag.
 - Put the rest in Recycle Bin group.
 
-Search for attacker Tier 2 or higher (See [PoGo Search META Tiers](https://rayhollister.com/pogo/meta))
+Search for attacker Tier 2 or higher (See [PoGo Search META Tiers](https://pogo.news/tools/meta/))
 
 - Put 6 of the best regular IVs in the Keep tag
 - Put the rest in Recycle Bin tag.
@@ -60,7 +60,7 @@ Go to the Recycle Bin tag and search for “Year2016-2018”
 
 - Put all of them in the Free Agents tag.
 
- Search for any Tier 2 or higher (See [PoGo Search META Tiers](https://rayhollister.com/pogo/meta))
+ Search for any Tier 2 or higher (See [PoGo Search META Tiers](https://pogo.news/tools/meta/))
 
 - Put the best 9 in the Free Agents tag.
 - Put the rest in the 2x Transfer tag.
@@ -70,5 +70,3 @@ Transfer the rest of the Recycle Bin or tag them 2x Transfer to save them for th
 I scan every single Pokemon with Poke Genie before I start this process and rename them before I start culling. I use MacroDroid to run a macro that automatically renames them.
 
 I haven’t updated the META tier lists on PoGo search in a while, so the latest new releases haven’t been added, but I will update those soon.
-
-I plan on updating [PoGo Search](https://rayhollister.com/pogo) to have a clickable search string to search for all Tier 2 or higher Pokémon. It’s ahead on the roadmap. I’ll update this post once it has been created.

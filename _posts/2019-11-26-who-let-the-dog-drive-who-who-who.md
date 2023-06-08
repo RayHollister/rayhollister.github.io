@@ -27,6 +27,6 @@ Because that is how low the expectations are set for drivers in Florida.
 
 That’s all the news worth TikToking.
 
-Follow me for more [humorous headlines](http://tiktok.com/@rayhollister3)!
+Follow me for more [humorous headlines](http://tiktok.com/@rayhollister)!
 
 **Source:** [Neighbors find dog behind the wheel of moving car – WPBF 25 News](https://www.wpbf.com/article/neighbors-find-dog-behind-the-wheel-of-moving-car/29875948)

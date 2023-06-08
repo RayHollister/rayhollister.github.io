@@ -11,7 +11,7 @@ categories:
     - 'I broke my back'
 ---
 
-I haven’t posted in a while because I have been super busy. Since I can’t work on any projects that involve almost any manual labor, and I was so excited that I could sit at my desk and work on my computer for more than an hour without being in agony, I relaunched my passion project, jaxplays.com. I’m just getting caught up on everything that is happening in local, live theatre again, but I’m getting it rolling. I won’t go into it all here, but if you’re interested in local theatre, you should check it out!
+I haven’t posted in a while because I have been super busy. Since I can’t work on any projects that involve almost any manual labor, and I was so excited that I could sit at my desk and work on my computer for more than an hour without being in agony, I relaunched my passion project, <a href="https://jaxplays.com">jaxplays.com</a>. I’m just getting caught up on everything that is happening in local, live theatre again, but I’m getting it rolling. I won’t go into it all here, but if you’re interested in local theatre, you should check it out!
 
 I went out in the yard today. The bananas look amazing. They’re starting to come in nicely after Amber trimmed them back for me. But the yard is getting rough. This is the time of year I would fire up the ol’ mower and weed eater and get to it, but the docs explicitly told me I couldn’t do either until my back is all the way healed up.
 
