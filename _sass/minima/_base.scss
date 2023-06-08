@@ -291,13 +291,16 @@ table {
   display: flex;
   justify-content: space-between;
   font-weight: 600;
+
 }
 
 nav.post-pagination .nav-left {
   order: 1;
+  max-width: calc(50% - 10px);
 }
 
 nav.post-pagination .nav-right {
   order: 2;
+  max-width: calc(50% - 10px);
+  text-align: right;
 }
-

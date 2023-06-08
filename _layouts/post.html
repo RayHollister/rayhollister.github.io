@@ -41,16 +41,19 @@ layout: base
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
   <nav class="post-pagination">
       {%- if page.previous -%}
+      
       <span class="nav-left">
           <a href="{{ page.previous.url | relative_url }}" rel="prev">
-            <i class="fa-solid fa-circle-left"></i> {{ page.previous.title | escape_once }}
+            <i class="fa-solid fa-circle-left"></i> Previous Post<br />
+            {{ page.previous.title | escape_once }}
           </a>
         </span>
       {%- endif -%}
       {%- if page.next -%}
       <span class="nav-right">
           <a href="{{ page.next.url | relative_url }}" rel="next">
-            {{ page.next.title | escape_once }} <i class="fa-solid fa-circle-right"></i>
+            Next Post <i class="fa-solid fa-circle-right"></i><br />
+            {{ page.next.title | escape_once }}
           </a>
         </span>
       {%- endif -%}
