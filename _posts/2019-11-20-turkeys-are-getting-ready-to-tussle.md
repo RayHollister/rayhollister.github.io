@@ -25,7 +25,7 @@ Whereas if you do that with Canadian Geese, you’re just gonna piss them off.
 
 That’s all the news worth TikToking.
 
-Follow me for more [humorous headlines](http://tiktok.com/@rayhollister3)!
+Follow me for more [humorous headlines](http://tiktok.com/@rayhollister)!
 
 **Sources:**
 

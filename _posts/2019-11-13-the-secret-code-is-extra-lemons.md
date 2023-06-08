@@ -45,6 +45,6 @@ As crazy as the story sounds, this is not the first time that fast-food workers 
 
 That’s all the news worth TikToking.
 
-Follow me for more [humorous headlines](http://tiktok.com/@rayhollister3)!
+Follow me for more [humorous headlines](http://tiktok.com/@rayhollister)!
 
 **Source:** <https://www.islandpacket.com/news/local/crime/article237063389.html>

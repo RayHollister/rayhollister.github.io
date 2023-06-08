@@ -31,6 +31,6 @@ I’m still not gonna get into a casket for ten minutes!
 
 That’s all the news worth TikToking.
 
-Follow me for more [humorous headlines](http://tiktok.com/@rayhollister3)!
+Follow me for more [humorous headlines](http://tiktok.com/@rayhollister)!
 
 **Source:** <https://www.reuters.com/article/us-southkorea-livingfunerals/dying-for-a-better-life-south-koreans-fake-their-funerals-for-life-lessons-idUSKBN1XG038>

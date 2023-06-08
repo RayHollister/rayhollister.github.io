@@ -45,6 +45,6 @@ I’ll leave that for you to decide.
 
 That’s all the news worth TikToking.
 
-Follow me for more [humorous headlines](http://tiktok.com/@rayhollister3)!
+Follow me for more [humorous headlines](http://tiktok.com/@rayhollister)!
 
 **Source:** <https://nypost.com/2019/11/19/congressman-eric-swalwell-appears-to-fart-on-live-tv/>
