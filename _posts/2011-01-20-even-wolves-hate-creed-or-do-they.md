@@ -15,7 +15,7 @@ categories:
     - Mobile
 ---
 
-[![A horrendous photoshopped picture of a wolf standing next to a crooning Scott Stapp. The wolf is saying "No!! Curse my highly acute wolf hearing!"](https://www.rayhollister.com/media/2011/01/creedwolf.jpg)](https://www.rayhollister.com/media/2011/01/creedwolf.jpg)
+[![A horrendous photoshopped picture of a wolf standing next to a crooning Scott Stapp. The wolf is saying "No!! Curse my highly acute wolf hearing!"](/media/2011/01/creedwolf1.jpg)](/media/2011/01/creedwolf1.jpg)
 
 I’ve never understood why people hate the rock band [Creed](http://www.creed.com/) so much. While I’m not a huge fan, I’ve always found their music at least palatable. However, from all of the Creed hate I read on the interwebs, it would seem that I am not in the majority. There are over five million pages of search results for the phrase [“I hate Creed”](http://www.lmgtfy.com/?q=I+hate+Creed "Let me google that for you: "I Hate Creed"") and several Facebook pages and groups dedicated to the hatred of all things Creed. Now, apparently even wild life hates Creed.
 
@@ -27,4 +27,4 @@ Source: [Der Spiegel](http://www.spiegel.de/international/zeitgeist/0,1518,74068
 
 <span style="font-family: 'Lucida Grande', Helvetica, Arial, sans-serif; font-size: 12px; line-height: 20px;">*Image mashup by Ray Hollister. Scott Sapp image by [kindofadraag](http://www.flickr.com/photos/kindofadraag/4018101238/) via Flickr. Wolf image by [Steve Gregory](http://www.flickr.com/photos/gasheadsteve/126509990/) via Flickr.*</span>
 
-<div id="_mcePaste" style="position: absolute; left: -10000px; top: 127px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">**Sony Music Entertainment**</div><iframe frameborder="0" height="240" loading="lazy" scrolling="no" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.rayhollister.com%2F2011%2F01%2Feven-wolves-hate-creed-or-do-they%2F&layout=button_count&show_faces=true&width=450&action=like&font=arial&colorscheme=light&height=21" style="width: 450px; height: 21px; overflow: hidden;" width="320"></iframe>
+Originally posted on [Deemable.com](https://web.archive.org/web/20130104103937/http://deemable.com/2011/01/even-wolves-hate-creed-or-do-they/)

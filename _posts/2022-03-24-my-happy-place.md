@@ -19,4 +19,4 @@ But over all, it felt really great to feel a little normal for a while.
 
 T-66 days
 
-<figure class="wp-block-embed-youtube wp-block-embed is-type-video is-provider-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="360" loading="lazy" src="https://www.youtube.com/embed/5smvWABJftc?feature=oembed" title="Scowling" width="640"></iframe></div></figure>
+{% include youtubePlayer.html id="5smvWABJftc" %}

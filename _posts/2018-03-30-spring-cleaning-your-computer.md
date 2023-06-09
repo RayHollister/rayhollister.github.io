@@ -11,7 +11,7 @@ categories:
     - 'River City Live'
 ---
 
-https://youtube.com/watch?v=Baf42hFUc
+{% include youtubePlayer.html id="Baf42hFUc" %}
 
 Apply the principles of the KonMari method, from the book “The Life Changing Magic of Tidying Up.”
 

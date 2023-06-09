@@ -14,4 +14,4 @@ Now for something completely different. Since I have a four year old daughter, I
 
 Anyways, now that you have a general idea of what the show is about, in an episode that Zoe and I just watched, the boys pretend to be detectives on a manhunt for their sister’s lost doll. During the search, they do a montage of detective show parodies. The funniest one is when they parody the opening scene of CSI: Miami. They managed to squeeze in a total of 6 well used gags from both shows in only 21 seconds.
 
-<div style="text-align: center;"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0" height="385" width="640"><param name="allowFullScreen" value="true"></param><param name="allowScriptAccess" value="always"></param><param name="src" value="http://www.youtube.com/v/VR-NPVtF6Ok&color1=0xb1b1b1&color2=0xd0d0d0&hl=en_US&feature=player_embedded&fs=1"></param><param name="allowfullscreen" value="true"></param></object></div>
+{% include youtubePlayer.html id="uwGlL3hxaCY" %}

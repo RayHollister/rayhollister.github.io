@@ -10,6 +10,6 @@ categories:
     - YouTube
 ---
 
-<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="360" loading="lazy" src="https://www.youtube.com/embed/QmBjdMguFb8?feature=oembed" title="I'm So Egg-cited" width="640"></iframe>
+{% include youtubePlayer.html id="QmBjdMguFb8" %}
 
 It’s another holiday season and with it comes more animated stuffed animals doing horrible parodies of songs. If I see them on a shelf, I have to turn them all on simultaneously.

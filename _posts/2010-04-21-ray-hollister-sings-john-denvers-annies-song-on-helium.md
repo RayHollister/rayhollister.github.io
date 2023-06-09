@@ -13,5 +13,4 @@ tags:
     - helium
     - 'Ray Hollister'
 ---
-
-<center><object height="385" width="480"><param name="movie" value="http://www.youtube.com/v/Dl67eXcSAm8&hl=en_US&fs=1&"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param></object></center>
+{% include youtubePlayer.html id="Dl67eXcSAm8" %}
