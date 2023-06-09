@@ -24,14 +24,16 @@ tags:
     - 'traveling guitar'
 ---
 
-\[youtube http://www.youtube.com/watch?v=HKY0JtLG\_Aw\]
+{% include youtubePlayer.html id="HKY0JtLG_Aw" %}
 
 I’m selling this beautiful Baby Taylor Guitar. It’s a gorgeous 3/4 scale guitar with a solid spruce top and sapele laminate back and sides. It’s in great condition. The only reason I’m selling it is because I never play it anymore, and I live in a small apartment. Perfect for kids learning how to play guitar, backpacking and traveling, and great for folks with small hands. If you’re interested, email me or call me. The information is in the video. If you’re not interested, go ahead and like and share this video on Twitter and Facebook and everywhere! Thanks!
 
 Here’s what a Baby Taylor sounds like when it’s played by someone who actually knows how to play guitar:
 
-\[youtube http://www.youtube.com/watch?v=fmm\_H0RWVqM\]
+{% include youtubePlayer.html id="fmm_H0RWVqM" %}
 
-\[youtube http://www.youtube.com/watch?v=o\_LQAo9WTaI\]
 
-\[youtube http://www.youtube.com/watch?v=-nN0exLM7f8\]
+{% include youtubePlayer.html id="o_LQAo9WTaI" %}
+
+
+{% include youtubePlayer.html id="-nN0exLM7f8" %}

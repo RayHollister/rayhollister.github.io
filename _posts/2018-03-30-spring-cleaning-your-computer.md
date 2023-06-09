@@ -11,7 +11,7 @@ categories:
     - 'River City Live'
 ---
 
-https://youtube.com/watch?v=Baf42hFUc\_M
+https://youtube.com/watch?v=Baf42hFUc
 
 Apply the principles of the KonMari method, from the book “The Life Changing Magic of Tidying Up.”
 
@@ -19,7 +19,7 @@ Go through your computer and get rid of documents &amp; files you don’t need a
 
 Give everything a home.
 
-#### First, back it up!
+### First, back it up!
 
 You remember how the last time you did Spring Cleaning you accidently threw out something you didn’t mean to? You can buy a new wafflemaker, but you can never get those baby photos back.
 
@@ -28,7 +28,7 @@ Make sure you have everything backed up in at least two separate locations befor
 Time Machine – Mac  
 Backup &amp; Restore – Windows
 
-#### Use the snowball technique to stay motivated.
+### Use the snowball technique to stay motivated.
 
 Start with the easy things and work your way up to the harder stuff.
 
@@ -38,7 +38,7 @@ Don’t go crazy, but start to make some sense out of the chaos. Put your financ
 
 Make a folder to put everything you can’t decide if you need it anymore. Revisit it in a few weeks and see if you have opened any of them. If not, let them go.
 
-#### Uninstall programs you don’t need anymore.
+### Uninstall programs you don’t need anymore.
 
 [Revo Uninstaller](https://www.cleverbridge.com/884/?affiliate=45874&scope=checkout&cart=96705) is a great app for deep scrubbing the gunk from your computer and making sure the entire program is removed.  
 ![](http://boldcityit.com/media/2018/03/Spring-Cleaning-Your-Computer.png)

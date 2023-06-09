@@ -8,13 +8,14 @@ guid: 'https://www.rayhollister.com/?p=692'
 permalink: /2017/08/01/give-your-kids-tech-a-back-to-school-tune-up/
 categories:
     - 'River City Live'
+    - 'First Coast Connect'
 tags:
     - 'River City Live'
 ---
 
 https://youtu.be/BX-PbuZsZzk
 
-\[mixcloud https://www.mixcloud.com/WJCTNews/apps-for-school/ width=660 height=120 hide\_cover=1 light=1\]
+https://www.mixcloud.com/WJCTNews/apps-for-school/
 
 While you’re out shopping for pens, pencils, and paper, don’t forget to get your kids’ laptops, tablets and smartphones ready for back to school too! Taking a little bit of time now can save you lots of headaches later.
 

@@ -1,6 +1,6 @@
 ---
 id: 630
-title: 'Why the How I Met Your Mother series finale was perfect, but done wrong.'
+title: "Why the 'How I Met Your Mother' series finale was perfect, but done wrong."
 date: '2014-04-04T11:15:07-04:00'
 author: 'Ray Hollister'
 layout: post
@@ -13,8 +13,7 @@ tags:
     - 'How I Met Your Mother'
     - 'Series Finale'
 ---
-
-[![20140404-111309.jpg](https://www.rayhollister.com/media/2014/04/20140404-111309.jpg)](https://www.rayhollister.com/media/2014/04/20140404-111309.jpg)  
+[![20140404-111309.jpg](/media/2014/04/20140404-111309.jpg)](/media/2014/04/20140404-111309.jpg)  
 Or, “Everyone else has written a blog about the How I Met Your Mother series finale review so why don’t I?”
 
 SPOILER: Don’t read any more if you haven’t seen the HIMYM finale.
