@@ -9,6 +9,8 @@ description: >
   This is rayhollister.com, the website with everything Ray Hollister 
   wants you to know about Ray Hollister, and nothing he doesn't want you to know.
 
+google_analytics: G-E0VZ9LWFTC
+
 # Build settings
 
 theme: minima
@@ -53,3 +55,4 @@ minima:
 # Set to `true` to show excerpts on the homepage.
 #
 # show_excerpts: true
+
