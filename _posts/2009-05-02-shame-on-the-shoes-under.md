@@ -19,7 +19,7 @@ I’ve been looking forward to getting the [Shoes Under](https://www.shoesunders
 
 We picked up one at Target today, and we were more than disappointed in the product. The Shoes Under is a cheap canvas square bag. On the box, the product looks as firm as luggage, in real life it looks somebody stitched up a few reusable grocery bags from Publix.
 
-[![The Real Shoes Under](https://www.rayhollister.com/media/2009/05/photo_050209_005-300x240.jpg "The Real Shoes Under")](/media/2009/05/photo_050209_005.jpg)
+[![The Real Shoes Under](/media/2009/05/photo_050209_005.jpg "The Real Shoes Under")](/media/2009/05/photo_050209_005.jpg)
 
 My size 11 dress shoes barely fit into it, one at a time. At that rate I could only get 6 shoes into it. Also, when you do put your shoes into the Shoes Under, the inner walls are so cheap and flimsy, that they collapse over the top of your shoes, making the “zipper see through cover” really pointless.
 
@@ -27,6 +27,6 @@ In my opinion this is the classic bait and switch. On the box and on their websi
   
 **Here’s some pictures from their website:**
 
-| [![Pictures of the Shoes Under from their website.](https://www.shoesunders.com/images/kid_shoes.jpg)](https://www.shoesunders.com) | [![Pictures of the Shoes Under from their website.](https://www.shoesunders.com/images/toys.jpg)](https://www.shoesunders.com "Shoesunder.com - See for yourself.") |
-|---|---|
-| [![Pictures of the Shoes Under from their website.](https://www.shoesunders.com/images/scarfs.jpg)](https://www.shoesunders.com "Shoesunder.com - See for yourself.") | [![Pictures of the Shoes Under from their website.](https://www.shoesunders.com/images/after.jpg)](https://www.shoesunders.com "Shoesunder.com - See for yourself.") |
+| [![Pictures of the Shoes Under from their website.](https://web.archive.org/web/20090720052036im_/http://www.shoesunders.com/images/after.jpg)](https://www.shoesunders.com "Shoesunder.com - See for yourself.") |
+| [![Pictures of the Shoes Under from their website.](https://web.archive.org/web/20101231043556im_/https://www.shoesunders.com/images/offer.jpg)](https://www.shoesunders.com) |
+| [![Pictures of the Shoes Under from their website.](https://web.archive.org/web/20101231043556im_/https://www.shoesunders.com/images/form_product.jpg)](https://www.shoesunders.com "Shoesunder.com - See for yourself.") |
