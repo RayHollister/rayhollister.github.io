@@ -25,9 +25,7 @@ tags:
 
 Here is my first radio news piece in case you missed it, or if you just want to hear it again.
 
-[HP Open-Sources webOS](https://rayhollister.com/radio/2011-12-22_HPwebOS.mp3 "Right click here to download the news story")
-
-\[audio:https://rayhollister.com/radio/2011-12-22\_HPwebOS.mp3|titles=HP Open-Sources webOS|artists=Ray Hollister, WJCT 89.9\]
+{%include audioPlayer.html src="/media/2011/12/HP-open-sources-webOS.mp3" %}
 
 ##### TRANSCRIPT:
 
