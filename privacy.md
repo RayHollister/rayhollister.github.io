@@ -1,5 +1,8 @@
 ---
+permalink: /privacy/
 layout: base
+title: Privacy Policy
+exclude: true
 ---
 # PRIVACY POLICY
 
