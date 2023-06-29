@@ -163,6 +163,22 @@ i {
     background: #24292f;
 }
 
+.fa-jaxplays {
+    margin-right: 5px;
+    margin-left: -10px;
+}
+
+.fa-jaxplays:before {
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+    content: "";
+    margin-right: 5px;
+    background: url(https://jaxplays.com/wiki/media/NewJaxPlaysLogo.png) no-repeat 0 0;
+    background-size: 2rem;
+    /* border-radius: 50%; */
+}
+
 .fa-tiktok:before {
     display: inline-block;
     height: 24px;

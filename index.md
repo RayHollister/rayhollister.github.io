@@ -9,6 +9,7 @@ layout: page
 title: Ray Hollister
 exclude: true
 ---
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700+Open+Sans|PT+Montserrat:400,700' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -57,13 +58,19 @@ exclude: true
                     Coffee</span></div>
         </div>
     </a>
-    <h3 id="projects">Projects I am pretty proud of:</h3><a title="Hollister's Books"
-        href="https://hollistersbooks.com/">
+    <h3 id="projects">Projects I am pretty proud of:</h3>
+    <a title="JaxPlays" href="https://jaxplays.com/">
+        <div class="social JaxPlays"><i class="fab fa-jaxplays"></i>
+            <div class="title"><span class="projectname">JaxPlays</span><span class="platform">JaxPlays</span></div>
+        </div>
+    </a>
+    <a title="Hollister's Books" href="https://hollistersbooks.com/">
         <div class="social HollistersBooks"><i class="fab fa-HB"></i>
             <div class="title"><span class="projectname">Hollister's Books</span><span class="platform">Hollister's
                     Books</span></div>
         </div>
-    </a><a title="Jacksonville Today" href="https://jaxtoday.org/">
+    </a>
+    <a title="Jacksonville Today" href="https://jaxtoday.org/">
         <div class="social JAXTDY"><i class="fab fa-jaxtdy"></i>
             <div class="title"><span class="projectname">Jacksonville Today</span><span
                     class="platform wjctlong">WJCT</span></div>
