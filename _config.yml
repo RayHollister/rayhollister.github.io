@@ -15,9 +15,12 @@ google_analytics: G-E0VZ9LWFTC
 
 theme: minima
 
+url: "https://rayhollister.com" # the base hostname & protocol for your site
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-sitemap
 
 # Theme-specific settings
 
