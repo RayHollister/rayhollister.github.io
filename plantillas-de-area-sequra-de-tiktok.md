@@ -6,6 +6,7 @@ title: 'Plantillas de área segura de TikTok'
 permalink: /plantillas-de-area-sequra-de-tiktok/
 image: /media/2019/11/TikTokSafeAreaTemplateBlack_WithIcons.png
 exclude: true
+description: '¡Mejora los gráficos de tus videos de TikTok con estas plantillas gratuitas de área segura!'
 ---
 ¿Alguna vez has subido un video a TikTok en el que trabajaste tanto, solo para que tus gráficos divertidos se corten o se cubran con los iconos? ¡Bueno, esos días han terminado! Aquí tienes plantillas de área segura de TikTok para facilitar la edición de tus videos verticales. ¡Descarga una de estas plantillas y úsala en tu editor de video favorito! (¡No olvides ocultarla o eliminarla antes de exportar tu video!)
 

@@ -7,6 +7,7 @@ title: 'TikTok Safe Area Templates'
 permalink: /tiktok-safe-area-templates/
 guid: 'https://rayhollister.com/?page_id=764'
 image: /media/2019/11/TikTokSafeAreaTemplateBlack_WithIcons.png
+description: 'Make your TikTok video graphics better with these free safe area templates!'
 ---
 Have you ever uploaded a TikTok video you worked so hard on, and then your funny graphics got cut off or covered up by the icons? Well those days are over! Here are TikTok safe area templates to make your vertical video editing easier! Download one of these templates and use it in your favorite video editor! (Don’t forget to hide it or delete it before you export your video!)
 
