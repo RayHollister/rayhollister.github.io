@@ -22,23 +22,23 @@ tags:
 
 There's a lot of buzz about Threads, Meta's latest answer to Twitter. Everyone is asking, will this be the "Twitter killer" we've all been waiting for? Like seriously, was there a single majro news outlet that didn't have a headline like this last week?
 
-**[Will Threads Kill Twitter? - New York Times](https://www.nytimes.com/2023/07/10/podcasts/the-daily/threads-meta-twitter-musk.html)**
+**[Will Threads Kill Twitter? - New York Times](https://www.nytimes.com/2023/07/10/podcasts/the-daily/threads-meta-twitter-musk.html?utm_source=rayhollister.com&utm_medium=web&utm_campaign=na)**
 
-**[Will Threads kill Twitter? - The Week](https://theweek.com/meta/1024831/will-threads-kill-twitter)**
+**[Will Threads kill Twitter? - The Week](https://theweek.com/meta/1024831/will-threads-kill-twitter?utm_source=rayhollister.com&utm_medium=web&utm_campaign=na)**
 
-**[Meta's "Twitter killer" app Threads is here - CBS News](https://www.cbsnews.com/news/meta-threads-app-release-july-6-twitter-killer-competitor/)**
+**[Meta's "Twitter killer" app Threads is here - CBS News](https://www.cbsnews.com/news/meta-threads-app-release-july-6-twitter-killer-competitor/?utm_source=rayhollister.com&utm_medium=web&utm_campaign=na)**
 
-**[Can Threads Be the 'Twitter Killer'? - Wall Street Journal](https://www.wsj.com/podcasts/the-journal/can-threads-be-the-twitter-killer/1135617b-1f65-43c7-bd1a-c127a39405b7)**
+**[Can Threads Be the 'Twitter Killer'? - Wall Street Journal](https://www.wsj.com/podcasts/the-journal/can-threads-be-the-twitter-killer/1135617b-1f65-43c7-bd1a-c127a39405b7?utm_source=rayhollister.com&utm_medium=web&utm_campaign=na)**
 
-**[How Threads Could Kill Twitter - Wired](https://www.wired.com/story/threads-app-twitter-rival-meta/)**
+**[How Threads Could Kill Twitter - Wired](https://www.wired.com/story/threads-app-twitter-rival-meta/?utm_source=rayhollister.com&utm_medium=web&utm_campaign=na)**
 
-**[Welcome To ‘Threads,’ Facebook’s Twitter Killer - Forbes](https://www.forbes.com/sites/johnkoetsier/2023/07/05/welcome-to-threads-facebooks-twitter-killer/)**
+**[Welcome To ‘Threads,’ Facebook’s Twitter Killer - Forbes](https://www.forbes.com/sites/johnkoetsier/2023/07/05/welcome-to-threads-facebooks-twitter-killer/?utm_source=rayhollister.com&utm_medium=web&utm_campaign=na)**
 
-**[Could Threads kill Twitter? (Like, for real?) - Poynter](https://www.poynter.org/tech-tools/2023/meta-instagram-threads-kill-twitter/)**
+**[Could Threads kill Twitter? (Like, for real?) - Poynter](https://www.poynter.org/tech-tools/2023/meta-instagram-threads-kill-twitter?utm_source=rayhollister.com&utm_medium=web&utm_campaign=na)**
 
 *Side note: I love the hesitance that the editor at Poynter had in writing that headline. It's like they're saying, "I don't know, maybe?"*  🤷🏻‍♂️ 🤣
 
-I think it's more complicated than that. I had the pleasure of [discussing Threads and its impact on the social media landscape with my friend, Al Letson this Tuesday on First Coast Connect](https://news.wjct.org/show/first-coast-connect/2023-07-12/first-coast-connect-affordable-housing-threads-duval-schools).
+I think it's more complicated than that. I had the pleasure of [discussing Threads and its impact on the social media landscape with my friend, Al Letson this Tuesday on First Coast Connect](https://news.wjct.org/show/first-coast-connect/2023-07-12/first-coast-connect-affordable-housing-threads-duval-schools?utm_source=rayhollister.com&utm_medium=web&utm_campaign=na&utm_content=discussing+Threads+and+its+impact+on+the+social+media+landscape+with+my+friend%2C+Al+Letson+this+Tuesday+on+First+Coast+Connect).
 
 {% include audioPlayer.html src="/media/2023/07/fcc20230712_Threads.mp3" %}
 
@@ -54,4 +54,4 @@ As for the future of social media, I see it as a continually separated world dri
 
 In the end, we'll always have a plurality of social media platforms — it's the nature of the game. It's a world of competition and choice, much like the competition between CNN and Fox News, or even Coke and Pepsi. With Threads, we're just adding another choice to the mix, and it's the users who will ultimately decide its fate.
 
-Finally, I will leave you with this, if do you read one more deep dive on Threads, make it [Alexandra Petri's opinion piece in the Washington Post](https://www.washingtonpost.com/opinions/2023/07/12/twitter-threads-social-media-nightmare-apocalypse-satire/). She had the guts to say what we all were really thinking last week.
+Finally, I will leave you with this, if do you read one more deep dive on Threads, make it [Alexandra Petri's opinion piece in the Washington Post](https://www.washingtonpost.com/opinions/2023/07/12/twitter-threads-social-media-nightmare-apocalypse-satire/?utm_source=rayhollister.com&utm_medium=web&utm_campaign=na&utm_content=&utm_content=Alexandra+Petri%27s+opinion+piece+in+the+Washington+Post). She had the guts to say what we all were really thinking last week.
