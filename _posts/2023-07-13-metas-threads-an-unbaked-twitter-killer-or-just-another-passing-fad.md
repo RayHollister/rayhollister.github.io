@@ -3,6 +3,7 @@ layout: post
 title: "Meta's Threads: An Unbaked Twitter Killer or Just Another Passing Fad?"
 date: 2023-07-13
 author: 'Ray Hollister'
+permalink: /2023/07/13/metas-threads-an-unbaked-twitter-killer-or-just-another-passing-fad/
 image: /media/2023/07/threadslogo.webp
 image_alt: Threads Logo
 image_caption: Threads Logo
