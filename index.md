@@ -52,6 +52,12 @@ exclude: true
             </div>
         </div>
     </a>
+    <a title="Ray Hollister on Threads" href="https://threads.net/rayhollister">
+        <div class="social Threads"><i class="fab fa-threads"></i>
+            <div class="title"><span class="projectname">RayHollister</span><span class="platform">Threads</span>
+            </div>
+        </div>
+    </a>
     <a title="Buy Ray Hollister a Coffee" href="https://www.buymeacoffee.com/rayhollister">
         <div class="social buymeacoffee"><i class="fas fa-mug-hot"></i>
             <div class="title"><span class="projectname">RayHollister</span><span class="platform">Buy Me a

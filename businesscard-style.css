@@ -128,7 +128,7 @@ i {
     background: #3b5998;
 }
 
-.Instagram {
+.Instagram, .Threads {
     background: #c32aa3;
     background: radial-gradient(circle at -10% 130%, #fdf497 5%, #fdf497 5%, #fd5949 25%, #d6249f 40%, #285AEB 90%);
 }
@@ -187,6 +187,17 @@ i {
     filter: brightness(0) invert(1);
     margin-right: 5px;
     background: url(/media/tiktok-icon-black.svg) no-repeat 0 0;
+    background-size: 20px 24px;
+}
+
+.fa-threads:before {
+    display: inline-block;
+    height: 24px;
+    width: 20px;
+    content: "";
+    filter: brightness(0) invert(1);
+    margin-right: 5px;
+    background: url(/media/threads-icon-full-color.svg) no-repeat 0 0;
     background-size: 20px 24px;
 }
 
