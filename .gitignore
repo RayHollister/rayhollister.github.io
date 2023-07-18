@@ -24,3 +24,6 @@ Thumbs.db
 
 # Additional ignores
 _drafts
+frontmatter.json
+.gitignore
+.frontmatter/database/mediaDb.json
