@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Challenges Loom for Meta's Threads"
-date: 2023-07-17
+date: 2023-07-17 07:42:00 -0400
 author: 'Ray Hollister'
 permalink: /2023/07/17/challenges-loom-for-metas-threads/
 image: /media/2023/07/Threads_logo.gif
