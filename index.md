@@ -151,11 +151,11 @@ exclude: true
             <div class="title"><span class="platform"></span><span class="projectname">Ray's TikTok Safe Area
                     Templates</span></div>
         </div>
-    </a><a title="Ray Hollister on Twitter" href="https://twitter.com/rayhollister">
+    <!-- </a><a title="Ray Hollister on Twitter" href="https://twitter.com/rayhollister">
         <div class="social Twitter"><i class="fab fa-twitter-square"></i>
             <div class="title"><span class="projectname">RayHollister</span><span class="platform">Twitter</span>
             </div>
-        </div>
+        </div> -->
     </a><a title="Ray Hollister on Yelp" href="https://rayhollister.yelp.com">
         <div class="social Yelp"><i class="fab fa-yelp"></i>
             <div class="title"><span class="platform">RayHollister</span><span class="projectname">Yelp</span></div>
