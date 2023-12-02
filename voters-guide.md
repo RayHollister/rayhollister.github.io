@@ -41,4 +41,3 @@ description: 'Making it easier it find the best things to vote for in Best of Ja
         </div>
     </a>
 </div>
-[JaxPlays]()
