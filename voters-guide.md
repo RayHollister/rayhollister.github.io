@@ -46,7 +46,4 @@ description: 'Making it easier it find the best things to vote for in Best of Ja
             </div>
         </div>
     </a>
-    
-https://npr.brightspotcdn.com/dims4/default/fcb1390/2147483647/strip/true/crop/3000x3000+0+0/resize/560x560!/format/webp/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F50%2F80%2F9e1716f9487792af84db9fdc3ed8%2Ffirst-coast-connect-logo-3000px.png
-
 </div>
