@@ -328,6 +328,26 @@ i {
     border-radius: 50%;
 }
 
+.fcc {
+    background-color: #white;
+}
+
+.fa-fcc {
+    margin-right: 5px;
+    margin-left: -10px;
+}
+
+.fa-fcc:before {
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+    content: "";
+    margin-right: 5px;
+    background: url(https://npr.brightspotcdn.com/dims4/default/fcb1390/2147483647/strip/true/crop/3000x3000+0+0/resize/560x560!/format/webp/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F50%2F80%2F9e1716f9487792af84db9fdc3ed8%2Ffirst-coast-connect-logo-3000px.png) no-repeat 0 0;
+    background-size: 2rem;
+    border-radius: 50%;
+}
+
 .pogo {
     background-color: #63B2BB;
 }
