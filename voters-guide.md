@@ -40,4 +40,13 @@ description: 'Making it easier it find the best things to vote for in Best of Ja
             </div>
         </div>
     </a>
+    <a title="First Coast Connect" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409922221">
+        <div class="social fcc"><i class="fab fa-fcc"></i>
+            <div class="title"><span class="projectname">First Coast Connect</span><span class="platform wjctlong">Best Talk Radio Show</span>
+            </div>
+        </div>
+    </a>
+    
+https://npr.brightspotcdn.com/dims4/default/fcb1390/2147483647/strip/true/crop/3000x3000+0+0/resize/560x560!/format/webp/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F50%2F80%2F9e1716f9487792af84db9fdc3ed8%2Ffirst-coast-connect-logo-3000px.png
+
 </div>
