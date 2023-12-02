@@ -30,19 +30,19 @@ description: 'Making it easier it find the best things to vote for in Best of Ja
     </a>
     <a title="WJCT News 89.9" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409921780">
         <div class="social WJCTNews"><i class="fab fa-wjctnews"></i>
-            <div class="title"><span class="projectname">WJCT News 89.9</span><span class="platform wjctlong">Best Radio Station</span>
+            <div class="title"><span class="projectname">WJCT News 89.9</span><span class="platform">Best Radio Station</span>
             </div>
         </div>
     </a>
     <a title="WJCT News 89.9" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409921827">
         <div class="social WJCTNews"><i class="fab fa-wjctnews"></i>
-            <div class="title"><span class="projectname">WJCT News 89.9</span><span class="platform wjctlong">Best News/Talk<br/>Radio Station</span>
+            <div class="title"><span class="projectname">WJCT News 89.9</span><span class="platform">Best News/Talk<br/>Radio Station</span>
             </div>
         </div>
     </a>
     <a title="First Coast Connect" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409922221">
         <div class="social fcc"><i class="fab fa-fcc"></i>
-            <div class="title"><span class="projectname">First Coast Connect</span><span class="platform wjctlong">Best Talk Radio Show</span>
+            <div class="title"><span class="projectname">First Coast Connect</span><span class="platform">Best Talk Radio Show</span>
             </div>
         </div>
     </a>
