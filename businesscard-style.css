@@ -330,6 +330,8 @@ i {
 
 .fcc {
     background-color: #white;
+    color: #666;
+    border: #666 1px;
 }
 
 .fa-fcc {
