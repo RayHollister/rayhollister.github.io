@@ -2,7 +2,7 @@
 author: 'Ray Hollister'
 date: '2023-12-03'
 layout: page
-title: 'Ray Hollister's Folio Weekly Best of Jax 2023 Voters Guide'
+title: "Ray Hollister's Folio Weekly Best of Jax 2023 Voters Guide"
 permalink: /voters-guide/
 image: 
 description: 'Making it easier it find the best things to vote for in Best of Jax!'
@@ -18,31 +18,37 @@ description: 'Making it easier it find the best things to vote for in Best of Ja
  <h3 id="projects">Click here to vote for the Folio Weekly Best of Jax 2023:</h3>
 <p>You can vote once a day from December 1 until December 31, 2023!</p>
     <a title="JaxPlays" target="_blank" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/410016783">
-        <div class="social JaxPlays"><i class="fab fa-jaxplays"></i>
+        <div class="social vg JaxPlays"><i class="fab fa-jaxplays"></i>
             <div class="title"><span class="projectname">JaxPlays</span><span class="platform">Best Local Blog</span></div>
         </div>
     </a>
-    <a title="Jacksonville Today" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409915373">
-        <div class="social JAXTDY"><i class="fab fa-jaxtdy"></i>
+    <a title="Jacksonville Today" target="_blank" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409915373">
+        <div class="social vg JAXTDY"><i class="fab fa-jaxtdy"></i>
             <div class="title"><span class="projectname">Jacksonville Today</span><span
                     class="platform wjctlong">Best News Website</span></div>
         </div>
     </a>
-    <a title="WJCT News 89.9" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409921780">
-        <div class="social WJCTNews"><i class="fab fa-wjctnews"></i>
+    <a title="WJCT News 89.9" target="_blank" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409921780">
+        <div class="social vg WJCTNews"><i class="fab fa-wjctnews"></i>
             <div class="title"><span class="projectname">WJCT News 89.9</span><span class="platform">Best Radio Station</span>
             </div>
         </div>
     </a>
-    <a title="WJCT News 89.9" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409921827">
-        <div class="social WJCTNews"><i class="fab fa-wjctnews"></i>
-            <div class="title"><span class="projectname">WJCT News 89.9</span><span class="platform">Best News/Talk<br/>Radio Station</span>
+    <a title="WJCT News 89.9" target="_blank" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409921827">
+        <div class="social vg WJCTNews"><i class="fab fa-wjctnews"></i>
+            <div class="title"><span class="projectname">WJCT News 89.9</span><span class="platform">Best News/Talk Radio Station</span>
             </div>
         </div>
     </a>
-    <a title="First Coast Connect" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409921636">
-        <div class="social fcc"><i class="fab fa-fcc"></i>
+    <a title="First Coast Connect" target="_blank" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409921636">
+        <div class="social vg fcc"><i class="fab fa-fcc"></i>
             <div class="title"><span class="projectname">First Coast Connect</span><span class="platform">Best Talk Radio Show</span>
+            </div>
+        </div>
+    </a>
+    <a title="Anne Schindler" target="_blank" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409921636">
+        <div class="social vg fcc"><i class="fab fa-fcc"></i>
+            <div class="title"><span class="projectname">Anne Schindler</span><span class="platform">Best Talk Radio Show</span>
             </div>
         </div>
     </a>

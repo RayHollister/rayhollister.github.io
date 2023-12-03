@@ -328,28 +328,6 @@ i {
     border-radius: 50%;
 }
 
-.social.fcc {
-    background-color: white;
-    color: #666;
-    border: 1px solid #666;
-}
-
-.fa-fcc {
-    margin-right: 5px;
-    margin-left: -10px;
-}
-
-.fa-fcc:before {
-    display: inline-block;
-    height: 2rem;
-    width: 2rem;
-    content: "";
-    margin-right: 5px;
-    background: url(https://npr.brightspotcdn.com/dims4/default/fcb1390/2147483647/strip/true/crop/3000x3000+0+0/resize/560x560!/format/webp/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F50%2F80%2F9e1716f9487792af84db9fdc3ed8%2Ffirst-coast-connect-logo-3000px.png) no-repeat 0 0;
-    background-size: 2rem;
-    border-radius: 50%;
-}
-
 .pogo {
     background-color: #63B2BB;
 }
@@ -388,6 +366,43 @@ i {
     margin-right: 5px;
     background: url(/media/2021/03/wjct_public_media_logo.png) no-repeat 0 0;
     background-size: 1.6rem 1rem;
+}
+
+.social.vg .title {
+    flex-direction: column;
+    padding-left: 10px;
+}
+
+.social.vg {
+    padding: 30px;
+}
+
+.social.vg i.fab::before {
+    height: 3rem !important;
+    width: 3rem !important;
+    background-size: 3rem !important;
+}
+
+.social.fcc {
+    background-color: white;
+    color: #666;
+    border: 1px solid #666;
+}
+
+.fa-fcc {
+    margin-right: 5px;
+    margin-left: -10px;
+}
+
+.fa-fcc:before {
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+    content: "";
+    margin-right: 5px;
+    background: url(https://npr.brightspotcdn.com/dims4/default/fcb1390/2147483647/strip/true/crop/3000x3000+0+0/resize/560x560!/format/webp/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F50%2F80%2F9e1716f9487792af84db9fdc3ed8%2Ffirst-coast-connect-logo-3000px.png) no-repeat 0 0;
+    background-size: 2rem;
+    border-radius: 50%;
 }
 
 @media only screen and (min-width: 750px) {
