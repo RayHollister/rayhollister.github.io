@@ -40,7 +40,7 @@ description: 'Making it easier it find the best things to vote for in Best of Ja
             </div>
         </div>
     </a>
-    <a title="First Coast Connect" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409922221">
+    <a title="First Coast Connect" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409921636">
         <div class="social fcc"><i class="fab fa-fcc"></i>
             <div class="title"><span class="projectname">First Coast Connect</span><span class="platform">Best Talk Radio Show</span>
             </div>
