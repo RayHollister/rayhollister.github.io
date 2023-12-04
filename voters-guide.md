@@ -107,5 +107,18 @@ image: /media/2023/12/vg_preview_cropped.png
             </div>
         </div>
     </a>
-
+<!-- Best Local Actor - Kenny Logsdon https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409168164 -->
+    <a title="Kenny Logsdon" target="_blank" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/409168164">
+        <div class="social vg fcc">
+            <div class="title"><span class="projectname">Kenny Logsdon</span><span class="platform">Best Local Actor</span>
+            </div>
+        </div>
+    </a>
+    <!-- Best Local Actress Kathryn Kuhn https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/410532670 -->
+    <a title="Kathryn Kuhn" target="_blank" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/410532670">
+        <div class="social vg fcc">
+            <div class="title"><span class="projectname">Kathryn Kuhn</span><span class="platform">Best Local Actress</span>
+            </div>
+        </div>
+    </a>
 </div>
