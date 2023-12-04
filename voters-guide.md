@@ -121,4 +121,11 @@ image: /media/2023/12/vg_preview_cropped.png
             </div>
         </div>
     </a>
+    <!-- Best Cowboy Jack Ringca https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/411297010 -->
+    <a title="Jack Ringca" target="_blank" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/411297010">
+        <div class="social vg fcc">
+            <div class="title"><span class="projectname">Jack Ringca</span><span class="platform">Best Cowboy</span>
+            </div>
+        </div>
+    </a>
 </div>
