@@ -128,4 +128,11 @@ image: /media/2023/12/vg_preview_cropped.png
             </div>
         </div>
     </a>
+    <!-- Best Computer & IT Services - Tiny Little Tech Shop https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/411273680 -->
+    <a title="Tiny Little Tech Shop" target="_blank" href="https://folioweekly.secondstreetapp.com/og/c43c09dc-eb45-4b1f-93e7-c7be20708948/gallery/411273680">
+        <div class="social vg fcc">
+            <div class="title"><span class="projectname">Tiny Little Tech Shop</span><span class="platform">Best Computer & IT Services</span>
+            </div>
+        </div>
+    </a>
 </div>
