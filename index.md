@@ -65,7 +65,7 @@ exclude: true
         </div>
     </a>
     <h3 id="projects">Projects I am pretty proud of:</h3>
-    <a title="JaxPlays" href="https://jaxplays.com/">
+    <a title="JaxPlays" href="https://jaxplays.org/" title="JaxPlays is your go-to source for all live theatre productions in Jacksonville, Florida and all of Northeast Florida and Southeast Georgia.">
         <div class="social JaxPlays"><i class="fab fa-jaxplays"></i>
             <div class="title"><span class="projectname">JaxPlays</span><span class="platform">JaxPlays</span></div>
         </div>
