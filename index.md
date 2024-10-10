@@ -26,7 +26,7 @@ exclude: true
 <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon-180x180.png" />
 <link href='/businesscard-style.css' rel='stylesheet' type='text/css'>
 <div id="centered">
-    <h2><a href="https://wjct.org">WJCT Public Media</a><br />Digital Media Director</h2>
+    <h2>Executive Director & Theatre Critic<br/><a href="https://jaxplays.org">JaxPlays</a></h2>
     <h3>Places on the interwebs to find me:</h3>
     <a title="Ray Hollister on Facebook" href="https://facebook.com/rayhollister">
         <div class="social Facebook"><i class="fab fa-facebook-square"></i>
