@@ -130,18 +130,20 @@ exclude: true
             <div class="title"><span class="platform">Ray Hollister</span><span class="projectname">Twitch</span>
             </div>
         </div>
-    </a><a title="Ray Hollister's PoGo Search"
+    </a>
+    <!-- <a title="Ray Hollister's PoGo Search"
         href="https://pogo.news/?utm_source=rayhollister.com&utm_medium=web&utm_campaign=pogo">
         <div class="social pogo"><i class="fa-brands fa-pogo"></i>
             <div class="title"><span class="platform">PoGO News & Tools</span><span
                     class="projectname">pogo.news</span></div>
         </div>
-    </a><a title="Ray's Review Show on Facebook" href="https://facebook.com/RaysReviewShow">
+    </a> -->
+    <a title="Ray's Review Show on Facebook" href="https://facebook.com/RaysReviewShow">
         <div class="social Facebook"><i class="fa-brands fa-facebook-f"></i>
             <div class="title"><span class="platform">Ray's Review Show</span><span
                     class="projectname">Facebook</span></div>
         </div>
-    </a><a title="Ray's Review Show on YouTube" href="https://www.youtube.com/c/RaysReviewShow">
+    </a><a title="Ray's Review Show on YouTube" href="https://www.youtube.com/@RayHollister3">
         <div class="social YouTube"><i class="fa-brands fa-youtube"></i>
             <div class="title"><span class="platform">Ray's Review Show</span><span
                     class="projectname">YouTube</span></div>

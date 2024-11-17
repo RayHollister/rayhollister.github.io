@@ -6,8 +6,7 @@ author:
 # The `>` after `description:` means to ignore line-breaks until next key.
 # If you want to omit the line-break after the end of text, use `>-` instead.
 description: >
-  This is rayhollister.com, the website with everything Ray Hollister 
-  wants you to know about Ray Hollister, and nothing he doesn't want you to know.
+  This is rayhollister.com, the website with everything Ray Hollister wants you to know about Ray Hollister and hopefully nothing he doesn't want you to know.
 
 google_analytics: G-E0VZ9LWFTC
 
