@@ -58,7 +58,7 @@ exclude: true
             </div>
         </div>
     </a>
-    <a title="Ray Hollister on Bluesky" href="https://bsky.app/profile/rayhollister.bsky.social">
+    <a title="Ray Hollister on Bluesky" href="https://bsky.app/profile/rayhollister.com">
     <div class="social Bluesky"><i class="fa-brands fa-bluesky"></i>
         <div class="title"><span class="projectname">RayHollister</span><span class="platform">Bluesky</span>
         </div>
