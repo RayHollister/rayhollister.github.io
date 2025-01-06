@@ -531,7 +531,8 @@ svg.hero-content-start-button-icon {
     div.social {
         font-size: 4.5vmin;
         margin: 20px 10px 20px 0px;
-        height: 4.5vw;
+        /* height: 4.5vw; */
+        /* Not sure why this was added, but it made the buttons super thin on mobile. 1/6/2024 */
     }
 
     .fab,
