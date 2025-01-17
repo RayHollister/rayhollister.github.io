@@ -1,13 +1,9 @@
 ---
-title: "An In-depth Look at the Elepho eClip: Does This High-Tech Safety Solution Stand Up to the Heat?"
 layout: post
+title: "An In-depth Look at the Elepho eClip: Does This High-Tech Safety
+  Solution Stand Up to the Heat?"
+author: Ray Hollister
 date: 2023-08-02T12:22:04-04:00
-permalink: /2023/08/02/testing-the-elepho-eclip-baby-car-seat-alarm/
-published: true
-author: 'Ray Hollister'
-image: /media/2023/08/elepho_eclip_hero_image.webp
-image_alt: Photo of the Elepho eClip and the app
-image_caption: "Photo of the Elepho eClip and the app | 📷 credit: Elepho"
 categories:
   - Reviews
   - Product Reviews
@@ -17,6 +13,11 @@ tags:
   - Child Safety
   - Baby Car Seat Alarm
   - Child Safety Products
+image_alt: Photo of the Elepho eClip and the app on an iPhone
+image_caption: "Photo of the Elepho eClip and the app | 📷 credit: Elepho"
+permalink: /2023/08/02/testing-the-elepho-eclip-baby-car-seat-alarm/
+published: true
+image: /media/2023/08/elepho_eclip_hero_image.webp
 ---
 Following the blistering, [unprecedented heat of July 2023](https://www.scientificamerican.com/article/july-2023-is-hottest-month-ever-recorded-on-earth/) that saw temperatures globally reaching historical highs, the issue of child safety in cars has become even more pressing. With the harsh sunlight beating down, vehicles can rapidly transform into deadly heat traps. The increase in [fatalities involving children inadvertently left in sweltering vehicles](https://news.wjct.org/first-coast/2023-07-20/babysitter-arrested-hot-car-baker-county) is a heart-wrenching consequence of such conditions. 
 
