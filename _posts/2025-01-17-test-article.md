@@ -1,5 +1,6 @@
 ---
 layout: post
+author: Ray Hollister
 title: Test article
 date: 2025-01-17T15:33:00.000Z
 ---
