@@ -10,7 +10,7 @@ categories:
 tags:
   - More tags
   - Tag Test
-image: /media/{{year}}/{{month}}/image-1-.png
+image: /media/test-image.png
 image_alt: Test Featured Image
 image_caption: This is a test of a featured image through DecapCMS
 ---
