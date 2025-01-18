@@ -10,7 +10,7 @@ categories:
 tags:
   - More tags
   - Tag Test
-image: /media/test-image.png
+image: ""
 image_alt: ""
 image_caption: ""
 ---
