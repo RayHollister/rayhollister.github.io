@@ -10,6 +10,9 @@ categories:
 tags:
   - More tags
   - Tag Test
+image: /media/{{year}}/{{month}}/image-1-.png
+image_alt: Test Featured Image
+image_caption: This is a test of a featured image through DecapCMS
 ---
 Eu imperdiet leo est suscipit libero congue semper! Dictumst laoreet fusce turpis facilisis lorem sociis porta curabitur. Pharetra natoque sed dignissim massa lectus dapibus hendrerit hac arcu lobortis sociis. Vehicula cubilia adipiscing gravida venenatis varius cras blandit justo sagittis conubia vel fermentum. Magna justo, sagittis consequat convallis neque. Nisl erat libero leo cras bibendum libero metus interdum nulla. Primis natoque urna nibh sociis vehicula diam et diam venenatis auctor eros. Vivamus litora sem dictumst neque et volutpat rutrum. Netus.
 
