@@ -10,7 +10,7 @@ categories:
 tags:
   - More tags
   - Tag Test
-image: test-image.png
+image: ""
 image_alt: Test Featured Image
 image_caption: This is a test of a featured image through DecapCMS
 ---
