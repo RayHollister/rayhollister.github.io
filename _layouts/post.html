@@ -36,7 +36,7 @@ layout: base
         {% endfor %}
       {%- endif -%}
     </p>
-      {%- if page.image -%}
+      {%- if page.image and page.image != "" -%}
       <img src="{{ page.image | relative_url }}" alt="{{ page.title | escape }}" class="post-featured-image">
       {%- endif -%}
   </header>
