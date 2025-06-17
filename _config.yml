@@ -16,11 +16,14 @@ theme: minima
 
 url: "https://rayhollister.com" # the base hostname & protocol for your site
 
+permalink: /:categories/:year/:month/:day/:title/
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
-
+  - jekyll-redirect-from
+  
 # Theme-specific settings
 
 minima:
