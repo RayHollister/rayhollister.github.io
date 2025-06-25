@@ -22,6 +22,7 @@ layout: post
 image: /media/2025/05/how-to-clear-your-cache-and-cookies-on-any-browser-or-device.webp
 redirect_from: 
   - "/guides/how-to/technology/2025/05/21/how-to-clear-your-cache-and-cookies-on-any-browser-or-device.html"
+reading-time: true
 ---
 
 Clearing your cache and cookies can fix website issues, protect your privacy and speed up your device. If you're developing a website or making updates to one, clearing your cache is especially important. Changes often won’t appear on your device unless you clear cached files that are storing outdated versions of the site.
