@@ -1,0 +1,21 @@
+<!-- _includes/review_schema.html -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Review",
+  "author": { "@type": "Person", "name": "Ray Hollister" },
+  "publisher": { "@type": "Organization", "name": "JaxPlays" },
+  "datePublished": "{{ include.date }}",
+  "headline": "{{ include.headline | escape }}",
+  "url": "{{ include.url }}",
+  "reviewBody": "{{ include.dek | strip_newlines | escape }}",
+  "itemReviewed": {
+    "@type": "TheaterEvent",
+    "name": "{{ include.show | escape }}"{% if include.venue %},
+    "location": {
+      "@type": "Place",
+      "name": "{{ include.venue | escape }}"
+    }{% endif %}
+  }
+}
+</script>

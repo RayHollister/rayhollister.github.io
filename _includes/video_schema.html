@@ -1,0 +1,15 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "{{ include.title | escape }}",
+  "description": "{{ include.description | strip_newlines | escape }}",
+  "thumbnailUrl": "https://i.ytimg.com/vi/{{ include.id }}/hqdefault.jpg",
+  "embedUrl": "https://www.youtube.com/embed/{{ include.id }}{% if include.start_time %}?start={{ include.start_time }}{% endif %}",
+  "contentUrl": "https://www.youtube.com/watch?v={{ include.id }}"{% if include.date %},
+  "uploadDate": "{{ include.date }}"{% endif %}{% if include.publisher %},
+  "publisher": { "@type": "Organization", "name": "{{ include.publisher | escape }}" }{% endif %}{% if include.duration %},
+  "duration": "{{ include.duration }}"{% endif %}{% if include.is_live %},
+  "isLiveBroadcast": {{ include.is_live }}{% endif %}
+}
+</script>

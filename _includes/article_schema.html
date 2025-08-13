@@ -1,0 +1,12 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "{{ include.headline | escape }}",
+  "url": "{{ include.url }}",
+  "datePublished": "{{ include.date }}",
+  "author": { "@type": "Person", "name": "Ray Hollister" },
+  "publisher": { "@type": "Organization", "name": "WJCT Public Media" },
+  "description": "{{ include.dek | strip_newlines | escape }}"
+}
+</script>

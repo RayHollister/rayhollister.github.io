@@ -19,4 +19,11 @@
     height: 100%;
   }
 </style>
-<div class='embed-container'><iframe src="https://www.youtube.com/embed/{{ include.id }}" frameborder='0' allowfullscreen></iframe></div>
+
+<div class='embed-container'>
+  <iframe 
+    src="https://www.youtube.com/embed/{{ include.id }}{% if include.start_time %}?start={{ include.start_time }}{% endif %}" 
+    frameborder='0' 
+    allowfullscreen>
+  </iframe>
+</div>

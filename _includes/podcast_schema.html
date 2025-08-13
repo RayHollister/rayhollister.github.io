@@ -1,0 +1,16 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastEpisode",
+  "name": "{{ include.headline | escape }}",
+  "url": "{{ include.url }}",
+  "datePublished": "{{ include.date }}",
+  "description": "{{ include.dek | strip_newlines | escape }}",
+  "partOfSeries": {
+    "@type": "PodcastSeries",
+    "name": "{{ include.series | escape }}",
+    "url": "{{ include.series_url }}"
+  },
+  "author": { "@type": "Person", "name": "Ray Hollister" }
+}
+</script>
