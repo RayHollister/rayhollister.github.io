@@ -16,7 +16,7 @@ tags:
   - broadcast
 last_modified_at: 2025-08-13
 ---
-As a theater critic and founder of JaxPlays, I’ve chronicled Northeast Florida’s stage scene with a mission to preserve its past, promote its present and propel its future. Beyond the limelight, I’ve reported on everything from breaking news and city politics to arts, culture and technology, sharing stories through broadcast, print, digital and podcasts.
+As a theater critic and founder of [JaxPlays](https://jaxplays.org), I’ve chronicled Northeast Florida’s stage scene with a mission to preserve its past, promote its present and propel its future. Beyond the limelight, I’ve reported on everything from breaking news and city politics to arts, culture and technology, sharing stories through broadcast, print, digital and podcasts.
 
 This portfolio brings together broadcast clips, selected reviews and features, and reporting highlights.
 
@@ -212,7 +212,23 @@ This is a curated selection, not a complete list. Full archives are linked at th
     series_url="https://deemable.rayhollister.com"
   %}
 
-### **WJCT News 89.9** Articles
+### **Odd Ball Podcast**
+
+> Odd Ball is a five-part investigative podcast from WJCT Public Media about the 1974 “Betz sphere” — a mysterious metal ball found on Jacksonville’s Fort George Island that drew the Navy, UFO researchers and national media.
+
+- [Odd Ball Podcast](https://oddballpodcast.com/) — 2019  
+  Garnered over 750,000 downloads within a few months with only five episodes. The companion website, which I developed and co-designed, won [First Place for Digital Programming in the Florida News Awards from the Florida Association of Broadcast Journalists](https://floridanewsawards.org/2019-professional-contest-winners).  
+  {% include podcast_schema.html
+    date="2019-01-01"
+    headline="Odd Ball Podcast"
+    url="https://oddballpodcast.com/"
+    dek="Limited-series podcast exploring bizarre stories and offbeat history, amassing 750,000+ downloads in a few months with only five episodes. Companion website won First Place for Digital Programming in the Florida News Awards."
+    series="Odd Ball Podcast"
+    series_url="https://oddballpodcast.com/"
+  %}
+
+
+### **WJCT News 89.9**
 
 > During my time with WJCT News 89.9, I wrote pieces that ranged from inventive arts coverage to high-pressure breaking news, deeply reported features and evergreen service journalism. The selections below are grouped to highlight the range of formats and skills I brought to the newsroom.
 
@@ -309,4 +325,4 @@ This is a curated selection, not a complete list. Full archives are linked at th
 
 ---
 
-*For media inquiries or speaking requests, contact me at* <a href="mailto:ray@rayhollister.com">ray@rayhollister.com</a>.
+*For media inquiries or speaking requests, contact me at* <a href="mailto:media@rayhollister.com">media@rayhollister.com</a>.
