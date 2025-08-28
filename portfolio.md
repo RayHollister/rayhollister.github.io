@@ -240,6 +240,8 @@ This is a curated selection, not a complete list. Full archives are linked at th
     headline="Cork displays haikus at gallery opening as visual art"
     url="https://news.wjct.org/arts-culture/2015-04-22/cork-displays-haikus-at-gallery-opening-as-visual-art"
     dek="An arts feature written entirely in haiku to mirror the exhibition it covered."
+  publisher_name="WJCT Public Media"
+  publisher_type="Organization"
   %}
 
 - [Hilariously bad music video about Jacksonville going viral](https://news.wjct.org/community/2014-12-19/hilariously-bad-music-video-about-jacksonville-going-viral) — 2014  
@@ -249,6 +251,8 @@ This is a curated selection, not a complete list. Full archives are linked at th
     headline="Hilariously bad music video about Jacksonville going viral"
     url="https://news.wjct.org/community/2014-12-19/hilariously-bad-music-video-about-jacksonville-going-viral"
     dek="A playful, tongue-in-cheek culture piece about an unintentionally campy local video sensation."
+  publisher_name="WJCT Public Media"
+  publisher_type="Organization"
   %}
 
 - [Iconic Jacksonville radio shopping channel WJXR closing after almost 30 years](https://news.wjct.org/community/2014-12-30/iconic-jacksonville-radio-shopping-channel-wjxr-closing-after-almost-30-years) — 2014  
@@ -258,6 +262,8 @@ This is a curated selection, not a complete list. Full archives are linked at th
     headline="Iconic Jacksonville radio shopping channel WJXR closing after almost 30 years"
     url="https://news.wjct.org/community/2014-12-30/iconic-jacksonville-radio-shopping-channel-wjxr-closing-after-almost-30-years"
     dek="A reflective look at the legacy of a long-running local radio shopping station."
+  publisher_name="WJCT Public Media"
+  publisher_type="Organization"
   %}
 
 #### Breaking news
@@ -268,6 +274,8 @@ This is a curated selection, not a complete list. Full archives are linked at th
     headline="JSO finds military-grade device at River City Marketplace"
     url="https://news.wjct.org/law-order/2015-02-07/jso-finds-military-grade-device-at-river-city-marketplace"
     dek="On-scene reporting of a police investigation into a military-grade device discovered at a busy shopping center."
+  publisher_name="WJCT Public Media"
+  publisher_type="Organization"
   %}
 
 - [City Council president creates stir over nude photograph at MOCA](https://news.wjct.org/arts-culture/2014-12-01/city-council-president-creates-stir-over-nude-photograph-at-moca) — 2014  
@@ -277,6 +285,8 @@ This is a curated selection, not a complete list. Full archives are linked at th
     headline="City Council president creates stir over nude photograph at MOCA"
     url="https://news.wjct.org/arts-culture/2014-12-01/city-council-president-creates-stir-over-nude-photograph-at-moca"
     dek="Coverage of a public controversy surrounding an art exhibition."
+  publisher_name="WJCT Public Media"
+  publisher_type="Organization"
   %}
 
 #### In-depth features
@@ -287,6 +297,8 @@ This is a curated selection, not a complete list. Full archives are linked at th
     headline="Legoland Hotel opens in Winter Haven, Florida"
     url="https://news.wjct.org/business/2015-05-16/legoland-hotel-opens-in-winter-haven-florida"
     dek="A detailed look inside the newly opened Legoland Hotel, its attractions and its economic impact."
+  publisher_name="WJCT Public Media"
+  publisher_type="Organization"
   %}
 
 - [Florida teacher lives homeless in Jacksonville to break down stereotypes](https://news.wjct.org/community/2015-01-23/florida-teacher-lives-homeless-in-jacksonville-to-break-down-stereotypes) — 2015  
@@ -296,6 +308,8 @@ This is a curated selection, not a complete list. Full archives are linked at th
     headline="Florida teacher lives homeless in Jacksonville to break down stereotypes"
     url="https://news.wjct.org/community/2015-01-23/florida-teacher-lives-homeless-in-jacksonville-to-break-down-stereotypes"
     dek="A human-interest profile of a teacher who went undercover to challenge perceptions of homelessness."
+  publisher_name="WJCT Public Media"
+  publisher_type="Organization"
   %}
 
 #### Evergreen guides
@@ -306,6 +320,8 @@ This is a curated selection, not a complete list. Full archives are linked at th
     headline="The tech to help you get through the storm"
     url="https://news.wjct.org/tech/2015-08-27/the-tech-to-help-you-get-through-the-storm"
     dek="A preparedness guide highlighting apps and devices to stay safe in severe weather."
+  publisher_name="WJCT Public Media"
+  publisher_type="Organization"
   %}
 
 - [Coast Guard warns against making hoax distress calls](https://news.wjct.org/law-order/2015-05-21/coast-guard-warns-against-making-hoax-distress-calls) — 2015  
@@ -315,6 +331,21 @@ This is a curated selection, not a complete list. Full archives are linked at th
     headline="Coast Guard warns against making hoax distress calls"
     url="https://news.wjct.org/law-order/2015-05-21/coast-guard-warns-against-making-hoax-distress-calls"
     dek="A public safety explainer on the dangers and penalties of false emergency calls."
+  publisher_name="WJCT Public Media"
+  publisher_type="Organization"
+  %}
+
+### **904 Magazine**
+
+- [The Eyes Have It](/media/2016/2016-08-904-Magazine.pdf#page=24) — 904 Magazine — 2016  
+  An inside look at North Florida’s Regional Transportation Management Center, exploring how agencies use cameras, sensors and real-time data to monitor traffic, improve safety and coordinate emergency response. The story explains why the focus is on the big picture rather than individual drivers.  
+  {% include article_schema.html
+    date="2016-06-01"
+    headline="The Eyes Have It: Our roadways are under constant surveillance"
+    url="/media/2016/2016-08-904-Magazine.pdf#page=24"
+    dek="Inside North Florida’s RTMC: how agencies use cameras, sensors and real-time data to monitor traffic, improve safety and coordinate emergency response, with a focus on the big picture instead of individuals."
+  publisher_name="904 Magazine"
+  publisher_type="Organization"
   %}
 
 ## Archives

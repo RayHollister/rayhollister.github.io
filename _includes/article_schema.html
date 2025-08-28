@@ -6,7 +6,7 @@
   "url": "{{ include.url }}",
   "datePublished": "{{ include.date }}",
   "author": { "@type": "Person", "name": "Ray Hollister" },
-  "publisher": { "@type": "Organization", "name": "WJCT Public Media" },
+  "publisher": { "@type": "{{ include.publisher_type | default: 'Person' }}", "name": "{{ include.publisher_name | default: 'Ray Hollister' | escape }}" },
   "description": "{{ include.dek | strip_newlines | escape }}"
 }
 </script>
