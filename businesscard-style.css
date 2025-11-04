@@ -117,6 +117,71 @@ i {
     width: 100%;
 }
 
+.a2hs-container {
+    display: none;
+    margin: 30px 20px 10px;
+}
+
+.a2hs-container.is-visible {
+    display: block;
+}
+
+.a2hs-button {
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    padding: 20px 24px;
+    background-color: #323B3C;
+    color: #ffffff;
+    font-family: 'PT Sans Narrow', 'PT Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    box-shadow: 0 20px 40px rgba(50, 59, 60, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.a2hs-button:hover,
+.a2hs-button:focus {
+    background-color: #445153;
+    transform: translateY(-1px);
+    box-shadow: 0 24px 44px rgba(50, 59, 60, 0.2);
+    outline: none;
+}
+
+.a2hs-button:focus-visible {
+    outline: 3px solid #63B2BB;
+    outline-offset: 4px;
+}
+
+.a2hs-button .fas {
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+.a2hs-instructions {
+    display: none;
+    margin: 16px 0 0;
+    padding: 16px 20px;
+    border-radius: 12px;
+    background: rgba(99, 178, 187, 0.12);
+    color: #323B3C;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 18px;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.a2hs-instructions.is-visible {
+    display: block;
+}
+
 .social.buymeacoffee {
     background: rgb(255, 221, 0);
     color: #000000;
@@ -540,5 +605,19 @@ svg.hero-content-start-button-icon {
     .fas
         {
         font-size: 6vw;
+    }
+
+    .a2hs-button {
+        font-size: 5vw;
+        padding: 18px 16px;
+    }
+
+    .a2hs-button .fas {
+        font-size: 8vw;
+    }
+
+    .a2hs-instructions {
+        font-size: 4vw;
+        padding: 14px 16px;
     }
 }

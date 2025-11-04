@@ -27,6 +27,13 @@ exclude: true
 <link href='/businesscard-style.css' rel='stylesheet' type='text/css'>
 <div id="centered">
     <h2>Executive Director & Theatre Critic<br/><a href="https://jaxplays.org">JaxPlays</a></h2>
+    <div id="a2hs-container" class="a2hs-container">
+        <button type="button" id="a2hs-button" class="a2hs-button">
+            <i class="fas fa-id-card-alt" aria-hidden="true"></i>
+            Save my contacts to Home Screen
+        </button>
+        <div id="a2hs-instructions" class="a2hs-instructions" aria-live="polite"></div>
+    </div>
     <h3>Places on the interwebs to find me:</h3>
     <a title="Ray Hollister on Facebook" href="https://facebook.com/rayhollister">
         <div class="social Facebook"><i class="fa-brands fa-facebook-f"></i>
@@ -206,3 +213,67 @@ exclude: true
         </div>
     </a>
 </div>
+<script>
+(function () {
+    var container = document.getElementById('a2hs-container');
+    var button = document.getElementById('a2hs-button');
+    var instructions = document.getElementById('a2hs-instructions');
+
+    if (!container || !button || !instructions) {
+        return;
+    }
+
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    var isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    var isAndroid = /Android/.test(userAgent);
+    var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone;
+
+    if (!(isIOS || isAndroid) || isStandalone) {
+        return;
+    }
+
+    container.classList.add('is-visible');
+
+    var deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', function (event) {
+        event.preventDefault();
+        deferredPrompt = event;
+        button.classList.add('has-native-prompt');
+    });
+
+    button.addEventListener('click', function () {
+        instructions.classList.remove('is-visible');
+
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+
+            deferredPrompt.userChoice.then(function (choice) {
+                if (choice && choice.outcome === 'accepted') {
+                    instructions.textContent = 'Awesome! Ray\'s contact card is being added to your home screen.';
+                } else {
+                    instructions.textContent = 'If the prompt did not appear, open your browser menu and choose "Add to Home screen".';
+                }
+                instructions.classList.add('is-visible');
+                deferredPrompt = null;
+            }).catch(function () {
+                instructions.textContent = 'Open your browser menu and choose "Add to Home screen" to pin Ray\'s contact card.';
+                instructions.classList.add('is-visible');
+                deferredPrompt = null;
+            });
+
+            return;
+        }
+
+        if (isIOS) {
+            instructions.textContent = 'Tap the share button in Safari and choose "Add to Home Screen" to save Ray\'s contact card.';
+        } else if (isAndroid) {
+            instructions.textContent = 'Open your browser menu (⋮) and choose "Add to Home screen" to pin Ray\'s contact card.';
+        } else {
+            instructions.textContent = 'Use your browser\'s add to home screen option to pin this page.';
+        }
+
+        instructions.classList.add('is-visible');
+    });
+})();
+</script>
