@@ -30,7 +30,7 @@ exclude: true
     <div id="a2hs-container" class="a2hs-container">
         <button type="button" id="a2hs-button" class="a2hs-button">
             <i class="fas fa-id-card-alt" aria-hidden="true"></i>
-            Save my contacts to Home Screen
+            Save my business card to your Home Screen
         </button>
         <div id="a2hs-instructions" class="a2hs-instructions" aria-live="polite"></div>
     </div>
