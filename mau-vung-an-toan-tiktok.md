@@ -1,12 +1,13 @@
 ---
 author: 'Ray Hollister'
-date: '2023-07-06T14:11:10-05:00'
+date: '2025-11-04T10:25:38-05:00'
 layout: page
 title: 'Mẫu vùng an toàn TikTok'
 permalink: /mau-vung-an-toan-tiktok/
 image: /media/2019/11/TikTokSafeAreaTemplateBlack_WithIcons.png
 exclude: true
 description: 'Cải thiện đồ họa video TikTok của bạn với những mẫu vùng an toàn miễn phí này!'
+last_modified_at: 2025-11-04T10:25:24-05:00
 ---
 
 Bạn đã bao giờ đăng một video TikTok mà bạn đã làm việc rất kỹ, chỉ để thấy rằng các yếu tố đồ họa vui nhộn bị cắt hoặc che bởi các biểu tượng chưa? Tin tốt là điều đó sẽ không còn xảy ra nữa! Dưới đây là các mẫu vùng an toàn TikTok giúp bạn dễ dàng chỉnh sửa video dọc. Hãy tải xuống một trong những mẫu này và sử dụng trong phần mềm chỉnh sửa video yêu thích của bạn! (Nhớ ẩn hoặc xóa mẫu trước khi xuất video!)

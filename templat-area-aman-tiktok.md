@@ -1,12 +1,13 @@
 ---
 author: 'Ray Hollister'
-date: '2025-11-04T10:03:32-05:00'
+date: '2025-11-04T10:25:24-05:00'
 layout: page
 title: 'Templat Area Aman TikTok'
 permalink: /templat-area-aman-tiktok/
 image: /media/2019/11/TikTokSafeAreaTemplateBlack_WithIcons.png
 exclude: true
 description: 'Jadikan grafik video TikTok Anda lebih baik dengan templat area aman gratis ini!'
+last_modified_at: 2025-11-04T10:25:24-05:00
 ---
 Pernahkah kamu mengunggah video TikTok yang sudah kamu buat dengan susah payah, tapi grafik lucumu malah terpotong atau tertutup ikon? Nah, sekarang tidak lagi! Berikut adalah templat area aman TikTok untuk memudahkan kamu mengedit video vertikal! Unduh salah satu templat ini dan gunakan di editor video favoritmu! (Jangan lupa sembunyikan atau hapus sebelum mengekspor videomu!)
 
