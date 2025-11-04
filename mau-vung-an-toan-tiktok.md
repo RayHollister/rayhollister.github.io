@@ -5,7 +5,7 @@ layout: page
 title: 'Mẫu vùng an toàn TikTok'
 permalink: /mau-vung-an-toan-tiktok/
 image: /media/2019/11/TikTokSafeAreaTemplateBlack_WithIcons.png
-exclude: true
+exclude: false
 description: 'Cải thiện đồ họa video TikTok của bạn với những mẫu vùng an toàn miễn phí này!'
 last_modified_at: 2025-11-04T10:25:24-05:00
 ---

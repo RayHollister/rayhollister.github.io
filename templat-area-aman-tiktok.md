@@ -5,7 +5,7 @@ layout: page
 title: 'Templat Area Aman TikTok'
 permalink: /templat-area-aman-tiktok/
 image: /media/2019/11/TikTokSafeAreaTemplateBlack_WithIcons.png
-exclude: true
+exclude: false
 description: 'Jadikan grafik video TikTok Anda lebih baik dengan templat area aman gratis ini!'
 last_modified_at: 2025-11-04T10:25:24-05:00
 ---

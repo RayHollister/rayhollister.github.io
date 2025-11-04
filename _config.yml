@@ -23,6 +23,9 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-redirect-from
+
+include:
+  - ".well-known"
   
 # Theme-specific settings
 
@@ -60,4 +63,3 @@ minima:
 # Set to `true` to show excerpts on the homepage.
 #
 # show_excerpts: true
-

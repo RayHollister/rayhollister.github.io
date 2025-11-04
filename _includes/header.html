@@ -25,10 +25,29 @@
         </label>
 
         <div class="trigger">
+          {%- assign tiktok_dropdown_urls = "/plantillas-de-area-sequra-de-tiktok/,/templat-area-aman-tiktok/,/mau-vung-an-toan-tiktok/" | split: "," -%}
+          {%- assign tiktok_primary_url = "/tiktok-safe-area-templates/" -%}
           {%- for path in page_paths -%}
             {%- assign my_page = site.pages | where: "path", path | first -%}
             {%- if my_page.title and my_page.exclude != true -%}
-            <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+              {%- if tiktok_dropdown_urls contains my_page.url -%}
+                {%- continue -%}
+              {%- endif -%}
+              {%- if my_page.url == tiktok_primary_url -%}
+                <div class="nav-dropdown">
+                  <a class="page-link nav-dropdown__label" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+                  <div class="nav-dropdown__menu">
+                    {%- for dropdown_url in tiktok_dropdown_urls -%}
+                      {%- assign dropdown_page = site.pages | where: "url", dropdown_url | first -%}
+                      {%- if dropdown_page and dropdown_page.title and dropdown_page.exclude != true -%}
+                        <a class="nav-dropdown__link" href="{{ dropdown_page.url | relative_url }}">{{ dropdown_page.title | escape }}</a>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- else -%}
+                <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+              {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
         </div>

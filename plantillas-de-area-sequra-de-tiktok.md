@@ -5,7 +5,7 @@ layout: page
 title: 'Plantillas de área segura de TikTok'
 permalink: /plantillas-de-area-sequra-de-tiktok/
 image: /media/2019/11/TikTokSafeAreaTemplateBlack_WithIcons.png
-exclude: true
+exclude: false
 description: '¡Mejora los gráficos de tus videos de TikTok con estas plantillas gratuitas de área segura!'
 last_modified_at: 2025-11-04T10:25:24-05:00
 ---
