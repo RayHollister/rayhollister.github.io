@@ -16,10 +16,10 @@ permalink: /kc
     .wrap { padding: 12px 14px; gap: 10px; max-width: 618px; margin: 0 auto; min-height: calc(100vh - 25px); display: flex; flex-direction: column; }
     header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; border-bottom: 1px solid #ddd; padding-bottom: 8px; margin-bottom: 10px; }
     h1 { font-size: 20px; margin: 0; font-weight: 700; }
-    .clock { text-align: center; padding: 6px 0 10px; }
-    .clock-time { font-size: 48px; font-weight: 700; line-height: 1; }
+    .clock { text-align: left; padding: 0; }
+    .clock-time { font-size: 48px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
     .clock-date { font-size: 20px; color: #333; }
-    .month-calendar { margin-top: 20px; width: 100%; max-width: 280px; margin-left: auto; margin-right: auto; }
+    .month-calendar { width: 100%; max-width: 300px; margin-left: auto; margin-right: 0; }
     .month-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
     .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
     .month-weekday { font-size: 12px; text-align: center; color: #555; font-weight: 700; }
@@ -42,7 +42,7 @@ permalink: /kc
     .tag { display: inline-block; font-size: 12px; padding: 1px 6px; border: 1px solid #ccc; border-radius: 999px; margin-right: 6px; margin-left: 0; color: #333; }
     .muted { color: #555; font-weight: 400; }
     .error { color: #a00; }
-    .top-row { display: flex; margin-bottom: 20px; }
+    .top-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; margin-bottom: 12px; }
   </style>
 </head>
 <body>
