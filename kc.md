@@ -228,3 +228,26 @@ permalink: /kc
   </script>
 </body>
 </html>
+<script>
+(function () {
+  function upd() {
+    var w = window.innerWidth, h = window.innerHeight, d = window.devicePixelRatio || 1;
+    var el = document.getElementById('viewportDims');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'viewportDims';
+      el.style.fontSize = '12px';
+      el.style.color = '#333';
+      el.style.marginLeft = '8px';
+      el.style.display = 'inline-block';
+      var target = document.querySelector('header .meta') || document.querySelector('header') || document.body;
+      target.appendChild(el);
+    }
+    el.textContent = w + '×' + h + ' px • dpr ' + d;
+  }
+  window.addEventListener('resize', upd);
+  window.addEventListener('orientationchange', upd);
+  document.addEventListener('DOMContentLoaded', upd);
+  upd();
+})();
+</script>
