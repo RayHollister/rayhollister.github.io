@@ -38,7 +38,7 @@ permalink: /kc
   <div class="wrap">
     <header>
       <h1>Agenda</h1>
-      <div class="meta" id="meta"></div>
+      <div class="meta" id="meta"><span id="metaUpdated"></span></div>
     </header>
 
     <div id="kindleGate" class="notice" style="display:none"></div>
@@ -71,6 +71,12 @@ permalink: /kc
       }
 
       var meta = document.getElementById("meta");
+      var metaUpdated = document.getElementById("metaUpdated");
+      if (meta && !metaUpdated) {
+        metaUpdated = document.createElement("span");
+        metaUpdated.id = "metaUpdated";
+        meta.appendChild(metaUpdated);
+      }
       var status = document.getElementById("status");
       var agendaEl = document.getElementById("agenda");
 
@@ -189,7 +195,9 @@ permalink: /kc
           });
 
           var now = new Date();
-          meta.textContent = "Updated: " + (data.generatedAt || "");
+          if (metaUpdated) {
+            metaUpdated.textContent = "Updated: " + (data.generatedAt || "");
+          }
 
           function setRange(days) {
             var s = startOfDay(now);
