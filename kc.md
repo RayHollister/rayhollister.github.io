@@ -62,7 +62,9 @@ permalink: /kc
       }
 
       var gate = document.getElementById("kindleGate");
-      if (!isKindle()) {
+      var DISABLE_KINDLE_GATE = true;
+
+      if (!DISABLE_KINDLE_GATE && !isKindle()) {
         gate.style.display = "block";
         gate.innerHTML = "This page only loads the agenda view on a Kindle. You can still view it on desktop, but it will not fetch calendar data here.";
         return;

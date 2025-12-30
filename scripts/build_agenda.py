@@ -4,14 +4,30 @@ import datetime as dt
 import requests
 from icalendar import Calendar
 
-def iso(dtobj):
-  if dtobj is None:
+UTC = dt.timezone.utc
+
+def to_naive_utc(x):
+  if x is None:
     return None
-  if isinstance(dtobj, dt.date) and not isinstance(dtobj, dt.datetime):
-    dtobj = dt.datetime(dtobj.year, dtobj.month, dtobj.day)
-  if dtobj.tzinfo is not None:
-    dtobj = dtobj.astimezone(dt.timezone.utc).replace(tzinfo=None)
-  return dtobj.isoformat() + "Z"
+
+  # date only
+  if isinstance(x, dt.date) and not isinstance(x, dt.datetime):
+    return dt.datetime(x.year, x.month, x.day)
+
+  # datetime
+  if isinstance(x, dt.datetime):
+    if x.tzinfo is None:
+      # treat naive as UTC
+      return x
+    return x.astimezone(UTC).replace(tzinfo=None)
+
+  raise TypeError(f"Unsupported datetime type: {type(x)}")
+
+def iso_z(naive_utc_dt):
+  if naive_utc_dt is None:
+    return None
+  # expects naive UTC, add Z
+  return naive_utc_dt.isoformat() + "Z"
 
 def clean(s, limit=260):
   s = (s or "").strip().replace("\r\n", "\n").replace("\r", "\n")
@@ -19,50 +35,47 @@ def clean(s, limit=260):
     s = s[:limit].rstrip() + "…"
   return s
 
-def parse_ics(label, url, now_utc, days_ahead=30):
+def parse_ics(label, url, now_utc_naive, days_ahead=30):
   r = requests.get(url, timeout=30)
   r.raise_for_status()
 
   cal = Calendar.from_ical(r.text)
   events = []
 
-  range_start = now_utc - dt.timedelta(days=1)
-  range_end = now_utc + dt.timedelta(days=days_ahead)
+  range_start = now_utc_naive - dt.timedelta(days=1)
+  range_end = now_utc_naive + dt.timedelta(days=days_ahead)
 
   for component in cal.walk():
     if component.name != "VEVENT":
       continue
 
-    summary = str(component.get("summary", "") or "")
-    location = str(component.get("location", "") or "")
-    description = str(component.get("description", "") or "")
-
     dtstart = component.get("dtstart")
-    dtend = component.get("dtend")
-
     if not dtstart:
       continue
+    dtend = component.get("dtend")
 
-    start = dtstart.dt
-    end = dtend.dt if dtend else None
+    raw_start = dtstart.dt
+    raw_end = dtend.dt if dtend else None
 
-    all_day = isinstance(start, dt.date) and not isinstance(start, dt.datetime)
+    all_day = isinstance(raw_start, dt.date) and not isinstance(raw_start, dt.datetime)
 
     if all_day:
-      start_dt = dt.datetime(start.year, start.month, start.day)
-      if end and isinstance(end, dt.date) and not isinstance(end, dt.datetime):
-        end_dt = dt.datetime(end.year, end.month, end.day)
+      start_dt = to_naive_utc(raw_start)
+      if raw_end and isinstance(raw_end, dt.date) and not isinstance(raw_end, dt.datetime):
+        end_dt = to_naive_utc(raw_end)
       else:
         end_dt = start_dt + dt.timedelta(days=1)
     else:
-      start_dt = start if isinstance(start, dt.datetime) else dt.datetime(start.year, start.month, start.day)
-      if end:
-        end_dt = end if isinstance(end, dt.datetime) else dt.datetime(end.year, end.month, end.day)
-      else:
-        end_dt = start_dt + dt.timedelta(hours=1)
+      start_dt = to_naive_utc(raw_start)
+      end_dt = to_naive_utc(raw_end) if raw_end else (start_dt + dt.timedelta(hours=1))
 
+    # safe comparisons: all are naive UTC now
     if end_dt <= range_start or start_dt >= range_end:
       continue
+
+    summary = str(component.get("summary", "") or "")
+    location = str(component.get("location", "") or "")
+    description = str(component.get("description", "") or "")
 
     events.append({
       "title": clean(summary, 140),
@@ -70,14 +83,14 @@ def parse_ics(label, url, now_utc, days_ahead=30):
       "description": clean(description, 220),
       "calendarLabel": label,
       "allDay": all_day,
-      "start": iso(start_dt),
-      "end": iso(end_dt),
+      "start": iso_z(start_dt),
+      "end": iso_z(end_dt),
     })
 
   return events
 
 def main():
-  now = dt.datetime.utcnow()
+  now_naive_utc = dt.datetime.now(UTC).replace(tzinfo=None)
 
   calendars = []
   if os.getenv("ICS_PERSONAL_URL"):
@@ -92,12 +105,12 @@ def main():
 
   all_events = []
   for label, url in calendars:
-    all_events.extend(parse_ics(label, url, now))
+    all_events.extend(parse_ics(label, url, now_naive_utc))
 
   all_events.sort(key=lambda e: e["start"] or "")
 
   out = {
-    "generatedAt": now.strftime("%Y-%m-%d %H:%M UTC"),
+    "generatedAt": now_naive_utc.strftime("%Y-%m-%d %H:%M UTC"),
     "events": all_events
   }
 
