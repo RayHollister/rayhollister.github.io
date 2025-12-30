@@ -1,0 +1,41 @@
+{
+  "generatedAt": "2025-12-30 19:31 UTC",
+  "events": [
+    {
+      "title": "Family Meeting",
+      "location": "",
+      "description": "Next steps-protecting ourselves\nDisney trip plans & finances",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2025-12-31T00:00:00Z",
+      "end": "2025-12-31T02:00:00Z"
+    },
+    {
+      "title": "OFF WORK - News Year's Day",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": true,
+      "start": "2026-01-01T00:00:00Z",
+      "end": "2026-01-02T00:00:00Z"
+    },
+    {
+      "title": "JT Product Meeting #2",
+      "location": "(Conference Room)-Dowling Conference Room",
+      "description": "Join with Google Meet: https://meet.google.com/ghv-fcdg-nmw\nOr dial: (US) +1 318-536-0363 PIN: 473013755#\nMore phone numbers: https://tel.meet/ghv-fcdg-nmw?pin=3141027972301&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-08T17:00:00Z",
+      "end": "2026-01-08T18:00:00Z"
+    },
+    {
+      "title": "Dr Appointment",
+      "location": "1731 University Blvd S\nJacksonville, FL, United States",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-01-28T18:00:00Z",
+      "end": "2026-01-28T19:00:00Z"
+    }
+  ]
+}
