@@ -272,14 +272,37 @@ permalink: /kc
         agendaEl.innerHTML = html;
       }
 
+      function getJson(url) {
+        return new Promise(function (resolve, reject) {
+          var xhr = new XMLHttpRequest();
+          var bust = (url.indexOf("?") === -1 ? "?" : "&") + "t=" + Date.now();
+          xhr.open("GET", url + bust, true);
+          xhr.setRequestHeader("Cache-Control", "no-cache");
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState !== 4) return;
+            if (xhr.status >= 200 && xhr.status < 300) {
+              try {
+                resolve(JSON.parse(xhr.responseText));
+              } catch (err) {
+                reject(err);
+              }
+              return;
+            }
+            reject(new Error("HTTP " + xhr.status));
+          };
+          xhr.onerror = function () {
+            reject(new Error("Network error"));
+          };
+          xhr.send();
+        });
+      }
+
       async function fetchAgendaJson() {
         status.textContent = "Loading…";
         status.className = "meta";
 
         try {
-          var res = await fetch("/kc/agenda.json", { cache: "no-store" });
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          var data = await res.json();
+          var data = await getJson("/kc/agenda.json");
 
           var events = (data.events || []).map(function (e) {
             return {
