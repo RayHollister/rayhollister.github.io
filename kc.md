@@ -19,6 +19,12 @@ permalink: /kc
     .clock { text-align: center; padding: 6px 0 10px; }
     .clock-time { font-size: 48px; font-weight: 700; line-height: 1; }
     .clock-date { font-size: 20px; color: #333; }
+    .month-calendar { margin-top: 8px; }
+    .month-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .month-weekday { font-size: 12px; text-align: center; color: #555; font-weight: 700; }
+    .month-day { font-size: 13px; text-align: center; padding: 4px 0; border: 1px solid #eee; border-radius: 4px; }
+    .month-day.is-today { background: #111; color: #fff; border-color: #111; }
     .meta { font-size: 13px; color: #333; }
     .notice { font-size: 14px; padding: 10px; border: 1px solid #ddd; background: #fafafa; border-radius: 6px; }
     .controls { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 12px; }
@@ -43,6 +49,7 @@ permalink: /kc
     <div class="clock">
       <div class="clock-time" id="clockTime"></div>
       <div class="clock-date" id="clockDate"></div>
+      <div class="month-calendar" id="monthCalendar"></div>
     </div>
 
     <div id="kindleGate" class="notice" style="display:none"></div>
@@ -92,6 +99,8 @@ permalink: /kc
       var agendaEl = document.getElementById("agenda");
       var clockTimeEl = document.getElementById("clockTime");
       var clockDateEl = document.getElementById("clockDate");
+      var monthCalendarEl = document.getElementById("monthCalendar");
+      var lastClockDayKey = "";
 
       function pad2(n) { return (n < 10 ? "0" : "") + n; }
 
@@ -160,6 +169,37 @@ permalink: /kc
         var year = local.getUTCFullYear();
         clockTimeEl.textContent = formatTimeParts(h, m);
         clockDateEl.textContent = niceDayParts(dayIndex, monthIndex, dayNum) + " " + year;
+        var dayKey = year + "-" + pad2(monthIndex + 1) + "-" + pad2(dayNum);
+        if (dayKey !== lastClockDayKey) {
+          renderMonthCalendar(year, monthIndex, dayNum, dayIndex);
+          lastClockDayKey = dayKey;
+        }
+      }
+
+      function renderMonthCalendar(year, monthIndex, dayNum, dayIndex) {
+        if (!monthCalendarEl) return;
+        var firstOfMonthUtc = new Date(Date.UTC(year, monthIndex, 1));
+        var firstWeekday = firstOfMonthUtc.getUTCDay();
+        var daysInMonth = new Date(Date.UTC(year, monthIndex + 1, 0)).getUTCDate();
+        var weekdays = ["S","M","T","W","T","F","S"];
+        var html = '<div class="month-title">' + MONTH_NAMES[monthIndex] + " " + year + "</div>";
+        html += '<div class="month-grid">';
+        for (var w = 0; w < weekdays.length; w++) {
+          html += '<div class="month-weekday">' + weekdays[w] + "</div>";
+        }
+        for (var b = 0; b < firstWeekday; b++) {
+          html += '<div class="month-day"></div>';
+        }
+        for (var d = 1; d <= daysInMonth; d++) {
+          var isToday = d === dayNum;
+          html += '<div class="month-day' + (isToday ? " is-today" : "") + '">' + d + "</div>";
+        }
+        html += "</div>";
+        monthCalendarEl.innerHTML = html;
+      }
+
+      function formatMultiline(text) {
+        return escapeHtml(text).replace(/\n/g, "<br>");
       }
 
       function escapeHtml(s) {
@@ -219,7 +259,7 @@ permalink: /kc
             html += '<div>';
             html += '<p class="title"><span class="tag">' + escapeHtml(e.calendarLabel) + "</span>" + escapeHtml(e.title || "(No title)") + "</p>";
             if (e.location) html += '<p class="sub"><span class="muted">Location:</span> ' + escapeHtml(e.location) + "</p>";
-            if (e.description) html += '<p class="sub">' + escapeHtml(e.description) + "</p>";
+            if (e.description) html += '<p class="sub">' + formatMultiline(e.description) + "</p>";
             html += "</div>";
             html += "</div>";
             html += "</li>";
