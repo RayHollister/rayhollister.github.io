@@ -80,7 +80,7 @@ permalink: /kc
       }
 
       var gate = document.getElementById("kindleGate");
-      var DISABLE_KINDLE_GATE = false;
+      var DISABLE_KINDLE_GATE = true;
 
       if (!DISABLE_KINDLE_GATE && !isKindle()) {
         gate.style.display = "block";

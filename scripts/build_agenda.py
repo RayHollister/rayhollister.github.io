@@ -4,6 +4,7 @@ import datetime as dt
 from zoneinfo import ZoneInfo
 import requests
 from icalendar import Calendar
+import recurring_ical_events
 
 DEFAULT_TZ = os.getenv("AGENDA_TZ", "America/New_York")
 
@@ -35,20 +36,24 @@ def clean(s, limit=260):
     s = s[:limit].rstrip() + "…"
   return s
 
-def parse_ics(label, url, now_local_naive, tz, days_ahead=30):
+def parse_ics(label, url, now_local, tz, days_ahead=30):
   r = requests.get(url, timeout=30)
   r.raise_for_status()
 
   cal = Calendar.from_ical(r.text)
   events = []
 
-  range_start = now_local_naive - dt.timedelta(days=1)
-  range_end = now_local_naive + dt.timedelta(days=days_ahead)
+  range_start = now_local - dt.timedelta(days=1)
+  range_end = now_local + dt.timedelta(days=days_ahead)
+  range_start_naive = range_start.replace(tzinfo=None)
+  range_end_naive = range_end.replace(tzinfo=None)
 
-  for component in cal.walk():
-    if component.name != "VEVENT":
-      continue
+  try:
+    components = recurring_ical_events.of(cal).between(range_start, range_end)
+  except Exception:
+    components = [c for c in cal.walk() if c.name == "VEVENT"]
 
+  for component in components:
     dtstart = component.get("dtstart")
     if not dtstart:
       continue
@@ -69,8 +74,7 @@ def parse_ics(label, url, now_local_naive, tz, days_ahead=30):
       start_dt = to_local_naive(raw_start, tz)
       end_dt = to_local_naive(raw_end, tz) if raw_end else (start_dt + dt.timedelta(hours=1))
 
-    # safe comparisons: all are naive UTC now
-    if end_dt <= range_start or start_dt >= range_end:
+    if end_dt <= range_start_naive or start_dt >= range_end_naive:
       continue
 
     summary = str(component.get("summary", "") or "")
@@ -92,7 +96,6 @@ def parse_ics(label, url, now_local_naive, tz, days_ahead=30):
 def main():
   tz = ZoneInfo(DEFAULT_TZ)
   now_local = dt.datetime.now(tz)
-  now_local_naive = now_local.replace(tzinfo=None)
 
   calendars = []
   if os.getenv("ICS_PERSONAL_URL"):
@@ -107,7 +110,7 @@ def main():
 
   all_events = []
   for label, url in calendars:
-    all_events.extend(parse_ics(label, url, now_local_naive, tz))
+    all_events.extend(parse_ics(label, url, now_local, tz))
 
   all_events.sort(key=lambda e: e["start"] or "")
 
