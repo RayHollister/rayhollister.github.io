@@ -13,14 +13,18 @@ permalink: /kc
   <style>
     :root { color-scheme: light; }
     body { margin: 0; font-family: "Bookerly", Georgia, serif; background: #fff; color: #111; }
-    .wrap { padding: 12px 14px; max-width: 900px; margin: 0 auto; }
+    .wrap { padding: 12px 14px; max-width: 618px; margin: 0 auto; min-height: calc(100vh - 25px); display: flex; flex-direction: column; }
     header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; border-bottom: 1px solid #ddd; padding-bottom: 8px; margin-bottom: 10px; }
     h1 { font-size: 20px; margin: 0; font-weight: 700; }
+    .clock { text-align: center; padding: 6px 0 10px; }
+    .clock-time { font-size: 48px; font-weight: 700; line-height: 1; }
+    .clock-date { font-size: 20px; color: #333; }
     .meta { font-size: 13px; color: #333; }
     .notice { font-size: 14px; padding: 10px; border: 1px solid #ddd; background: #fafafa; border-radius: 6px; }
     .controls { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 12px; }
     button { font: inherit; padding: 8px 10px; border: 1px solid #bbb; background: #fff; border-radius: 6px; }
     button:active { background: #f0f0f0; }
+    .agenda { margin-top: auto; }
     .day { margin: 14px 0; }
     .day h2 { font-size: 16px; margin: 0 0 8px; padding-top: 10px; border-top: 1px solid #eee; }
     ul { list-style: none; padding: 0; margin: 0; }
@@ -36,22 +40,29 @@ permalink: /kc
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <h1>Agenda</h1>
-      <div class="meta" id="meta"><span id="metaUpdated"></span></div>
-    </header>
+    <div class="clock">
+      <div class="clock-time" id="clockTime"></div>
+      <div class="clock-date" id="clockDate"></div>
+    </div>
 
     <div id="kindleGate" class="notice" style="display:none"></div>
 
-    <div class="controls">
-      <button id="btnToday" type="button">Today</button>
-      <button id="btnTomorrow" type="button">Tomorrow</button>
-      <button id="btnWeek" type="button">Next 7 Days</button>
-      <button id="btnRefresh" type="button">Refresh</button>
-    </div>
+    <div class="agenda">
+      <header>
+        <h1>Agenda</h1>
+        <div class="meta" id="meta"><span id="metaUpdated"></span></div>
+      </header>
 
-    <div id="status" class="meta"></div>
-    <div id="agenda"></div>
+      <div class="controls">
+        <button id="btnToday" type="button">Today</button>
+        <button id="btnTomorrow" type="button">Tomorrow</button>
+        <button id="btnWeek" type="button">Next 7 Days</button>
+        <button id="btnRefresh" type="button">Refresh</button>
+      </div>
+
+      <div id="status" class="meta"></div>
+      <div id="agenda"></div>
+    </div>
   </div>
 
   <script>
@@ -79,6 +90,8 @@ permalink: /kc
       }
       var status = document.getElementById("status");
       var agendaEl = document.getElementById("agenda");
+      var clockTimeEl = document.getElementById("clockTime");
+      var clockDateEl = document.getElementById("clockDate");
 
       function pad2(n) { return (n < 10 ? "0" : "") + n; }
 
@@ -99,8 +112,15 @@ permalink: /kc
 
       function niceDay(d) {
         var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-        var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         return days[d.getDay()] + ", " + months[d.getMonth()] + " " + d.getDate();
+      }
+
+      function updateClock() {
+        if (!clockTimeEl || !clockDateEl) return;
+        var now = new Date();
+        clockTimeEl.textContent = formatTime(now);
+        clockDateEl.textContent = niceDay(now) + " " + now.getFullYear();
       }
 
       function escapeHtml(s) {
@@ -232,6 +252,8 @@ permalink: /kc
       }
 
       fetchAgendaJson();
+      updateClock();
+      setInterval(updateClock, 60000);
     })();
   </script>
 </body>
