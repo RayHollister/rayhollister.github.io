@@ -19,11 +19,11 @@ permalink: /kc
     .clock { text-align: center; padding: 6px 0 10px; }
     .clock-time { font-size: 48px; font-weight: 700; line-height: 1; }
     .clock-date { font-size: 20px; color: #333; }
-    .month-calendar { margin-top: 8px; }
+    .month-calendar { margin-top: 20px; max-width: 280px; margin-left: auto; margin-right: auto; }
     .month-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
     .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
     .month-weekday { font-size: 12px; text-align: center; color: #555; font-weight: 700; }
-    .month-day { font-size: 13px; text-align: center; padding: 4px 0; border: 1px solid #eee; border-radius: 4px; }
+    .month-day { font-size: 13px; text-align: center; padding: 4px 0; border: 1px solid #666; border-radius: 4px; }
     .month-day.is-today { background: #111; color: #fff; border-color: #111; }
     .meta { font-size: 13px; color: #333; }
     .notice { font-size: 14px; padding: 10px; border: 1px solid #ddd; background: #fafafa; border-radius: 6px; }
