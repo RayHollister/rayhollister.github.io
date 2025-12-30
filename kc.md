@@ -29,7 +29,7 @@ permalink: /kc
     .time { font-size: 14px; color: #111; font-weight: 700; }
     .title { font-size: 15px; font-weight: 700; margin: 0 0 3px; }
     .sub { font-size: 13px; color: #333; margin: 0; line-height: 1.25; }
-    .tag { display: inline-block; font-size: 12px; padding: 1px 6px; border: 1px solid #ccc; border-radius: 999px; margin-left: 6px; color: #333; }
+    .tag { display: inline-block; font-size: 12px; padding: 1px 6px; border: 1px solid #ccc; border-radius: 999px; margin-right: 6px; margin-left: 0; color: #333; }
     .muted { color: #555; font-weight: 400; }
     .error { color: #a00; }
   </style>
@@ -105,11 +105,11 @@ permalink: /kc
 
       function escapeHtml(s) {
         return String(s || "")
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
       }
 
       function groupByDay(events) {
@@ -158,7 +158,7 @@ permalink: /kc
             html += '<div class="row">';
             html += '<div class="time">' + escapeHtml(timeText) + "</div>";
             html += '<div>';
-            html += '<p class="title">' + escapeHtml(e.title || "(No title)") + '<span class="tag">' + escapeHtml(e.calendarLabel) + "</span></p>";
+            html += '<p class="title"><span class="tag">' + escapeHtml(e.calendarLabel) + "</span>" + escapeHtml(e.title || "(No title)") + "</p>";
             if (e.location) html += '<p class="sub"><span class="muted">Location:</span> ' + escapeHtml(e.location) + "</p>";
             if (e.description) html += '<p class="sub">' + escapeHtml(e.description) + "</p>";
             html += "</div>";
