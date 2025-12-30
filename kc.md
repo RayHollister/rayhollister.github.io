@@ -347,28 +347,49 @@ permalink: /kc
         agendaEl.innerHTML = html;
       }
 
-      function getJson(url) {
+      function getJson(urls) {
+        var list = Array.isArray(urls) ? urls : [urls];
         return new Promise(function (resolve, reject) {
-          var xhr = new XMLHttpRequest();
-          var bust = (url.indexOf("?") === -1 ? "?" : "&") + "t=" + Date.now();
-          xhr.open("GET", url + bust, true);
-          xhr.setRequestHeader("Cache-Control", "no-cache");
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState !== 4) return;
-            if (xhr.status >= 200 && xhr.status < 300) {
-              try {
-                resolve(JSON.parse(xhr.responseText));
-              } catch (err) {
-                reject(err);
-              }
-              return;
+          var idx = 0;
+
+          function tryNext() {
+            var url = list[idx];
+            var xhr = new XMLHttpRequest();
+            var bust = (url.indexOf("?") === -1 ? "?" : "&") + "t=" + Date.now();
+            xhr.open("GET", url + bust, true);
+            xhr.timeout = 15000;
+            try {
+              xhr.setRequestHeader("Cache-Control", "no-cache");
+            } catch (err) {
+              // Some older clients disallow setting request headers.
             }
-            reject(new Error("HTTP " + xhr.status));
-          };
-          xhr.onerror = function () {
-            reject(new Error("Network error"));
-          };
-          xhr.send();
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState !== 4) return;
+              if ((xhr.status >= 200 && xhr.status < 300) || (xhr.status === 0 && xhr.responseText)) {
+                try {
+                  resolve(JSON.parse(xhr.responseText));
+                } catch (err) {
+                  reject(err);
+                }
+                return;
+              }
+              fail();
+            };
+            xhr.onerror = fail;
+            xhr.ontimeout = fail;
+            xhr.send();
+
+            function fail() {
+              if (idx < list.length - 1) {
+                idx += 1;
+                tryNext();
+                return;
+              }
+              reject(new Error("HTTP " + xhr.status));
+            }
+          }
+
+          tryNext();
         });
       }
 
@@ -377,7 +398,7 @@ permalink: /kc
         status.className = "meta";
 
         try {
-          var data = await getJson("/kc/agenda.json");
+          var data = await getJson(["/kc/agenda.json", "agenda.json"]);
 
           var events = (data.events || []).map(function (e) {
             return {
