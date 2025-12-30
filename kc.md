@@ -12,7 +12,7 @@ permalink: /kc
   <title>Kindle Calendar Agenda</title>
   <style>
     :root { color-scheme: light; }
-    body { margin: 0; font-family: Georgia, serif; background: #fff; color: #111; }
+    body { margin: 0; font-family: "Bookerly", Georgia, serif; background: #fff; color: #111; }
     .wrap { padding: 12px 14px; max-width: 900px; margin: 0 auto; }
     header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; border-bottom: 1px solid #ddd; padding-bottom: 8px; margin-bottom: 10px; }
     h1 { font-size: 20px; margin: 0; font-weight: 700; }

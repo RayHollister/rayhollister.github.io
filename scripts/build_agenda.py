@@ -1,12 +1,13 @@
 import os
 import json
 import datetime as dt
+from zoneinfo import ZoneInfo
 import requests
 from icalendar import Calendar
 
-UTC = dt.timezone.utc
+DEFAULT_TZ = os.getenv("AGENDA_TZ", "America/New_York")
 
-def to_naive_utc(x):
+def to_local_naive(x, tz):
   if x is None:
     return None
 
@@ -17,17 +18,16 @@ def to_naive_utc(x):
   # datetime
   if isinstance(x, dt.datetime):
     if x.tzinfo is None:
-      # treat naive as UTC
+      # treat naive as local wall time in target tz
       return x
-    return x.astimezone(UTC).replace(tzinfo=None)
+    return x.astimezone(tz).replace(tzinfo=None)
 
   raise TypeError(f"Unsupported datetime type: {type(x)}")
 
-def iso_z(naive_utc_dt):
-  if naive_utc_dt is None:
+def iso_local(naive_local_dt):
+  if naive_local_dt is None:
     return None
-  # expects naive UTC, add Z
-  return naive_utc_dt.isoformat() + "Z"
+  return naive_local_dt.isoformat()
 
 def clean(s, limit=260):
   s = (s or "").strip().replace("\r\n", "\n").replace("\r", "\n")
@@ -35,15 +35,15 @@ def clean(s, limit=260):
     s = s[:limit].rstrip() + "…"
   return s
 
-def parse_ics(label, url, now_utc_naive, days_ahead=30):
+def parse_ics(label, url, now_local_naive, tz, days_ahead=30):
   r = requests.get(url, timeout=30)
   r.raise_for_status()
 
   cal = Calendar.from_ical(r.text)
   events = []
 
-  range_start = now_utc_naive - dt.timedelta(days=1)
-  range_end = now_utc_naive + dt.timedelta(days=days_ahead)
+  range_start = now_local_naive - dt.timedelta(days=1)
+  range_end = now_local_naive + dt.timedelta(days=days_ahead)
 
   for component in cal.walk():
     if component.name != "VEVENT":
@@ -60,14 +60,14 @@ def parse_ics(label, url, now_utc_naive, days_ahead=30):
     all_day = isinstance(raw_start, dt.date) and not isinstance(raw_start, dt.datetime)
 
     if all_day:
-      start_dt = to_naive_utc(raw_start)
+      start_dt = to_local_naive(raw_start, tz)
       if raw_end and isinstance(raw_end, dt.date) and not isinstance(raw_end, dt.datetime):
-        end_dt = to_naive_utc(raw_end)
+        end_dt = to_local_naive(raw_end, tz)
       else:
         end_dt = start_dt + dt.timedelta(days=1)
     else:
-      start_dt = to_naive_utc(raw_start)
-      end_dt = to_naive_utc(raw_end) if raw_end else (start_dt + dt.timedelta(hours=1))
+      start_dt = to_local_naive(raw_start, tz)
+      end_dt = to_local_naive(raw_end, tz) if raw_end else (start_dt + dt.timedelta(hours=1))
 
     # safe comparisons: all are naive UTC now
     if end_dt <= range_start or start_dt >= range_end:
@@ -83,14 +83,16 @@ def parse_ics(label, url, now_utc_naive, days_ahead=30):
       "description": clean(description, 220),
       "calendarLabel": label,
       "allDay": all_day,
-      "start": iso_z(start_dt),
-      "end": iso_z(end_dt),
+      "start": iso_local(start_dt),
+      "end": iso_local(end_dt),
     })
 
   return events
 
 def main():
-  now_naive_utc = dt.datetime.now(UTC).replace(tzinfo=None)
+  tz = ZoneInfo(DEFAULT_TZ)
+  now_local = dt.datetime.now(tz)
+  now_local_naive = now_local.replace(tzinfo=None)
 
   calendars = []
   if os.getenv("ICS_PERSONAL_URL"):
@@ -105,12 +107,12 @@ def main():
 
   all_events = []
   for label, url in calendars:
-    all_events.extend(parse_ics(label, url, now_naive_utc))
+    all_events.extend(parse_ics(label, url, now_local_naive, tz))
 
   all_events.sort(key=lambda e: e["start"] or "")
 
   out = {
-    "generatedAt": now_naive_utc.strftime("%Y-%m-%d %H:%M UTC"),
+    "generatedAt": now_local.strftime("%Y-%m-%d %H:%M %Z"),
     "events": all_events
   }
 
