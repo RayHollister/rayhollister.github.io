@@ -17,8 +17,14 @@ permalink: /kc
     header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; border-bottom: 1px solid #ddd; padding-bottom: 8px; margin-bottom: 10px; }
     h1 { font-size: 20px; margin: 0; font-weight: 700; }
     .clock { text-align: left; padding: 0; }
-    .clock-time { font-size: 48px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
-    .clock-date { font-size: 20px; color: #333; }
+    .clock-time { font-size: 48px; font-weight: 700; line-height: 1; margin-bottom: 10px; color: #333; }
+    .clock-date { font-size: 24px; color: #333; font-weight: 700; }
+    .clock-day { font-size: 24px; color: #333; font-weight: 700; }
+    .weather { margin-top: 10px; padding-top: 8px; border-top: 1px solid #eee; }
+    .weather-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .weather-row { display: flex; gap: 10px; align-items: baseline; font-size: 14px; }
+    .weather-label { color: #555; font-weight: 700; }
+    .weather-status { font-size: 12px; color: #777; margin-top: 2px; }
     .month-calendar { width: 100%; max-width: 300px; margin-left: auto; margin-right: 0; }
     .month-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
     .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
@@ -50,7 +56,18 @@ permalink: /kc
     <div class="top-row">
       <div class="clock">
         <div class="clock-time" id="clockTime"></div>
+        <div class="clock-day" id="clockDay"></div>
         <div class="clock-date" id="clockDate"></div>
+        <div class="weather" id="weather">
+          <div class="weather-title">Weather</div>
+          <div class="weather-row">
+            <span class="weather-label">High</span>
+            <span id="weatherHigh">--</span>
+            <span class="weather-label">Low</span>
+            <span id="weatherLow">--</span>
+          </div>
+          <div class="weather-status" id="weatherStatus"></div>
+        </div>
       </div>
       <div class="month-calendar" id="monthCalendar"></div>
     </div>
@@ -76,6 +93,8 @@ permalink: /kc
   </div>
 
   <script>
+    window.WEATHER_LAT = 30.41306218504568;
+    window.WEATHER_LON = -81.6948559753448;
     (function () {
       function isKindle() {
         var ua = (navigator.userAgent || "").toLowerCase();
@@ -101,8 +120,12 @@ permalink: /kc
       var status = document.getElementById("status");
       var agendaEl = document.getElementById("agenda");
       var clockTimeEl = document.getElementById("clockTime");
+      var clockDayEl = document.getElementById("clockDay");
       var clockDateEl = document.getElementById("clockDate");
       var monthCalendarEl = document.getElementById("monthCalendar");
+      var weatherHighEl = document.getElementById("weatherHigh");
+      var weatherLowEl = document.getElementById("weatherLow");
+      var weatherStatusEl = document.getElementById("weatherStatus");
       var lastClockDayKey = "";
 
       function pad2(n) { return (n < 10 ? "0" : "") + n; }
@@ -135,10 +158,6 @@ permalink: /kc
         return DAY_NAMES[d.getDay()] + ", " + MONTH_NAMES[d.getMonth()] + " " + d.getDate();
       }
 
-      function niceDayParts(dayIndex, monthIndex, dayNum) {
-        return DAY_NAMES[dayIndex] + ", " + MONTH_NAMES[monthIndex] + " " + dayNum;
-      }
-
       function nthWeekdayOfMonth(year, monthIndex, weekday, nth) {
         var first = new Date(Date.UTC(year, monthIndex, 1));
         var firstWeekday = first.getUTCDay();
@@ -160,7 +179,7 @@ permalink: /kc
       }
 
       function updateClock() {
-        if (!clockTimeEl || !clockDateEl) return;
+        if (!clockTimeEl || !clockDateEl || !clockDayEl) return;
         var nowUtcMs = Date.now ? Date.now() : new Date().getTime();
         var offsetMinutes = easternOffsetMinutes(nowUtcMs);
         var local = new Date(nowUtcMs + offsetMinutes * 60000);
@@ -171,10 +190,12 @@ permalink: /kc
         var dayNum = local.getUTCDate();
         var year = local.getUTCFullYear();
         clockTimeEl.textContent = formatTimeParts(h, m);
-        clockDateEl.textContent = niceDayParts(dayIndex, monthIndex, dayNum) + " " + year;
+        clockDayEl.textContent = DAY_NAMES[dayIndex];
+        clockDateEl.textContent = MONTH_NAMES[monthIndex] + " " + dayNum + ", " + year;
         var dayKey = year + "-" + pad2(monthIndex + 1) + "-" + pad2(dayNum);
         if (dayKey !== lastClockDayKey) {
           renderMonthCalendar(year, monthIndex, dayNum, dayIndex);
+          updateWeather(year, monthIndex + 1, dayNum);
           lastClockDayKey = dayKey;
         }
       }
@@ -199,6 +220,57 @@ permalink: /kc
         }
         html += "</div>";
         monthCalendarEl.innerHTML = html;
+      }
+
+      function updateWeather(year, month, dayNum) {
+        if (!weatherHighEl || !weatherLowEl || !weatherStatusEl) return;
+        var key = year + "-" + pad2(month) + "-" + pad2(dayNum);
+        weatherStatusEl.textContent = "Loading weather…";
+        getJson("/kc/weather.json").then(function (data) {
+          if (!applyLocalWeather(data, key)) throw new Error("No local weather");
+        }).catch(function () {
+          return fetchWeatherFromApi(key);
+        }).catch(function () {
+          weatherStatusEl.textContent = "Weather unavailable.";
+        });
+      }
+
+      function applyLocalWeather(data, key) {
+        if (!data || data.high == null || data.low == null) return false;
+        weatherHighEl.textContent = Math.round(data.high) + "°";
+        weatherLowEl.textContent = Math.round(data.low) + "°";
+        if (data.date && data.date !== key) {
+          weatherStatusEl.textContent = "As of " + data.date;
+        } else {
+          weatherStatusEl.textContent = "";
+        }
+        return true;
+      }
+
+      function fetchWeatherFromApi(key) {
+        var lat = window.WEATHER_LAT;
+        var lon = window.WEATHER_LON;
+        if (!lat || !lon) throw new Error("Missing coords");
+        var url = "https://api.open-meteo.com/v1/forecast?latitude=" + encodeURIComponent(lat) +
+          "&longitude=" + encodeURIComponent(lon) +
+          "&daily=temperature_2m_max,temperature_2m_min" +
+          "&temperature_unit=fahrenheit" +
+          "&timezone=America%2FNew_York";
+        return getJson(url).then(function (data) {
+          var daily = data && data.daily;
+          var times = daily && daily.time;
+          var highs = daily && daily.temperature_2m_max;
+          var lows = daily && daily.temperature_2m_min;
+          if (!times || !highs || !lows) throw new Error("Missing daily data");
+          var idx = -1;
+          for (var i = 0; i < times.length; i++) {
+            if (times[i] === key) { idx = i; break; }
+          }
+          if (idx === -1) throw new Error("No weather for today");
+          weatherHighEl.textContent = Math.round(highs[idx]) + "°";
+          weatherLowEl.textContent = Math.round(lows[idx]) + "°";
+          weatherStatusEl.textContent = "";
+        });
       }
 
       function formatMultiline(text) {

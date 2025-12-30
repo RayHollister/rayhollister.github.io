@@ -7,6 +7,8 @@ from icalendar import Calendar
 import recurring_ical_events
 
 DEFAULT_TZ = os.getenv("AGENDA_TZ", "America/New_York")
+DEFAULT_WEATHER_LAT = "30.41306218504568"
+DEFAULT_WEATHER_LON = "-81.6948559753448"
 
 def to_local_naive(x, tz):
   if x is None:
@@ -93,6 +95,46 @@ def parse_ics(label, url, now_local, tz, days_ahead=30):
 
   return events
 
+def fetch_weather(now_local, tz_name):
+  lat = os.getenv("WEATHER_LAT", DEFAULT_WEATHER_LAT)
+  lon = os.getenv("WEATHER_LON", DEFAULT_WEATHER_LON)
+  if not lat or not lon:
+    return None
+
+  params = {
+    "latitude": lat,
+    "longitude": lon,
+    "daily": "temperature_2m_max,temperature_2m_min",
+    "temperature_unit": "fahrenheit",
+    "timezone": tz_name,
+  }
+  r = requests.get("https://api.open-meteo.com/v1/forecast", params=params, timeout=30)
+  r.raise_for_status()
+  data = r.json()
+
+  daily = data.get("daily", {})
+  times = daily.get("time", [])
+  highs = daily.get("temperature_2m_max", [])
+  lows = daily.get("temperature_2m_min", [])
+  today_key = now_local.strftime("%Y-%m-%d")
+
+  if today_key in times:
+    idx = times.index(today_key)
+  else:
+    idx = 0 if times else None
+
+  if idx is None or idx >= len(highs) or idx >= len(lows):
+    return None
+
+  return {
+    "date": times[idx],
+    "high": highs[idx],
+    "low": lows[idx],
+    "units": "F",
+    "generatedAt": now_local.strftime("%Y-%m-%d %H:%M %Z"),
+    "source": "open-meteo",
+  }
+
 def main():
   tz = ZoneInfo(DEFAULT_TZ)
   now_local = dt.datetime.now(tz)
@@ -122,6 +164,15 @@ def main():
   os.makedirs("kc", exist_ok=True)
   with open("kc/agenda.json", "w", encoding="utf-8") as f:
     json.dump(out, f, ensure_ascii=False, indent=2)
+
+  try:
+    weather = fetch_weather(now_local, DEFAULT_TZ)
+  except Exception:
+    weather = None
+
+  if weather:
+    with open("kc/weather.json", "w", encoding="utf-8") as f:
+      json.dump(weather, f, ensure_ascii=False, indent=2)
 
 if __name__ == "__main__":
   main()
