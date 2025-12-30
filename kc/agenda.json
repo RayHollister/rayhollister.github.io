@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-12-30 17:21 EST",
+  "generatedAt": "2025-12-30 18:21 EST",
   "events": [
     {
       "title": "Digital Standup Meeting",
@@ -18,15 +18,6 @@
       "allDay": false,
       "start": "2025-12-30T19:00:00",
       "end": "2025-12-30T21:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2025-12-31T10:00:00",
-      "end": "2025-12-31T10:15:00"
     },
     {
       "title": "Take Out The Trash",
@@ -56,33 +47,6 @@
       "end": "2026-01-02T00:00:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-01T08:00:00",
-      "end": "2026-01-01T09:00:00"
-    },
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-01T15:00:00",
-      "end": "2026-01-01T16:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-02T08:00:00",
-      "end": "2026-01-02T09:00:00"
-    },
-    {
       "title": "Digital Standup Meeting",
       "location": "",
       "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
@@ -90,15 +54,6 @@
       "allDay": false,
       "start": "2026-01-02T10:00:00",
       "end": "2026-01-02T10:15:00"
-    },
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-02T15:00:00",
-      "end": "2026-01-02T16:00:00"
     },
     {
       "title": "Daily Prophet Quarterly Update",
