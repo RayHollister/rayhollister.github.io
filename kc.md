@@ -103,24 +103,63 @@ permalink: /kc
         return hh + ":" + pad2(m) + " " + am;
       }
 
+      function formatTimeParts(h, m) {
+        var am = h >= 12 ? "PM" : "AM";
+        var hh = h % 12; if (hh === 0) hh = 12;
+        return hh + ":" + pad2(m) + " " + am;
+      }
+
       function startOfDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0); }
       function addDays(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+
+      var DAY_NAMES = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      var MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
       function ymd(d) {
         return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
       }
 
       function niceDay(d) {
-        var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-        var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        return days[d.getDay()] + ", " + months[d.getMonth()] + " " + d.getDate();
+        return DAY_NAMES[d.getDay()] + ", " + MONTH_NAMES[d.getMonth()] + " " + d.getDate();
+      }
+
+      function niceDayParts(dayIndex, monthIndex, dayNum) {
+        return DAY_NAMES[dayIndex] + ", " + MONTH_NAMES[monthIndex] + " " + dayNum;
+      }
+
+      function nthWeekdayOfMonth(year, monthIndex, weekday, nth) {
+        var first = new Date(Date.UTC(year, monthIndex, 1));
+        var firstWeekday = first.getUTCDay();
+        return 1 + ((7 + weekday - firstWeekday) % 7) + (nth - 1) * 7;
+      }
+
+      function isEasternDstUtc(utcMillis) {
+        var d = new Date(utcMillis);
+        var year = d.getUTCFullYear();
+        var dstStartDay = nthWeekdayOfMonth(year, 2, 0, 2);
+        var dstEndDay = nthWeekdayOfMonth(year, 10, 0, 1);
+        var dstStart = Date.UTC(year, 2, dstStartDay, 7, 0, 0);
+        var dstEnd = Date.UTC(year, 10, dstEndDay, 6, 0, 0);
+        return utcMillis >= dstStart && utcMillis < dstEnd;
+      }
+
+      function easternOffsetMinutes(utcMillis) {
+        return isEasternDstUtc(utcMillis) ? -240 : -300;
       }
 
       function updateClock() {
         if (!clockTimeEl || !clockDateEl) return;
-        var now = new Date();
-        clockTimeEl.textContent = formatTime(now);
-        clockDateEl.textContent = niceDay(now) + " " + now.getFullYear();
+        var nowUtcMs = Date.now ? Date.now() : new Date().getTime();
+        var offsetMinutes = easternOffsetMinutes(nowUtcMs);
+        var local = new Date(nowUtcMs + offsetMinutes * 60000);
+        var h = local.getUTCHours();
+        var m = local.getUTCMinutes();
+        var dayIndex = local.getUTCDay();
+        var monthIndex = local.getUTCMonth();
+        var dayNum = local.getUTCDate();
+        var year = local.getUTCFullYear();
+        clockTimeEl.textContent = formatTimeParts(h, m);
+        clockDateEl.textContent = niceDayParts(dayIndex, monthIndex, dayNum) + " " + year;
       }
 
       function escapeHtml(s) {
