@@ -142,9 +142,22 @@ permalink: /kc
 
       function pad2(n) { return (n < 10 ? "0" : "") + n; }
 
+      function parseLocalDate(value) {
+        if (!value) return null;
+        var m = String(value).match(/^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?)?/);
+        if (!m) return new Date(value);
+        var year = Number(m[1]);
+        var monthIndex = Number(m[2]) - 1;
+        var day = Number(m[3]);
+        var hour = Number(m[4] || 0);
+        var minute = Number(m[5] || 0);
+        var second = Number(m[6] || 0);
+        return new Date(Date.UTC(year, monthIndex, day, hour, minute, second));
+      }
+
       function formatTime(d) {
-        var h = d.getHours();
-        var m = d.getMinutes();
+        var h = d.getUTCHours();
+        var m = d.getUTCMinutes();
         var am = h >= 12 ? "PM" : "AM";
         var hh = h % 12; if (hh === 0) hh = 12;
         return hh + ":" + pad2(m) + " " + am;
@@ -156,18 +169,18 @@ permalink: /kc
         return hh + ":" + pad2(m) + " " + am;
       }
 
-      function startOfDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0); }
-      function addDays(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+      function startOfDay(d) { return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0, 0)); }
+      function addDays(d, n) { var x = new Date(d.getTime()); x.setUTCDate(x.getUTCDate() + n); return x; }
 
       var DAY_NAMES = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
       var MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
       function ymd(d) {
-        return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
+        return d.getUTCFullYear() + "-" + pad2(d.getUTCMonth() + 1) + "-" + pad2(d.getUTCDate());
       }
 
       function niceDay(d) {
-        return DAY_NAMES[d.getDay()] + ", " + MONTH_NAMES[d.getMonth()] + " " + d.getDate();
+        return DAY_NAMES[d.getUTCDay()] + ", " + MONTH_NAMES[d.getUTCMonth()] + " " + d.getUTCDate();
       }
 
       function nthWeekdayOfMonth(year, monthIndex, weekday, nth) {
@@ -190,11 +203,15 @@ permalink: /kc
         return isEasternDstUtc(utcMillis) ? -240 : -300;
       }
 
-      function updateClock() {
-        if (!clockTimeEl || !clockDateEl || !clockDayEl) return;
+      function getLocalNow() {
         var nowUtcMs = Date.now ? Date.now() : new Date().getTime();
         var offsetMinutes = easternOffsetMinutes(nowUtcMs);
-        var local = new Date(nowUtcMs + offsetMinutes * 60000);
+        return new Date(nowUtcMs + offsetMinutes * 60000);
+      }
+
+      function updateClock() {
+        if (!clockTimeEl || !clockDateEl || !clockDayEl) return;
+        var local = getLocalNow();
         var h = local.getUTCHours();
         var m = local.getUTCMinutes();
         var dayIndex = local.getUTCDay();
@@ -452,7 +469,7 @@ permalink: /kc
           dayEvents.sort(function (a, b) { return a.start - b.start; });
 
           var dParts = dayKey.split("-");
-          var dayDate = new Date(Number(dParts[0]), Number(dParts[1]) - 1, Number(dParts[2]), 0, 0, 0, 0);
+          var dayDate = new Date(Date.UTC(Number(dParts[0]), Number(dParts[1]) - 1, Number(dParts[2]), 0, 0, 0, 0));
 
           html += '<div class="day">';
           html += "<h2>" + escapeHtml(niceDay(dayDate)) + "</h2>";
@@ -540,12 +557,12 @@ permalink: /kc
               description: e.description || "",
               calendarLabel: e.calendarLabel || "",
               allDay: !!e.allDay,
-              start: new Date(e.start),
-              end: new Date(e.end)
+              start: parseLocalDate(e.start),
+              end: parseLocalDate(e.end)
             };
           });
 
-          var now = new Date();
+          var now = getLocalNow();
           if (metaUpdated) {
             metaUpdated.textContent = "Updated: " + (data.generatedAt || "");
           }
@@ -557,13 +574,13 @@ permalink: /kc
           }
 
           document.getElementById("btnToday").onclick = function () {
-            var s = startOfDay(new Date());
+            var s = startOfDay(getLocalNow());
             var end = addDays(s, 1);
             render(events, s, end);
           };
 
           document.getElementById("btnTomorrow").onclick = function () {
-            var s = startOfDay(addDays(new Date(), 1));
+            var s = startOfDay(addDays(getLocalNow(), 1));
             var end = addDays(s, 1);
             render(events, s, end);
           };
