@@ -10,6 +10,27 @@ DEFAULT_TZ = os.getenv("AGENDA_TZ", "America/New_York")
 DEFAULT_WEATHER_LAT = "30.41306218504568"
 DEFAULT_WEATHER_LON = "-81.6948559753448"
 
+def describe_weather(code):
+  if code is None:
+    return ("", "")
+  if code == 0:
+    return ("Clear", "☀")
+  if code in (1, 2):
+    return ("Partly cloudy", "⛅")
+  if code == 3:
+    return ("Cloudy", "☁")
+  if code in (45, 48):
+    return ("Fog", "🌫")
+  if code in (51, 53, 55, 56, 57):
+    return ("Drizzle", "🌦")
+  if code in (61, 63, 65, 80, 81, 82, 66, 67):
+    return ("Rain", "🌧")
+  if code in (71, 73, 75, 77, 85, 86):
+    return ("Snow", "❄")
+  if code in (95, 96, 99):
+    return ("Thunderstorms", "⛈")
+  return ("", "")
+
 def to_local_naive(x, tz):
   if x is None:
     return None
@@ -104,7 +125,7 @@ def fetch_weather(now_local, tz_name):
   params = {
     "latitude": lat,
     "longitude": lon,
-    "daily": "temperature_2m_max,temperature_2m_min",
+    "daily": "temperature_2m_max,temperature_2m_min,weathercode",
     "temperature_unit": "fahrenheit",
     "timezone": tz_name,
   }
@@ -116,6 +137,7 @@ def fetch_weather(now_local, tz_name):
   times = daily.get("time", [])
   highs = daily.get("temperature_2m_max", [])
   lows = daily.get("temperature_2m_min", [])
+  codes = daily.get("weathercode", [])
   today_key = now_local.strftime("%Y-%m-%d")
 
   if today_key in times:
@@ -126,10 +148,16 @@ def fetch_weather(now_local, tz_name):
   if idx is None or idx >= len(highs) or idx >= len(lows):
     return None
 
+  code = codes[idx] if idx < len(codes) else None
+  condition, icon = describe_weather(code)
+
   return {
     "date": times[idx],
     "high": highs[idx],
     "low": lows[idx],
+    "weathercode": code,
+    "condition": condition,
+    "icon": icon,
     "units": "F",
     "generatedAt": now_local.strftime("%Y-%m-%d %H:%M %Z"),
     "source": "open-meteo",

@@ -24,6 +24,8 @@ permalink: /kc
     .weather-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
     .weather-row { display: flex; gap: 10px; align-items: baseline; font-size: 14px; }
     .weather-label { color: #555; font-weight: 700; }
+    .weather-condition { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 14px; }
+    .weather-icon { font-size: 16px; line-height: 1; }
     .weather-status { font-size: 12px; color: #777; margin-top: 2px; }
     .month-calendar { width: 100%; max-width: 300px; margin-left: auto; margin-right: 0; }
     .month-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
@@ -65,6 +67,10 @@ permalink: /kc
             <span id="weatherHigh">--</span>
             <span class="weather-label">Low</span>
             <span id="weatherLow">--</span>
+          </div>
+          <div class="weather-condition">
+            <span class="weather-icon" id="weatherIcon"></span>
+            <span id="weatherSummary"></span>
           </div>
           <div class="weather-status" id="weatherStatus"></div>
         </div>
@@ -125,6 +131,8 @@ permalink: /kc
       var monthCalendarEl = document.getElementById("monthCalendar");
       var weatherHighEl = document.getElementById("weatherHigh");
       var weatherLowEl = document.getElementById("weatherLow");
+      var weatherIconEl = document.getElementById("weatherIcon");
+      var weatherSummaryEl = document.getElementById("weatherSummary");
       var weatherStatusEl = document.getElementById("weatherStatus");
       var lastClockDayKey = "";
 
@@ -222,6 +230,23 @@ permalink: /kc
         monthCalendarEl.innerHTML = html;
       }
 
+      function describeWeather(code) {
+        if (code === 0) return { label: "Clear", icon: "☀" };
+        if (code === 1 || code === 2) return { label: "Partly cloudy", icon: "⛅" };
+        if (code === 3) return { label: "Cloudy", icon: "☁" };
+        if (code === 45 || code === 48) return { label: "Fog", icon: "🌫" };
+        if (code === 51 || code === 53 || code === 55 || code === 56 || code === 57) return { label: "Drizzle", icon: "🌦" };
+        if (code === 61 || code === 63 || code === 65 || code === 80 || code === 81 || code === 82 || code === 66 || code === 67) return { label: "Rain", icon: "🌧" };
+        if (code === 71 || code === 73 || code === 75 || code === 77 || code === 85 || code === 86) return { label: "Snow", icon: "❄" };
+        if (code === 95 || code === 96 || code === 99) return { label: "Thunderstorms", icon: "⛈" };
+        return { label: "", icon: "" };
+      }
+
+      function setWeatherSummary(label, icon) {
+        if (weatherSummaryEl) weatherSummaryEl.textContent = label || "";
+        if (weatherIconEl) weatherIconEl.textContent = icon || "";
+      }
+
       function updateWeather(year, month, dayNum) {
         if (!weatherHighEl || !weatherLowEl || !weatherStatusEl) return;
         var key = year + "-" + pad2(month) + "-" + pad2(dayNum);
@@ -239,6 +264,14 @@ permalink: /kc
         if (!data || data.high == null || data.low == null) return false;
         weatherHighEl.textContent = Math.round(data.high) + "°";
         weatherLowEl.textContent = Math.round(data.low) + "°";
+        if (data.condition || data.icon) {
+          setWeatherSummary(data.condition || "", data.icon || "");
+        } else if (data.weathercode != null) {
+          var meta = describeWeather(Number(data.weathercode));
+          setWeatherSummary(meta.label, meta.icon);
+        } else {
+          setWeatherSummary("", "");
+        }
         if (data.date && data.date !== key) {
           weatherStatusEl.textContent = "As of " + data.date;
         } else {
@@ -253,7 +286,7 @@ permalink: /kc
         if (!lat || !lon) throw new Error("Missing coords");
         var url = "https://api.open-meteo.com/v1/forecast?latitude=" + encodeURIComponent(lat) +
           "&longitude=" + encodeURIComponent(lon) +
-          "&daily=temperature_2m_max,temperature_2m_min" +
+          "&daily=temperature_2m_max,temperature_2m_min,weathercode" +
           "&temperature_unit=fahrenheit" +
           "&timezone=America%2FNew_York";
         return getJson(url).then(function (data) {
@@ -261,6 +294,7 @@ permalink: /kc
           var times = daily && daily.time;
           var highs = daily && daily.temperature_2m_max;
           var lows = daily && daily.temperature_2m_min;
+          var codes = daily && daily.weathercode;
           if (!times || !highs || !lows) throw new Error("Missing daily data");
           var idx = -1;
           for (var i = 0; i < times.length; i++) {
@@ -269,6 +303,13 @@ permalink: /kc
           if (idx === -1) throw new Error("No weather for today");
           weatherHighEl.textContent = Math.round(highs[idx]) + "°";
           weatherLowEl.textContent = Math.round(lows[idx]) + "°";
+          var code = codes && idx < codes.length ? Number(codes[idx]) : null;
+          if (code != null) {
+            var meta = describeWeather(code);
+            setWeatherSummary(meta.label, meta.icon);
+          } else {
+            setWeatherSummary("", "");
+          }
           weatherStatusEl.textContent = "";
         });
       }
