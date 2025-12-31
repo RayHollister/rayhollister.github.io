@@ -47,7 +47,7 @@ permalink: /kc
     .row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; align-items: start; }
     .time { font-size: 14px; color: #111; font-weight: 700; }
     .title { font-size: 15px; font-weight: 700; margin: 0 0 3px; }
-    .sub { font-size: 13px; color: #333; margin: 0; line-height: 1.25; }
+    .sub { font-size: 11px; color: #333; margin: 0; }
     .tag { display: inline-block; font-size: 12px; padding: 1px 6px; border: 1px solid #ccc; border-radius: 999px; margin-right: 6px; margin-left: 0; color: #333; }
     .muted { color: #555; font-weight: 400; }
     .error { color: #a00; }
