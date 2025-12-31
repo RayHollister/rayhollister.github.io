@@ -573,6 +573,12 @@ permalink: /kc
             render(events, s, end);
           }
 
+          function setDefaultRange() {
+            var s = startOfDay(now);
+            var end = addDays(s, 2);
+            render(events, s, end);
+          }
+
           document.getElementById("btnToday").onclick = function () {
             var s = startOfDay(getLocalNow());
             var end = addDays(s, 1);
@@ -590,7 +596,7 @@ permalink: /kc
           document.getElementById("btnRefresh").onclick = function () { fetchAgendaJson(); };
 
           status.textContent = "Loaded " + events.length + " events.";
-          setRange(7);
+          setDefaultRange();
 
         } catch (err) {
           status.textContent = "Error loading agenda.json: " + err.message;
