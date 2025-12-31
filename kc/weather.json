@@ -1,11 +1,11 @@
 {
   "date": "2025-12-31",
-  "high": 54.5,
-  "low": 30.8,
-  "weathercode": 0,
-  "condition": "Clear",
-  "icon": "sun",
+  "high": 54.7,
+  "low": 31.0,
+  "weathercode": 1,
+  "condition": "Partly cloudy",
+  "icon": "partly",
   "units": "F",
-  "generatedAt": "2025-12-31 01:23 EST",
+  "generatedAt": "2025-12-31 02:22 EST",
   "source": "open-meteo"
 }
