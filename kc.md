@@ -23,9 +23,9 @@ permalink: /kc
     .weather { margin-top: 10px; padding-top: 8px; border-top: 1px solid #eee; }
     .weather-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
     .weather-row { display: flex; gap: 10px; align-items: baseline; font-size: 14px; }
-    .weather-label { color: #555; font-weight: 700; }
+    .weather-label { color: #555; font-weight: 700; margin-right: 4px; }
     .weather-condition { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 14px; }
-    .weather-icon { font-size: 16px; line-height: 1; }
+    .weather-icon { font-size: 16px; line-height: 1; margin-right: 4px; }
     .weather-status { font-size: 12px; color: #777; margin-top: 2px; }
     .month-calendar { width: 100%; max-width: 300px; margin-left: auto; margin-right: 0; }
     .month-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
@@ -62,15 +62,15 @@ permalink: /kc
         <div class="clock-date" id="clockDate"></div>
         <div class="weather" id="weather">
           <div class="weather-title">Weather</div>
+          <div class="weather-condition">
+            <span class="weather-icon" id="weatherIcon"></span>
+            <span id="weatherSummary"></span>
+          </div>
           <div class="weather-row">
             <span class="weather-label">High</span>
             <span id="weatherHigh">--</span>
             <span class="weather-label">Low</span>
             <span id="weatherLow">--</span>
-          </div>
-          <div class="weather-condition">
-            <span class="weather-icon" id="weatherIcon"></span>
-            <span id="weatherSummary"></span>
           </div>
           <div class="weather-status" id="weatherStatus"></div>
         </div>
