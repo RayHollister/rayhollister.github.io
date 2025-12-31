@@ -14,21 +14,21 @@ def describe_weather(code):
   if code is None:
     return ("", "")
   if code == 0:
-    return ("Clear", "☀")
+    return ("Clear", "sun")
   if code in (1, 2):
-    return ("Partly cloudy", "⛅")
+    return ("Partly cloudy", "partly")
   if code == 3:
-    return ("Cloudy", "☁")
+    return ("Cloudy", "cloud")
   if code in (45, 48):
-    return ("Fog", "🌫")
+    return ("Fog", "fog")
   if code in (51, 53, 55, 56, 57):
-    return ("Drizzle", "🌦")
+    return ("Drizzle", "drizzle")
   if code in (61, 63, 65, 80, 81, 82, 66, 67):
-    return ("Rain", "🌧")
+    return ("Rain", "rain")
   if code in (71, 73, 75, 77, 85, 86):
-    return ("Snow", "❄")
+    return ("Snow", "snow")
   if code in (95, 96, 99):
-    return ("Thunderstorms", "⛈")
+    return ("Thunderstorms", "thunder")
   return ("", "")
 
 def to_local_naive(x, tz):

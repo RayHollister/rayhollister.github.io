@@ -12,31 +12,32 @@ permalink: /kc
   <title>Kindle Calendar Agenda</title>
   <style>
     :root { color-scheme: light; }
-    body { margin: 0; font-family: "Bookerly", Georgia, serif; background: #fff; color: #111; }
+    body { margin: 0; font-family: "Bookerly", Georgia, serif; background: #fff; color: #000; }
     .wrap { padding: 12px 14px; gap: 10px; max-width: 618px; margin: 0 auto; min-height: calc(100vh - 25px); display: flex; flex-direction: column; }
     header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; border-bottom: 1px solid #ddd; padding-bottom: 8px; margin-bottom: 10px; }
     h1 { font-size: 20px; margin: 0; font-weight: 700; }
     .clock { text-align: left; padding: 0; }
-    .clock-time { font-size: 48px; font-weight: 700; line-height: 1; margin-bottom: 10px; color: #333; }
-    .clock-date { font-size: 24px; color: #333; font-weight: 700; }
-    .clock-day { font-size: 24px; color: #333; font-weight: 700; }
-    .weather { margin-top: 10px; padding-top: 8px; border-top: 1px solid #eee; }
-    .weather-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .clock-time { font-size: 48px; font-weight: 700; line-height: 1; margin-bottom: 10px; color: #000; }
+    .clock-date { font-size: 24px; color: #000; font-weight: 700; }
+    .clock-day { font-size: 24px; color: #000; font-weight: 700; }
+    .weather { margin-top: 10px; padding-top: 8px; border-top: 1px solid #ddd; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .weather-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
     .weather-row { display: flex; gap: 10px; align-items: baseline; font-size: 14px; }
-    .weather-label { color: #555; font-weight: 700; margin-right: 4px; }
-    .weather-condition { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 14px; }
-    .weather-icon { font-size: 16px; line-height: 1; margin-right: 4px; }
+    .weather-label { color: #000; font-weight: 700; margin-right: 4px; }
+    .weather-condition { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 18px; font-weight: 700; color: #000; }
+    .weather-icon { width: 125px; height: 75px; display: inline-flex; align-items: center; justify-content: center; font-size: 48px; line-height: 1; flex-shrink: 0; }
+    .weather-icon svg { width: 125px; height: 75px; display: block; }
     .weather-status { font-size: 12px; color: #777; margin-top: 2px; }
     .month-calendar { width: 100%; max-width: 300px; margin-left: auto; margin-right: 0; }
     .month-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
     .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-    .month-weekday { font-size: 12px; text-align: center; color: #555; font-weight: 700; }
+    .month-weekday { font-size: 12px; text-align: center; color: #333; font-weight: 700; }
     .month-day { font-size: 13px; text-align: center; padding: 4px 0; border: 1px solid #666; border-radius: 4px; }
     .month-day.is-today { background: #111; color: #fff; border-color: #111; }
     .meta { font-size: 13px; color: #333; }
     .notice { font-size: 14px; padding: 10px; border: 1px solid #ddd; background: #fafafa; border-radius: 6px; }
     .controls { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 12px; }
-    button { font: inherit; padding: 8px 10px; border: 1px solid #bbb; background: #fff; border-radius: 6px; }
+    button { font: inherit; padding: 8px 10px; border: 1px solid #ddd; background: #fff; border-radius: 6px; }
     button:active { background: #f0f0f0; }
     .agenda { margin-top: auto; }
     .day { margin: 14px 0; }
@@ -50,7 +51,7 @@ permalink: /kc
     .tag { display: inline-block; font-size: 12px; padding: 1px 6px; border: 1px solid #ccc; border-radius: 999px; margin-right: 6px; margin-left: 0; color: #333; }
     .muted { color: #555; font-weight: 400; }
     .error { color: #a00; }
-    .top-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; margin-bottom: 12px; }
+    .top-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
   </style>
 </head>
 <body>
@@ -61,18 +62,21 @@ permalink: /kc
         <div class="clock-day" id="clockDay"></div>
         <div class="clock-date" id="clockDate"></div>
         <div class="weather" id="weather">
-          <div class="weather-title">Weather</div>
-          <div class="weather-condition">
-            <span class="weather-icon" id="weatherIcon"></span>
-            <span id="weatherSummary"></span>
+          <div class="weather-main">
+            <div class="weather-title">Weather</div>
+            <div class="weather-condition">
+              <span id="weatherSummary"></span>
+            </div>
+            <div class="weather-row">
+              <span class="weather-label">High</span>
+              <span id="weatherHigh">--</span>
+              <span class="weather-label">Low</span>
+              <span id="weatherLow">--</span>
+            </div>
+
+            <div class="weather-status" id="weatherStatus"></div>
           </div>
-          <div class="weather-row">
-            <span class="weather-label">High</span>
-            <span id="weatherHigh">--</span>
-            <span class="weather-label">Low</span>
-            <span id="weatherLow">--</span>
-          </div>
-          <div class="weather-status" id="weatherStatus"></div>
+          <span class="weather-icon" id="weatherIcon"></span>
         </div>
       </div>
       <div class="month-calendar" id="monthCalendar"></div>
@@ -231,20 +235,108 @@ permalink: /kc
       }
 
       function describeWeather(code) {
-        if (code === 0) return { label: "Clear", icon: "☀" };
-        if (code === 1 || code === 2) return { label: "Partly cloudy", icon: "⛅" };
-        if (code === 3) return { label: "Cloudy", icon: "☁" };
-        if (code === 45 || code === 48) return { label: "Fog", icon: "🌫" };
-        if (code === 51 || code === 53 || code === 55 || code === 56 || code === 57) return { label: "Drizzle", icon: "🌦" };
-        if (code === 61 || code === 63 || code === 65 || code === 80 || code === 81 || code === 82 || code === 66 || code === 67) return { label: "Rain", icon: "🌧" };
-        if (code === 71 || code === 73 || code === 75 || code === 77 || code === 85 || code === 86) return { label: "Snow", icon: "❄" };
-        if (code === 95 || code === 96 || code === 99) return { label: "Thunderstorms", icon: "⛈" };
+        if (code === 0) return { label: "Clear", icon: "sun" };
+        if (code === 1 || code === 2) return { label: "Partly cloudy", icon: "partly" };
+        if (code === 3) return { label: "Cloudy", icon: "cloud" };
+        if (code === 45 || code === 48) return { label: "Fog", icon: "fog" };
+        if (code === 51 || code === 53 || code === 55 || code === 56 || code === 57) return { label: "Drizzle", icon: "drizzle" };
+        if (code === 61 || code === 63 || code === 65 || code === 80 || code === 81 || code === 82 || code === 66 || code === 67) return { label: "Rain", icon: "rain" };
+        if (code === 71 || code === 73 || code === 75 || code === 77 || code === 85 || code === 86) return { label: "Snow", icon: "snow" };
+        if (code === 95 || code === 96 || code === 99) return { label: "Thunderstorms", icon: "thunder" };
         return { label: "", icon: "" };
       }
 
-      function setWeatherSummary(label, icon) {
+      function weatherIconSvg(key) {
+        var stroke = ' stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"';
+        function wrap(inner) {
+          return '<svg viewBox="0 0 125 75" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + inner + "</svg>";
+        }
+        var cloud = '<rect x="26" y="38" width="78" height="22" rx="11"' + stroke + "/>" +
+          '<circle cx="46" cy="38" r="14"' + stroke + "/>" +
+          '<circle cx="68" cy="30" r="18"' + stroke + "/>" +
+          '<circle cx="92" cy="38" r="12"' + stroke + "/>";
+        if (key === "sun") {
+          return wrap(
+            '<circle cx="62.5" cy="37.5" r="16"' + stroke + "/>" +
+            '<line x1="62.5" y1="6" x2="62.5" y2="18"' + stroke + "/>" +
+            '<line x1="62.5" y1="57" x2="62.5" y2="69"' + stroke + "/>" +
+            '<line x1="31" y1="37.5" x2="43" y2="37.5"' + stroke + "/>" +
+            '<line x1="82" y1="37.5" x2="94" y2="37.5"' + stroke + "/>" +
+            '<line x1="42" y1="17" x2="50" y2="25"' + stroke + "/>" +
+            '<line x1="74" y1="50" x2="82" y2="58"' + stroke + "/>" +
+            '<line x1="74" y1="25" x2="82" y2="17"' + stroke + "/>" +
+            '<line x1="42" y1="58" x2="50" y2="50"' + stroke + "/>"
+          );
+        }
+        if (key === "partly") {
+          return wrap(
+            '<circle cx="36" cy="24" r="12"' + stroke + "/>" +
+            '<line x1="36" y1="4" x2="36" y2="12"' + stroke + "/>" +
+            '<line x1="18" y1="24" x2="26" y2="24"' + stroke + "/>" +
+            '<line x1="46" y1="24" x2="54" y2="24"' + stroke + "/>" +
+            '<line x1="24" y1="12" x2="30" y2="18"' + stroke + "/>" +
+            '<line x1="42" y1="12" x2="48" y2="18"' + stroke + "/>" +
+            cloud
+          );
+        }
+        if (key === "cloud") {
+          return wrap(cloud);
+        }
+        if (key === "fog") {
+          return wrap(
+            cloud +
+            '<line x1="38" y1="60" x2="92" y2="60"' + stroke + "/>" +
+            '<line x1="34" y1="66" x2="88" y2="66"' + stroke + "/>" +
+            '<line x1="40" y1="72" x2="94" y2="72"' + stroke + "/>"
+          );
+        }
+        if (key === "drizzle") {
+          return wrap(
+            cloud +
+            '<line x1="52" y1="60" x2="48" y2="66"' + stroke + "/>" +
+            '<line x1="70" y1="60" x2="66" y2="66"' + stroke + "/>"
+          );
+        }
+        if (key === "rain") {
+          return wrap(
+            cloud +
+            '<line x1="50" y1="60" x2="46" y2="70"' + stroke + "/>" +
+            '<line x1="66" y1="60" x2="62" y2="70"' + stroke + "/>" +
+            '<line x1="82" y1="60" x2="78" y2="70"' + stroke + "/>"
+          );
+        }
+        if (key === "snow") {
+          return wrap(
+            cloud +
+            '<line x1="52" y1="60" x2="46" y2="66"' + stroke + "/>" +
+            '<line x1="46" y1="60" x2="52" y2="66"' + stroke + "/>" +
+            '<line x1="78" y1="60" x2="72" y2="66"' + stroke + "/>" +
+            '<line x1="72" y1="60" x2="78" y2="66"' + stroke + "/>"
+          );
+        }
+        if (key === "thunder") {
+          return wrap(
+            cloud +
+            '<polygon points="62,52 50,72 66,72 56,74 78,56 64,56" fill="#111" />'
+          );
+        }
+        return "";
+      }
+
+      function setWeatherSummary(label, iconKey) {
         if (weatherSummaryEl) weatherSummaryEl.textContent = label || "";
-        if (weatherIconEl) weatherIconEl.textContent = icon || "";
+        if (!weatherIconEl) return;
+        var svg = "";
+        if (typeof iconKey === "string" && iconKey.indexOf("<svg") === 0) {
+          svg = iconKey;
+        } else if (iconKey) {
+          svg = weatherIconSvg(iconKey);
+        }
+        if (svg) {
+          weatherIconEl.innerHTML = svg;
+        } else {
+          weatherIconEl.textContent = iconKey || "";
+        }
       }
 
       function updateWeather(year, month, dayNum) {
@@ -264,13 +356,13 @@ permalink: /kc
         if (!data || data.high == null || data.low == null) return false;
         weatherHighEl.textContent = Math.round(data.high) + "°";
         weatherLowEl.textContent = Math.round(data.low) + "°";
-        if (data.condition || data.icon) {
+        if (data.icon && weatherIconSvg(data.icon)) {
           setWeatherSummary(data.condition || "", data.icon || "");
         } else if (data.weathercode != null) {
           var meta = describeWeather(Number(data.weathercode));
           setWeatherSummary(meta.label, meta.icon);
         } else {
-          setWeatherSummary("", "");
+          setWeatherSummary(data.condition || "", "");
         }
         if (data.date && data.date !== key) {
           weatherStatusEl.textContent = "As of " + data.date;
