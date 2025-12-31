@@ -35,6 +35,7 @@ permalink: /kc
     .month-day { font-size: 13px; text-align: center; padding: 4px 0; border: 1px solid #666; border-radius: 4px; }
     .month-day.is-today { background: #111; color: #fff; border-color: #111; }
     .meta { font-size: 13px; color: #333; }
+    .meta span + span { margin-left: 8px; }
     .notice { font-size: 14px; padding: 10px; border: 1px solid #ddd; background: #fafafa; border-radius: 6px; }
     .controls { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 12px; }
     button { font: inherit; padding: 8px 10px; border: 1px solid #ddd; background: #fff; border-radius: 6px; }
@@ -87,7 +88,7 @@ permalink: /kc
     <div class="agenda">
       <header>
         <h1>Agenda</h1>
-        <div class="meta" id="meta"><span id="metaUpdated"></span></div>
+        <div class="meta" id="meta"><span id="metaUpdated"></span><span id="metaLoaded"></span></div>
       </header>
 
       <div class="controls">
@@ -122,10 +123,16 @@ permalink: /kc
 
       var meta = document.getElementById("meta");
       var metaUpdated = document.getElementById("metaUpdated");
+      var metaLoaded = document.getElementById("metaLoaded");
       if (meta && !metaUpdated) {
         metaUpdated = document.createElement("span");
         metaUpdated.id = "metaUpdated";
         meta.appendChild(metaUpdated);
+      }
+      if (meta && !metaLoaded) {
+        metaLoaded = document.createElement("span");
+        metaLoaded.id = "metaLoaded";
+        meta.appendChild(metaLoaded);
       }
       var status = document.getElementById("status");
       var agendaEl = document.getElementById("agenda");
@@ -595,7 +602,10 @@ permalink: /kc
 
           document.getElementById("btnRefresh").onclick = function () { fetchAgendaJson(); };
 
-          status.textContent = "Loaded " + events.length + " events.";
+          if (metaLoaded) {
+            metaLoaded.textContent = "Loaded " + events.length + " events.";
+          }
+          status.textContent = "";
           setDefaultRange();
 
         } catch (err) {
@@ -612,26 +622,3 @@ permalink: /kc
   </script>
 </body>
 </html>
-<script>
-(function () {
-  function upd() {
-    var w = window.innerWidth, h = window.innerHeight, d = window.devicePixelRatio || 1;
-    var el = document.getElementById('viewportDims');
-    if (!el) {
-      el = document.createElement('div');
-      el.id = 'viewportDims';
-      el.style.fontSize = '12px';
-      el.style.color = '#333';
-      el.style.marginLeft = '8px';
-      el.style.display = 'inline-block';
-      var target = document.querySelector('header .meta') || document.querySelector('header') || document.body;
-      target.appendChild(el);
-    }
-    el.textContent = w + '×' + h + ' px • dpr ' + d;
-  }
-  window.addEventListener('resize', upd);
-  window.addEventListener('orientationchange', upd);
-  document.addEventListener('DOMContentLoaded', upd);
-  upd();
-})();
-</script>
