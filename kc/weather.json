@@ -1,11 +1,11 @@
 {
-  "date": "2025-12-30",
-  "high": 50.4,
-  "low": 38.0,
-  "weathercode": 45,
-  "condition": "Fog",
-  "icon": "fog",
+  "date": "2025-12-31",
+  "high": 54.7,
+  "low": 31.3,
+  "weathercode": 0,
+  "condition": "Clear",
+  "icon": "sun",
   "units": "F",
-  "generatedAt": "2025-12-30 23:26 EST",
+  "generatedAt": "2025-12-31 00:22 EST",
   "source": "open-meteo"
 }
