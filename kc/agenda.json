@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-02 09:21 EST",
+  "generatedAt": "2026-01-02 10:21 EST",
   "events": [
     {
       "title": "Change the Water Filter",
@@ -18,15 +18,6 @@
       "allDay": true,
       "start": "2026-01-01T00:00:00",
       "end": "2026-01-02T00:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-02T10:00:00",
-      "end": "2026-01-02T10:15:00"
     },
     {
       "title": "Daily Prophet Quarterly Update",
