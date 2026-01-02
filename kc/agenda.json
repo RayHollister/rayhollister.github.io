@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-02 13:22 EST",
+  "generatedAt": "2026-01-02 14:20 EST",
   "events": [
     {
       "title": "Change the Water Filter",
@@ -45,6 +45,15 @@
       "allDay": false,
       "start": "2026-01-05T10:00:00",
       "end": "2026-01-05T10:15:00"
+    },
+    {
+      "title": "Health News Explained & Other Newsletters Launch Sequencing",
+      "location": "(Conference Room)-Dowling Conference Room",
+      "description": "<p>Agenda</p><ol><li><p>Health News Explained status<br>Confirm current state of the website, email infrastructure and newsletter setup.</p></li><li><p>Launch requirements and sequencing<br>Review the technical and edito…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-05T11:00:00",
+      "end": "2026-01-05T12:00:00"
     },
     {
       "title": "School Pick Up",
