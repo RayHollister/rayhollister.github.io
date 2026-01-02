@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-01 23:28 EST",
+  "generatedAt": "2026-01-02 00:22 EST",
   "events": [
     {
       "title": "Change the Water Filter",
@@ -783,6 +783,15 @@
       "allDay": false,
       "start": "2026-01-31T11:00:00",
       "end": "2026-01-31T12:00:00"
+    },
+    {
+      "title": "AC Line Cleaner",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-02-01T00:00:00",
+      "end": "2026-02-02T00:00:00"
     }
   ]
 }
