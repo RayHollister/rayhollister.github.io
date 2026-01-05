@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-05 11:22 EST",
+  "generatedAt": "2026-01-05 12:22 EST",
   "events": [
     {
       "title": "Daily Prophet Quarterly Update",
@@ -855,6 +855,15 @@
       "allDay": false,
       "start": "2026-02-04T10:00:00",
       "end": "2026-02-04T10:15:00"
+    },
+    {
+      "title": "WJCT newsletter call",
+      "location": "https://us02web.zoom.us/j/3566700432",
+      "description": "Join Zoom Meeting\nhttps://us02web.zoom.us/j/3566700432",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-04T11:30:00",
+      "end": "2026-02-04T12:15:00"
     }
   ]
 }
