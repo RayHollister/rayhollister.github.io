@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-06 10:22 EST",
+  "generatedAt": "2026-01-06 11:22 EST",
   "events": [
     {
       "title": "Health News Explained & Other Newsletters Launch Sequencing",
@@ -864,6 +864,15 @@
       "allDay": false,
       "start": "2026-02-05T10:00:00",
       "end": "2026-02-05T10:15:00"
+    },
+    {
+      "title": "Weekly Working Plan Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/ckg-fqnr-iyc\nOr dial: (US) +1 224-650-7012 PIN: 493416278#\nMore phone numbers: https://tel.meet/ckg-fqnr-iyc?pin=4189776087968&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-05T11:00:00",
+      "end": "2026-02-05T12:00:00"
     }
   ]
 }
