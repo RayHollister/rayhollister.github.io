@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-01-07 11:23 EST",
+  "generatedAt": "2026-01-07 12:23 EST",
   "events": [
-    {
-      "title": "WJCT Operations Meeting",
-      "location": "Board Room",
-      "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-06T11:00:00",
-      "end": "2026-01-06T12:00:00"
-    },
     {
       "title": "Pay Day",
       "location": "",
@@ -155,6 +146,15 @@
       "end": "2026-01-12T10:15:00"
     },
     {
+      "title": "Health News Explained & Other Newsletters Launch Sequencing",
+      "location": "(Conference Room)-Dowling Conference Room",
+      "description": "<p>Agenda</p><ol><li><p>Health News Explained status<br>Confirm current state of the website, email infrastructure and newsletter setup.</p></li><li><p>Launch requirements and sequencing<br>Review the technical and edito…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-12T10:30:00",
+      "end": "2026-01-12T10:45:00"
+    },
+    {
       "title": "School Pick Up",
       "location": "",
       "description": "",
@@ -216,6 +216,15 @@
       "allDay": false,
       "start": "2026-01-14T10:00:00",
       "end": "2026-01-14T10:15:00"
+    },
+    {
+      "title": "Health News Explained & Other Newsletters Launch Sequencing",
+      "location": "(Conference Room)-Dowling Conference Room",
+      "description": "<p>Agenda</p><ol><li><p>Health News Explained status<br>Confirm current state of the website, email infrastructure and newsletter setup.</p></li><li><p>Launch requirements and sequencing<br>Review the technical and edito…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-14T10:30:00",
+      "end": "2026-01-14T10:45:00"
     },
     {
       "title": "School Pick Up",
@@ -882,6 +891,15 @@
       "allDay": false,
       "start": "2026-02-06T10:00:00",
       "end": "2026-02-06T10:15:00"
+    },
+    {
+      "title": "Ops Review - Digital Department",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/nde-zpzm-nfi\nOr dial: (US) +1 234-759-0433 PIN: 827210918#\nMore phone numbers: https://tel.meet/nde-zpzm-nfi?pin=6286997761770&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-06T11:30:00",
+      "end": "2026-02-06T12:00:00"
     }
   ]
 }
