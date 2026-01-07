@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-07 07:23 EST",
+  "generatedAt": "2026-01-07 08:28 EST",
   "events": [
     {
       "title": "Digital Standup Meeting",
@@ -873,6 +873,15 @@
       "allDay": false,
       "start": "2026-02-05T15:00:00",
       "end": "2026-02-05T16:00:00"
+    },
+    {
+      "title": "School Drop Off",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-06T08:00:00",
+      "end": "2026-02-06T09:00:00"
     }
   ]
 }
