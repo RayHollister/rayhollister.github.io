@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-08 09:22 EST",
+  "generatedAt": "2026-01-08 10:22 EST",
   "events": [
     {
       "title": "Pay Day",
@@ -9,15 +9,6 @@
       "allDay": true,
       "start": "2026-01-07T00:00:00",
       "end": "2026-01-08T00:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-07T10:00:00",
-      "end": "2026-01-07T10:15:00"
     },
     {
       "title": "School Pick Up",
