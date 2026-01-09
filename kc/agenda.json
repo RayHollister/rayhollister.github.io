@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-01-08 23:28 EST",
+  "generatedAt": "2026-01-09 00:22 EST",
   "events": [
-    {
-      "title": "Pay Day",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-01-07T00:00:00",
-      "end": "2026-01-08T00:00:00"
-    },
     {
       "title": "School Drop Off",
       "location": "",
