@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-11 20:51 EST",
+  "generatedAt": "2026-01-11 21:57 EST",
   "events": [
     {
       "title": "School Drop Off",
@@ -36,6 +36,15 @@
       "allDay": false,
       "start": "2026-01-12T15:00:00",
       "end": "2026-01-12T16:00:00"
+    },
+    {
+      "title": "William—Coding & Robotics Club",
+      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
+      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-01-12T15:30:00",
+      "end": "2026-01-12T17:00:00"
     },
     {
       "title": "School Drop Off",
@@ -425,6 +434,15 @@
       "end": "2026-01-26T16:00:00"
     },
     {
+      "title": "William—Coding & Robotics Club",
+      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
+      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-01-26T15:30:00",
+      "end": "2026-01-26T17:00:00"
+    },
+    {
       "title": "School Drop Off",
       "location": "",
       "description": "",
@@ -623,6 +641,15 @@
       "end": "2026-02-02T16:00:00"
     },
     {
+      "title": "William—Coding & Robotics Club",
+      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
+      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-02T15:30:00",
+      "end": "2026-02-02T17:00:00"
+    },
+    {
       "title": "School Drop Off",
       "location": "",
       "description": "",
@@ -819,6 +846,15 @@
       "allDay": false,
       "start": "2026-02-09T15:00:00",
       "end": "2026-02-09T16:00:00"
+    },
+    {
+      "title": "William—Coding & Robotics Club",
+      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
+      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-09T15:30:00",
+      "end": "2026-02-09T17:00:00"
     },
     {
       "title": "School Drop Off",
