@@ -41,7 +41,9 @@ layout: base
     </p>
     {%- if page.image and page.image != "" -%}
     <figure class="post-featured-image">
-      <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title | escape }}">
+      <a href="#lightbox-featured" class="lightbox-trigger">
+        <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title | escape }}">
+      </a>
       {%- if page.image_caption -%}
         <figcaption>
           {{ page.image_caption }}
@@ -51,6 +53,10 @@ layout: base
         </figcaption>
       {%- endif -%}
     </figure>
+    <div id="lightbox-featured" class="lightbox">
+      <a href="#" class="lightbox-close">&times;</a>
+      <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title | escape }}">
+    </div>
     {%- endif -%}
 
   </header>
