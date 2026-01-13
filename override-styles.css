@@ -132,3 +132,27 @@ a.white:visited, a.white:hover {
 .lightbox-close:visited {
     color: #ccc;
 }
+
+.lightbox-figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.lightbox-figure img {
+    max-width: 100%;
+    max-height: calc(90vh - 60px);
+}
+
+.lightbox-caption {
+    color: #ccc;
+    text-align: center;
+    padding: 12px 20px;
+    max-width: 100%;
+}
+
+.lightbox-caption .image-attribution {
+    color: #999;
+}

@@ -55,7 +55,17 @@ layout: base
     </figure>
     <div id="lightbox-featured" class="lightbox">
       <a href="#" class="lightbox-close">&times;</a>
-      <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title | escape }}">
+      <figure class="lightbox-figure">
+        <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title | escape }}">
+        {%- if page.image_caption -%}
+          <figcaption class="lightbox-caption">
+            {{ page.image_caption }}
+            {%- if page.image_attribution -%}
+              <br><small class="image-attribution">{{ page.image_attribution }}</small>
+            {%- endif -%}
+          </figcaption>
+        {%- endif -%}
+      </figure>
     </div>
     {%- endif -%}
 
