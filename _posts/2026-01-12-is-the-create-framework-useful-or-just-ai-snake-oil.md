@@ -19,7 +19,7 @@ The honest answer sits in the middle.
 
 Before getting into whether C.R.E.A.T.E. is useful or useless, it helps to be clear about what it actually is and where it came from.
 
-C.R.E.A.T.E. is a prompting framework developed by David Birss. Birss is a longtime marketing strategist, author and consultant who has spent decades teaching structured thinking to businesses and educators. He asks users to spell out context, rules, audience, tone and expected output before asking an AI to write anything. In theory, it forces clarity. In practice, it is usually presented as a repeatable template you can paste into ChatGPT to get “better” results. Like many teaching frameworks, its clarity and structure make it easy to formalize, share and promote.
+C.R.E.A.T.E. is a prompting framework developed by David Birss. Birss is a longtime marketing strategist, author and consultant who has spent decades teaching structured thinking to businesses and educators. He asks users to spell out a character, rules, audience, tone and expected output before asking an AI to write anything. In theory, it forces clarity. In practice, it is usually presented as a repeatable template you can paste into ChatGPT to get “better” results. Like many teaching frameworks, its clarity and structure make it easy to formalize, share and promote.
 
 ### The Hype Around C.R.E.A.T.E.
 
@@ -39,7 +39,7 @@ Frameworks like C.R.E.A.T.E. are easy to sell because they look simple and autho
 
 C.R.E.A.T.E. does not make an AI model smarter. It does not unlock features or improve reasoning. What it does is reduce ambiguity.
 
-By forcing you to define context, rules and output expectations up front, C.R.E.A.T.E. limits the range of possible responses. That matters because large language models respond directly to constraints. The tighter the boundaries, the more predictable the output.
+By forcing you to define a context, rules and output expectations up front, C.R.E.A.T.E. limits the range of possible responses. That matters because large language models respond directly to constraints. The tighter the boundaries, the more predictable the output.
 
 In practice, C.R.E.A.T.E. acts as a checklist. Audience, tone, formatting, do and do not rules. When those are clearly stated, the model spends less effort guessing what you want and more effort producing usable text.
 
