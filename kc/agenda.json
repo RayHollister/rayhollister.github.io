@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-12 21:53 EST",
+  "generatedAt": "2026-01-12 22:45 EST",
   "events": [
     {
       "title": "School Drop Off",
@@ -936,6 +936,15 @@
       "allDay": false,
       "start": "2026-02-11T15:00:00",
       "end": "2026-02-11T16:00:00"
+    },
+    {
+      "title": "Take Out The Trash",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-11T22:00:00",
+      "end": "2026-02-11T22:05:00"
     }
   ]
 }
