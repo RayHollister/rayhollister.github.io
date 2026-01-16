@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-01-16 11:22 EST",
+  "generatedAt": "2026-01-16 12:22 EST",
   "events": [
-    {
-      "title": "Weekly Working Plan Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/ckg-fqnr-iyc\nOr dial: (US) +1 224-650-7012 PIN: 493416278#\nMore phone numbers: https://tel.meet/ckg-fqnr-iyc?pin=4189776087968&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-15T11:00:00",
-      "end": "2026-01-15T12:00:00"
-    },
     {
       "title": "WJCT newsletter call",
       "location": "https://us02web.zoom.us/j/3566700432",
@@ -270,6 +261,15 @@
       "allDay": false,
       "start": "2026-01-23T11:30:00",
       "end": "2026-01-23T12:00:00"
+    },
+    {
+      "title": "Highlights Welcome Series/Newsletter Sign-Up Page",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/oox-gynh-zom\nOr dial: (US) +1 260-468-8009 PIN: 673955870#\nMore phone numbers: https://tel.meet/oox-gynh-zom?pin=2282352088465&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-23T12:00:00",
+      "end": "2026-01-23T13:00:00"
     },
     {
       "title": "School Pick Up",
