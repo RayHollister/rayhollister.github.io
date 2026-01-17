@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-17 09:21 EST",
+  "generatedAt": "2026-01-17 10:21 EST",
   "events": [
     {
       "title": "Ryan Dell's Birthday",
@@ -9,15 +9,6 @@
       "allDay": true,
       "start": "2026-01-16T00:00:00",
       "end": "2026-01-17T00:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-16T10:00:00",
-      "end": "2026-01-16T10:15:00"
     },
     {
       "title": "Health News Explained & Other Newsletters Launch Sequencing",
@@ -864,6 +855,15 @@
       "allDay": false,
       "start": "2026-02-16T08:00:00",
       "end": "2026-02-16T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-16T10:00:00",
+      "end": "2026-02-16T10:15:00"
     }
   ]
 }
