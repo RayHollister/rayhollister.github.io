@@ -1,11 +1,11 @@
 {
   "date": "2026-01-18",
   "high": 59.1,
-  "low": 35.7,
+  "low": 35.3,
   "weathercode": 61,
   "condition": "Rain",
   "icon": "rain",
   "units": "F",
-  "generatedAt": "2026-01-18 21:33 EST",
+  "generatedAt": "2026-01-18 23:19 EST",
   "source": "open-meteo"
 }
