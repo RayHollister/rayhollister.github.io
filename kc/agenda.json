@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-21 14:38 EST",
+  "generatedAt": "2026-01-21 15:46 EST",
   "events": [
     {
       "title": "School Pick Up",
@@ -1359,6 +1359,24 @@
       "allDay": false,
       "start": "2026-02-20T11:30:00",
       "end": "2026-02-20T12:00:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-20T15:00:00",
+      "end": "2026-02-20T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-20T15:00:00",
+      "end": "2026-02-20T16:00:00"
     }
   ]
 }
