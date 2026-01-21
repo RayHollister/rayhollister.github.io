@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-01-21 15:46 EST",
+  "generatedAt": "2026-01-21 16:41 EST",
   "events": [
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-20T15:00:00",
-      "end": "2026-01-20T16:00:00"
-    },
     {
       "title": "Pay Day",
       "location": "",
