@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-20 18:34 EST",
+  "generatedAt": "2026-01-20 21:30 EST",
   "events": [
     {
       "title": "School Drop Off",
@@ -65,6 +65,15 @@
       "end": "2026-01-21T09:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-21T08:00:00",
+      "end": "2026-01-21T09:00:00"
+    },
+    {
       "title": "Digital Standup Meeting",
       "location": "",
       "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
@@ -83,6 +92,15 @@
       "end": "2026-01-21T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-21T15:00:00",
+      "end": "2026-01-21T16:00:00"
+    },
+    {
       "title": "Take Out The Trash",
       "location": "",
       "description": "",
@@ -96,6 +114,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-01-22T08:00:00",
+      "end": "2026-01-22T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-01-22T08:00:00",
       "end": "2026-01-22T09:00:00"
@@ -137,10 +164,28 @@
       "end": "2026-01-22T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-22T15:00:00",
+      "end": "2026-01-22T16:00:00"
+    },
+    {
       "title": "School Drop Off",
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-01-23T08:00:00",
+      "end": "2026-01-23T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-01-23T08:00:00",
       "end": "2026-01-23T09:00:00"
@@ -182,10 +227,28 @@
       "end": "2026-01-23T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-23T15:00:00",
+      "end": "2026-01-23T16:00:00"
+    },
+    {
       "title": "School Drop Off",
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-01-26T08:00:00",
+      "end": "2026-01-26T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-01-26T08:00:00",
       "end": "2026-01-26T09:00:00"
@@ -209,6 +272,15 @@
       "end": "2026-01-26T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-26T15:00:00",
+      "end": "2026-01-26T16:00:00"
+    },
+    {
       "title": "William—Coding & Robotics Club",
       "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
       "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
@@ -222,6 +294,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-01-27T08:00:00",
+      "end": "2026-01-27T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-01-27T08:00:00",
       "end": "2026-01-27T09:00:00"
@@ -254,6 +335,15 @@
       "end": "2026-01-27T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-27T15:00:00",
+      "end": "2026-01-27T16:00:00"
+    },
+    {
       "title": "Kenny Kwaak's Birthday",
       "location": "",
       "description": "",
@@ -267,6 +357,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-01-28T08:00:00",
+      "end": "2026-01-28T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-01-28T08:00:00",
       "end": "2026-01-28T09:00:00"
@@ -299,6 +398,15 @@
       "end": "2026-01-28T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-28T15:00:00",
+      "end": "2026-01-28T16:00:00"
+    },
+    {
       "title": "Take Out The Trash",
       "location": "",
       "description": "",
@@ -312,6 +420,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-01-29T08:00:00",
+      "end": "2026-01-29T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-01-29T08:00:00",
       "end": "2026-01-29T09:00:00"
@@ -344,10 +461,28 @@
       "end": "2026-01-29T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-29T15:00:00",
+      "end": "2026-01-29T16:00:00"
+    },
+    {
       "title": "School Drop Off",
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-01-30T08:00:00",
+      "end": "2026-01-30T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-01-30T08:00:00",
       "end": "2026-01-30T09:00:00"
@@ -366,6 +501,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-01-30T15:00:00",
+      "end": "2026-01-30T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-01-30T15:00:00",
       "end": "2026-01-30T16:00:00"
@@ -398,6 +542,15 @@
       "end": "2026-02-02T09:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-02T08:00:00",
+      "end": "2026-02-02T09:00:00"
+    },
+    {
       "title": "Digital Standup Meeting",
       "location": "",
       "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
@@ -416,6 +569,15 @@
       "end": "2026-02-02T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-02T15:00:00",
+      "end": "2026-02-02T16:00:00"
+    },
+    {
       "title": "William—Coding & Robotics Club",
       "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
       "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
@@ -429,6 +591,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-03T08:00:00",
+      "end": "2026-02-03T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-03T08:00:00",
       "end": "2026-02-03T09:00:00"
@@ -461,6 +632,15 @@
       "end": "2026-02-03T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-03T15:00:00",
+      "end": "2026-02-03T16:00:00"
+    },
+    {
       "title": "Pay Day",
       "location": "",
       "description": "",
@@ -474,6 +654,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-04T08:00:00",
+      "end": "2026-02-04T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-04T08:00:00",
       "end": "2026-02-04T09:00:00"
@@ -506,6 +695,15 @@
       "end": "2026-02-04T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-04T15:00:00",
+      "end": "2026-02-04T16:00:00"
+    },
+    {
       "title": "Take Out The Trash",
       "location": "",
       "description": "",
@@ -519,6 +717,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-05T08:00:00",
+      "end": "2026-02-05T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-05T08:00:00",
       "end": "2026-02-05T09:00:00"
@@ -560,10 +767,28 @@
       "end": "2026-02-05T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-05T15:00:00",
+      "end": "2026-02-05T16:00:00"
+    },
+    {
       "title": "School Drop Off",
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-06T08:00:00",
+      "end": "2026-02-06T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-06T08:00:00",
       "end": "2026-02-06T09:00:00"
@@ -596,10 +821,28 @@
       "end": "2026-02-06T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-06T15:00:00",
+      "end": "2026-02-06T16:00:00"
+    },
+    {
       "title": "School Drop Off",
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-09T08:00:00",
+      "end": "2026-02-09T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-09T08:00:00",
       "end": "2026-02-09T09:00:00"
@@ -623,6 +866,15 @@
       "end": "2026-02-09T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-09T15:00:00",
+      "end": "2026-02-09T16:00:00"
+    },
+    {
       "title": "William—Coding & Robotics Club",
       "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
       "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
@@ -636,6 +888,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-10T08:00:00",
+      "end": "2026-02-10T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-10T08:00:00",
       "end": "2026-02-10T09:00:00"
@@ -668,10 +929,28 @@
       "end": "2026-02-10T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-10T15:00:00",
+      "end": "2026-02-10T16:00:00"
+    },
+    {
       "title": "School Drop Off",
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-11T08:00:00",
+      "end": "2026-02-11T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-11T08:00:00",
       "end": "2026-02-11T09:00:00"
@@ -695,6 +974,15 @@
       "end": "2026-02-11T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-11T15:00:00",
+      "end": "2026-02-11T16:00:00"
+    },
+    {
       "title": "Take Out The Trash",
       "location": "",
       "description": "",
@@ -708,6 +996,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-12T08:00:00",
+      "end": "2026-02-12T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-12T08:00:00",
       "end": "2026-02-12T09:00:00"
@@ -740,10 +1037,28 @@
       "end": "2026-02-12T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-12T15:00:00",
+      "end": "2026-02-12T16:00:00"
+    },
+    {
       "title": "School Drop Off",
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-13T08:00:00",
+      "end": "2026-02-13T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-13T08:00:00",
       "end": "2026-02-13T09:00:00"
@@ -762,6 +1077,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-13T15:00:00",
+      "end": "2026-02-13T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-13T15:00:00",
       "end": "2026-02-13T16:00:00"
@@ -794,6 +1118,15 @@
       "end": "2026-02-16T09:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-16T08:00:00",
+      "end": "2026-02-16T09:00:00"
+    },
+    {
       "title": "Digital Standup Meeting",
       "location": "",
       "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
@@ -812,6 +1145,15 @@
       "end": "2026-02-16T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-16T15:00:00",
+      "end": "2026-02-16T16:00:00"
+    },
+    {
       "title": "William—Coding & Robotics Club",
       "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
       "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
@@ -825,6 +1167,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-17T08:00:00",
+      "end": "2026-02-17T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-17T08:00:00",
       "end": "2026-02-17T09:00:00"
@@ -857,6 +1208,15 @@
       "end": "2026-02-17T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-17T15:00:00",
+      "end": "2026-02-17T16:00:00"
+    },
+    {
       "title": "Pay Day",
       "location": "",
       "description": "",
@@ -870,6 +1230,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-18T08:00:00",
+      "end": "2026-02-18T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-18T08:00:00",
       "end": "2026-02-18T09:00:00"
@@ -893,6 +1262,15 @@
       "end": "2026-02-18T16:00:00"
     },
     {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-18T15:00:00",
+      "end": "2026-02-18T16:00:00"
+    },
+    {
       "title": "Take Out The Trash",
       "location": "",
       "description": "",
@@ -906,6 +1284,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-19T08:00:00",
+      "end": "2026-02-19T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-19T08:00:00",
       "end": "2026-02-19T09:00:00"
@@ -933,6 +1320,15 @@
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-19T15:00:00",
+      "end": "2026-02-19T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-02-19T15:00:00",
       "end": "2026-02-19T16:00:00"
