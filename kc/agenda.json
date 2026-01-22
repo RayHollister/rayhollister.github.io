@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-21 23:17 EST",
+  "generatedAt": "2026-01-22 00:45 EST",
   "events": [
     {
       "title": "Pay Day",
@@ -1368,6 +1368,15 @@
       "allDay": false,
       "start": "2026-02-20T15:00:00",
       "end": "2026-02-20T16:00:00"
+    },
+    {
+      "title": "Lauren Bunker's Birthday",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-02-21T00:00:00",
+      "end": "2026-02-22T00:00:00"
     }
   ]
 }
