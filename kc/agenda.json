@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-23 13:51 EST",
+  "generatedAt": "2026-01-23 14:32 EST",
   "events": [
     {
       "title": "Jacksonville Today & Letterhead - Demo",
@@ -1278,6 +1278,15 @@
       "allDay": true,
       "start": "2026-02-21T00:00:00",
       "end": "2026-02-22T00:00:00"
+    },
+    {
+      "title": "Potluck/Party",
+      "location": "Jo El Snyder's Home\n4718 Amherst St\nJacksonville FL 32205\nUnited States",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-22T14:00:00",
+      "end": "2026-02-22T20:00:00"
     }
   ]
 }
