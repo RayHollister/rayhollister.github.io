@@ -1,24 +1,6 @@
 {
-  "generatedAt": "2026-01-22 23:53 EST",
+  "generatedAt": "2026-01-23 00:43 EST",
   "events": [
-    {
-      "title": "Pay Day",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-01-21T00:00:00",
-      "end": "2026-01-22T00:00:00"
-    },
-    {
-      "title": "Lauren Bunker's Birthday",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-01-21T00:00:00",
-      "end": "2026-01-22T00:00:00"
-    },
     {
       "title": "School Drop Off",
       "location": "",
