@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-25 14:26 EST",
+  "generatedAt": "2026-01-25 15:35 EST",
   "events": [
     {
       "title": "Fix mom's phone",
@@ -1296,6 +1296,24 @@
       "allDay": false,
       "start": "2026-02-24T11:00:00",
       "end": "2026-02-24T12:00:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-24T15:00:00",
+      "end": "2026-02-24T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-24T15:00:00",
+      "end": "2026-02-24T16:00:00"
     }
   ]
 }
