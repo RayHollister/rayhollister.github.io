@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-26 08:10 EST",
+  "generatedAt": "2026-01-26 08:53 EST",
   "events": [
     {
       "title": "Fix mom's phone",
@@ -162,15 +162,6 @@
       "allDay": false,
       "start": "2026-01-28T10:00:00",
       "end": "2026-01-28T10:15:00"
-    },
-    {
-      "title": "Dr Appointment",
-      "location": "1731 University Blvd S\nJacksonville, FL, United States",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-28T13:00:00",
-      "end": "2026-01-28T14:00:00"
     },
     {
       "title": "School Pick Up",
