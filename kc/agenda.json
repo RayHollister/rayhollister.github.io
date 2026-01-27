@@ -1,24 +1,6 @@
 {
-  "generatedAt": "2026-01-27 15:35 EST",
+  "generatedAt": "2026-01-27 16:30 EST",
   "events": [
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-26T15:00:00",
-      "end": "2026-01-26T16:00:00"
-    },
-    {
-      "title": "Out of office",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-26T15:00:00",
-      "end": "2026-01-26T16:00:00"
-    },
     {
       "title": "William—Coding & Robotics Club",
       "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
