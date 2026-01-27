@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-27 12:43 EST",
+  "generatedAt": "2026-01-27 13:56 EST",
   "events": [
     {
       "title": "School Pick Up",
@@ -396,6 +396,15 @@
       "allDay": false,
       "start": "2026-02-03T15:00:00",
       "end": "2026-02-03T16:00:00"
+    },
+    {
+      "title": "Meeting about investments",
+      "location": "Lynda Jolly's Home\n4732 French St\nJacksonville FL 32205",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-03T18:00:00",
+      "end": "2026-02-03T21:00:00"
     },
     {
       "title": "Pay Day",
