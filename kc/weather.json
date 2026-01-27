@@ -1,11 +1,11 @@
 {
   "date": "2026-01-27",
-  "high": 48.8,
-  "low": 27.5,
+  "high": 49.1,
+  "low": 27.3,
   "weathercode": 0,
   "condition": "Clear",
   "icon": "sun",
   "units": "F",
-  "generatedAt": "2026-01-27 01:53 EST",
+  "generatedAt": "2026-01-27 02:38 EST",
   "source": "open-meteo"
 }
