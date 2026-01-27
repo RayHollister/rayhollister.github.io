@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-01-27 09:49 EST",
+  "generatedAt": "2026-01-27 10:42 EST",
   "events": [
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-26T10:00:00",
-      "end": "2026-01-26T10:15:00"
-    },
     {
       "title": "School Pick Up",
       "location": "",
@@ -65,15 +56,6 @@
       "end": "2026-01-27T10:15:00"
     },
     {
-      "title": "Health News Explained Newsletter Update",
-      "location": "(Conference Room)-Dowling Conference Room",
-      "description": "<p>Agenda</p><ol><li><p>Health News Explained status<br>Confirm current state of the website, email infrastructure and newsletter setup.</p></li><li><p>Launch requirements and sequencing<br>Review the technical and edito…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-27T10:30:00",
-      "end": "2026-01-27T11:00:00"
-    },
-    {
       "title": "WJCT Operations Meeting",
       "location": "Board Room",
       "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
@@ -81,6 +63,15 @@
       "allDay": false,
       "start": "2026-01-27T11:00:00",
       "end": "2026-01-27T12:00:00"
+    },
+    {
+      "title": "Health News Explained Newsletter Update",
+      "location": "(Conference Room)-Dowling Conference Room",
+      "description": "<p>Agenda</p><ol><li><p>Health News Explained status<br>Confirm current state of the website, email infrastructure and newsletter setup.</p></li><li><p>Launch requirements and sequencing<br>Review the technical and edito…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-27T14:00:00",
+      "end": "2026-01-27T14:25:00"
     },
     {
       "title": "School Pick Up",
@@ -1350,6 +1341,15 @@
       "allDay": false,
       "start": "2026-02-26T08:00:00",
       "end": "2026-02-26T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-26T10:00:00",
+      "end": "2026-02-26T10:15:00"
     }
   ]
 }
