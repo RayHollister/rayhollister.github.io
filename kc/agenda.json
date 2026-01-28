@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-28 14:40 EST",
+  "generatedAt": "2026-01-28 15:48 EST",
   "events": [
     {
       "title": "School Pick Up",
@@ -126,6 +126,15 @@
       "allDay": false,
       "start": "2026-01-29T11:00:00",
       "end": "2026-01-29T12:00:00"
+    },
+    {
+      "title": "Jax Today + beehiiv demo",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/idr-jpwr-nff\nOr dial: (US) +1 470-243-0801 PIN: 669064417#\nMore phone numbers: https://tel.meet/idr-jpwr-nff?pin=2411895608317&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-01-29T12:30:00",
+      "end": "2026-01-29T13:15:00"
     },
     {
       "title": "School Pick Up",
@@ -1350,6 +1359,24 @@
       "allDay": false,
       "start": "2026-02-27T10:00:00",
       "end": "2026-02-27T10:15:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-27T15:00:00",
+      "end": "2026-02-27T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-27T15:00:00",
+      "end": "2026-02-27T16:00:00"
     }
   ]
 }
