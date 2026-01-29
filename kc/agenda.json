@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-29 12:52 EST",
+  "generatedAt": "2026-01-29 14:03 EST",
   "events": [
     {
       "title": "Kenny Kwaak's Birthday",
@@ -1350,6 +1350,15 @@
       "allDay": false,
       "start": "2026-02-28T11:00:00",
       "end": "2026-02-28T12:00:00"
+    },
+    {
+      "title": "JaxPlays Board Meeting",
+      "location": "WJCT\n100 Festival Park Ave, Jacksonville, FL  32202, United States",
+      "description": "",
+      "calendarLabel": "JaxPlays",
+      "allDay": false,
+      "start": "2026-02-28T14:00:00",
+      "end": "2026-02-28T17:00:00"
     }
   ]
 }
