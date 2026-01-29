@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-29 10:51 EST",
+  "generatedAt": "2026-01-29 11:58 EST",
   "events": [
     {
       "title": "Kenny Kwaak's Birthday",
@@ -1341,6 +1341,15 @@
       "allDay": true,
       "start": "2026-02-28T00:00:00",
       "end": "2026-03-01T00:00:00"
+    },
+    {
+      "title": "Flea Treatment",
+      "location": "Aggie and Joey",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-28T11:00:00",
+      "end": "2026-02-28T12:00:00"
     }
   ]
 }
