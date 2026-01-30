@@ -1,11 +1,11 @@
 {
   "date": "2026-01-30",
-  "high": 65.7,
+  "high": 65.9,
   "low": 33.8,
-  "weathercode": 51,
+  "weathercode": 53,
   "condition": "Drizzle",
   "icon": "drizzle",
   "units": "F",
-  "generatedAt": "2026-01-30 08:20 EST",
+  "generatedAt": "2026-01-30 09:52 EST",
   "source": "open-meteo"
 }
