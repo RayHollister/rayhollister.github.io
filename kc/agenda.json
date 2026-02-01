@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-01 10:37 EST",
+  "generatedAt": "2026-02-01 11:46 EST",
   "events": [
     {
       "title": "Flea Treatment",
@@ -29,15 +29,6 @@
       "end": "2026-02-02T00:00:00"
     },
     {
-      "title": "Iron Lung",
-      "location": "Cinemark Jacksonville Atlantic North and XD, 11567 Atlantic Blvd, Jacksonville, FL 32225",
-      "description": "Iron Lung",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-01T21:40:00",
-      "end": "2026-02-01T23:40:00"
-    },
-    {
       "title": "Iron Lung Luxury Lounger XD",
       "location": "Cinemark Jacksonville Atlantic North and XD, 11567 Atlantic Blvd Jacksonville, FL 32225",
       "description": "To see detailed information for automatically created events like this one, use the official Google Calendar app. https://g.co/calendar\n\nThis event was created from an email you received in Gmail. https://mail.google.com…",
@@ -45,6 +36,15 @@
       "allDay": false,
       "start": "2026-02-01T21:40:00",
       "end": "2026-02-01T22:40:00"
+    },
+    {
+      "title": "Iron Lung",
+      "location": "Cinemark Jacksonville Atlantic North and XD, 11567 Atlantic Blvd, Jacksonville, FL 32225",
+      "description": "Iron Lung",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-01T21:40:00",
+      "end": "2026-02-01T23:40:00"
     },
     {
       "title": "School Drop Off",
@@ -1305,6 +1305,15 @@
       "allDay": false,
       "start": "2026-03-03T10:00:00",
       "end": "2026-03-03T10:15:00"
+    },
+    {
+      "title": "WJCT Operations Meeting",
+      "location": "Board Room",
+      "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-03T11:00:00",
+      "end": "2026-03-03T12:00:00"
     }
   ]
 }
