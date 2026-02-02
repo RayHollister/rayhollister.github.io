@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-02 12:26 EST",
+  "generatedAt": "2026-02-02 13:24 EST",
   "events": [
     {
       "title": "AC Line Cleaner",
@@ -20,15 +20,6 @@
       "end": "2026-02-02T00:00:00"
     },
     {
-      "title": "Iron Lung Luxury Lounger XD",
-      "location": "Cinemark Jacksonville Atlantic North and XD, 11567 Atlantic Blvd Jacksonville, FL 32225",
-      "description": "To see detailed information for automatically created events like this one, use the official Google Calendar app. https://g.co/calendar\n\nThis event was created from an email you received in Gmail. https://mail.google.com…",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-01T21:40:00",
-      "end": "2026-02-01T22:40:00"
-    },
-    {
       "title": "Iron Lung",
       "location": "Cinemark Jacksonville Atlantic North and XD, 11567 Atlantic Blvd, Jacksonville, FL 32225",
       "description": "Iron Lung",
@@ -36,6 +27,15 @@
       "allDay": false,
       "start": "2026-02-01T21:40:00",
       "end": "2026-02-01T23:40:00"
+    },
+    {
+      "title": "Iron Lung Luxury Lounger XD",
+      "location": "Cinemark Jacksonville Atlantic North and XD, 11567 Atlantic Blvd Jacksonville, FL 32225",
+      "description": "To see detailed information for automatically created events like this one, use the official Google Calendar app. https://g.co/calendar\n\nThis event was created from an email you received in Gmail. https://mail.google.com…",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-01T21:40:00",
+      "end": "2026-02-01T22:40:00"
     },
     {
       "title": "School Drop Off",
@@ -263,7 +263,7 @@
       "end": "2026-02-05T12:00:00"
     },
     {
-      "title": "𝐒𝐮𝐩𝐞𝐫🏈𝐁𝐨𝐰𝐥 • 𝐂𝐡𝐢𝐥𝐢🍲𝐂𝐨𝐨𝐤𝐨𝐟𝐟",
+      "title": "𝐒𝐮𝐩𝐞𝐫🏈𝐁𝐨𝐰𝐥 • 𝐂𝐡𝐢𝐥𝐢🍲𝐂𝐨𝐨𝐤𝐨𝐟𝐟 in the Community Room",
       "location": "Community Room",
       "description": "<b>This is our 97th annual Chili Cookoff.  </b><br>It will be held in the Community Room.<br><br>February 5 from 12 to 1:30 pm",
       "calendarLabel": "WJCT",
