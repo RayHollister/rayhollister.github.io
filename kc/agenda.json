@@ -1,24 +1,6 @@
 {
-  "generatedAt": "2026-02-02 23:50 EST",
+  "generatedAt": "2026-02-03 00:35 EST",
   "events": [
-    {
-      "title": "AC Line Cleaner",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-02-01T00:00:00",
-      "end": "2026-02-02T00:00:00"
-    },
-    {
-      "title": "Passport Page Update switch to Luminate Online",
-      "location": "",
-      "description": "<br>Hi All,<br><br>Please replace the link on (<a href=\"https://www.wjct.org/jaxpbs/passport/\" target=\"_blank\">https://www.wjct.org/jaxpbs/<wbr />passport/</a>) to <br><table><tbody></tbody></table><br><a href=\"https://s…",
-      "calendarLabel": "WJCT",
-      "allDay": true,
-      "start": "2026-02-01T00:00:00",
-      "end": "2026-02-02T00:00:00"
-    },
     {
       "title": "School Drop Off",
       "location": "",
