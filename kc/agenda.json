@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-03 07:25 EST",
+  "generatedAt": "2026-02-03 08:38 EST",
   "events": [
     {
       "title": "School Drop Off",
@@ -1404,6 +1404,24 @@
       "allDay": false,
       "start": "2026-03-04T22:00:00",
       "end": "2026-03-04T22:05:00"
+    },
+    {
+      "title": "School Drop Off",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-05T08:00:00",
+      "end": "2026-03-05T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-05T08:00:00",
+      "end": "2026-03-05T09:00:00"
     }
   ]
 }
