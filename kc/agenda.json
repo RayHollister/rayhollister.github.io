@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-04 16:23 EST",
+  "generatedAt": "2026-02-04 17:22 EST",
   "events": [
     {
       "title": "Meeting about investments",
@@ -128,7 +128,7 @@
       "end": "2026-02-05T12:00:00"
     },
     {
-      "title": "𝐒𝐮𝐩𝐞𝐫🏈𝐁𝐨𝐰𝐥 • 𝐂𝐡𝐢𝐥𝐢🍲𝐂𝐨𝐨𝐤𝐨𝐟𝐟 in the Community Room",
+      "title": "𝐒𝐮𝐩𝐞𝐫🏈𝐁𝐨𝐰𝐥 𝐂𝐡𝐢𝐥𝐢🍲𝐂𝐨𝐨𝐤𝐨𝐟𝐟 in the Community Room",
       "location": "Community Room",
       "description": "<b>This is our 97th annual Chili Cookoff.  </b><br>It will be held in the Community Room.<br><br>February 5 from 12 to 1:30 pm",
       "calendarLabel": "WJCT",
@@ -254,15 +254,6 @@
       "end": "2026-02-09T16:00:00"
     },
     {
-      "title": "William—Coding & Robotics Club",
-      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
-      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-09T15:30:00",
-      "end": "2026-02-09T17:15:00"
-    },
-    {
       "title": "Zach-Grade Recovery",
       "location": "LaVilla School of the Arts\n501 N Davis St, Jacksonville, FL  32202, United States",
       "description": "",
@@ -270,6 +261,15 @@
       "allDay": false,
       "start": "2026-02-09T15:30:00",
       "end": "2026-02-09T16:45:00"
+    },
+    {
+      "title": "William—Coding & Robotics Club",
+      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
+      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-09T15:30:00",
+      "end": "2026-02-09T17:15:00"
     },
     {
       "title": "School Drop Off",
