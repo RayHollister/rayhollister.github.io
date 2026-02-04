@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-02-04 11:28 EST",
+  "generatedAt": "2026-02-04 12:30 EST",
   "events": [
-    {
-      "title": "WJCT Operations Meeting",
-      "location": "Board Room",
-      "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-02-03T11:00:00",
-      "end": "2026-02-03T12:00:00"
-    },
     {
       "title": "School Pick Up",
       "location": "",
@@ -1404,6 +1395,15 @@
       "allDay": false,
       "start": "2026-03-06T09:30:00",
       "end": "2026-03-06T09:45:00"
+    },
+    {
+      "title": "Ops Review - Digital Department",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/nde-zpzm-nfi\nOr dial: (US) +1 234-759-0433 PIN: 827210918#\nMore phone numbers: https://tel.meet/nde-zpzm-nfi?pin=6286997761770&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-06T11:30:00",
+      "end": "2026-03-06T12:00:00"
     }
   ]
 }

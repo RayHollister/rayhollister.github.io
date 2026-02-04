@@ -1,11 +1,11 @@
 {
   "date": "2026-02-04",
-  "high": 70.6,
+  "high": 70.7,
   "low": 37.2,
-  "weathercode": 3,
-  "condition": "Cloudy",
-  "icon": "cloud",
+  "weathercode": 51,
+  "condition": "Drizzle",
+  "icon": "drizzle",
   "units": "F",
-  "generatedAt": "2026-02-04 11:28 EST",
+  "generatedAt": "2026-02-04 12:30 EST",
   "source": "open-meteo"
 }
