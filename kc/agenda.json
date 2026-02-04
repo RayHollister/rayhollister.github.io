@@ -1,24 +1,6 @@
 {
-  "generatedAt": "2026-02-04 08:39 EST",
+  "generatedAt": "2026-02-04 09:29 EST",
   "events": [
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-03T08:00:00",
-      "end": "2026-02-03T09:00:00"
-    },
-    {
-      "title": "Out of office",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-02-03T08:00:00",
-      "end": "2026-02-03T09:00:00"
-    },
     {
       "title": "Digital Standup Meeting",
       "location": "",
@@ -308,15 +290,6 @@
       "end": "2026-02-09T16:00:00"
     },
     {
-      "title": "William—Coding & Robotics Club",
-      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
-      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-09T15:30:00",
-      "end": "2026-02-09T17:15:00"
-    },
-    {
       "title": "Zach-Grade Recovery",
       "location": "LaVilla School of the Arts\n501 N Davis St, Jacksonville, FL  32202, United States",
       "description": "",
@@ -324,6 +297,15 @@
       "allDay": false,
       "start": "2026-02-09T15:30:00",
       "end": "2026-02-09T16:45:00"
+    },
+    {
+      "title": "William—Coding & Robotics Club",
+      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
+      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-09T15:30:00",
+      "end": "2026-02-09T17:15:00"
     },
     {
       "title": "School Drop Off",
