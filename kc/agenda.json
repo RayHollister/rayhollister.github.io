@@ -1,24 +1,6 @@
 {
-  "generatedAt": "2026-02-04 15:23 EST",
+  "generatedAt": "2026-02-04 16:23 EST",
   "events": [
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-03T15:00:00",
-      "end": "2026-02-03T16:00:00"
-    },
-    {
-      "title": "Out of office",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-02-03T15:00:00",
-      "end": "2026-02-03T16:00:00"
-    },
     {
       "title": "Meeting about investments",
       "location": "Lynda Jolly's Home\n4732 French St\nJacksonville FL 32205",
