@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-05 20:52 EST",
+  "generatedAt": "2026-02-05 22:12 EST",
   "events": [
     {
       "title": "Pay Day",
@@ -9,15 +9,6 @@
       "allDay": true,
       "start": "2026-02-04T00:00:00",
       "end": "2026-02-05T00:00:00"
-    },
-    {
-      "title": "Take Out The Trash",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-04T22:00:00",
-      "end": "2026-02-04T22:05:00"
     },
     {
       "title": "School Drop Off",
@@ -182,15 +173,6 @@
       "end": "2026-02-09T16:00:00"
     },
     {
-      "title": "Zach-Grade Recovery",
-      "location": "LaVilla School of the Arts\n501 N Davis St, Jacksonville, FL  32202, United States",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-09T15:30:00",
-      "end": "2026-02-09T16:45:00"
-    },
-    {
       "title": "William—Coding & Robotics Club",
       "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
       "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
@@ -198,6 +180,15 @@
       "allDay": false,
       "start": "2026-02-09T15:30:00",
       "end": "2026-02-09T17:15:00"
+    },
+    {
+      "title": "Zach-Grade Recovery",
+      "location": "LaVilla School of the Arts\n501 N Davis St, Jacksonville, FL  32202, United States",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-09T15:30:00",
+      "end": "2026-02-09T16:45:00"
     },
     {
       "title": "School Drop Off",
