@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-10 04:35 EST",
+  "generatedAt": "2026-02-10 05:33 EST",
   "events": [
     {
       "title": "School Drop Off",
@@ -74,15 +74,6 @@
       "end": "2026-02-10T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-02-10T09:30:00",
-      "end": "2026-02-10T09:45:00"
-    },
-    {
       "title": "Jax Today Content Strategy",
       "location": "",
       "description": "Join with Google Meet: https://meet.google.com/mta-htxq-kaz\nOr dial: (US) +1 337-704-7745 PIN: 120443219#\nMore phone numbers: https://tel.meet/mta-htxq-kaz?pin=6762701094563&hs=7\n\nLearn more about Meet at: https://suppor…",
@@ -90,6 +81,15 @@
       "allDay": false,
       "start": "2026-02-10T09:30:00",
       "end": "2026-02-10T10:15:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-10T09:30:00",
+      "end": "2026-02-10T09:45:00"
     },
     {
       "title": "WJCT Operations Meeting",
