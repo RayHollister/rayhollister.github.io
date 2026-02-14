@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-14 10:22 EST",
+  "generatedAt": "2026-02-14 11:22 EST",
   "events": [
     {
       "title": "School Pick Up",
@@ -27,15 +27,6 @@
       "allDay": false,
       "start": "2026-02-14T11:30:00",
       "end": "2026-02-14T13:00:00"
-    },
-    {
-      "title": "Laundry Reset Day",
-      "location": "9620 Campus Ave\nJacksonville, FL, United States",
-      "description": "Get all laundry collected.\nPut clean, fitting laundry away\nGet rid of clothes that don’t fit \nBag up dirty laundry and schedule pickup.",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-15T12:00:00",
-      "end": "2026-02-15T14:00:00"
     },
     {
       "title": "Ryan Dell's Birthday",
@@ -72,6 +63,15 @@
       "allDay": false,
       "start": "2026-02-16T09:30:00",
       "end": "2026-02-16T09:45:00"
+    },
+    {
+      "title": "Laundry Reset Day",
+      "location": "9620 Campus Ave\nJacksonville, FL, United States",
+      "description": "Get all laundry collected.\nPut clean, fitting laundry away\nGet rid of clothes that don’t fit \nBag up dirty laundry and schedule pickup.",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-16T12:00:00",
+      "end": "2026-02-16T14:00:00"
     },
     {
       "title": "School Pick Up",
