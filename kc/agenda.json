@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-15 23:53 EST",
+  "generatedAt": "2026-02-16 00:44 EST",
   "events": [
     {
       "title": "Ryan Dell's Birthday",
@@ -1269,6 +1269,15 @@
       "allDay": false,
       "start": "2026-03-17T15:00:00",
       "end": "2026-03-17T16:00:00"
+    },
+    {
+      "title": "Pay Day",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-18T00:00:00",
+      "end": "2026-03-19T00:00:00"
     }
   ]
 }
