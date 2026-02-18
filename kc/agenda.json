@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-02-18 16:24 EST",
+  "generatedAt": "2026-02-18 17:23 EST",
   "events": [
-    {
-      "title": "Zach-Grade Recovery",
-      "location": "LaVilla School of the Arts\n501 N Davis St, Jacksonville, FL  32202, United States",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-17T15:30:00",
-      "end": "2026-02-17T16:45:00"
-    },
     {
       "title": "Pay Day",
       "location": "",
@@ -126,6 +117,15 @@
       "allDay": false,
       "start": "2026-02-19T13:00:00",
       "end": "2026-02-19T14:00:00"
+    },
+    {
+      "title": "Dashboards",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-19T14:00:00",
+      "end": "2026-02-19T14:25:00"
     },
     {
       "title": "School Pick Up",
