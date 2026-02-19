@@ -1,50 +1,14 @@
 {
-  "generatedAt": "2026-01-13 09:22 EST",
+  "generatedAt": "2026-02-18 19:52 EST",
   "events": [
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-12T10:00:00",
-      "end": "2026-01-12T10:15:00"
-    },
-    {
-      "title": "Health News Explained & Other Newsletters Launch Sequencing",
-      "location": "(Conference Room)-Dowling Conference Room",
-      "description": "<p>Agenda</p><ol><li><p>Health News Explained status<br>Confirm current state of the website, email infrastructure and newsletter setup.</p></li><li><p>Launch requirements and sequencing<br>Review the technical and edito…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-12T10:30:00",
-      "end": "2026-01-12T10:45:00"
-    },
-    {
-      "title": "Happy birthday David!",
-      "location": "CEO Conference Room, (Conference Room)-Dowling Conference Room",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-12T14:00:00",
-      "end": "2026-01-12T14:15:00"
-    },
-    {
-      "title": "School Pick Up",
+      "title": "Pay Day",
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-12T15:00:00",
-      "end": "2026-01-12T16:00:00"
-    },
-    {
-      "title": "William—Coding & Robotics Club",
-      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
-      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-12T15:30:00",
-      "end": "2026-01-12T17:15:00"
+      "allDay": true,
+      "start": "2026-02-18T00:00:00",
+      "end": "2026-02-19T00:00:00"
     },
     {
       "title": "School Drop Off",
@@ -52,26 +16,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-13T08:00:00",
-      "end": "2026-01-13T09:00:00"
+      "start": "2026-02-18T08:00:00",
+      "end": "2026-02-18T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-18T08:00:00",
+      "end": "2026-02-18T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-01-13T10:00:00",
-      "end": "2026-01-13T10:15:00"
-    },
-    {
-      "title": "WJCT Operations Meeting",
-      "location": "Board Room",
-      "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-13T11:00:00",
-      "end": "2026-01-13T12:00:00"
+      "start": "2026-02-18T09:30:00",
+      "end": "2026-02-18T09:45:00"
     },
     {
       "title": "School Pick Up",
@@ -79,44 +43,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-13T15:00:00",
-      "end": "2026-01-13T16:00:00"
+      "start": "2026-02-18T15:00:00",
+      "end": "2026-02-18T16:00:00"
     },
     {
-      "title": "School Drop Off",
+      "title": "Out of office",
       "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-18T15:00:00",
+      "end": "2026-02-18T16:00:00"
+    },
+    {
+      "title": "Zach-Grade Recovery",
+      "location": "LaVilla School of the Arts\n501 N Davis St, Jacksonville, FL  32202, United States",
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-14T08:00:00",
-      "end": "2026-01-14T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-14T10:00:00",
-      "end": "2026-01-14T10:15:00"
-    },
-    {
-      "title": "Health News Explained & Other Newsletters Launch Sequencing",
-      "location": "(Conference Room)-Dowling Conference Room",
-      "description": "<p>Agenda</p><ol><li><p>Health News Explained status<br>Confirm current state of the website, email infrastructure and newsletter setup.</p></li><li><p>Launch requirements and sequencing<br>Review the technical and edito…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-14T10:30:00",
-      "end": "2026-01-14T10:45:00"
-    },
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-14T15:00:00",
-      "end": "2026-01-14T16:00:00"
+      "start": "2026-02-18T15:30:00",
+      "end": "2026-02-18T16:45:00"
     },
     {
       "title": "Take Out The Trash",
@@ -124,8 +70,8 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-14T22:00:00",
-      "end": "2026-01-14T22:05:00"
+      "start": "2026-02-18T22:00:00",
+      "end": "2026-02-18T22:05:00"
     },
     {
       "title": "School Drop Off",
@@ -133,17 +79,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-15T08:00:00",
-      "end": "2026-01-15T09:00:00"
+      "start": "2026-02-19T08:00:00",
+      "end": "2026-02-19T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-19T08:00:00",
+      "end": "2026-02-19T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-01-15T10:00:00",
-      "end": "2026-01-15T10:15:00"
+      "start": "2026-02-19T09:30:00",
+      "end": "2026-02-19T09:45:00"
     },
     {
       "title": "Weekly Working Plan Meeting",
@@ -151,17 +106,26 @@
       "description": "Join with Google Meet: https://meet.google.com/ckg-fqnr-iyc\nOr dial: (US) +1 224-650-7012 PIN: 493416278#\nMore phone numbers: https://tel.meet/ckg-fqnr-iyc?pin=4189776087968&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-01-15T11:00:00",
-      "end": "2026-01-15T12:00:00"
+      "start": "2026-02-19T11:00:00",
+      "end": "2026-02-19T12:00:00"
     },
     {
-      "title": "WJCT newsletter call",
-      "location": "https://us02web.zoom.us/j/3566700432",
-      "description": "Join Zoom Meeting\nhttps://us02web.zoom.us/j/3566700432",
+      "title": "How NPR is Using AI",
+      "location": "",
+      "description": "To see detailed information for automatically created events like this one, use the official Google Calendar app. https://g.co/calendar\n\nThis event was created from an email you received in Gmail. https://mail.google.com…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-01-15T13:00:00",
-      "end": "2026-01-15T13:45:00"
+      "start": "2026-02-19T13:00:00",
+      "end": "2026-02-19T14:00:00"
+    },
+    {
+      "title": "Dashboards",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-19T14:00:00",
+      "end": "2026-02-19T14:25:00"
     },
     {
       "title": "School Pick Up",
@@ -169,17 +133,17 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-15T15:00:00",
-      "end": "2026-01-15T16:00:00"
+      "start": "2026-02-19T15:00:00",
+      "end": "2026-02-19T16:00:00"
     },
     {
-      "title": "Ryan Dell's Birthday",
+      "title": "Out of office",
       "location": "",
       "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-01-16T00:00:00",
-      "end": "2026-01-17T00:00:00"
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-19T15:00:00",
+      "end": "2026-02-19T16:00:00"
     },
     {
       "title": "School Drop Off",
@@ -187,17 +151,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-16T08:00:00",
-      "end": "2026-01-16T09:00:00"
+      "start": "2026-02-20T08:00:00",
+      "end": "2026-02-20T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-20T08:00:00",
+      "end": "2026-02-20T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-01-16T10:00:00",
-      "end": "2026-01-16T10:15:00"
+      "start": "2026-02-20T09:30:00",
+      "end": "2026-02-20T09:45:00"
     },
     {
       "title": "School Pick Up",
@@ -205,98 +178,17 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-16T15:00:00",
-      "end": "2026-01-16T16:00:00"
+      "start": "2026-02-20T15:00:00",
+      "end": "2026-02-20T16:00:00"
     },
     {
-      "title": "Amy Skipper’s Memorial",
-      "location": "The Train Station Fun Center\n617225 Brandies Ave",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-17T15:00:00",
-      "end": "2026-01-17T17:00:00"
-    },
-    {
-      "title": "School Drop Off",
+      "title": "Out of office",
       "location": "",
       "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-19T08:00:00",
-      "end": "2026-01-19T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-01-19T10:00:00",
-      "end": "2026-01-19T10:15:00"
-    },
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-19T15:00:00",
-      "end": "2026-01-19T16:00:00"
-    },
-    {
-      "title": "William—Coding & Robotics Club",
-      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
-      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-19T15:30:00",
-      "end": "2026-01-19T17:15:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-20T08:00:00",
-      "end": "2026-01-20T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-20T10:00:00",
-      "end": "2026-01-20T10:15:00"
-    },
-    {
-      "title": "WJCT Operations Meeting",
-      "location": "Board Room",
-      "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-20T11:00:00",
-      "end": "2026-01-20T12:00:00"
-    },
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-20T15:00:00",
-      "end": "2026-01-20T16:00:00"
-    },
-    {
-      "title": "Pay Day",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-01-21T00:00:00",
-      "end": "2026-01-22T00:00:00"
+      "start": "2026-02-20T15:00:00",
+      "end": "2026-02-20T16:00:00"
     },
     {
       "title": "Lauren Bunker's Birthday",
@@ -304,8 +196,8 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": true,
-      "start": "2026-01-21T00:00:00",
-      "end": "2026-01-22T00:00:00"
+      "start": "2026-02-21T00:00:00",
+      "end": "2026-02-22T00:00:00"
     },
     {
       "title": "School Drop Off",
@@ -313,17 +205,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-21T08:00:00",
-      "end": "2026-01-21T09:00:00"
+      "start": "2026-02-23T08:00:00",
+      "end": "2026-02-23T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-23T08:00:00",
+      "end": "2026-02-23T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-01-21T10:00:00",
-      "end": "2026-01-21T10:15:00"
+      "start": "2026-02-23T09:30:00",
+      "end": "2026-02-23T09:45:00"
     },
     {
       "title": "School Pick Up",
@@ -331,17 +232,17 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-21T15:00:00",
-      "end": "2026-01-21T16:00:00"
+      "start": "2026-02-23T15:00:00",
+      "end": "2026-02-23T16:00:00"
     },
     {
-      "title": "Take Out The Trash",
+      "title": "Out of office",
       "location": "",
       "description": "",
-      "calendarLabel": "Personal",
+      "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-01-21T22:00:00",
-      "end": "2026-01-21T22:05:00"
+      "start": "2026-02-23T15:00:00",
+      "end": "2026-02-23T16:00:00"
     },
     {
       "title": "School Drop Off",
@@ -349,125 +250,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-22T08:00:00",
-      "end": "2026-01-22T09:00:00"
+      "start": "2026-02-24T08:00:00",
+      "end": "2026-02-24T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-24T08:00:00",
+      "end": "2026-02-24T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-01-22T10:00:00",
-      "end": "2026-01-22T10:15:00"
-    },
-    {
-      "title": "Weekly Working Plan Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/ckg-fqnr-iyc\nOr dial: (US) +1 224-650-7012 PIN: 493416278#\nMore phone numbers: https://tel.meet/ckg-fqnr-iyc?pin=4189776087968&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-22T11:00:00",
-      "end": "2026-01-22T12:00:00"
-    },
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-22T15:00:00",
-      "end": "2026-01-22T16:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-23T08:00:00",
-      "end": "2026-01-23T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-23T10:00:00",
-      "end": "2026-01-23T10:15:00"
-    },
-    {
-      "title": "Ops Review - Digital Department",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/nde-zpzm-nfi\nOr dial: (US) +1 234-759-0433 PIN: 827210918#\nMore phone numbers: https://tel.meet/nde-zpzm-nfi?pin=6286997761770&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-23T11:30:00",
-      "end": "2026-01-23T12:00:00"
-    },
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-23T15:00:00",
-      "end": "2026-01-23T16:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-26T08:00:00",
-      "end": "2026-01-26T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-26T10:00:00",
-      "end": "2026-01-26T10:15:00"
-    },
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-26T15:00:00",
-      "end": "2026-01-26T16:00:00"
-    },
-    {
-      "title": "William—Coding & Robotics Club",
-      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
-      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-26T15:30:00",
-      "end": "2026-01-26T17:15:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-27T08:00:00",
-      "end": "2026-01-27T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-27T10:00:00",
-      "end": "2026-01-27T10:15:00"
+      "start": "2026-02-24T09:30:00",
+      "end": "2026-02-24T09:45:00"
     },
     {
       "title": "WJCT Operations Meeting",
@@ -475,8 +277,8 @@
       "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-01-27T11:00:00",
-      "end": "2026-01-27T12:00:00"
+      "start": "2026-02-24T11:00:00",
+      "end": "2026-02-24T12:00:00"
     },
     {
       "title": "School Pick Up",
@@ -484,8 +286,179 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-27T15:00:00",
-      "end": "2026-01-27T16:00:00"
+      "start": "2026-02-24T15:00:00",
+      "end": "2026-02-24T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-24T15:00:00",
+      "end": "2026-02-24T16:00:00"
+    },
+    {
+      "title": "School Drop Off",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-25T08:00:00",
+      "end": "2026-02-25T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-25T08:00:00",
+      "end": "2026-02-25T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-25T09:30:00",
+      "end": "2026-02-25T09:45:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-25T15:00:00",
+      "end": "2026-02-25T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-25T15:00:00",
+      "end": "2026-02-25T16:00:00"
+    },
+    {
+      "title": "Take Out The Trash",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-25T22:00:00",
+      "end": "2026-02-25T22:05:00"
+    },
+    {
+      "title": "School Drop Off",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-26T08:00:00",
+      "end": "2026-02-26T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-26T08:00:00",
+      "end": "2026-02-26T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-26T09:30:00",
+      "end": "2026-02-26T09:45:00"
+    },
+    {
+      "title": "Weekly Working Plan Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/ckg-fqnr-iyc\nOr dial: (US) +1 224-650-7012 PIN: 493416278#\nMore phone numbers: https://tel.meet/ckg-fqnr-iyc?pin=4189776087968&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-26T11:00:00",
+      "end": "2026-02-26T12:00:00"
+    },
+    {
+      "title": "Ops Review - Digital Department",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/nde-zpzm-nfi\nOr dial: (US) +1 234-759-0433 PIN: 827210918#\nMore phone numbers: https://tel.meet/nde-zpzm-nfi?pin=6286997761770&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-26T13:30:00",
+      "end": "2026-02-26T14:00:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-26T15:00:00",
+      "end": "2026-02-26T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-26T15:00:00",
+      "end": "2026-02-26T16:00:00"
+    },
+    {
+      "title": "School Drop Off",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-27T08:00:00",
+      "end": "2026-02-27T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-27T08:00:00",
+      "end": "2026-02-27T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-27T09:30:00",
+      "end": "2026-02-27T09:45:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-27T15:00:00",
+      "end": "2026-02-27T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-02-27T15:00:00",
+      "end": "2026-02-27T16:00:00"
     },
     {
       "title": "Kenny Kwaak's Birthday",
@@ -493,116 +466,8 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": true,
-      "start": "2026-01-28T00:00:00",
-      "end": "2026-01-29T00:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-28T08:00:00",
-      "end": "2026-01-28T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-28T10:00:00",
-      "end": "2026-01-28T10:15:00"
-    },
-    {
-      "title": "Dr Appointment",
-      "location": "1731 University Blvd S\nJacksonville, FL, United States",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-28T13:00:00",
-      "end": "2026-01-28T14:00:00"
-    },
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-28T15:00:00",
-      "end": "2026-01-28T16:00:00"
-    },
-    {
-      "title": "Take Out The Trash",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-28T22:00:00",
-      "end": "2026-01-28T22:05:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-29T08:00:00",
-      "end": "2026-01-29T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-29T10:00:00",
-      "end": "2026-01-29T10:15:00"
-    },
-    {
-      "title": "Weekly Working Plan Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/ckg-fqnr-iyc\nOr dial: (US) +1 224-650-7012 PIN: 493416278#\nMore phone numbers: https://tel.meet/ckg-fqnr-iyc?pin=4189776087968&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-29T11:00:00",
-      "end": "2026-01-29T12:00:00"
-    },
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-29T15:00:00",
-      "end": "2026-01-29T16:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-30T08:00:00",
-      "end": "2026-01-30T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-01-30T10:00:00",
-      "end": "2026-01-30T10:15:00"
-    },
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-01-30T15:00:00",
-      "end": "2026-01-30T16:00:00"
+      "start": "2026-02-28T00:00:00",
+      "end": "2026-03-01T00:00:00"
     },
     {
       "title": "Flea Treatment",
@@ -610,17 +475,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-01-31T11:00:00",
-      "end": "2026-01-31T12:00:00"
+      "start": "2026-02-28T11:00:00",
+      "end": "2026-02-28T12:00:00"
     },
     {
-      "title": "AC Line Cleaner",
+      "title": "JaxPlays Board Meeting",
+      "location": "WJCT\n100 Festival Park Ave, Jacksonville, FL  32202, United States",
+      "description": "",
+      "calendarLabel": "JaxPlays",
+      "allDay": false,
+      "start": "2026-02-28T14:00:00",
+      "end": "2026-02-28T17:00:00"
+    },
+    {
+      "title": "Register for Pride Parade",
       "location": "",
       "description": "",
-      "calendarLabel": "Personal",
+      "calendarLabel": "JaxPlays",
       "allDay": true,
-      "start": "2026-02-01T00:00:00",
-      "end": "2026-02-02T00:00:00"
+      "start": "2026-03-01T00:00:00",
+      "end": "2026-03-02T00:00:00"
     },
     {
       "title": "School Drop Off",
@@ -628,17 +502,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-02T08:00:00",
-      "end": "2026-02-02T09:00:00"
+      "start": "2026-03-02T08:00:00",
+      "end": "2026-03-02T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-02T08:00:00",
+      "end": "2026-03-02T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-02T10:00:00",
-      "end": "2026-02-02T10:15:00"
+      "start": "2026-03-02T09:30:00",
+      "end": "2026-03-02T09:45:00"
     },
     {
       "title": "School Pick Up",
@@ -646,17 +529,17 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-02T15:00:00",
-      "end": "2026-02-02T16:00:00"
+      "start": "2026-03-02T15:00:00",
+      "end": "2026-03-02T16:00:00"
     },
     {
-      "title": "William—Coding & Robotics Club",
-      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
-      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
-      "calendarLabel": "Personal",
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-02T15:30:00",
-      "end": "2026-02-02T17:15:00"
+      "start": "2026-03-02T15:00:00",
+      "end": "2026-03-02T16:00:00"
     },
     {
       "title": "School Drop Off",
@@ -664,17 +547,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-03T08:00:00",
-      "end": "2026-02-03T09:00:00"
+      "start": "2026-03-03T08:00:00",
+      "end": "2026-03-03T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-03T08:00:00",
+      "end": "2026-03-03T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-03T10:00:00",
-      "end": "2026-02-03T10:15:00"
+      "start": "2026-03-03T09:30:00",
+      "end": "2026-03-03T09:45:00"
     },
     {
       "title": "WJCT Operations Meeting",
@@ -682,8 +574,8 @@
       "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-03T11:00:00",
-      "end": "2026-02-03T12:00:00"
+      "start": "2026-03-03T11:00:00",
+      "end": "2026-03-03T12:00:00"
     },
     {
       "title": "School Pick Up",
@@ -691,8 +583,17 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-03T15:00:00",
-      "end": "2026-02-03T16:00:00"
+      "start": "2026-03-03T15:00:00",
+      "end": "2026-03-03T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-03T15:00:00",
+      "end": "2026-03-03T16:00:00"
     },
     {
       "title": "Pay Day",
@@ -700,8 +601,8 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": true,
-      "start": "2026-02-04T00:00:00",
-      "end": "2026-02-05T00:00:00"
+      "start": "2026-03-04T00:00:00",
+      "end": "2026-03-05T00:00:00"
     },
     {
       "title": "School Drop Off",
@@ -709,17 +610,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-04T08:00:00",
-      "end": "2026-02-04T09:00:00"
+      "start": "2026-03-04T08:00:00",
+      "end": "2026-03-04T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-04T08:00:00",
+      "end": "2026-03-04T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-04T10:00:00",
-      "end": "2026-02-04T10:15:00"
+      "start": "2026-03-04T09:30:00",
+      "end": "2026-03-04T09:45:00"
     },
     {
       "title": "WJCT newsletter call",
@@ -727,8 +637,8 @@
       "description": "Join Zoom Meeting\nhttps://us02web.zoom.us/j/3566700432",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-04T11:30:00",
-      "end": "2026-02-04T12:15:00"
+      "start": "2026-03-04T11:30:00",
+      "end": "2026-03-04T12:15:00"
     },
     {
       "title": "School Pick Up",
@@ -736,8 +646,17 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-04T15:00:00",
-      "end": "2026-02-04T16:00:00"
+      "start": "2026-03-04T15:00:00",
+      "end": "2026-03-04T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-04T15:00:00",
+      "end": "2026-03-04T16:00:00"
     },
     {
       "title": "Take Out The Trash",
@@ -745,8 +664,8 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-04T22:00:00",
-      "end": "2026-02-04T22:05:00"
+      "start": "2026-03-04T22:00:00",
+      "end": "2026-03-04T22:05:00"
     },
     {
       "title": "School Drop Off",
@@ -754,17 +673,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-05T08:00:00",
-      "end": "2026-02-05T09:00:00"
+      "start": "2026-03-05T08:00:00",
+      "end": "2026-03-05T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-05T08:00:00",
+      "end": "2026-03-05T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-05T10:00:00",
-      "end": "2026-02-05T10:15:00"
+      "start": "2026-03-05T09:30:00",
+      "end": "2026-03-05T09:45:00"
     },
     {
       "title": "Weekly Working Plan Meeting",
@@ -772,17 +700,8 @@
       "description": "Join with Google Meet: https://meet.google.com/ckg-fqnr-iyc\nOr dial: (US) +1 224-650-7012 PIN: 493416278#\nMore phone numbers: https://tel.meet/ckg-fqnr-iyc?pin=4189776087968&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-05T11:00:00",
-      "end": "2026-02-05T12:00:00"
-    },
-    {
-      "title": "𝐒𝐮𝐩𝐞𝐫🏈𝐁𝐨𝐰𝐥 • 𝐂𝐡𝐢𝐥𝐢🍲𝐂𝐨𝐨𝐤𝐨𝐟𝐟",
-      "location": "Community Room",
-      "description": "<b>This is our 97th annual Chili Cookoff.  </b><br>It will be held in the Community Room.<br><br>February 5 from 12 to 1:30 pm",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-02-05T12:00:00",
-      "end": "2026-02-05T13:30:00"
+      "start": "2026-03-05T11:00:00",
+      "end": "2026-03-05T12:00:00"
     },
     {
       "title": "School Pick Up",
@@ -790,8 +709,17 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-05T15:00:00",
-      "end": "2026-02-05T16:00:00"
+      "start": "2026-03-05T15:00:00",
+      "end": "2026-03-05T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-05T15:00:00",
+      "end": "2026-03-05T16:00:00"
     },
     {
       "title": "School Drop Off",
@@ -799,26 +727,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-06T08:00:00",
-      "end": "2026-02-06T09:00:00"
+      "start": "2026-03-06T08:00:00",
+      "end": "2026-03-06T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-06T08:00:00",
+      "end": "2026-03-06T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-06T10:00:00",
-      "end": "2026-02-06T10:15:00"
-    },
-    {
-      "title": "Ops Review - Digital Department",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/nde-zpzm-nfi\nOr dial: (US) +1 234-759-0433 PIN: 827210918#\nMore phone numbers: https://tel.meet/nde-zpzm-nfi?pin=6286997761770&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-02-06T11:30:00",
-      "end": "2026-02-06T12:00:00"
+      "start": "2026-03-06T09:30:00",
+      "end": "2026-03-06T09:45:00"
     },
     {
       "title": "School Pick Up",
@@ -826,8 +754,17 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-06T15:00:00",
-      "end": "2026-02-06T16:00:00"
+      "start": "2026-03-06T15:00:00",
+      "end": "2026-03-06T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-06T15:00:00",
+      "end": "2026-03-06T16:00:00"
     },
     {
       "title": "School Drop Off",
@@ -835,17 +772,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-09T08:00:00",
-      "end": "2026-02-09T09:00:00"
+      "start": "2026-03-09T08:00:00",
+      "end": "2026-03-09T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-09T08:00:00",
+      "end": "2026-03-09T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-09T10:00:00",
-      "end": "2026-02-09T10:15:00"
+      "start": "2026-03-09T09:30:00",
+      "end": "2026-03-09T09:45:00"
     },
     {
       "title": "School Pick Up",
@@ -853,17 +799,17 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-09T15:00:00",
-      "end": "2026-02-09T16:00:00"
+      "start": "2026-03-09T15:00:00",
+      "end": "2026-03-09T16:00:00"
     },
     {
-      "title": "William—Coding & Robotics Club",
-      "location": "Seaside Charter\n1429 Broward Rd, Jacksonville, FL  32218, United States",
-      "description": "3rd Quarter, 8 weeks. Official last day undetermined.",
-      "calendarLabel": "Personal",
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-09T15:30:00",
-      "end": "2026-02-09T17:15:00"
+      "start": "2026-03-09T15:00:00",
+      "end": "2026-03-09T16:00:00"
     },
     {
       "title": "School Drop Off",
@@ -871,17 +817,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-10T08:00:00",
-      "end": "2026-02-10T09:00:00"
+      "start": "2026-03-10T08:00:00",
+      "end": "2026-03-10T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-10T08:00:00",
+      "end": "2026-03-10T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-10T10:00:00",
-      "end": "2026-02-10T10:15:00"
+      "start": "2026-03-10T09:30:00",
+      "end": "2026-03-10T09:45:00"
     },
     {
       "title": "WJCT Operations Meeting",
@@ -889,8 +844,8 @@
       "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-10T11:00:00",
-      "end": "2026-02-10T12:00:00"
+      "start": "2026-03-10T11:00:00",
+      "end": "2026-03-10T12:00:00"
     },
     {
       "title": "School Pick Up",
@@ -898,8 +853,17 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-10T15:00:00",
-      "end": "2026-02-10T16:00:00"
+      "start": "2026-03-10T15:00:00",
+      "end": "2026-03-10T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-10T15:00:00",
+      "end": "2026-03-10T16:00:00"
     },
     {
       "title": "School Drop Off",
@@ -907,17 +871,26 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-11T08:00:00",
-      "end": "2026-02-11T09:00:00"
+      "start": "2026-03-11T08:00:00",
+      "end": "2026-03-11T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-11T08:00:00",
+      "end": "2026-03-11T09:00:00"
     },
     {
       "title": "Digital Standup Meeting",
       "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/hyr-bcdm-exg\nOr dial: (US) +1 984-999-0561 PIN: 626012062#\nMore phone numbers: https://tel.meet/hyr-bcdm-exg?pin=8079928481137&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
       "calendarLabel": "WJCT",
       "allDay": false,
-      "start": "2026-02-11T10:00:00",
-      "end": "2026-02-11T10:15:00"
+      "start": "2026-03-11T09:30:00",
+      "end": "2026-03-11T09:45:00"
     },
     {
       "title": "School Pick Up",
@@ -925,8 +898,17 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-11T15:00:00",
-      "end": "2026-02-11T16:00:00"
+      "start": "2026-03-11T15:00:00",
+      "end": "2026-03-11T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-11T15:00:00",
+      "end": "2026-03-11T16:00:00"
     },
     {
       "title": "Take Out The Trash",
@@ -934,8 +916,8 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-11T22:00:00",
-      "end": "2026-02-11T22:05:00"
+      "start": "2026-03-11T22:00:00",
+      "end": "2026-03-11T22:05:00"
     },
     {
       "title": "School Drop Off",
@@ -943,8 +925,404 @@
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-02-12T08:00:00",
-      "end": "2026-02-12T09:00:00"
+      "start": "2026-03-12T08:00:00",
+      "end": "2026-03-12T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-12T08:00:00",
+      "end": "2026-03-12T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-12T09:30:00",
+      "end": "2026-03-12T09:45:00"
+    },
+    {
+      "title": "Weekly Working Plan Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/ckg-fqnr-iyc\nOr dial: (US) +1 224-650-7012 PIN: 493416278#\nMore phone numbers: https://tel.meet/ckg-fqnr-iyc?pin=4189776087968&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-12T11:00:00",
+      "end": "2026-03-12T12:00:00"
+    },
+    {
+      "title": "Ops Review - Digital Department",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/nde-zpzm-nfi\nOr dial: (US) +1 234-759-0433 PIN: 827210918#\nMore phone numbers: https://tel.meet/nde-zpzm-nfi?pin=6286997761770&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-12T13:30:00",
+      "end": "2026-03-12T14:00:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-12T15:00:00",
+      "end": "2026-03-12T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-12T15:00:00",
+      "end": "2026-03-12T16:00:00"
+    },
+    {
+      "title": "School Drop Off",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-13T08:00:00",
+      "end": "2026-03-13T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-13T08:00:00",
+      "end": "2026-03-13T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-13T09:30:00",
+      "end": "2026-03-13T09:45:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-13T15:00:00",
+      "end": "2026-03-13T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-13T15:00:00",
+      "end": "2026-03-13T16:00:00"
+    },
+    {
+      "title": "Off Work",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-24T00:00:00"
+    },
+    {
+      "title": "Ryan Dell's Birthday",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-17T00:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-24T00:00:00"
+    },
+    {
+      "title": "School Drop Off",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-16T08:00:00",
+      "end": "2026-03-16T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-16T08:00:00",
+      "end": "2026-03-16T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-16T09:30:00",
+      "end": "2026-03-16T09:45:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-16T15:00:00",
+      "end": "2026-03-16T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-16T15:00:00",
+      "end": "2026-03-16T16:00:00"
+    },
+    {
+      "title": "School Drop Off",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-17T08:00:00",
+      "end": "2026-03-17T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-17T08:00:00",
+      "end": "2026-03-17T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-17T09:30:00",
+      "end": "2026-03-17T09:45:00"
+    },
+    {
+      "title": "WJCT Operations Meeting",
+      "location": "Board Room",
+      "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-17T11:00:00",
+      "end": "2026-03-17T12:00:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-17T15:00:00",
+      "end": "2026-03-17T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-17T15:00:00",
+      "end": "2026-03-17T16:00:00"
+    },
+    {
+      "title": "Pay Day",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-18T00:00:00",
+      "end": "2026-03-19T00:00:00"
+    },
+    {
+      "title": "School Drop Off",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-18T08:00:00",
+      "end": "2026-03-18T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-18T08:00:00",
+      "end": "2026-03-18T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-18T09:30:00",
+      "end": "2026-03-18T09:45:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-18T15:00:00",
+      "end": "2026-03-18T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-18T15:00:00",
+      "end": "2026-03-18T16:00:00"
+    },
+    {
+      "title": "Take Out The Trash",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-18T22:00:00",
+      "end": "2026-03-18T22:05:00"
+    },
+    {
+      "title": "School Drop Off",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-19T08:00:00",
+      "end": "2026-03-19T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-19T08:00:00",
+      "end": "2026-03-19T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-19T09:30:00",
+      "end": "2026-03-19T09:45:00"
+    },
+    {
+      "title": "Weekly Working Plan Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/ckg-fqnr-iyc\nOr dial: (US) +1 224-650-7012 PIN: 493416278#\nMore phone numbers: https://tel.meet/ckg-fqnr-iyc?pin=4189776087968&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-19T11:00:00",
+      "end": "2026-03-19T12:00:00"
+    },
+    {
+      "title": "Hanna Park Camping (Cabin Rental)",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/mac-gqwj-mck\n\nLearn more about Meet at: https://support.google.com/a/users/answer/9282720",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-19T13:00:00",
+      "end": "2026-03-22T12:00:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-19T15:00:00",
+      "end": "2026-03-19T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-19T15:00:00",
+      "end": "2026-03-19T16:00:00"
+    },
+    {
+      "title": "School Drop Off",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-20T08:00:00",
+      "end": "2026-03-20T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-20T08:00:00",
+      "end": "2026-03-20T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-20T09:30:00",
+      "end": "2026-03-20T09:45:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-20T15:00:00",
+      "end": "2026-03-20T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-20T15:00:00",
+      "end": "2026-03-20T16:00:00"
     }
   ]
 }
