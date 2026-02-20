@@ -1,24 +1,6 @@
 {
-  "generatedAt": "2026-02-20 13:26 EST",
+  "generatedAt": "2026-02-20 14:27 EST",
   "events": [
-    {
-      "title": "How NPR is Using AI",
-      "location": "",
-      "description": "To see detailed information for automatically created events like this one, use the official Google Calendar app. https://g.co/calendar\n\nThis event was created from an email you received in Gmail. https://mail.google.com…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-02-19T13:00:00",
-      "end": "2026-02-19T14:00:00"
-    },
-    {
-      "title": "Dashboards",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/wpy-grng-ypf\nOr dial: (US) +1 641-854-0117 PIN: 847647229#\nMore phone numbers: https://tel.meet/wpy-grng-ypf?pin=1284661735082&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-02-19T14:00:00",
-      "end": "2026-02-19T14:25:00"
-    },
     {
       "title": "School Pick Up",
       "location": "",
@@ -920,15 +902,6 @@
       "end": "2026-03-13T16:00:00"
     },
     {
-      "title": "Off Work",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-16T00:00:00",
-      "end": "2026-03-24T00:00:00"
-    },
-    {
       "title": "Ryan Dell's Birthday",
       "location": "",
       "description": "",
@@ -936,6 +909,15 @@
       "allDay": true,
       "start": "2026-03-16T00:00:00",
       "end": "2026-03-17T00:00:00"
+    },
+    {
+      "title": "Off Work",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-24T00:00:00"
     },
     {
       "title": "Out of office",
