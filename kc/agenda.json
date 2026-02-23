@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-22 20:52 EST",
+  "generatedAt": "2026-02-22 22:16 EST",
   "events": [
     {
       "title": "Lauren Bunker's Birthday",
@@ -288,15 +288,6 @@
       "allDay": false,
       "start": "2026-02-28T11:00:00",
       "end": "2026-02-28T12:00:00"
-    },
-    {
-      "title": "JaxPlays Board Meeting",
-      "location": "WJCT\n100 Festival Park Ave, Jacksonville, FL  32202, United States",
-      "description": "",
-      "calendarLabel": "JaxPlays",
-      "allDay": false,
-      "start": "2026-02-28T14:00:00",
-      "end": "2026-02-28T17:00:00"
     },
     {
       "title": "Register for Pride Parade",
@@ -839,15 +830,6 @@
       "end": "2026-03-13T16:00:00"
     },
     {
-      "title": "Off Work",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-16T00:00:00",
-      "end": "2026-03-24T00:00:00"
-    },
-    {
       "title": "Ryan Dell's Birthday",
       "location": "",
       "description": "",
@@ -855,6 +837,15 @@
       "allDay": true,
       "start": "2026-03-16T00:00:00",
       "end": "2026-03-17T00:00:00"
+    },
+    {
+      "title": "Off Work",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-24T00:00:00"
     },
     {
       "title": "Out of office",
