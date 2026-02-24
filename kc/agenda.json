@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-02-23 23:51 EST",
+  "generatedAt": "2026-02-24 00:38 EST",
   "events": [
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-23T08:00:00",
-      "end": "2026-02-23T09:00:00"
-    },
     {
       "title": "Out of office",
       "location": "",
@@ -47,15 +38,6 @@
       "end": "2026-02-23T16:00:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-24T08:00:00",
-      "end": "2026-02-24T09:00:00"
-    },
-    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -90,15 +72,6 @@
       "allDay": false,
       "start": "2026-02-24T15:00:00",
       "end": "2026-02-24T16:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-25T08:00:00",
-      "end": "2026-02-25T09:00:00"
     },
     {
       "title": "Out of office",
@@ -144,15 +117,6 @@
       "allDay": false,
       "start": "2026-02-25T22:00:00",
       "end": "2026-02-25T22:05:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-26T08:00:00",
-      "end": "2026-02-26T09:00:00"
     },
     {
       "title": "Out of office",
@@ -207,15 +171,6 @@
       "allDay": false,
       "start": "2026-02-26T15:00:00",
       "end": "2026-02-26T16:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-02-27T08:00:00",
-      "end": "2026-02-27T09:00:00"
     },
     {
       "title": "Out of office",
@@ -281,15 +236,6 @@
       "end": "2026-03-02T00:00:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-02T08:00:00",
-      "end": "2026-03-02T09:00:00"
-    },
-    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -324,15 +270,6 @@
       "allDay": false,
       "start": "2026-03-02T15:00:00",
       "end": "2026-03-02T16:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-03T08:00:00",
-      "end": "2026-03-03T09:00:00"
     },
     {
       "title": "Out of office",
@@ -389,15 +326,6 @@
       "end": "2026-03-05T00:00:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-04T08:00:00",
-      "end": "2026-03-04T09:00:00"
-    },
-    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -452,15 +380,6 @@
       "end": "2026-03-04T22:05:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-05T08:00:00",
-      "end": "2026-03-05T09:00:00"
-    },
-    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -506,15 +425,6 @@
       "end": "2026-03-05T16:00:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-06T08:00:00",
-      "end": "2026-03-06T09:00:00"
-    },
-    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -551,15 +461,6 @@
       "end": "2026-03-06T16:00:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-09T08:00:00",
-      "end": "2026-03-09T09:00:00"
-    },
-    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -594,15 +495,6 @@
       "allDay": false,
       "start": "2026-03-09T15:00:00",
       "end": "2026-03-09T16:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-10T08:00:00",
-      "end": "2026-03-10T09:00:00"
     },
     {
       "title": "Out of office",
@@ -650,15 +542,6 @@
       "end": "2026-03-10T16:00:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-11T08:00:00",
-      "end": "2026-03-11T09:00:00"
-    },
-    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -702,15 +585,6 @@
       "allDay": false,
       "start": "2026-03-11T22:00:00",
       "end": "2026-03-11T22:05:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-12T08:00:00",
-      "end": "2026-03-12T09:00:00"
     },
     {
       "title": "Out of office",
@@ -767,15 +641,6 @@
       "end": "2026-03-12T16:00:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-13T08:00:00",
-      "end": "2026-03-13T09:00:00"
-    },
-    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -812,15 +677,6 @@
       "end": "2026-03-13T16:00:00"
     },
     {
-      "title": "Off Work",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-16T00:00:00",
-      "end": "2026-03-24T00:00:00"
-    },
-    {
       "title": "Ryan Dell's Birthday",
       "location": "",
       "description": "",
@@ -830,6 +686,15 @@
       "end": "2026-03-17T00:00:00"
     },
     {
+      "title": "Off Work",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-24T00:00:00"
+    },
+    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -837,15 +702,6 @@
       "allDay": false,
       "start": "2026-03-16T00:00:00",
       "end": "2026-03-24T00:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-16T08:00:00",
-      "end": "2026-03-16T09:00:00"
     },
     {
       "title": "Out of office",
@@ -882,15 +738,6 @@
       "allDay": false,
       "start": "2026-03-16T15:00:00",
       "end": "2026-03-16T16:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-17T08:00:00",
-      "end": "2026-03-17T09:00:00"
     },
     {
       "title": "Out of office",
@@ -947,15 +794,6 @@
       "end": "2026-03-19T00:00:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-18T08:00:00",
-      "end": "2026-03-18T09:00:00"
-    },
-    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -999,15 +837,6 @@
       "allDay": false,
       "start": "2026-03-18T22:00:00",
       "end": "2026-03-18T22:05:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-19T08:00:00",
-      "end": "2026-03-19T09:00:00"
     },
     {
       "title": "Out of office",
@@ -1064,15 +893,6 @@
       "end": "2026-03-19T16:00:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-20T08:00:00",
-      "end": "2026-03-20T09:00:00"
-    },
-    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -1118,15 +938,6 @@
       "end": "2026-03-22T00:00:00"
     },
     {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-23T08:00:00",
-      "end": "2026-03-23T09:00:00"
-    },
-    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -1161,15 +972,6 @@
       "allDay": false,
       "start": "2026-03-23T15:00:00",
       "end": "2026-03-23T16:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-24T08:00:00",
-      "end": "2026-03-24T09:00:00"
     },
     {
       "title": "Out of office",
@@ -1215,15 +1017,6 @@
       "allDay": false,
       "start": "2026-03-24T15:00:00",
       "end": "2026-03-24T16:00:00"
-    },
-    {
-      "title": "School Drop Off",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-25T08:00:00",
-      "end": "2026-03-25T09:00:00"
     },
     {
       "title": "Out of office",
