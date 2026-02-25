@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-02-25 09:34 EST",
+  "generatedAt": "2026-02-25 10:35 EST",
   "events": [
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-02-24T09:30:00",
-      "end": "2026-02-24T09:45:00"
-    },
     {
       "title": "School Pick Up",
       "location": "",
@@ -164,6 +155,15 @@
       "end": "2026-02-27T16:00:00"
     },
     {
+      "title": "Family Business Meeting",
+      "location": "",
+      "description": "Discussion Items:\nBudget & AI",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-02-27T19:00:00",
+      "end": "2026-02-27T21:00:00"
+    },
+    {
       "title": "Kenny Kwaak's Birthday",
       "location": "",
       "description": "",
@@ -193,7 +193,7 @@
     {
       "title": "Family Business Meeting",
       "location": "Panera Bread\n10 Riverside Ave, Jacksonville, FL  32202, United States",
-      "description": "Discussion items:\n- impact of AI on the workforce \n- - how that impacts job decisions\n- budget",
+      "description": "Discussion items:\n- impact of AI on the workforce \n- - how that impacts job decisions",
       "calendarLabel": "Personal",
       "allDay": false,
       "start": "2026-03-01T10:00:00",
@@ -641,15 +641,6 @@
       "end": "2026-03-13T16:00:00"
     },
     {
-      "title": "Off Work",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-16T00:00:00",
-      "end": "2026-03-24T00:00:00"
-    },
-    {
       "title": "Ryan Dell's Birthday",
       "location": "",
       "description": "",
@@ -657,6 +648,15 @@
       "allDay": true,
       "start": "2026-03-16T00:00:00",
       "end": "2026-03-17T00:00:00"
+    },
+    {
+      "title": "Off Work",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-24T00:00:00"
     },
     {
       "title": "Out of office",
