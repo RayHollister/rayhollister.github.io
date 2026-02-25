@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-24 23:51 EST",
+  "generatedAt": "2026-02-25 00:40 EST",
   "events": [
     {
       "title": "Out of office",
@@ -1080,6 +1080,15 @@
       "allDay": false,
       "start": "2026-03-26T15:00:00",
       "end": "2026-03-26T16:00:00"
+    },
+    {
+      "title": "World Theatre Day",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-27T00:00:00",
+      "end": "2026-03-28T00:00:00"
     }
   ]
 }
