@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-02-27 08:37 EST",
+  "generatedAt": "2026-02-27 09:27 EST",
   "events": [
-    {
-      "title": "Out of office",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-02-26T08:00:00",
-      "end": "2026-02-26T09:00:00"
-    },
     {
       "title": "Digital Standup Meeting",
       "location": "",
