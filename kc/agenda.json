@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-01 07:23 EST",
+  "generatedAt": "2026-03-01 08:28 EST",
   "events": [
     {
       "title": "Kenny Kwaak's Birthday",
@@ -1053,6 +1053,15 @@
       "allDay": false,
       "start": "2026-03-30T15:00:00",
       "end": "2026-03-30T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-31T08:00:00",
+      "end": "2026-03-31T09:00:00"
     }
   ]
 }
