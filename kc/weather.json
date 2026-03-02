@@ -1,11 +1,11 @@
 {
   "date": "2026-03-02",
-  "high": 73.6,
-  "low": 51.3,
+  "high": 73.9,
+  "low": 50.1,
   "weathercode": 45,
   "condition": "Fog",
   "icon": "fog",
   "units": "F",
-  "generatedAt": "2026-03-02 04:30 EST",
+  "generatedAt": "2026-03-02 05:29 EST",
   "source": "open-meteo"
 }
