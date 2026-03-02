@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-02 09:29 EST",
+  "generatedAt": "2026-03-02 10:27 EST",
   "events": [
     {
       "title": "Register for Pride Parade",
@@ -479,15 +479,6 @@
       "end": "2026-03-13T16:00:00"
     },
     {
-      "title": "Ryan Dell's Birthday",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-16T00:00:00",
-      "end": "2026-03-17T00:00:00"
-    },
-    {
       "title": "Off Work",
       "location": "",
       "description": "",
@@ -495,6 +486,15 @@
       "allDay": true,
       "start": "2026-03-16T00:00:00",
       "end": "2026-03-24T00:00:00"
+    },
+    {
+      "title": "Ryan Dell's Birthday",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-17T00:00:00"
     },
     {
       "title": "Out of office",
@@ -1116,6 +1116,24 @@
       "allDay": false,
       "start": "2026-04-01T08:00:00",
       "end": "2026-04-01T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-01T09:30:00",
+      "end": "2026-04-01T09:45:00"
+    },
+    {
+      "title": "🔐 Q2 2026 Credential Rotation",
+      "location": "",
+      "description": "Quarterly credential rotation for OpenClaw security.\n\n**Linear Issue:** https://linear.app/wjct/issue/DM-677/q2-2026-credential-rotation-april-1\n\n**Credentials to rotate:**\n• Gmail service account (Keychain)\n• Google Cha…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-01T10:00:00",
+      "end": "2026-04-01T12:00:00"
     }
   ]
 }
