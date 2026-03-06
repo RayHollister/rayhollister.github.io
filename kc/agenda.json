@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-03-06 09:25 EST",
+  "generatedAt": "2026-03-06 10:24 EST",
   "events": [
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-05T09:30:00",
-      "end": "2026-03-05T09:45:00"
-    },
     {
       "title": "Weekly Working Plan Meeting",
       "location": "",
@@ -47,15 +38,6 @@
       "end": "2026-03-06T09:00:00"
     },
     {
-      "title": "Employee Appreciation Day",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-06T09:00:00",
-      "end": "2026-03-06T17:00:00"
-    },
-    {
       "title": "Digital Standup Meeting",
       "location": "",
       "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
@@ -63,6 +45,15 @@
       "allDay": false,
       "start": "2026-03-06T09:30:00",
       "end": "2026-03-06T09:45:00"
+    },
+    {
+      "title": "Employee Appreciation Day",
+      "location": "Community Room",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-06T12:00:00",
+      "end": "2026-03-06T13:30:00"
     },
     {
       "title": "School Pick Up",
@@ -326,15 +317,6 @@
       "end": "2026-03-13T16:00:00"
     },
     {
-      "title": "Ryan Dell's Birthday",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-16T00:00:00",
-      "end": "2026-03-17T00:00:00"
-    },
-    {
       "title": "Off Work",
       "location": "",
       "description": "",
@@ -342,6 +324,15 @@
       "allDay": true,
       "start": "2026-03-16T00:00:00",
       "end": "2026-03-24T00:00:00"
+    },
+    {
+      "title": "Ryan Dell's Birthday",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-17T00:00:00"
     },
     {
       "title": "Out of office",
