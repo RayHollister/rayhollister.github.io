@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-08 10:22 EDT",
+  "generatedAt": "2026-03-08 11:21 EDT",
   "events": [
     {
       "title": "On Call to Monitor DNS Migration",
@@ -1071,6 +1071,15 @@
       "allDay": false,
       "start": "2026-04-07T09:30:00",
       "end": "2026-04-07T09:45:00"
+    },
+    {
+      "title": "WJCT Operations Meeting",
+      "location": "Board Room",
+      "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-07T11:00:00",
+      "end": "2026-04-07T12:00:00"
     }
   ]
 }
