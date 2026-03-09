@@ -2,10 +2,10 @@
   "date": "2026-03-08",
   "high": 84.0,
   "low": 67.9,
-  "weathercode": 80,
-  "condition": "Rain",
-  "icon": "rain",
+  "weathercode": 55,
+  "condition": "Drizzle",
+  "icon": "drizzle",
   "units": "F",
-  "generatedAt": "2026-03-08 19:21 EDT",
+  "generatedAt": "2026-03-08 20:51 EDT",
   "source": "open-meteo"
 }
