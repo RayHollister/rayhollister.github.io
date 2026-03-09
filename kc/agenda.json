@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-09 10:32 EDT",
+  "generatedAt": "2026-03-09 11:34 EDT",
   "events": [
     {
       "title": "On Call to Monitor DNS Migration",
@@ -245,15 +245,6 @@
       "end": "2026-03-13T16:00:00"
     },
     {
-      "title": "Off Work",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-16T00:00:00",
-      "end": "2026-03-24T00:00:00"
-    },
-    {
       "title": "Ryan Dell's Birthday",
       "location": "",
       "description": "",
@@ -261,6 +252,15 @@
       "allDay": true,
       "start": "2026-03-16T00:00:00",
       "end": "2026-03-17T00:00:00"
+    },
+    {
+      "title": "Off Work",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-24T00:00:00"
     },
     {
       "title": "Out of office",
