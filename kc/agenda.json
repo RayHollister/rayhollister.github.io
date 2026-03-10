@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10 13:30 EDT",
+  "generatedAt": "2026-03-10 14:39 EDT",
   "events": [
     {
       "title": "School Pick Up",
@@ -198,6 +198,15 @@
       "allDay": false,
       "start": "2026-03-13T09:30:00",
       "end": "2026-03-13T09:45:00"
+    },
+    {
+      "title": "WJCT Public Media | Audience Bridge - Kickoff Call",
+      "location": "https://us06web.zoom.us/j/83054833547?pwd=mbUBymPacRCiPwxlLOoCFxO3kz6lBn.1",
+      "description": "Justin Merrell is inviting you to a scheduled Zoom meeting.\n\nTopic: WJCT Public Media | Audience Bridge - Kickoff Call\nTime: Mar 13, 2026 10:00 AM Eastern Time (US and Canada)\nJoin Zoom Meeting\nhttps://us06web.zoom.us/j/…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-13T10:00:00",
+      "end": "2026-03-13T10:30:00"
     },
     {
       "title": "School Pick Up",
