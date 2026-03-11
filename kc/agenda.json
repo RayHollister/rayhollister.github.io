@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-11 14:34 EDT",
+  "generatedAt": "2026-03-11 15:29 EDT",
   "events": [
     {
       "title": "School Pick Up",
@@ -155,6 +155,15 @@
       "end": "2026-03-13T10:30:00"
     },
     {
+      "title": "MyScenesNow",
+      "location": "Microsoft Teams Meeting",
+      "description": "________________________________________________________________________________\nMicrosoft Teams meeting\nJoin on your computer, mobile app or room device\nClick here to join the meeting<https://teams.live.com/meet/9385535…",
+      "calendarLabel": "JaxPlays",
+      "allDay": false,
+      "start": "2026-03-13T11:00:00",
+      "end": "2026-03-13T12:00:00"
+    },
+    {
       "title": "School Pick Up",
       "location": "",
       "description": "",
@@ -173,15 +182,6 @@
       "end": "2026-03-13T16:00:00"
     },
     {
-      "title": "Off Work",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-16T00:00:00",
-      "end": "2026-03-24T00:00:00"
-    },
-    {
       "title": "Ryan Dell's Birthday",
       "location": "",
       "description": "",
@@ -189,6 +189,15 @@
       "allDay": true,
       "start": "2026-03-16T00:00:00",
       "end": "2026-03-17T00:00:00"
+    },
+    {
+      "title": "Off Work",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-24T00:00:00"
     },
     {
       "title": "Out of office",
@@ -1143,6 +1152,24 @@
       "allDay": false,
       "start": "2026-04-10T09:30:00",
       "end": "2026-04-10T09:45:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-04-10T15:00:00",
+      "end": "2026-04-10T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-10T15:00:00",
+      "end": "2026-04-10T16:00:00"
     }
   ]
 }
