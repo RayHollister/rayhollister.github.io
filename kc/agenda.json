@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-03-12 21:52 EDT",
+  "generatedAt": "2026-03-12 23:10 EDT",
   "events": [
-    {
-      "title": "Take Out The Trash",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-11T22:00:00",
-      "end": "2026-03-11T22:05:00"
-    },
     {
       "title": "Out of office",
       "location": "",
