@@ -1,11 +1,11 @@
 {
   "date": "2026-03-13",
-  "high": 74.0,
-  "low": 54.1,
+  "high": 74.1,
+  "low": 55.3,
   "weathercode": 2,
   "condition": "Partly cloudy",
   "icon": "partly",
   "units": "F",
-  "generatedAt": "2026-03-13 07:25 EDT",
+  "generatedAt": "2026-03-13 08:25 EDT",
   "source": "open-meteo"
 }
