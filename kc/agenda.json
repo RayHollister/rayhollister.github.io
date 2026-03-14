@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-03-14 11:23 EDT",
+  "generatedAt": "2026-03-14 12:23 EDT",
   "events": [
-    {
-      "title": "MyScenesNow",
-      "location": "Microsoft Teams Meeting",
-      "description": "________________________________________________________________________________\nMicrosoft Teams meeting\nJoin on your computer, mobile app or room device\nClick here to join the meeting<https://teams.live.com/meet/9385535…",
-      "calendarLabel": "JaxPlays",
-      "allDay": false,
-      "start": "2026-03-13T11:00:00",
-      "end": "2026-03-13T12:00:00"
-    },
     {
       "title": "School Pick Up",
       "location": "",
@@ -38,15 +29,6 @@
       "end": "2026-03-15T14:00:00"
     },
     {
-      "title": "Off Work",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-16T00:00:00",
-      "end": "2026-03-24T00:00:00"
-    },
-    {
       "title": "Ryan Dell's Birthday",
       "location": "",
       "description": "",
@@ -54,6 +36,15 @@
       "allDay": true,
       "start": "2026-03-16T00:00:00",
       "end": "2026-03-17T00:00:00"
+    },
+    {
+      "title": "Off Work",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-24T00:00:00"
     },
     {
       "title": "Out of office",
