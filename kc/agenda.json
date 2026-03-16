@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-03-16 08:33 EDT",
+  "generatedAt": "2026-03-16 09:48 EDT",
   "events": [
-    {
-      "title": "Off Work",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-16T00:00:00",
-      "end": "2026-03-24T00:00:00"
-    },
     {
       "title": "Ryan Dell's Birthday",
       "location": "",
@@ -18,6 +9,15 @@
       "allDay": true,
       "start": "2026-03-16T00:00:00",
       "end": "2026-03-17T00:00:00"
+    },
+    {
+      "title": "Off Work",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-24T00:00:00"
     },
     {
       "title": "Out of office",
@@ -1116,6 +1116,15 @@
       "allDay": false,
       "start": "2026-04-15T08:00:00",
       "end": "2026-04-15T09:00:00"
+    },
+    {
+      "title": "Digital Standup Meeting",
+      "location": "",
+      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-15T09:30:00",
+      "end": "2026-04-15T09:45:00"
     }
   ]
 }
