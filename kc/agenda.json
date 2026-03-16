@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-03-16 17:25 EDT",
+  "generatedAt": "2026-03-16 18:26 EDT",
   "events": [
-    {
-      "title": "Off Work",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-16T00:00:00",
-      "end": "2026-03-24T00:00:00"
-    },
     {
       "title": "Ryan Dell's Birthday",
       "location": "",
@@ -18,6 +9,15 @@
       "allDay": true,
       "start": "2026-03-16T00:00:00",
       "end": "2026-03-17T00:00:00"
+    },
+    {
+      "title": "Off Work",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-03-16T00:00:00",
+      "end": "2026-03-24T00:00:00"
     },
     {
       "title": "Out of office",
