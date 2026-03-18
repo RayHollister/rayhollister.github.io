@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-18 18:23 EDT",
+  "generatedAt": "2026-03-18 19:23 EDT",
   "events": [
     {
       "title": "Off Work",
@@ -1152,6 +1152,15 @@
       "allDay": false,
       "start": "2026-04-17T15:00:00",
       "end": "2026-04-17T16:00:00"
+    },
+    {
+      "title": "WJCT Night at the Ballpark • Friday, April 17 at 7:05 PM",
+      "location": "",
+      "description": "<br>     You are invited to join us for a baseball game at <b>Vystar Ballpark</b> as the visiting Charlotte Knights play the Jacksonville Jumbo Shrimp on <b>Friday, April 17</b>. First pitch is at <b>7:05 pm</b>.<br><br>…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-17T19:00:00",
+      "end": "2026-04-17T22:00:00"
     }
   ]
 }
