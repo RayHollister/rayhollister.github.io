@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-19 21:52 EDT",
+  "generatedAt": "2026-03-19 23:12 EDT",
   "events": [
     {
       "title": "Off Work",
@@ -27,15 +27,6 @@
       "allDay": true,
       "start": "2026-03-18T00:00:00",
       "end": "2026-03-19T00:00:00"
-    },
-    {
-      "title": "Take Out The Trash",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-18T22:00:00",
-      "end": "2026-03-18T22:05:00"
     },
     {
       "title": "Out of office",
