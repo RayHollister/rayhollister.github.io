@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22 14:23 EDT",
+  "generatedAt": "2026-03-22 15:22 EDT",
   "events": [
     {
       "title": "Off Work",
@@ -1098,6 +1098,24 @@
       "allDay": false,
       "start": "2026-04-21T11:00:00",
       "end": "2026-04-21T12:00:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-04-21T15:00:00",
+      "end": "2026-04-21T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-21T15:00:00",
+      "end": "2026-04-21T16:00:00"
     }
   ]
 }
