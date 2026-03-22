@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22 07:21 EDT",
+  "generatedAt": "2026-03-22 08:23 EDT",
   "events": [
     {
       "title": "Off Work",
@@ -1071,6 +1071,15 @@
       "allDay": true,
       "start": "2026-04-21T00:00:00",
       "end": "2026-04-22T00:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-21T08:00:00",
+      "end": "2026-04-21T09:00:00"
     }
   ]
 }
