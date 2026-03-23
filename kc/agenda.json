@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22 19:22 EDT",
+  "generatedAt": "2026-03-22 20:54 EDT",
   "events": [
     {
       "title": "Off Work",
@@ -56,13 +56,13 @@
       "end": "2026-03-23T09:45:00"
     },
     {
-      "title": "Park Picnic for GDaddy’s Birthday",
+      "title": "Restaurant for GDaddy’s Birthday",
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-03-23T13:00:00",
-      "end": "2026-03-23T15:00:00"
+      "start": "2026-03-23T14:00:00",
+      "end": "2026-03-23T16:00:00"
     },
     {
       "title": "School Pick Up",
