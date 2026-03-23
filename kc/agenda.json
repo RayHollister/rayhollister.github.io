@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-23 16:25 EDT",
+  "generatedAt": "2026-03-23 17:24 EDT",
   "events": [
     {
       "title": "Off Work",
@@ -63,6 +63,15 @@
       "allDay": false,
       "start": "2026-03-23T15:00:00",
       "end": "2026-03-23T16:00:00"
+    },
+    {
+      "title": "Project Hail Mary",
+      "location": "Cinemark Jacksonville Atlantic North XD and SCREENX, 11567 Atlantic Blvd Jacksonville, FL 32225",
+      "description": "To see detailed information for automatically created events like this one, use the official Google Calendar app. https://g.co/calendar\n\nThis event was created from an email you received in Gmail. https://mail.google.com…",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-23T18:30:00",
+      "end": "2026-03-23T19:30:00"
     },
     {
       "title": "Out of office",
