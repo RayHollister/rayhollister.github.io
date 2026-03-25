@@ -1,24 +1,6 @@
 {
-  "generatedAt": "2026-03-25 08:31 EDT",
+  "generatedAt": "2026-03-25 09:46 EDT",
   "events": [
-    {
-      "title": "Out of office",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-24T08:00:00",
-      "end": "2026-03-24T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-24T09:30:00",
-      "end": "2026-03-24T09:45:00"
-    },
     {
       "title": "WJCT Operations Meeting",
       "location": "Board Room",
@@ -54,15 +36,6 @@
       "allDay": false,
       "start": "2026-03-25T08:00:00",
       "end": "2026-03-25T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-25T09:30:00",
-      "end": "2026-03-25T09:45:00"
     },
     {
       "title": "WJCT Career and Internship Fair in Studio A",
@@ -108,15 +81,6 @@
       "allDay": false,
       "start": "2026-03-26T08:00:00",
       "end": "2026-03-26T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-26T09:30:00",
-      "end": "2026-03-26T09:45:00"
     },
     {
       "title": "Weekly Working Plan Meeting",
@@ -171,15 +135,6 @@
       "allDay": false,
       "start": "2026-03-27T08:00:00",
       "end": "2026-03-27T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-27T09:30:00",
-      "end": "2026-03-27T09:45:00"
     },
     {
       "title": "School Pick Up",
@@ -245,15 +200,6 @@
       "end": "2026-03-30T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-30T09:30:00",
-      "end": "2026-03-30T09:45:00"
-    },
-    {
       "title": "School Pick Up",
       "location": "",
       "description": "",
@@ -279,15 +225,6 @@
       "allDay": false,
       "start": "2026-03-31T08:00:00",
       "end": "2026-03-31T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-31T09:30:00",
-      "end": "2026-03-31T09:45:00"
     },
     {
       "title": "All Staff Meeting March 31, 2026",
@@ -353,15 +290,6 @@
       "end": "2026-04-01T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-01T09:30:00",
-      "end": "2026-04-01T09:45:00"
-    },
-    {
       "title": "🔐 Q2 2026 Credential Rotation",
       "location": "",
       "description": "Quarterly credential rotation for OpenClaw security.\n\n**Linear Issue:** https://linear.app/wjct/issue/DM-677/q2-2026-credential-rotation-april-1\n\n**Credentials to rotate:**\n• Gmail service account (Keychain)\n• Google Cha…",
@@ -416,15 +344,6 @@
       "end": "2026-04-02T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-02T09:30:00",
-      "end": "2026-04-02T09:45:00"
-    },
-    {
       "title": "Weekly Working Plan Meeting",
       "location": "",
       "description": "Join with Google Meet: https://meet.google.com/ckg-fqnr-iyc\nOr dial: (US) +1 224-650-7012 PIN: 493416278#\nMore phone numbers: https://tel.meet/ckg-fqnr-iyc?pin=4189776087968&hs=7\n\nLearn more about Meet at: https://suppor…",
@@ -461,15 +380,6 @@
       "end": "2026-04-03T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-03T09:30:00",
-      "end": "2026-04-03T09:45:00"
-    },
-    {
       "title": "School Pick Up",
       "location": "",
       "description": "",
@@ -497,15 +407,6 @@
       "end": "2026-04-06T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-06T09:30:00",
-      "end": "2026-04-06T09:45:00"
-    },
-    {
       "title": "School Pick Up",
       "location": "",
       "description": "",
@@ -531,15 +432,6 @@
       "allDay": false,
       "start": "2026-04-07T08:00:00",
       "end": "2026-04-07T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-07T09:30:00",
-      "end": "2026-04-07T09:45:00"
     },
     {
       "title": "WJCT Operations Meeting",
@@ -578,15 +470,6 @@
       "end": "2026-04-08T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-08T09:30:00",
-      "end": "2026-04-08T09:45:00"
-    },
-    {
       "title": "School Pick Up",
       "location": "",
       "description": "",
@@ -621,15 +504,6 @@
       "allDay": false,
       "start": "2026-04-09T08:00:00",
       "end": "2026-04-09T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-09T09:30:00",
-      "end": "2026-04-09T09:45:00"
     },
     {
       "title": "Weekly Working Plan Meeting",
@@ -677,15 +551,6 @@
       "end": "2026-04-10T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-10T09:30:00",
-      "end": "2026-04-10T09:45:00"
-    },
-    {
       "title": "School Pick Up",
       "location": "",
       "description": "",
@@ -713,15 +578,6 @@
       "end": "2026-04-13T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-13T09:30:00",
-      "end": "2026-04-13T09:45:00"
-    },
-    {
       "title": "School Pick Up",
       "location": "",
       "description": "",
@@ -747,15 +603,6 @@
       "allDay": false,
       "start": "2026-04-14T08:00:00",
       "end": "2026-04-14T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-14T09:30:00",
-      "end": "2026-04-14T09:45:00"
     },
     {
       "title": "WJCT Operations Meeting",
@@ -812,15 +659,6 @@
       "end": "2026-04-15T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-15T09:30:00",
-      "end": "2026-04-15T09:45:00"
-    },
-    {
       "title": "School Pick Up",
       "location": "",
       "description": "",
@@ -866,15 +704,6 @@
       "end": "2026-04-16T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-16T09:30:00",
-      "end": "2026-04-16T09:45:00"
-    },
-    {
       "title": "Weekly Working Plan Meeting",
       "location": "",
       "description": "Join with Google Meet: https://meet.google.com/ckg-fqnr-iyc\nOr dial: (US) +1 224-650-7012 PIN: 493416278#\nMore phone numbers: https://tel.meet/ckg-fqnr-iyc?pin=4189776087968&hs=7\n\nLearn more about Meet at: https://suppor…",
@@ -909,15 +738,6 @@
       "allDay": false,
       "start": "2026-04-17T08:00:00",
       "end": "2026-04-17T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-17T09:30:00",
-      "end": "2026-04-17T09:45:00"
     },
     {
       "title": "School Pick Up",
@@ -956,15 +776,6 @@
       "end": "2026-04-20T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-20T09:30:00",
-      "end": "2026-04-20T09:45:00"
-    },
-    {
       "title": "School Pick Up",
       "location": "",
       "description": "",
@@ -999,15 +810,6 @@
       "allDay": false,
       "start": "2026-04-21T08:00:00",
       "end": "2026-04-21T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-21T09:30:00",
-      "end": "2026-04-21T09:45:00"
     },
     {
       "title": "WJCT Operations Meeting",
@@ -1046,15 +848,6 @@
       "end": "2026-04-22T09:00:00"
     },
     {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-22T09:30:00",
-      "end": "2026-04-22T09:45:00"
-    },
-    {
       "title": "School Pick Up",
       "location": "",
       "description": "",
@@ -1089,15 +882,6 @@
       "allDay": false,
       "start": "2026-04-23T08:00:00",
       "end": "2026-04-23T09:00:00"
-    },
-    {
-      "title": "Digital Standup Meeting",
-      "location": "",
-      "description": "Join with Google Meet: https://meet.google.com/zjf-omvw-evg\nOr dial: (US) +1 508-835-8215 PIN: 248301486#\nMore phone numbers: https://tel.meet/zjf-omvw-evg?pin=7648914037425&hs=7\n\nLearn more about Meet at: https://suppor…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-23T09:30:00",
-      "end": "2026-04-23T09:45:00"
     },
     {
       "title": "Weekly Working Plan Meeting",
