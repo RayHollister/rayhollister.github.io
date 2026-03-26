@@ -1,24 +1,6 @@
 {
-  "generatedAt": "2026-03-26 15:36 EDT",
+  "generatedAt": "2026-03-26 16:24 EDT",
   "events": [
-    {
-      "title": "School Pick Up",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-25T15:00:00",
-      "end": "2026-03-25T16:00:00"
-    },
-    {
-      "title": "Out of office",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-25T15:00:00",
-      "end": "2026-03-25T16:00:00"
-    },
     {
       "title": "Take Out The Trash",
       "location": "",
