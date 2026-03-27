@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-03-26 21:52 EDT",
+  "generatedAt": "2026-03-26 23:20 EDT",
   "events": [
-    {
-      "title": "Take Out The Trash",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-25T22:00:00",
-      "end": "2026-03-25T22:05:00"
-    },
     {
       "title": "Out of office",
       "location": "",
@@ -65,6 +56,15 @@
       "end": "2026-03-28T00:00:00"
     },
     {
+      "title": "Drop off boys at school",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-27T08:00:00",
+      "end": "2026-03-27T09:00:00"
+    },
+    {
       "title": "Out of office",
       "location": "",
       "description": "",
@@ -74,13 +74,22 @@
       "end": "2026-03-27T09:00:00"
     },
     {
-      "title": "School Pick Up",
+      "title": "UPS Store - Print VyStar Form",
+      "location": "",
+      "description": "Print out the form from VyStar.",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-03-27T09:00:00",
+      "end": "2026-03-27T09:30:00"
+    },
+    {
+      "title": "SSA Office Visit",
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
       "allDay": false,
-      "start": "2026-03-27T15:00:00",
-      "end": "2026-03-27T16:00:00"
+      "start": "2026-03-27T09:30:00",
+      "end": "2026-03-27T10:00:00"
     },
     {
       "title": "Out of office",
