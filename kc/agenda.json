@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-03-27 08:29 EDT",
+  "generatedAt": "2026-03-27 09:43 EDT",
   "events": [
-    {
-      "title": "Out of office",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-26T08:00:00",
-      "end": "2026-03-26T09:00:00"
-    },
     {
       "title": "Ops Review - Digital Department",
       "location": "",
@@ -90,6 +81,15 @@
       "allDay": false,
       "start": "2026-03-27T09:30:00",
       "end": "2026-03-27T10:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-03-27T10:00:00",
+      "end": "2026-03-27T12:00:00"
     },
     {
       "title": "Out of office",
