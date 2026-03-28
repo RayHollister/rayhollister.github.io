@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-28 14:23 EDT",
+  "generatedAt": "2026-03-28 15:23 EDT",
   "events": [
     {
       "title": "World Theatre Day",
@@ -846,6 +846,24 @@
       "allDay": false,
       "start": "2026-04-27T08:00:00",
       "end": "2026-04-27T09:00:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-04-27T15:00:00",
+      "end": "2026-04-27T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-27T15:00:00",
+      "end": "2026-04-27T16:00:00"
     }
   ]
 }
