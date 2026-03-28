@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-03-28 08:24 EDT",
+  "generatedAt": "2026-03-28 09:34 EDT",
   "events": [
-    {
-      "title": "World Theatre Day",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-27T00:00:00",
-      "end": "2026-03-28T00:00:00"
-    },
     {
       "title": "PVPS symptoms",
       "location": "",
@@ -20,31 +11,13 @@
       "end": "2026-03-28T00:00:00"
     },
     {
-      "title": "Drop off boys at school",
+      "title": "World Theatre Day",
       "location": "",
       "description": "",
       "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-27T08:00:00",
-      "end": "2026-03-27T09:00:00"
-    },
-    {
-      "title": "Out of office",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-27T08:00:00",
-      "end": "2026-03-27T09:00:00"
-    },
-    {
-      "title": "UPS Store - Print VyStar Form",
-      "location": "",
-      "description": "Print out the form from VyStar.",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-27T09:00:00",
-      "end": "2026-03-27T09:30:00"
+      "allDay": true,
+      "start": "2026-03-27T00:00:00",
+      "end": "2026-03-28T00:00:00"
     },
     {
       "title": "SSA Office Visit",
