@@ -1,11 +1,11 @@
 {
   "date": "2026-03-28",
   "high": 71.3,
-  "low": 58.1,
+  "low": 58.4,
   "weathercode": 3,
   "condition": "Cloudy",
   "icon": "cloud",
   "units": "F",
-  "generatedAt": "2026-03-28 16:22 EDT",
+  "generatedAt": "2026-03-28 17:22 EDT",
   "source": "open-meteo"
 }
