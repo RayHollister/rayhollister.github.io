@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-03-27 20:52 EDT",
+  "generatedAt": "2026-03-27 21:52 EDT",
   "events": [
     {
-      "title": "LaVilla Showcase",
-      "location": "LaVilla School of the Arts\n501 N Davis St, Jacksonville, FL  32202, United States",
-      "description": "All arts area\nTime estimated",
+      "title": "PVPS symptoms",
+      "location": "",
+      "description": "",
       "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-26T19:00:00",
-      "end": "2026-03-26T21:00:00"
+      "allDay": true,
+      "start": "2026-03-27T00:00:00",
+      "end": "2026-03-28T00:00:00"
     },
     {
       "title": "World Theatre Day",
