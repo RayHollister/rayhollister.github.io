@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 10:23 EDT",
+  "generatedAt": "2026-03-29 11:23 EDT",
   "events": [
     {
       "title": "Kenny Kwaak's Birthday",
@@ -846,6 +846,15 @@
       "allDay": false,
       "start": "2026-04-28T08:00:00",
       "end": "2026-04-28T09:00:00"
+    },
+    {
+      "title": "WJCT Operations Meeting",
+      "location": "Board Room",
+      "description": "Join with Google Meet: https://meet.google.com/yia-ayyi-ukb\nOr dial: (US) +1 218-288-2967 PIN: 780459182#\nMore phone numbers: https://tel.meet/yia-ayyi-ukb?pin=9486254555121&hs=7\n\nLearn more about Meet at: https://suppor…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-28T11:00:00",
+      "end": "2026-04-28T12:00:00"
     }
   ]
 }
