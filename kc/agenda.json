@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 11:23 EDT",
+  "generatedAt": "2026-03-29 12:23 EDT",
   "events": [
     {
       "title": "Kenny Kwaak's Birthday",
@@ -9,15 +9,6 @@
       "allDay": true,
       "start": "2026-03-28T00:00:00",
       "end": "2026-03-29T00:00:00"
-    },
-    {
-      "title": "Flea Treatment",
-      "location": "Aggie and Joey",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-03-28T11:00:00",
-      "end": "2026-03-28T12:00:00"
     },
     {
       "title": "LaVilla Showcase",
@@ -180,6 +171,15 @@
       "allDay": false,
       "start": "2026-04-02T08:00:00",
       "end": "2026-04-02T09:00:00"
+    },
+    {
+      "title": "ADA Compliance for FPM Stations (University deadline is April 24)",
+      "location": "Microsoft Teams Meeting",
+      "description": "Please invite your digital leads or the person at your station who is leading ADA digital compliance to join this FPM Content Committee Meeting.  I've invited Melvin Vigo Lugo and Jess Trueblood - WGCU leads - to share a…",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-02T10:00:00",
+      "end": "2026-04-02T10:45:00"
     },
     {
       "title": "Weekly Working Plan Meeting",
