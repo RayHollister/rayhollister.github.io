@@ -1,24 +1,6 @@
 {
-  "generatedAt": "2026-03-28 23:20 EDT",
+  "generatedAt": "2026-03-29 01:01 EDT",
   "events": [
-    {
-      "title": "PVPS symptoms",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-27T00:00:00",
-      "end": "2026-03-28T00:00:00"
-    },
-    {
-      "title": "World Theatre Day",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-27T00:00:00",
-      "end": "2026-03-28T00:00:00"
-    },
     {
       "title": "Kenny Kwaak's Birthday",
       "location": "",
@@ -846,6 +828,15 @@
       "allDay": false,
       "start": "2026-04-27T15:00:00",
       "end": "2026-04-27T16:00:00"
+    },
+    {
+      "title": "Kenny Kwaak's Birthday",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-04-28T00:00:00",
+      "end": "2026-04-29T00:00:00"
     }
   ]
 }
