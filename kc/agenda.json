@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-30 15:34 EDT",
+  "generatedAt": "2026-03-30 16:27 EDT",
   "events": [
     {
       "title": "Out of office",
@@ -873,6 +873,24 @@
       "allDay": false,
       "start": "2026-04-29T08:00:00",
       "end": "2026-04-29T09:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-29T10:00:00",
+      "end": "2026-04-29T12:00:00"
+    },
+    {
+      "title": "Leadership Jacksonville Interviews for LJ 2027",
+      "location": "The Jessie (Jessie Ball duPont Center), 40 E Adams St, Jacksonville, FL 32202, United States",
+      "description": "Name: Ray Hollister\nSigned Up For: \nCandidate - 1\n\nView Sign Up Form: https://www.signupgenius.com/go/4090C4BA5A723A6FE3-55281250-leadership\nSign Up Contact: Leadership Jacksonville admissions@leadershipjax.org",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-04-29T10:20:00",
+      "end": "2026-04-29T10:50:00"
     },
     {
       "title": "School Pick Up",
