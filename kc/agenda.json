@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-03-29 23:20 EDT",
+  "generatedAt": "2026-03-30 01:08 EDT",
   "events": [
-    {
-      "title": "Kenny Kwaak's Birthday",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": true,
-      "start": "2026-03-28T00:00:00",
-      "end": "2026-03-29T00:00:00"
-    },
     {
       "title": "Out of office",
       "location": "",
@@ -864,6 +855,15 @@
       "allDay": false,
       "start": "2026-04-28T15:00:00",
       "end": "2026-04-28T16:00:00"
+    },
+    {
+      "title": "Pay Day",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-04-29T00:00:00",
+      "end": "2026-04-30T00:00:00"
     }
   ]
 }
