@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-31 07:31 EDT",
+  "generatedAt": "2026-03-31 08:35 EDT",
   "events": [
     {
       "title": "Out of office",
@@ -918,6 +918,15 @@
       "allDay": false,
       "start": "2026-04-29T22:00:00",
       "end": "2026-04-29T22:05:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-30T08:00:00",
+      "end": "2026-04-30T09:00:00"
     }
   ]
 }
