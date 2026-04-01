@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-04-01 11:43 EDT",
+  "generatedAt": "2026-04-01 12:33 EDT",
   "events": [
-    {
-      "title": "All Staff Meeting March 31, 2026",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-03-31T11:00:00",
-      "end": "2026-03-31T12:00:00"
-    },
     {
       "title": "𝓣𝓐𝓒𝓞 '𝗕𝗼𝘂𝘁 𝗥𝗲𝘁𝗶𝗿𝗲𝗺𝗲𝗻𝘁 • 𝑀𝒾𝒸𝒽𝑒𝓁𝓁𝑒  𝒞🌸𝓇𝓊𝓂",
       "location": "",
@@ -162,6 +153,15 @@
       "allDay": false,
       "start": "2026-04-03T08:00:00",
       "end": "2026-04-03T09:00:00"
+    },
+    {
+      "title": "Visit Brandon",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-04-03T09:00:00",
+      "end": "2026-04-07T21:00:00"
     },
     {
       "title": "School Pick Up",
