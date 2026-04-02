@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-02 11:36 EDT",
+  "generatedAt": "2026-04-02 12:32 EDT",
   "events": [
     {
       "title": "Pay Day",
@@ -18,24 +18,6 @@
       "allDay": true,
       "start": "2026-04-01T00:00:00",
       "end": "2026-04-02T00:00:00"
-    },
-    {
-      "title": "🔐 Q2 2026 Credential Rotation",
-      "location": "",
-      "description": "Quarterly credential rotation for OpenClaw security.\n\n**Linear Issue:** https://linear.app/wjct/issue/DM-677/q2-2026-credential-rotation-april-1\n\n**Credentials to rotate:**\n• Gmail service account (Keychain)\n• Google Cha…",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-01T10:00:00",
-      "end": "2026-04-01T12:00:00"
-    },
-    {
-      "title": "WJCT newsletter call",
-      "location": "https://us02web.zoom.us/j/3566700432",
-      "description": "Join Zoom Meeting\nhttps://us02web.zoom.us/j/3566700432",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-01T11:30:00",
-      "end": "2026-04-01T12:15:00"
     },
     {
       "title": "School Pick Up",
