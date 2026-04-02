@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-01 21:52 EDT",
+  "generatedAt": "2026-04-01 23:19 EDT",
   "events": [
     {
       "title": "Pay Day",
@@ -423,6 +423,15 @@
       "allDay": false,
       "start": "2026-04-15T08:00:00",
       "end": "2026-04-15T09:00:00"
+    },
+    {
+      "title": "Future of Work: With AI",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-15T10:00:00",
+      "end": "2026-04-15T14:00:00"
     },
     {
       "title": "School Pick Up",
