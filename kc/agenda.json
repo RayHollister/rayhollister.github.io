@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-02 21:52 EDT",
+  "generatedAt": "2026-04-02 23:20 EDT",
   "events": [
     {
       "title": "Pay Day",
@@ -18,15 +18,6 @@
       "allDay": true,
       "start": "2026-04-01T00:00:00",
       "end": "2026-04-02T00:00:00"
-    },
-    {
-      "title": "Take Out The Trash",
-      "location": "",
-      "description": "",
-      "calendarLabel": "Personal",
-      "allDay": false,
-      "start": "2026-04-01T22:00:00",
-      "end": "2026-04-01T22:05:00"
     },
     {
       "title": "Out of office",
