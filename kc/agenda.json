@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-04-03 08:28 EDT",
+  "generatedAt": "2026-04-03 09:40 EDT",
   "events": [
-    {
-      "title": "Out of office",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-02T08:00:00",
-      "end": "2026-04-02T09:00:00"
-    },
     {
       "title": "ADA Compliance for FPM Stations (University deadline is April 24)",
       "location": "Microsoft Teams Meeting",
