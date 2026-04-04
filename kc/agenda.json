@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-04 14:23 EDT",
+  "generatedAt": "2026-04-04 15:24 EDT",
   "events": [
     {
       "title": "Visit Brandon",
@@ -279,6 +279,15 @@
       "allDay": false,
       "start": "2026-04-14T18:00:00",
       "end": "2026-04-14T20:00:00"
+    },
+    {
+      "title": "A Farewell Toast to David McGowan",
+      "location": "100 Festival Park Ave, Jacksonville, Florida 32202, United States",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-04-14T18:00:00",
+      "end": "2026-04-14T18:00:00"
     },
     {
       "title": "Pay Day",
@@ -828,6 +837,24 @@
       "allDay": false,
       "start": "2026-05-04T08:00:00",
       "end": "2026-05-04T09:00:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-05-04T15:00:00",
+      "end": "2026-05-04T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-05-04T15:00:00",
+      "end": "2026-05-04T16:00:00"
     }
   ]
 }
