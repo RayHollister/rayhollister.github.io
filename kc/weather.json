@@ -2,10 +2,10 @@
   "date": "2026-04-05",
   "high": 85.9,
   "low": 63.6,
-  "weathercode": 80,
+  "weathercode": 81,
   "condition": "Rain",
   "icon": "rain",
   "units": "F",
-  "generatedAt": "2026-04-05 19:23 EDT",
+  "generatedAt": "2026-04-05 20:59 EDT",
   "source": "open-meteo"
 }
