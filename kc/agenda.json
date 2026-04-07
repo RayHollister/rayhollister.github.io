@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-07 07:33 EDT",
+  "generatedAt": "2026-04-07 08:36 EDT",
   "events": [
     {
       "title": "Visit Brandon",
@@ -918,6 +918,15 @@
       "allDay": false,
       "start": "2026-05-06T22:00:00",
       "end": "2026-05-06T22:05:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-05-07T08:00:00",
+      "end": "2026-05-07T09:00:00"
     }
   ]
 }
