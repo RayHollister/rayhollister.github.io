@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-08 14:41 EDT",
+  "generatedAt": "2026-04-08 15:42 EDT",
   "events": [
     {
       "title": "Visit Brandon",
@@ -927,6 +927,24 @@
       "allDay": false,
       "start": "2026-05-08T08:00:00",
       "end": "2026-05-08T09:00:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-05-08T15:00:00",
+      "end": "2026-05-08T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-05-08T15:00:00",
+      "end": "2026-05-08T16:00:00"
     }
   ]
 }
