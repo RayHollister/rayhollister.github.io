@@ -1,11 +1,11 @@
 {
   "date": "2026-04-08",
-  "high": 67.6,
+  "high": 67.5,
   "low": 61.4,
-  "weathercode": 61,
-  "condition": "Rain",
-  "icon": "rain",
+  "weathercode": 55,
+  "condition": "Drizzle",
+  "icon": "drizzle",
   "units": "F",
-  "generatedAt": "2026-04-08 13:38 EDT",
+  "generatedAt": "2026-04-08 14:41 EDT",
   "source": "open-meteo"
 }
