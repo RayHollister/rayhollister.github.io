@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-04-10 08:31 EDT",
+  "generatedAt": "2026-04-10 09:46 EDT",
   "events": [
-    {
-      "title": "Out of office",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-09T08:00:00",
-      "end": "2026-04-09T09:00:00"
-    },
     {
       "title": "Weekly Working Plan Meeting",
       "location": "",
