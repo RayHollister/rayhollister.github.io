@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-12 14:26 EDT",
+  "generatedAt": "2026-04-12 15:28 EDT",
   "events": [
     {
       "title": "Out of office",
@@ -846,6 +846,24 @@
       "allDay": false,
       "start": "2026-05-12T11:00:00",
       "end": "2026-05-12T12:00:00"
+    },
+    {
+      "title": "School Pick Up",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": false,
+      "start": "2026-05-12T15:00:00",
+      "end": "2026-05-12T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-05-12T15:00:00",
+      "end": "2026-05-12T16:00:00"
     }
   ]
 }
