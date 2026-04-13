@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-12 23:21 EDT",
+  "generatedAt": "2026-04-13 01:20 EDT",
   "events": [
     {
       "title": "Out of office",
@@ -864,6 +864,15 @@
       "allDay": false,
       "start": "2026-05-12T15:00:00",
       "end": "2026-05-12T16:00:00"
+    },
+    {
+      "title": "Pay Day",
+      "location": "",
+      "description": "",
+      "calendarLabel": "Personal",
+      "allDay": true,
+      "start": "2026-05-13T00:00:00",
+      "end": "2026-05-14T00:00:00"
     }
   ]
 }
