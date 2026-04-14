@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-04-14 08:38 EDT",
+  "generatedAt": "2026-04-14 09:51 EDT",
   "events": [
-    {
-      "title": "Out of office",
-      "location": "",
-      "description": "",
-      "calendarLabel": "WJCT",
-      "allDay": false,
-      "start": "2026-04-13T08:00:00",
-      "end": "2026-04-13T09:00:00"
-    },
     {
       "title": "School Pick Up",
       "location": "",
