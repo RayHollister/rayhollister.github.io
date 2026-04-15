@@ -119,7 +119,7 @@ i {
 
 .a2hs-container {
     display: none;
-    margin: 30px 20px 10px;
+    margin: 10px 20px 30px;
 }
 
 .a2hs-container.is-visible {
@@ -163,6 +163,10 @@ i {
 .a2hs-button .fas {
     margin: 0;
     font-size: 1.75rem;
+}
+
+.a2hs-container .a2hs-button + .a2hs-button {
+    margin-top: 12px;
 }
 
 .a2hs-instructions {

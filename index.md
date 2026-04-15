@@ -26,16 +26,10 @@ exclude: true
 <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon-180x180.png" />
 <link href='/businesscard-style.css' rel='stylesheet' type='text/css'>
 <div id="centered">
-    <h2>Digital Media Director<br /><a href="https://wjct.org">WJCT Public Media</a></h2>
-    
-<h2>Executive Director & Theatre Critic<br/><a href="https://jaxplays.org">JaxPlays</a></h2>
-    <div id="a2hs-container" class="a2hs-container">
-        <button type="button" id="a2hs-button" class="a2hs-button">
-            <i class="fas fa-id-card-alt" aria-hidden="true"></i>
-            Save my business card to your Home Screen
-        </button>
-        <div id="a2hs-instructions" class="a2hs-instructions" aria-live="polite"></div>
-    </div>
+    <h2 id="h2-wjct">Digital Media Director<br /><a href="https://wjct.org">WJCT Public Media</a></h2>
+    <div id="bc-wjct" class="a2hs-container"></div>
+    <h2 id="h2-jaxplays">Executive Director & Theatre Critic<br/><a href="https://jaxplays.org">JaxPlays</a></h2>
+    <div id="bc-jaxplays" class="a2hs-container"></div>
     <h3>Places on the interwebs to find me:</h3>
     <a title="Ray Hollister on Facebook" href="https://facebook.com/rayhollister">
         <div class="social Facebook"><i class="fa-brands fa-facebook-f"></i>
@@ -217,65 +211,162 @@ exclude: true
 </div>
 <script>
 (function () {
-    var container = document.getElementById('a2hs-container');
-    var button = document.getElementById('a2hs-button');
-    var instructions = document.getElementById('a2hs-instructions');
+    var bcWjct = document.getElementById('bc-wjct');
+    var bcJaxplays = document.getElementById('bc-jaxplays');
+    var h2Wjct = document.getElementById('h2-wjct');
+    var h2Jaxplays = document.getElementById('h2-jaxplays');
 
-    if (!container || !button || !instructions) {
-        return;
+    var cards = {
+        wjct: {
+            label: 'Save WJCT Contact',
+            fn: 'Ray',
+            ln: 'Hollister',
+            org: 'WJCT Public Media',
+            title: 'Digital Media Director',
+            email: 'rhollister@wjct.org',
+            tel: '+19043586341',
+            url: 'https://wjct.org',
+            social: [
+                'http://www.facebook.com/WJCTJax',
+                'http://www.twitter.com/wjctjax',
+                'http://instagram.com/wjctjax',
+                'https://www.youtube.com/c/WJCTJax'
+            ]
+        },
+        jaxplays: {
+            label: 'Save JaxPlays Contact',
+            fn: 'Ray',
+            ln: 'Hollister',
+            org: 'JaxPlays',
+            title: 'Executive Director & Theatre Critic',
+            email: 'rayhollister@jaxplays.org',
+            tel: '+19045804043',
+            url: 'https://jaxplays.org',
+            social: [
+                'https://www.facebook.com/jaxplaysorg',
+                'https://bsky.app/profile/jaxplays.org',
+                'https://instagram.com/jaxplaysorg',
+                'https://www.linkedin.com/company/jaxplaysorg'
+            ]
+        }
+    };
+
+    function buildVCard(c, photoBase64) {
+        var lines = [
+            'BEGIN:VCARD',
+            'VERSION:3.0',
+            'N:' + c.ln + ';' + c.fn + ';;;',
+            'FN:' + c.fn + ' ' + c.ln,
+            'ORG:' + c.org,
+            'TITLE:' + c.title,
+            'TEL;TYPE=WORK,VOICE:' + c.tel,
+            'EMAIL;TYPE=WORK:' + c.email,
+            'URL:' + c.url
+        ];
+        if (c.social) {
+            for (var i = 0; i < c.social.length; i++) {
+                var s = c.social[i];
+                var label = '';
+                if (s.match(/facebook\.com/i)) label = 'Facebook';
+                else if (s.match(/twitter\.com/i)) label = 'Twitter';
+                else if (s.match(/instagram\.com/i)) label = 'Instagram';
+                else if (s.match(/linkedin\.com/i)) label = 'LinkedIn';
+                else if (s.match(/youtube\.com/i)) label = 'YouTube';
+                else if (s.match(/bsky\.app/i)) label = 'Bluesky';
+                else label = 'Social';
+                var item = 'item' + (i + 1);
+                lines.push(item + '.URL:' + s);
+                lines.push(item + '.X-ABLabel:' + label);
+            }
+        }
+        var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        var now = new Date();
+        var metDate = days[now.getDay()] + '\, ' + months[now.getMonth()] + ' ' + now.getDate() + '\, ' + now.getFullYear();
+        lines.push('NOTE:Met Ray on ' + metDate);
+        if (photoBase64) {
+            lines.push('PHOTO;ENCODING=b;TYPE=JPEG:' + photoBase64);
+        }
+        lines.push('END:VCARD');
+        return lines.join('\r\n');
     }
+
+    function fetchPhotoBase64(url) {
+        return new Promise(function (resolve) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'blob';
+            xhr.onload = function () {
+                if (xhr.status < 200 || xhr.status >= 300) { resolve(null); return; }
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    var b64 = reader.result.split(',')[1] || null;
+                    resolve(b64);
+                };
+                reader.readAsDataURL(xhr.response);
+            };
+            xhr.onerror = function () { resolve(null); };
+            xhr.send();
+        });
+    }
+
+    function downloadVCard(card, photoBase64) {
+        var vcf = buildVCard(card, photoBase64);
+        var blob = new Blob([vcf], { type: 'text/vcard' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = card.fn + '_' + card.ln + '_' + card.org.replace(/\s+/g, '_') + '.vcf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    var wjctPhotoB64 = null;
+    var jaxplaysPhotoB64 = null;
+    fetchPhotoBase64('/media/ray-hollister-headshot.jpg').then(function (b64) {
+        wjctPhotoB64 = b64;
+    });
+    fetchPhotoBase64('/media/ray-hollister-jaxplays-headshot.jpg').then(function (b64) {
+        jaxplaysPhotoB64 = b64;
+    });
+
+    function makeButton(card, generic) {
+        var label = generic ? card.label : 'Save Contact';
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'a2hs-button';
+        btn.innerHTML = '<i class="fas fa-id-card-alt" aria-hidden="true"></i> ' + label;
+        btn.addEventListener('click', function () {
+            var photo = (card === cards.wjct) ? wjctPhotoB64 : (card === cards.jaxplays) ? jaxplaysPhotoB64 : null;
+            downloadVCard(card, photo);
+        });
+        return btn;
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    var bc = (params.get('bc') || '').toLowerCase();
 
     var userAgent = navigator.userAgent || navigator.vendor || window.opera;
     var isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
     var isAndroid = /Android/.test(userAgent);
-    var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone;
 
-    if (!(isIOS || isAndroid) || isStandalone) {
-        return;
+    var showButtons = bc || isIOS || isAndroid;
+
+    if (bc === 'wjct') {
+        h2Jaxplays.style.display = 'none';
+        bcWjct.appendChild(makeButton(cards.wjct, false));
+        bcWjct.classList.add('is-visible');
+    } else if (bc === 'jaxplays') {
+        h2Wjct.style.display = 'none';
+        bcJaxplays.appendChild(makeButton(cards.jaxplays, false));
+        bcJaxplays.classList.add('is-visible');
+    } else if (showButtons) {
+        bcWjct.appendChild(makeButton(cards.wjct, true));
+        bcWjct.classList.add('is-visible');
+        bcJaxplays.appendChild(makeButton(cards.jaxplays, true));
+        bcJaxplays.classList.add('is-visible');
     }
-
-    container.classList.add('is-visible');
-
-    var deferredPrompt;
-
-    window.addEventListener('beforeinstallprompt', function (event) {
-        event.preventDefault();
-        deferredPrompt = event;
-        button.classList.add('has-native-prompt');
-    });
-
-    button.addEventListener('click', function () {
-        instructions.classList.remove('is-visible');
-
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-
-            deferredPrompt.userChoice.then(function (choice) {
-                if (choice && choice.outcome === 'accepted') {
-                    instructions.textContent = 'Awesome! Ray\'s contact card is being added to your home screen.';
-                } else {
-                    instructions.textContent = 'If the prompt did not appear, open your browser menu and choose "Add to Home screen".';
-                }
-                instructions.classList.add('is-visible');
-                deferredPrompt = null;
-            }).catch(function () {
-                instructions.textContent = 'Open your browser menu and choose "Add to Home screen" to pin Ray\'s contact card.';
-                instructions.classList.add('is-visible');
-                deferredPrompt = null;
-            });
-
-            return;
-        }
-
-        if (isIOS) {
-            instructions.textContent = 'Tap the share button in Safari and choose "Add to Home Screen" to save Ray\'s contact card.';
-        } else if (isAndroid) {
-            instructions.textContent = 'Open your browser menu (⋮) and choose "Add to Home screen" to pin Ray\'s contact card.';
-        } else {
-            instructions.textContent = 'Use your browser\'s add to home screen option to pin this page.';
-        }
-
-        instructions.classList.add('is-visible');
-    });
 })();
 </script>
