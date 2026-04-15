@@ -1,11 +1,11 @@
 {
   "date": "2026-04-15",
-  "high": 86.4,
-  "low": 59.2,
+  "high": 87.9,
+  "low": 59.6,
   "weathercode": 0,
   "condition": "Clear",
   "icon": "sun",
   "units": "F",
-  "generatedAt": "2026-04-15 01:08 EDT",
+  "generatedAt": "2026-04-15 01:53 EDT",
   "source": "open-meteo"
 }
