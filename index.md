@@ -26,7 +26,9 @@ exclude: true
 <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon-180x180.png" />
 <link href='/businesscard-style.css' rel='stylesheet' type='text/css'>
 <div id="centered">
-    <h2>Executive Director & Theatre Critic<br/><a href="https://jaxplays.org">JaxPlays</a></h2>
+    <h2>Digital Media Director<br /><a href="https://wjct.org">WJCT Public Media</a></h2>
+    
+<h2>Executive Director & Theatre Critic<br/><a href="https://jaxplays.org">JaxPlays</a></h2>
     <div id="a2hs-container" class="a2hs-container">
         <button type="button" id="a2hs-button" class="a2hs-button">
             <i class="fas fa-id-card-alt" aria-hidden="true"></i>
