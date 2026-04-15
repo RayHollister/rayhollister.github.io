@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-15 07:35 EDT",
+  "generatedAt": "2026-04-15 08:38 EDT",
   "events": [
     {
       "title": "Out of office",
@@ -679,7 +679,7 @@
     {
       "title": "WJCT newsletter call",
       "location": "https://us02web.zoom.us/j/3566700432",
-      "description": "Join Zoom Meeting\nhttps://us02web.zoom.us/j/3566700432",
+      "description": "Join Zoom Meeting\nhttps://us04web.zoom.us/j/6155153115?pwd=d0pTYXJrU05zaGtQcy9DYm5vckJ3Zz09",
       "calendarLabel": "WJCT",
       "allDay": false,
       "start": "2026-05-06T11:30:00",
@@ -927,6 +927,15 @@
       "allDay": false,
       "start": "2026-05-14T15:00:00",
       "end": "2026-05-14T16:00:00"
+    },
+    {
+      "title": "Out of office",
+      "location": "",
+      "description": "",
+      "calendarLabel": "WJCT",
+      "allDay": false,
+      "start": "2026-05-15T08:00:00",
+      "end": "2026-05-15T09:00:00"
     }
   ]
 }
