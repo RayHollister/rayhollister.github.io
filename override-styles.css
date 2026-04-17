@@ -156,3 +156,45 @@ a.white:visited, a.white:hover {
 .lightbox-caption .image-attribution {
     color: #999;
 }
+
+/* AdSense ad delineation within article content.
+   Give auto-inserted ads clear breathing room and a subtle label so they
+   don't blur into the surrounding copy. */
+.post-content ins.adsbygoogle[data-ad-status="filled"],
+.post-content .google-auto-placed {
+    margin: 2.5rem auto !important;
+    padding: 1.25rem !important;
+    background: #f7f7f7;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    max-width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.post-content ins.adsbygoogle[data-ad-status="filled"]::before,
+.post-content .google-auto-placed::before {
+    content: "Advertisement";
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 0.65rem;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Anchor / sticky / overlay ads inject themselves as .google-auto-placed too,
+   but they position themselves fixed — unset our framing for those. */
+.post-content .google-auto-placed[data-anchor-status],
+.post-content .google-auto-placed.google-anchor,
+body > .google-auto-placed {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: none;
+    border: none;
+}
+body > .google-auto-placed::before {
+    content: none;
+}
