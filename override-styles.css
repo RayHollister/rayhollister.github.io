@@ -157,7 +157,17 @@ a.white:visited, a.white:hover {
     color: #999;
 }
 
-/* Give auto-inserted AdSense units breathing room from surrounding copy. */
+/* Give auto-inserted AdSense units breathing room and a label so they
+   don't blur into the surrounding article copy. */
 .google-auto-placed.ap_container {
     margin: 1.8rem 0;
+    background-color: #f2f2f2;
+    padding-top: 1.8rem;
+}
+.google-auto-placed.ap_container::after {
+    display: inline-block;
+    padding-top: .8rem;
+    padding-bottom: 1rem;
+    content: "Advertisement";
+    font-style: italic;
 }
