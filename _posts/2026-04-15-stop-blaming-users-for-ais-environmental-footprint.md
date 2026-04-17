@@ -5,6 +5,7 @@ date: 2026-04-15T17:43:00-04:00
 categories:
   - Technology
   - AI
+  - Opinion
 author: Ray Hollister
 image: /media/2026/04/stop-blaming-users-ai-environmental-footprint.jpg
 image_alt: "A surreal, painterly illustration of a man with glasses typing at a computer desk. A giant, suit-sleeved corporate hand enters from the upper right, holding a magnifying glass that contains a single, large, perfect water drop, positioned directly in front of the man's view. Through the large office windows, a sprawling industrial complex with cooling towers, a dam, and a refinery operates under a dark, cloudy night sky. The desk monitor shows complex data tables."
