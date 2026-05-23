@@ -316,15 +316,35 @@ i {
 }
 
 .fa-ADAPT:before {
+        display: inline-block;
+        height: 1.5rem;
+        width: 1.5rem;
+        content: "";
+        margin-right: 5px;
+        background: url(/media/2022/07/ADAPT-FAVICON.png) no-repeat 0 0;
+        background-size: 1.5rem;
+        border-radius: 50%;
+        box-shadow: 0px 0px 3px 1px #fff;
+}
+
+.KnowledgeCutoff {
+    background-color: #0f766e;
+}
+
+.fa-knowledgecutoff { 
+    margin-right: 5px;
+    margin-left: -10px;
+}
+
+.fa-knowledgecutoff:before {
     display: inline-block;
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 2rem;
+    width: 2rem;
     content: "";
     margin-right: 5px;
-    background: url(/media/2022/07/ADAPT-FAVICON.png) no-repeat 0 0;
-    background-size: 1.5rem;
-    border-radius: 50%;
-    box-shadow: 0px 0px 3px 1px #fff;
+    background: url(/media/2026/05/knowledgecutoff-icon.svg) no-repeat 0 0;
+    background-size: 2rem;
+    /* border-radius: 50%; */
 }
 
 .fa-oddball {

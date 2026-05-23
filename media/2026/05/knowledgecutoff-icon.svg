@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Knowledge Cutoff newsletter icon</title>
+  <rect width="512" height="512" rx="88" fill="#0f766e"/>
+  <rect x="112" y="96" width="288" height="336" rx="28" fill="#fbfaf7"/>
+  <path d="M112 180h288" stroke="#d9d6ce" stroke-width="24"/>
+  <path d="M184 64v82M328 64v82" stroke="#fbfaf7" stroke-width="38" stroke-linecap="round"/>
+  <path d="M176 258h160M176 318h124" stroke="#0f766e" stroke-width="28" stroke-linecap="round"/>
+  <path d="M148 390L368 170" stroke="#c2410c" stroke-width="40" stroke-linecap="round"/>
+</svg>
