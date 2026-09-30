@@ -269,55 +269,28 @@ permalink: /maps/
     L.Control.zoomHome().addTo(map);
 
     const openFreeMapStyles = {
-      positron: "https://tiles.openfreemap.org/styles/positron"
+      positron: "https://tiles.openfreemap.org/styles/positron",
+      bright: "https://tiles.openfreemap.org/styles/bright",
+      threeD: "https://tiles.openfreemap.org/styles/liberty"
     };
-    const openMapTilesSource = "https://tiles.openfreemap.org/planet";
-    const openFreeMapGlyphs = "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf";
     const baseMapStyles = {
       positron: {
         label: "Positron",
         getStyle: () => openFreeMapStyles.positron
       },
-      osmBright: {
-        label: "OSM Bright",
-        getStyle: () => "https://raw.githubusercontent.com/openmaptiles/osm-bright-gl-style/master/style.json",
-        useOpenFreeMapSource: true
+      bright: {
+        label: "Bright",
+        getStyle: () => openFreeMapStyles.bright
       },
-      darkMatter: {
-        label: "Dark Matter",
-        getStyle: () => "https://raw.githubusercontent.com/openmaptiles/dark-matter-gl-style/master/style.json",
-        useOpenFreeMapSource: true
-      },
-      basic: {
-        label: "Basic",
-        getStyle: () => "https://raw.githubusercontent.com/openmaptiles/maptiler-basic-gl-style/master/style.json",
-        useOpenFreeMapSource: true
+      threeD: {
+        label: "3D",
+        getStyle: () => openFreeMapStyles.threeD
       }
     };
     let activeBaseMapKey = "positron";
     let baseMapControlElement;
     let baseMapLayer;
     let baseMapRequestId = 0;
-
-    async function getBaseMapStyle(config) {
-      const style = config.getStyle();
-      if (!config.useOpenFreeMapSource) {
-        return style;
-      }
-
-      const response = await fetch(style);
-      if (!response.ok) {
-        throw new Error(`Could not load ${config.label} style.`);
-      }
-      const styleJson = await response.json();
-      styleJson.sources = styleJson.sources || {};
-      styleJson.sources.openmaptiles = {
-        type: "vector",
-        url: openMapTilesSource
-      };
-      styleJson.glyphs = openFreeMapGlyphs;
-      return styleJson;
-    }
 
     async function setBaseMap(baseMapKey, options) {
       const config = baseMapStyles[baseMapKey];
@@ -329,7 +302,7 @@ permalink: /maps/
       }
       let nextStyle;
       try {
-        nextStyle = await getBaseMapStyle(config);
+        nextStyle = config.getStyle();
       } catch (error) {
         if (!settings.quiet) {
           window.alert(error.message || `Could not load ${config.label} basemap.`);
