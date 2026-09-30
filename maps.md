@@ -5,12 +5,16 @@ permalink: /maps/
 ---
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.9.0/dist/maplibre-gl.css">
+<link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet">
 
 <style>
   .maps-page {
     display: grid;
     gap: 1.5rem;
+  }
+
+  .site-footer {
+    display: none;
   }
 
   .maps-intro {
@@ -139,8 +143,8 @@ permalink: /maps/
 </section>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/maplibre-gl@5.9.0/dist/maplibre-gl.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js"></script>
+<script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.js"></script>
 <script>
   window.rayMapsPlaces = window.rayMapsPlaces || [];
 
@@ -150,9 +154,35 @@ permalink: /maps/
       scrollWheelZoom: false
     }).setView([30.3322, -81.6557], 11);
 
-    L.maplibreGL({
-      style: "https://tiles.openfreemap.org/styles/liberty"
-    }).addTo(map);
+    const openFreeMapStyles = {
+      light: "https://tiles.openfreemap.org/styles/positron",
+      dark: "https://tiles.openfreemap.org/styles/dark"
+    };
+    let openFreeMapLayer;
+    let activeOpenFreeMapStyle;
+
+    function isDarkModeEnabled() {
+      const storedDarkMode = localStorage.getItem("darkMode");
+      return storedDarkMode === "enabled" ||
+        (window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches &&
+          storedDarkMode !== "disabled");
+    }
+
+    function setOpenFreeMapStyle() {
+      const nextStyle = isDarkModeEnabled() ? openFreeMapStyles.dark : openFreeMapStyles.light;
+      if (activeOpenFreeMapStyle === nextStyle) return;
+      if (!window.maplibregl || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true }))) {
+        return;
+      }
+      if (openFreeMapLayer) {
+        map.removeLayer(openFreeMapLayer);
+      }
+      openFreeMapLayer = L.maplibreGL({
+        style: nextStyle
+      }).addTo(map);
+      activeOpenFreeMapStyle = nextStyle;
+    }
 
     map.attributionControl.addAttribution(
       '<a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a>'
@@ -239,5 +269,21 @@ permalink: /maps/
 
     filter.addEventListener("input", renderPlaces);
     renderPlaces();
+
+    setOpenFreeMapStyle();
+
+    new MutationObserver(setOpenFreeMapStyle).observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"]
+    });
+
+    if (window.matchMedia) {
+      const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      if (darkModeQuery.addEventListener) {
+        darkModeQuery.addEventListener("change", setOpenFreeMapStyle);
+      } else if (darkModeQuery.addListener) {
+        darkModeQuery.addListener(setOpenFreeMapStyle);
+      }
+    }
   })();
 </script>
