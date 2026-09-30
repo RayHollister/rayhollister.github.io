@@ -219,18 +219,60 @@ permalink: /maps/
   .maps-layer-group-row {
     display: grid;
     gap: 0.3rem;
-    grid-template-columns: minmax(7.5rem, 1fr) auto auto;
+    grid-template-columns: minmax(9rem, 1fr) auto;
     align-items: center;
-    margin-top: 0.35rem;
   }
 
   .maps-layer-group-row__name {
-    font-weight: 600;
+    align-items: center;
+    display: flex;
+    gap: 0.45rem;
     min-width: 0;
   }
 
   .maps-layer-group-row label {
     white-space: nowrap;
+  }
+
+  .maps-layer-mode-switch {
+    align-items: center;
+    display: inline-flex;
+  }
+
+  .maps-layer-mode-switch__track {
+    background: #0969da;
+    border: 1px solid #0969da;
+    border-radius: 0px;
+    display: inline-flex;
+    height: 16px;
+    padding: 2px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    width: 32px;
+  }
+
+  .maps-layer-mode-switch__knob {
+    background: #fff;
+    border-radius: 1px;
+    display: block;
+    height: 16px;
+    transform: translateX(0);
+    transition: background 0.15s ease, transform 0.15s ease;
+    width: 16px;
+  }
+
+  .maps-layer-mode-switch input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .maps-layer-mode-switch input:checked ~ .maps-layer-mode-switch__track {
+    background: transparent;
+  }
+
+  .maps-layer-mode-switch input:checked ~ .maps-layer-mode-switch__track .maps-layer-mode-switch__knob {
+    background: #0969da;
+    transform: translateX(14px);
   }
 
   .leaflet-control-layers-overlays label:focus,
@@ -456,6 +498,11 @@ permalink: /maps/
       toggle.addEventListener("click", function () {
         setOpen(!container.classList.contains("is-open"));
       });
+      document.addEventListener("pointerdown", function (event) {
+        if (container.classList.contains("is-open") && !container.contains(event.target)) {
+          setOpen(false);
+        }
+      }, true);
       setOpen(false);
       return { setOpen };
     }
@@ -725,7 +772,9 @@ permalink: /maps/
 
     function syncDistrictLayerInputs() {
       boundaryLayerControls.forEach((control) => {
-        if (control.input) {
+        if (control.syncInput) {
+          control.syncInput();
+        } else if (control.input) {
           control.input.checked = map.hasLayer(control.layer);
         }
       });
@@ -874,16 +923,76 @@ permalink: /maps/
 
     function appendGeographyLayerRow(parent, name, overlayLayer, borderLayer) {
       const row = document.createElement("div");
-      const nameElement = document.createElement("span");
-      const overlayControl = createBoundaryLayerInput("Overlays", overlayLayer, { group: "boundaries" });
-      const borderControl = createBoundaryLayerInput("Borders", borderLayer, { group: "boundaries" });
+      const layerLabel = document.createElement("label");
+      const layerInput = document.createElement("input");
+      const nameText = document.createElement("span");
+      const modeLabel = document.createElement("label");
+      const modeInput = document.createElement("input");
+      const modeTrack = document.createElement("span");
+      const modeKnob = document.createElement("span");
+      const overlayControl = { layer: overlayLayer, group: "boundaries" };
+      const borderControl = { layer: borderLayer, group: "boundaries" };
+      let allowMultipleOnNextChange = false;
 
       row.className = "maps-layer-group-row";
-      nameElement.className = "maps-layer-group-row__name";
-      nameElement.textContent = name;
-      row.appendChild(nameElement);
-      row.appendChild(overlayControl.labelElement);
-      row.appendChild(borderControl.labelElement);
+      layerLabel.className = "maps-layer-group-row__name";
+      layerInput.type = "checkbox";
+      layerInput.className = "leaflet-control-layers-selector";
+      nameText.textContent = name;
+      layerLabel.appendChild(layerInput);
+      layerLabel.appendChild(nameText);
+
+      modeLabel.className = "maps-layer-mode-switch";
+      modeInput.type = "checkbox";
+      modeInput.setAttribute("aria-label", `${name} borders`);
+      modeTrack.className = "maps-layer-mode-switch__track";
+      modeKnob.className = "maps-layer-mode-switch__knob";
+      modeTrack.appendChild(modeKnob);
+      modeLabel.appendChild(modeInput);
+      modeLabel.appendChild(modeTrack);
+
+      function getSelectedControl() {
+        return modeInput.checked ? borderControl : overlayControl;
+      }
+
+      function syncRowInputs() {
+        const isOverlayActive = map.hasLayer(overlayLayer);
+        const isBorderActive = map.hasLayer(borderLayer);
+        layerInput.checked = isOverlayActive || isBorderActive;
+        if (isBorderActive) {
+          modeInput.checked = true;
+        } else if (isOverlayActive) {
+          modeInput.checked = false;
+        }
+      }
+
+      overlayControl.syncInput = syncRowInputs;
+      borderControl.syncInput = syncRowInputs;
+
+      layerInput.addEventListener("click", function (event) {
+        allowMultipleOnNextChange = event.shiftKey;
+      });
+      layerInput.addEventListener("change", function () {
+        setBoundaryLayer(getSelectedControl(), layerInput.checked, allowMultipleOnNextChange);
+        allowMultipleOnNextChange = false;
+      });
+      modeInput.addEventListener("change", function () {
+        const previousControl = modeInput.checked ? overlayControl : borderControl;
+        const nextControl = getSelectedControl();
+        const wasEnabled = map.hasLayer(previousControl.layer) || map.hasLayer(nextControl.layer);
+        if (map.hasLayer(previousControl.layer)) {
+          map.removeLayer(previousControl.layer);
+        }
+        if (wasEnabled) {
+          setBoundaryLayer(nextControl, true, true);
+        } else {
+          syncDistrictLayerInputs();
+        }
+      });
+
+      boundaryLayerControls.push(overlayControl, borderControl);
+      row.appendChild(layerLabel);
+      row.appendChild(modeLabel);
       parent.appendChild(row);
     }
 
