@@ -18,6 +18,12 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
 ## Boundaries And Area Layers
 
 - [City of Jacksonville My Neighborhood](https://maps.coj.net/myneighborhood/)
+  - Florida House Overlays
+  - Florida House Borders
+  - Florida Senate Overlays
+  - Florida Senate Borders
+  - Zip Codes Overlays
+  - Zip Codes Borders
   - City Council District Overlays
   - City Council District Borders
   - City Council District At Large Overlays
@@ -27,6 +33,7 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
 - Neighborhood Overlays and Neighborhood Borders:
   - Source repository: [RayHollister/JacksonvilleNeighborhoods](https://github.com/RayHollister/JacksonvilleNeighborhoods)
   - Runtime data URL: [neighborhoods.geojson](https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson)
+  - Note: Although this map was created by the City of Jacksonville, this is not an official neighborhood boundaries map. Many of these neighborhoods do not have "official" boundaries, as they have not been defined legally. Also, there are several typos in this file that have not all been fixed.
 
 ## Transportation
 

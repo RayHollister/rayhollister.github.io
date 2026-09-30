@@ -619,6 +619,30 @@ permalink: /maps/
       style: (feature) => getBoundaryStyle(feature, "border", "neighborhood"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "neighborhood")
     });
+    const floridaHouseFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "floridaHouse"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "floridaHouse")
+    });
+    const floridaHouseBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "floridaHouse"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "floridaHouse")
+    });
+    const floridaSenateFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "floridaSenate"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "floridaSenate")
+    });
+    const floridaSenateBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "floridaSenate"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "floridaSenate")
+    });
+    const zipCodeFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "zipCode"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "zipCode")
+    });
+    const zipCodeBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "zipCode"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "zipCode")
+    });
     const busRoutesLayer = L.geoJSON(null, {
       style: (feature) => getBusRouteStyle(feature),
       onEachFeature: (feature, layer) => addBusRouteInteractivity(feature, layer)
@@ -663,7 +687,13 @@ permalink: /maps/
         cityFillLayer,
         cityBorderLayer,
         neighborhoodFillLayer,
-        neighborhoodBorderLayer
+        neighborhoodBorderLayer,
+        floridaHouseFillLayer,
+        floridaHouseBorderLayer,
+        floridaSenateFillLayer,
+        floridaSenateBorderLayer,
+        zipCodeFillLayer,
+        zipCodeBorderLayer
       ].forEach((layer) => moveLayerGroup(layer, "bringToBack"));
 
       moveLayerGroup(busRoutesLayer, "bringToFront");
@@ -834,6 +864,15 @@ permalink: /maps/
           const container = L.DomUtil.create("div", "leaflet-control-layers leaflet-bar leaflet-control maps-layers-control");
           const list = L.DomUtil.create("section", "leaflet-control-layers-list", container);
           const overlays = L.DomUtil.create("div", "leaflet-control-layers-overlays", list);
+          overlays.appendChild(createLayerHeading("Government"));
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("Florida House Overlays", floridaHouseFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Florida House Borders", floridaHouseBorderLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Florida Senate Overlays", floridaSenateFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Florida Senate Borders", floridaSenateBorderLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Zip Codes Overlays", zipCodeFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Zip Codes Borders", zipCodeBorderLayer, { group: "boundaries" })
+          ]);
           appendLayerControls(overlays, [
             createBoundaryLayerInput("City Council District Overlays", councilDistrictFillLayer, { group: "boundaries" }),
             createBoundaryLayerInput("City Council District Borders", councilDistrictBorderLayer, { group: "boundaries" }),
@@ -899,6 +938,15 @@ permalink: /maps/
       if (layerType === "neighborhood") {
         return getStringColorNumber(properties.NAME || properties.NUM_NAME || "Neighborhood");
       }
+      if (layerType === "floridaHouse") {
+        return Number.parseInt(properties.HSE, 10);
+      }
+      if (layerType === "floridaSenate") {
+        return Number.parseInt(properties.SEN, 10);
+      }
+      if (layerType === "zipCode") {
+        return Number.parseInt(properties.ZIPCODE, 10);
+      }
       return getDistrictNumber(feature);
     }
 
@@ -948,6 +996,15 @@ permalink: /maps/
       if (layerType === "neighborhood") {
         return mode === "border" ? neighborhoodBorderLayer : neighborhoodFillLayer;
       }
+      if (layerType === "floridaHouse") {
+        return mode === "border" ? floridaHouseBorderLayer : floridaHouseFillLayer;
+      }
+      if (layerType === "floridaSenate") {
+        return mode === "border" ? floridaSenateBorderLayer : floridaSenateFillLayer;
+      }
+      if (layerType === "zipCode") {
+        return mode === "border" ? zipCodeBorderLayer : zipCodeFillLayer;
+      }
       return mode === "border" ? councilDistrictBorderLayer : councilDistrictFillLayer;
     }
 
@@ -961,6 +1018,15 @@ permalink: /maps/
       }
       if (layerType === "neighborhood") {
         return properties.NAME || properties.NUM_NAME || "Neighborhood";
+      }
+      if (layerType === "floridaHouse") {
+        return properties.HSE ? `Florida House District ${properties.HSE}` : "Florida House District";
+      }
+      if (layerType === "floridaSenate") {
+        return properties.SEN ? `Florida Senate District ${properties.SEN}` : "Florida Senate District";
+      }
+      if (layerType === "zipCode") {
+        return properties.ZIPCODE ? `ZIP Code ${properties.ZIPCODE}` : "ZIP Code";
       }
       const district = properties.CC || properties.DISTRICT_N || properties.DISTRICT || "";
       return district ? `Council District ${district}` : "Council District";
@@ -976,6 +1042,15 @@ permalink: /maps/
       }
       if (layerType === "neighborhood") {
         return properties.NUM_NAME && properties.NUM_NAME !== properties.NAME ? properties.NUM_NAME : "";
+      }
+      if (layerType === "floridaHouse") {
+        return properties.HSE_NAME || properties.DELEGATES || "";
+      }
+      if (layerType === "floridaSenate") {
+        return properties.SEN_NAME || "";
+      }
+      if (layerType === "zipCode") {
+        return [properties.USPS_CITY, properties.USPS_STATE].filter(Boolean).join(", ");
       }
       return properties.MEMBER_NAM || "";
     }
@@ -1394,6 +1469,24 @@ permalink: /maps/
       neighborhoodFillLayer,
       neighborhoodBorderLayer,
       "neighborhood boundaries"
+    );
+    loadBoundaryLayers(
+      "/data/florida-house-districts.geojson",
+      floridaHouseFillLayer,
+      floridaHouseBorderLayer,
+      "Florida House districts"
+    );
+    loadBoundaryLayers(
+      "/data/florida-senate-districts.geojson",
+      floridaSenateFillLayer,
+      floridaSenateBorderLayer,
+      "Florida Senate districts"
+    );
+    loadBoundaryLayers(
+      "/data/zip-codes.geojson",
+      zipCodeFillLayer,
+      zipCodeBorderLayer,
+      "ZIP Codes"
     );
     loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
     loadGeoJsonLayer("/data/jta-bus-stops.geojson", busStopsLayer, "JTA bus stops");
