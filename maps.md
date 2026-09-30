@@ -322,13 +322,8 @@ permalink: /maps/
       maxBoundsViscosity: 1,
       zoomControl: false,
       scrollWheelZoom: true,
-      fullscreenControl: true,
-      fullscreenControlOptions: {
-        position: "topleft"
-      }
+      fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
-
-    L.Control.zoomHome().addTo(map);
 
     const openFreeMapStyles = {
       positron: "https://tiles.openfreemap.org/styles/positron",
@@ -1408,6 +1403,10 @@ permalink: /maps/
     loadGeoJsonLayer("/data/dedicated-magnet-schools.geojson", dedicatedMagnetSchoolsLayer, "dedicated magnet schools");
 
     addLocateControl();
+    L.control.fullscreen({
+      position: "topleft"
+    }).addTo(map);
+    L.Control.zoomHome().addTo(map);
     addDistrictLayerControl();
     addBaseMapControl();
     
