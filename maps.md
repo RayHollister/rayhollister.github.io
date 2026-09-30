@@ -216,6 +216,23 @@ permalink: /maps/
     text-transform: uppercase;
   }
 
+  .maps-layer-group-row {
+    display: grid;
+    gap: 0.3rem;
+    grid-template-columns: minmax(7.5rem, 1fr) auto auto;
+    align-items: center;
+    margin-top: 0.35rem;
+  }
+
+  .maps-layer-group-row__name {
+    font-weight: 600;
+    min-width: 0;
+  }
+
+  .maps-layer-group-row label {
+    white-space: nowrap;
+  }
+
   .leaflet-control-layers-overlays label:focus,
   .leaflet-control-layers-overlays label:focus-within,
   .leaflet-control-layers-overlays span:focus,
@@ -855,6 +872,21 @@ permalink: /maps/
       });
     }
 
+    function appendGeographyLayerRow(parent, name, overlayLayer, borderLayer) {
+      const row = document.createElement("div");
+      const nameElement = document.createElement("span");
+      const overlayControl = createBoundaryLayerInput("Overlays", overlayLayer, { group: "boundaries" });
+      const borderControl = createBoundaryLayerInput("Borders", borderLayer, { group: "boundaries" });
+
+      row.className = "maps-layer-group-row";
+      nameElement.className = "maps-layer-group-row__name";
+      nameElement.textContent = name;
+      row.appendChild(nameElement);
+      row.appendChild(overlayControl.labelElement);
+      row.appendChild(borderControl.labelElement);
+      parent.appendChild(row);
+    }
+
     function addDistrictLayerControl() {
       const DistrictLayerControl = L.Control.extend({
         options: {
@@ -865,22 +897,13 @@ permalink: /maps/
           const list = L.DomUtil.create("section", "leaflet-control-layers-list", container);
           const overlays = L.DomUtil.create("div", "leaflet-control-layers-overlays", list);
           overlays.appendChild(createLayerHeading("Government"));
-          appendLayerControls(overlays, [
-            createBoundaryLayerInput("City Council District Overlays", councilDistrictFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("City Council District Borders", councilDistrictBorderLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("City Council District At Large Overlays", councilAtLargeFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("City Council District At Large Borders", councilAtLargeBorderLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Cities Overlays", cityFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Cities Borders", cityBorderLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Neighborhood Overlays", neighborhoodFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Neighborhood Borders", neighborhoodBorderLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Florida House Overlays", floridaHouseFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Florida House Borders", floridaHouseBorderLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Florida Senate Overlays", floridaSenateFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Florida Senate Borders", floridaSenateBorderLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Zip Codes Overlays", zipCodeFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Zip Codes Borders", zipCodeBorderLayer, { group: "boundaries" })
-          ]);
+          appendGeographyLayerRow(overlays, "City Council District", councilDistrictFillLayer, councilDistrictBorderLayer);
+          appendGeographyLayerRow(overlays, "City Council District At Large", councilAtLargeFillLayer, councilAtLargeBorderLayer);
+          appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer);
+          appendGeographyLayerRow(overlays, "Neighborhood", neighborhoodFillLayer, neighborhoodBorderLayer);
+          appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer);
+          appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer);
+          appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer);
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer),
