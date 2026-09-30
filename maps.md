@@ -541,6 +541,9 @@ permalink: /maps/
     map.attributionControl.addAttribution(
       '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
     );
+    map.attributionControl.addAttribution(
+      '<a href="https://github.com/RayHollister/JacksonvilleNeighborhoods" target="_blank" rel="noopener">Jacksonville Neighborhoods</a>'
+    );
 
     const markerIcon = window.L.ExtraMarkers ? L.ExtraMarkers.icon({
       icon: "fa-map-marker-alt",
@@ -574,6 +577,14 @@ permalink: /maps/
       style: (feature) => getBoundaryStyle(feature, "border", "city"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "city")
     });
+    const neighborhoodFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "neighborhood"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "neighborhood")
+    });
+    const neighborhoodBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "neighborhood"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "neighborhood")
+    });
     const busRoutesLayer = L.geoJSON(null, {
       style: (feature) => getBusRouteStyle(feature),
       onEachFeature: (feature, layer) => addBusRouteInteractivity(feature, layer)
@@ -602,7 +613,9 @@ permalink: /maps/
         councilAtLargeFillLayer,
         councilAtLargeBorderLayer,
         cityFillLayer,
-        cityBorderLayer
+        cityBorderLayer,
+        neighborhoodFillLayer,
+        neighborhoodBorderLayer
       ].forEach((layer) => moveLayerGroup(layer, "bringToBack"));
 
       moveLayerGroup(busRoutesLayer, "bringToFront");
@@ -757,10 +770,12 @@ permalink: /maps/
           [
             createBoundaryLayerInput("City Council District Overlays", councilDistrictFillLayer, { group: "boundaries" }),
             createBoundaryLayerInput("City Council District Borders", councilDistrictBorderLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("City Council District At Large Overlay", councilAtLargeFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("City Council District At Large Overlays", councilAtLargeFillLayer, { group: "boundaries" }),
             createBoundaryLayerInput("City Council District At Large Borders", councilAtLargeBorderLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Cities Overlay", cityFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Cities Overlays", cityFillLayer, { group: "boundaries" }),
             createBoundaryLayerInput("Cities Borders", cityBorderLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Neighborhood Overlays", neighborhoodFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Neighborhood Borders", neighborhoodBorderLayer, { group: "boundaries" }),
             createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer),
             createBoundaryLayerInput("JTA Bus Stops", busStopsLayer)
           ].forEach((control) => {
@@ -818,7 +833,20 @@ permalink: /maps/
       if (layerType === "city") {
         return Number.parseInt(properties.city_code || properties.FPLACE90, 10);
       }
+      if (layerType === "neighborhood") {
+        return getStringColorNumber(properties.NAME || properties.NUM_NAME || "Neighborhood");
+      }
       return getDistrictNumber(feature);
+    }
+
+    function getStringColorNumber(value) {
+      const text = String(value || "");
+      let hash = 0;
+      for (let index = 0; index < text.length; index += 1) {
+        hash = ((hash << 5) - hash) + text.charCodeAt(index);
+        hash |= 0;
+      }
+      return Math.abs(hash) + 1;
     }
 
     function getBoundaryColor(feature, layerType) {
@@ -854,6 +882,9 @@ permalink: /maps/
       if (layerType === "city") {
         return mode === "border" ? cityBorderLayer : cityFillLayer;
       }
+      if (layerType === "neighborhood") {
+        return mode === "border" ? neighborhoodBorderLayer : neighborhoodFillLayer;
+      }
       return mode === "border" ? councilDistrictBorderLayer : councilDistrictFillLayer;
     }
 
@@ -864,6 +895,9 @@ permalink: /maps/
       }
       if (layerType === "city") {
         return properties.Name || "City";
+      }
+      if (layerType === "neighborhood") {
+        return properties.NAME || properties.NUM_NAME || "Neighborhood";
       }
       const district = properties.CC || properties.DISTRICT_N || properties.DISTRICT || "";
       return district ? `Council District ${district}` : "Council District";
@@ -876,6 +910,9 @@ permalink: /maps/
       }
       if (layerType === "city") {
         return properties.ESN ? `ESN ${properties.ESN}` : "";
+      }
+      if (layerType === "neighborhood") {
+        return properties.NUM_NAME && properties.NUM_NAME !== properties.NAME ? properties.NUM_NAME : "";
       }
       return properties.MEMBER_NAM || "";
     }
@@ -1267,6 +1304,12 @@ permalink: /maps/
       cityFillLayer,
       cityBorderLayer,
       "city boundaries"
+    );
+    loadBoundaryLayers(
+      "https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson",
+      neighborhoodFillLayer,
+      neighborhoodBorderLayer,
+      "neighborhood boundaries"
     );
     loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
     loadGeoJsonLayer("/data/jta-bus-stops.geojson", busStopsLayer, "JTA bus stops");
