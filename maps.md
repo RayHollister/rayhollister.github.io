@@ -87,8 +87,8 @@ permalink: /maps/
   .maps-control-panel,
   .maps-basemap-control {
     background: #fff;
-    border: 1px solid #d0d7de;
-    box-shadow: 0 2px 8px rgba(27, 31, 36, 0.15);
+    border: 0;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
     overflow: hidden;
   }
 
@@ -130,11 +130,13 @@ permalink: /maps/
   }
 
   .maps-control-panel__toggle--icon {
+    border-bottom: 0;
+    color: #000;
     justify-content: center;
-    min-height: 2.125rem;
-    min-width: 2.125rem;
+    min-height: 30px;
+    min-width: 30px;
     padding: 0;
-    width: 2.125rem;
+    width: 30px;
   }
 
   .maps-control-panel__toggle--icon::after {
@@ -149,8 +151,12 @@ permalink: /maps/
   .maps-control-panel__toggle--icon svg {
     display: block;
     fill: currentColor;
-    height: 1rem;
-    width: 1rem;
+    height: 16px;
+    width: 16px;
+  }
+
+  .maps-control-panel.is-open .maps-control-panel__toggle--icon {
+    border-bottom: 1px solid #ccc;
   }
 
   .maps-basemap-control .maps-control-panel__body {
@@ -192,6 +198,16 @@ permalink: /maps/
 
   .maps-layers-control .leaflet-control-layers-overlays {
     padding: 0.45rem 0.6rem;
+  }
+
+  .maps-layer-heading {
+    border-top: 1px solid #d0d7de;
+    color: #57606a;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-top: 0.45rem;
+    padding-top: 0.45rem;
+    text-transform: uppercase;
   }
 
   .leaflet-control-layers-overlays label:focus,
@@ -605,6 +621,22 @@ permalink: /maps/
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, getBusStopStyle()),
       onEachFeature: (feature, layer) => addBusStopInteractivity(feature, layer)
     });
+    const elementarySchoolsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getSchoolStyle("elementary")),
+      onEachFeature: (feature, layer) => addSchoolInteractivity(feature, layer)
+    });
+    const middleSchoolsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getSchoolStyle("middle")),
+      onEachFeature: (feature, layer) => addSchoolInteractivity(feature, layer)
+    });
+    const highSchoolsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getSchoolStyle("high")),
+      onEachFeature: (feature, layer) => addSchoolInteractivity(feature, layer)
+    });
+    const dedicatedMagnetSchoolsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getSchoolStyle("magnet")),
+      onEachFeature: (feature, layer) => addSchoolInteractivity(feature, layer)
+    });
     const boundaryLayerControls = [];
 
     function moveLayerGroup(layer, direction) {
@@ -629,6 +661,12 @@ permalink: /maps/
       ].forEach((layer) => moveLayerGroup(layer, "bringToBack"));
 
       moveLayerGroup(busRoutesLayer, "bringToFront");
+      [
+        elementarySchoolsLayer,
+        middleSchoolsLayer,
+        highSchoolsLayer,
+        dedicatedMagnetSchoolsLayer
+      ].forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       moveLayerGroup(busStopsLayer, "bringToFront");
     }
 
@@ -768,16 +806,29 @@ permalink: /maps/
       return { input, labelElement };
     }
 
+    function createLayerHeading(label) {
+      const heading = document.createElement("div");
+      heading.className = "maps-layer-heading";
+      heading.textContent = label;
+      return heading;
+    }
+
+    function appendLayerControls(parent, controls) {
+      controls.forEach((control) => {
+        parent.appendChild(control.labelElement);
+      });
+    }
+
     function addDistrictLayerControl() {
       const DistrictLayerControl = L.Control.extend({
         options: {
-          position: "topright"
+          position: "topleft"
         },
         onAdd: function () {
           const container = L.DomUtil.create("div", "leaflet-control-layers leaflet-control-layers-expanded leaflet-control maps-layers-control");
           const list = L.DomUtil.create("section", "leaflet-control-layers-list", container);
           const overlays = L.DomUtil.create("div", "leaflet-control-layers-overlays", list);
-          [
+          appendLayerControls(overlays, [
             createBoundaryLayerInput("City Council District Overlays", councilDistrictFillLayer, { group: "boundaries" }),
             createBoundaryLayerInput("City Council District Borders", councilDistrictBorderLayer, { group: "boundaries" }),
             createBoundaryLayerInput("City Council District At Large Overlays", councilAtLargeFillLayer, { group: "boundaries" }),
@@ -785,13 +836,23 @@ permalink: /maps/
             createBoundaryLayerInput("Cities Overlays", cityFillLayer, { group: "boundaries" }),
             createBoundaryLayerInput("Cities Borders", cityBorderLayer, { group: "boundaries" }),
             createBoundaryLayerInput("Neighborhood Overlays", neighborhoodFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Neighborhood Borders", neighborhoodBorderLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Neighborhood Borders", neighborhoodBorderLayer, { group: "boundaries" })
+          ]);
+          overlays.appendChild(createLayerHeading("Transportation"));
+          appendLayerControls(overlays, [
             createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer),
             createBoundaryLayerInput("JTA Bus Stops", busStopsLayer)
-          ].forEach((control) => {
-            overlays.appendChild(control.labelElement);
+          ]);
+          overlays.appendChild(createLayerHeading("Educational Institutions"));
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("Elementary Schools", elementarySchoolsLayer),
+            createBoundaryLayerInput("Middle Schools", middleSchoolsLayer),
+            createBoundaryLayerInput("High Schools", highSchoolsLayer),
+            createBoundaryLayerInput("Dedicated Magnet Schools", dedicatedMagnetSchoolsLayer)
+          ]);
+          setupCollapsibleMapControl(container, "Layers", list, {
+            iconPath: "M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z"
           });
-          setupCollapsibleMapControl(container, "Layers", list);
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
           syncDistrictLayerInputs();
@@ -1109,6 +1170,78 @@ permalink: /maps/
       }
     }
 
+    function getSchoolStyle(type) {
+      const colors = {
+        elementary: "#0891b2",
+        middle: "#dc2626",
+        high: "#16a34a",
+        magnet: "#9333ea"
+      };
+      const fillColor = colors[type] || "#111827";
+      return {
+        color: "#ffffff",
+        fillColor,
+        fillOpacity: 0.95,
+        opacity: 1,
+        radius: 5,
+        weight: 1.5
+      };
+    }
+
+    function getSchoolName(feature) {
+      const properties = feature.properties || {};
+      return properties.USER_Full_Name
+        || properties.USER_Name
+        || properties.Sch_Label
+        || properties.USER_Short_Name
+        || "School";
+    }
+
+    function appendSchoolPopupLine(popup, value) {
+      if (!value) return;
+      const line = document.createElement("span");
+      line.textContent = value;
+      popup.appendChild(line);
+    }
+
+    function createSchoolPopup(feature) {
+      const properties = feature.properties || {};
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+      const gradeLevel = properties.USER_School_Grade_Level || properties.USER_Grade_Level || "";
+      const address = properties.USER_School_Address || properties.IN_SingleLine || properties.Match_addr || "";
+      const phone = properties.USER_School_Phone_Number || "";
+
+      popup.className = "maps-district-popup";
+      title.textContent = getSchoolName(feature);
+      popup.appendChild(title);
+
+      appendSchoolPopupLine(popup, gradeLevel);
+      appendSchoolPopupLine(popup, address);
+      appendSchoolPopupLine(popup, phone);
+
+      if (properties.USER_URL) {
+        const link = document.createElement("a");
+        link.href = properties.USER_URL;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = "View school";
+        popup.appendChild(link);
+      }
+
+      return popup;
+    }
+
+    function addSchoolInteractivity(feature, layer) {
+      const name = getSchoolName(feature);
+      layer.bindPopup(createSchoolPopup(feature));
+      if (name) {
+        layer.bindTooltip(name, {
+          sticky: true
+        });
+      }
+    }
+
     function createPlacePopup(place) {
       const popup = document.createElement("div");
       const title = document.createElement("strong");
@@ -1258,6 +1391,10 @@ permalink: /maps/
     );
     loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
     loadGeoJsonLayer("/data/jta-bus-stops.geojson", busStopsLayer, "JTA bus stops");
+    loadGeoJsonLayer("/data/elementary-schools.geojson", elementarySchoolsLayer, "elementary schools");
+    loadGeoJsonLayer("/data/middle-schools.geojson", middleSchoolsLayer, "middle schools");
+    loadGeoJsonLayer("/data/high-schools.geojson", highSchoolsLayer, "high schools");
+    loadGeoJsonLayer("/data/dedicated-magnet-schools.geojson", dedicatedMagnetSchoolsLayer, "dedicated magnet schools");
 
     addDistrictLayerControl();
     addBaseMapControl();
