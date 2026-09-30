@@ -202,6 +202,14 @@ permalink: /maps/
     cursor: not-allowed;
   }
 
+  .leaflet-control-layers-overlays label:focus,
+  .leaflet-control-layers-overlays label:focus-within,
+  .leaflet-control-layers-overlays span:focus,
+  .leaflet-control-layers-selector:focus {
+    box-shadow: none;
+    outline: 0;
+  }
+
   .leaflet-control-locate a {
     cursor: pointer;
   }
@@ -608,8 +616,12 @@ permalink: /maps/
     function setBoundaryLayer(control, enabled) {
       if (enabled) {
         if (!map.hasLayer(control.layer)) map.addLayer(control.layer);
-        if (control.exclusiveLayer && map.hasLayer(control.exclusiveLayer)) {
-          map.removeLayer(control.exclusiveLayer);
+        if (control.group) {
+          boundaryLayerControls.forEach((otherControl) => {
+            if (otherControl !== control && otherControl.group === control.group && map.hasLayer(otherControl.layer)) {
+              map.removeLayer(otherControl.layer);
+            }
+          });
         }
       } else if (map.hasLayer(control.layer)) {
         map.removeLayer(control.layer);
@@ -618,12 +630,13 @@ permalink: /maps/
       syncDistrictLayerInputs();
     }
 
-    function createBoundaryLayerInput(label, layer, exclusiveLayer) {
+    function createBoundaryLayerInput(label, layer, options) {
       const labelElement = document.createElement("label");
       const row = document.createElement("span");
       const input = document.createElement("input");
       const text = document.createElement("span");
-      const control = { input, layer, exclusiveLayer };
+      const settings = options || {};
+      const control = { input, layer, group: settings.group || "" };
 
       input.type = "checkbox";
       input.className = "leaflet-control-layers-selector";
@@ -649,12 +662,12 @@ permalink: /maps/
           const list = L.DomUtil.create("section", "leaflet-control-layers-list", container);
           const overlays = L.DomUtil.create("div", "leaflet-control-layers-overlays", list);
           [
-            createBoundaryLayerInput("City Council District Overlays", councilDistrictFillLayer, councilDistrictBorderLayer),
-            createBoundaryLayerInput("City Council District Borders", councilDistrictBorderLayer, councilDistrictFillLayer),
-            createBoundaryLayerInput("City Council District At Large Overlay", councilAtLargeFillLayer, councilAtLargeBorderLayer),
-            createBoundaryLayerInput("City Council District At Large Boundaries", councilAtLargeBorderLayer, councilAtLargeFillLayer),
-            createBoundaryLayerInput("Cities Overlay", cityFillLayer, cityBorderLayer),
-            createBoundaryLayerInput("Cities Boundaries", cityBorderLayer, cityFillLayer),
+            createBoundaryLayerInput("City Council District Overlays", councilDistrictFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("City Council District Borders", councilDistrictBorderLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("City Council District At Large Overlay", councilAtLargeFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("City Council District At Large Borders", councilAtLargeBorderLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Cities Overlay", cityFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Cities Borders", cityBorderLayer, { group: "boundaries" }),
             createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer),
             createBoundaryLayerInput("JTA Bus Stops", busStopsLayer)
           ].forEach((control) => {
