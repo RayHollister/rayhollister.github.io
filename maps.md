@@ -87,8 +87,6 @@ permalink: /maps/
   .maps-control-panel,
   .maps-basemap-control {
     background: #fff;
-    border: 0;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
     overflow: hidden;
   }
 
@@ -103,6 +101,7 @@ permalink: /maps/
     font: inherit;
     font-weight: 600;
     justify-content: space-between;
+    line-height: normal;
     min-width: 7rem;
     padding: 0.45rem 0.6rem;
     text-align: left;
@@ -131,10 +130,13 @@ permalink: /maps/
 
   .maps-control-panel__toggle--icon {
     border-bottom: 0;
+    border-radius: 0;
     color: #000;
     justify-content: center;
-    min-height: 30px;
-    min-width: 30px;
+    height: 30px;
+    line-height: 30px;
+    min-height: 0;
+    min-width: 0;
     padding: 0;
     width: 30px;
   }
@@ -157,6 +159,10 @@ permalink: /maps/
 
   .maps-control-panel.is-open .maps-control-panel__toggle--icon {
     border-bottom: 1px solid #ccc;
+  }
+
+  .maps-control-panel.is-open .leaflet-control-layers-list {
+    display: block;
   }
 
   .maps-basemap-control .maps-control-panel__body {
@@ -277,6 +283,12 @@ permalink: /maps/
 
     .maps-control-panel {
       max-width: min(17rem, calc(100vw - 5rem));
+    }
+
+    .leaflet-touch .maps-control-panel__toggle--icon {
+      height: 30px;
+      line-height: 30px;
+      width: 30px;
     }
 
     .maps-control-panel__body {
@@ -401,7 +413,6 @@ permalink: /maps/
 
     function setupCollapsibleMapControl(container, label, body, options) {
       const toggle = document.createElement("button");
-      const isMobile = window.matchMedia && window.matchMedia("(max-width: 760px)").matches;
       const settings = options || {};
 
       container.classList.add("maps-control-panel");
@@ -433,7 +444,7 @@ permalink: /maps/
       toggle.addEventListener("click", function () {
         setOpen(!container.classList.contains("is-open"));
       });
-      setOpen(!isMobile);
+      setOpen(false);
       return { setOpen };
     }
 
@@ -443,7 +454,7 @@ permalink: /maps/
           position: "topleft"
         },
         onAdd: function () {
-          const container = L.DomUtil.create("div", "maps-basemap-control leaflet-control");
+          const container = L.DomUtil.create("div", "maps-basemap-control leaflet-bar leaflet-control");
           const body = document.createElement("div");
           let controlApi;
           container.appendChild(body);
@@ -825,7 +836,7 @@ permalink: /maps/
           position: "topleft"
         },
         onAdd: function () {
-          const container = L.DomUtil.create("div", "leaflet-control-layers leaflet-control-layers-expanded leaflet-control maps-layers-control");
+          const container = L.DomUtil.create("div", "leaflet-control-layers leaflet-bar leaflet-control maps-layers-control");
           const list = L.DomUtil.create("section", "leaflet-control-layers-list", container);
           const overlays = L.DomUtil.create("div", "leaflet-control-layers-overlays", list);
           appendLayerControls(overlays, [
