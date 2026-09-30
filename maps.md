@@ -119,6 +119,30 @@ permalink: /maps/
     display: none;
   }
 
+  .maps-control-panel__toggle--icon {
+    justify-content: center;
+    min-height: 2.125rem;
+    min-width: 2.125rem;
+    padding: 0;
+    width: 2.125rem;
+  }
+
+  .maps-control-panel__toggle--icon::after {
+    content: "";
+    margin-left: 0;
+  }
+
+  .maps-control-panel:not(.is-open) .maps-control-panel__toggle--icon::after {
+    content: "";
+  }
+
+  .maps-control-panel__toggle--icon svg {
+    display: block;
+    fill: currentColor;
+    height: 1rem;
+    width: 1rem;
+  }
+
   .maps-basemap-control .maps-control-panel__body {
     display: flex;
     flex-direction: column;
@@ -285,6 +309,11 @@ permalink: /maps/
       threeD: {
         label: "3D",
         getStyle: () => openFreeMapStyles.threeD
+      },
+      googleSatellite: {
+        label: "Google Satellite",
+        type: "tile",
+        url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
       }
     };
     let activeBaseMapKey = "positron";
@@ -297,16 +326,7 @@ permalink: /maps/
       const settings = options || {};
       const requestId = ++baseMapRequestId;
       if (!config) return false;
-      if (!window.maplibregl || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true }))) {
-        return false;
-      }
-      let nextStyle;
-      try {
-        nextStyle = config.getStyle();
-      } catch (error) {
-        if (!settings.quiet) {
-          window.alert(error.message || `Could not load ${config.label} basemap.`);
-        }
+      if (config.type !== "tile" && (!window.maplibregl || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true })))) {
         return false;
       }
       if (requestId !== baseMapRequestId) {
@@ -315,9 +335,25 @@ permalink: /maps/
       if (baseMapLayer) {
         map.removeLayer(baseMapLayer);
       }
-      baseMapLayer = L.maplibreGL({
-        style: nextStyle
-      }).addTo(map);
+      if (config.type === "tile") {
+        baseMapLayer = L.tileLayer(config.url, {
+          attribution: "Google Satellite",
+          maxZoom: 20
+        }).addTo(map);
+      } else {
+        let nextStyle;
+        try {
+          nextStyle = config.getStyle();
+        } catch (error) {
+          if (!settings.quiet) {
+            window.alert(error.message || `Could not load ${config.label} basemap.`);
+          }
+          return false;
+        }
+        baseMapLayer = L.maplibreGL({
+          style: nextStyle
+        }).addTo(map);
+      }
       activeBaseMapKey = baseMapKey;
       updateBaseMapControl();
       return true;
@@ -337,16 +373,30 @@ permalink: /maps/
       });
     }
 
-    function setupCollapsibleMapControl(container, label, body) {
+    function setupCollapsibleMapControl(container, label, body, options) {
       const toggle = document.createElement("button");
       const isMobile = window.matchMedia && window.matchMedia("(max-width: 760px)").matches;
+      const settings = options || {};
 
       container.classList.add("maps-control-panel");
       body.classList.add("maps-control-panel__body");
       toggle.type = "button";
       toggle.className = "maps-control-panel__toggle";
-      toggle.textContent = label;
       toggle.setAttribute("aria-label", `${label} control`);
+      toggle.title = label;
+      if (settings.iconPath) {
+        const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        icon.setAttribute("viewBox", settings.iconViewBox || "0 0 640 640");
+        icon.setAttribute("aria-hidden", "true");
+        icon.setAttribute("focusable", "false");
+        path.setAttribute("d", settings.iconPath);
+        icon.appendChild(path);
+        toggle.classList.add("maps-control-panel__toggle--icon");
+        toggle.appendChild(icon);
+      } else {
+        toggle.textContent = label;
+      }
       container.insertBefore(toggle, body);
 
       function setOpen(open) {
@@ -363,7 +413,7 @@ permalink: /maps/
     function addBaseMapControl() {
       const BaseMapControl = L.Control.extend({
         options: {
-          position: "topright"
+          position: "topleft"
         },
         onAdd: function () {
           const container = L.DomUtil.create("div", "maps-basemap-control leaflet-control");
@@ -380,7 +430,9 @@ permalink: /maps/
             });
             body.appendChild(button);
           });
-          setupCollapsibleMapControl(container, "Basemap", body);
+          setupCollapsibleMapControl(container, "Basemap", body, {
+            iconPath: "M576 112C576 103.7 571.7 96 564.7 91.6C557.7 87.2 548.8 86.8 541.4 90.5L416.5 152.1L244 93.4C230.3 88.7 215.3 89.6 202.1 95.7L77.8 154.3C69.4 158.2 64 166.7 64 176L64 528C64 536.2 68.2 543.9 75.1 548.3C82 552.7 90.7 553.2 98.2 549.7L225.5 489.8L396.2 546.7C409.9 551.3 424.7 550.4 437.8 544.2L562.2 485.7C570.6 481.7 576 473.3 576 464L576 112zM208 146.1L208 445.1L112 490.3L112 191.3L208 146.1zM256 449.4L256 148.3L384 191.8L384 492.1L256 449.4zM432 198L528 150.6L528 448.8L432 494L432 198z"
+          });
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
           baseMapControlElement = container;
