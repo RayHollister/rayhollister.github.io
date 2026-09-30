@@ -64,97 +64,6 @@ permalink: /maps/
     width: 100%;
   }
 
-  .maps-panel {
-    background: #f6f8fa;
-    border: 1px solid #d8dee4;
-    bottom: 1rem;
-    box-shadow: 0 12px 28px rgba(27, 31, 36, 0.18);
-    display: flex;
-    flex-direction: column;
-    max-height: min(26rem, calc(100vh - 8rem));
-    min-width: 0;
-    position: absolute;
-    right: 1rem;
-    top: auto;
-    width: min(18rem, calc(100vw - 2rem));
-    z-index: 500;
-  }
-
-  .maps-panel__header,
-  .maps-panel__empty,
-  .maps-place {
-    padding: 1rem;
-  }
-
-  .maps-panel__header {
-    border-bottom: 1px solid #d8dee4;
-  }
-
-  .maps-panel__heading {
-    align-items: center;
-    display: flex;
-    gap: 0.75rem;
-    justify-content: space-between;
-  }
-
-  .maps-marker-toggle {
-    background: #fff;
-    border: 1px solid #d0d7de;
-    cursor: pointer;
-    font: inherit;
-    font-size: 0.85rem;
-    padding: 0.35rem 0.5rem;
-  }
-
-  .maps-count {
-    color: #57606a;
-    display: block;
-    font-size: 0.9rem;
-    margin-top: 0.25rem;
-  }
-
-  .maps-filter {
-    border: 1px solid #d0d7de;
-    box-sizing: border-box;
-    font: inherit;
-    margin-top: 0.75rem;
-    padding: 0.55rem 0.65rem;
-    width: 100%;
-  }
-
-  .maps-list {
-    list-style: none;
-    margin: 0;
-    overflow: auto;
-    padding: 0;
-  }
-
-  .maps-place {
-    border-bottom: 1px solid #d8dee4;
-    cursor: pointer;
-  }
-
-  .maps-place:hover,
-  .maps-place:focus {
-    background: #fff;
-    outline: none;
-  }
-
-  .maps-place strong,
-  .maps-place span {
-    display: block;
-  }
-
-  .maps-place span {
-    color: #57606a;
-    font-size: 0.9rem;
-    margin-top: 0.25rem;
-  }
-
-  .maps-panel__empty {
-    color: #57606a;
-  }
-
   .maps-district-popup strong,
   .maps-district-popup span,
   .maps-district-popup a {
@@ -267,33 +176,12 @@ permalink: /maps/
       min-height: 0;
     }
 
-    .maps-panel {
-      bottom: 0.75rem;
-      max-height: 40vh;
-      right: 0.75rem;
-      top: auto;
-      width: calc(100vw - 1.5rem);
-    }
   }
 </style>
 
 <section class="maps-page">
   <div class="maps-shell">
     <div id="ray-map" aria-label="Interactive map"></div>
-
-    <aside class="maps-panel" aria-label="Map locations">
-      <div class="maps-panel__header">
-        <div class="maps-panel__heading">
-          <strong>Map Locations</strong>
-          <button class="maps-marker-toggle" type="button" data-map-marker-toggle aria-pressed="false">Tiny dots</button>
-        </div>
-        <span class="maps-count" data-map-count>0 mapped</span>
-        <label class="screen-reader-text" for="maps-filter">Filter map locations</label>
-        <input class="maps-filter" id="maps-filter" type="search" placeholder="Filter locations" autocomplete="off">
-      </div>
-      <ul class="maps-list" data-map-list></ul>
-      <p class="maps-panel__empty" data-map-empty>No locations added yet.</p>
-    </aside>
   </div>
 </section>
 
@@ -593,8 +481,6 @@ permalink: /maps/
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, getBusStopStyle()),
       onEachFeature: (feature, layer) => addBusStopInteractivity(feature, layer)
     });
-    let markerMode = "markers";
-
     const boundaryLayerControls = [];
 
     function moveLayerGroup(layer, direction) {
@@ -789,21 +675,6 @@ permalink: /maps/
       });
 
       map.addControl(new DistrictLayerControl());
-    }
-
-    const list = document.querySelector("[data-map-list]");
-    const count = document.querySelector("[data-map-count]");
-    const empty = document.querySelector("[data-map-empty]");
-    const filter = document.getElementById("maps-filter");
-    const markerToggle = document.querySelector("[data-map-marker-toggle]");
-
-    function placeMatchesFilter(place, query) {
-      if (!query) return true;
-      return [place.name, place.title, place.address, place.description, place.status]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase()
-        .includes(query);
     }
 
     function normalizePlace(place) {
@@ -1153,66 +1024,25 @@ permalink: /maps/
 
     function addPlaceMarker(place) {
       const targetLayer = place.status === "Archive" ? archivedPlaceLayer : activePlaceLayer;
-      const marker = markerMode === "dots"
-        ? L.circleMarker([place.lat, place.lng], {
-            radius: 2,
-            color: "#171717",
-            fillColor: "#171717",
-            fillOpacity: 0.95,
-            opacity: 1,
-            stroke: false,
-            weight: 0
-          })
-        : L.marker([place.lat, place.lng], Object.assign({
-            title: place.name
-          }, markerIcon ? { icon: markerIcon } : {}));
+      const marker = L.marker([place.lat, place.lng], Object.assign({
+        title: place.name
+      }, markerIcon ? { icon: markerIcon } : {}));
 
       marker.bindPopup(createPlacePopup(place)).addTo(targetLayer);
       return marker;
     }
 
     function renderPlaces() {
-      const query = filter.value.trim().toLowerCase();
       const visiblePlaces = places
-        .filter((place) => placeMatchesFilter(place, query))
         .map(normalizePlace)
         .filter((place) => Number.isFinite(place.lat) && Number.isFinite(place.lng));
       const bounds = L.latLngBounds([]);
 
       activePlaceLayer.clearLayers();
       archivedPlaceLayer.clearLayers();
-      list.innerHTML = "";
-      count.textContent = `${visiblePlaces.length} mapped`;
-      empty.hidden = visiblePlaces.length > 0;
 
       visiblePlaces.forEach((place) => {
-        const marker = addPlaceMarker(place);
-        const item = document.createElement("li");
-        const itemName = document.createElement("strong");
-
-        item.className = "maps-place";
-        item.tabIndex = 0;
-        itemName.textContent = place.name;
-        item.appendChild(itemName);
-
-        if (place.address) {
-          const itemAddress = document.createElement("span");
-          itemAddress.textContent = place.address;
-          item.appendChild(itemAddress);
-        }
-
-        item.addEventListener("click", () => {
-          map.setView([place.lat, place.lng], place.zoom || 15);
-          marker.openPopup();
-        });
-        item.addEventListener("keydown", (event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            item.click();
-          }
-        });
-        list.appendChild(item);
-
+        addPlaceMarker(place);
         bounds.extend([place.lat, place.lng]);
       });
 
@@ -1221,15 +1051,6 @@ permalink: /maps/
       } else if (visiblePlaces.length === 1) {
         map.setView([visiblePlaces[0].lat, visiblePlaces[0].lng], visiblePlaces[0].zoom || 14);
       }
-    }
-
-    if (markerToggle) {
-      markerToggle.addEventListener("click", function () {
-        markerMode = markerMode === "markers" ? "dots" : "markers";
-        markerToggle.setAttribute("aria-pressed", String(markerMode === "dots"));
-        markerToggle.textContent = markerMode === "dots" ? "Big markers" : "Tiny dots";
-        renderPlaces();
-      });
     }
 
     function loadCouncilDistricts() {
@@ -1290,7 +1111,6 @@ permalink: /maps/
         });
     }
 
-    filter.addEventListener("input", renderPlaces);
     renderPlaces();
     loadCouncilDistricts();
     loadBoundaryLayers(
