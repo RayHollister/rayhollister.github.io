@@ -165,6 +165,82 @@ permalink: /maps/
     margin-top: 0.25rem;
   }
 
+  .maps-basemap-control {
+    background: #fff;
+    border: 1px solid #d0d7de;
+    box-shadow: 0 2px 8px rgba(27, 31, 36, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .maps-basemap-control button {
+    background: #fff;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .maps-basemap-control button {
+    border-bottom: 1px solid #d0d7de;
+    min-width: 7rem;
+    padding: 0.45rem 0.6rem;
+    text-align: left;
+  }
+
+  .maps-basemap-control button:last-child {
+    border-bottom: 0;
+  }
+
+  .maps-basemap-control button[aria-pressed="true"] {
+    background: #0969da;
+    color: #fff;
+  }
+
+  .maps-basemap-control button:disabled {
+    color: #8c959f;
+    cursor: not-allowed;
+  }
+
+  .leaflet-control-locate a {
+    cursor: pointer;
+  }
+
+  .leaflet-control-locate a .leaflet-control-locate-location-arrow {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="black" d="M445 4 29 195c-48 23-32 93 19 93h176v176c0 51 70 67 93 19L508 67c16-38-25-79-63-63z"/></svg>');
+    display: inline-block;
+    height: 16px;
+    margin: 7px;
+    width: 16px;
+  }
+
+  .leaflet-control-locate a .leaflet-control-locate-spinner {
+    animation: leaflet-control-locate-spin 2s linear infinite;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="black" d="M304 48a48 48 0 1 1-96 0 48 48 0 0 1 96 0zm-48 368a48 48 0 1 0 0 96 48 48 0 0 0 0-96zm208-208a48 48 0 1 0 0 96 48 48 0 0 0 0-96zM96 256a48 48 0 1 0-96 0 48 48 0 0 0 96 0zm13 99a48 48 0 1 0 0 96 48 48 0 0 0 0-96zm294 0a48 48 0 1 0 0 96 48 48 0 0 0 0-96zM109 61a48 48 0 1 0 0 96 48 48 0 0 0 0-96z"/></svg>');
+    display: inline-block;
+    height: 16px;
+    margin: 7px;
+    width: 16px;
+  }
+
+  .leaflet-control-locate.active a .leaflet-control-locate-location-arrow {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="rgb(32, 116, 182)" d="M445 4 29 195c-48 23-32 93 19 93h176v176c0 51 70 67 93 19L508 67c16-38-25-79-63-63z"/></svg>');
+  }
+
+  .leaflet-control-locate.following a .leaflet-control-locate-location-arrow {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="rgb(252, 132, 40)" d="M445 4 29 195c-48 23-32 93 19 93h176v176c0 51 70 67 93 19L508 67c16-38-25-79-63-63z"/></svg>');
+  }
+
+  @keyframes leaflet-control-locate-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
   @media (max-width: 760px) {
     .maps-page,
     .maps-shell {
@@ -239,8 +315,26 @@ permalink: /maps/
       light: "https://tiles.openfreemap.org/styles/positron",
       dark: "https://tiles.openfreemap.org/styles/dark"
     };
-    let openFreeMapLayer;
-    let activeOpenFreeMapStyle;
+    const maptilerKey = window.rayMapsMaptilerKey || "";
+    const baseMapStyles = {
+      openfreemap: {
+        label: "OpenFreeMap",
+        getStyle: () => isDarkModeEnabled() ? openFreeMapStyles.dark : openFreeMapStyles.light
+      },
+      satellite: {
+        label: "Satellite",
+        requiresKey: true,
+        getStyle: () => `https://api.maptiler.com/maps/satellite/style.json?key=${encodeURIComponent(maptilerKey)}`
+      },
+      streets: {
+        label: "Streets",
+        requiresKey: true,
+        getStyle: () => `https://api.maptiler.com/maps/streets-v2/style.json?key=${encodeURIComponent(maptilerKey)}`
+      }
+    };
+    let activeBaseMapKey = "openfreemap";
+    let baseMapControlElement;
+    let baseMapLayer;
 
     function isDarkModeEnabled() {
       const storedDarkMode = localStorage.getItem("darkMode");
@@ -250,20 +344,159 @@ permalink: /maps/
           storedDarkMode !== "disabled");
     }
 
-    function setOpenFreeMapStyle() {
-      const nextStyle = isDarkModeEnabled() ? openFreeMapStyles.dark : openFreeMapStyles.light;
-      if (activeOpenFreeMapStyle === nextStyle) return;
+    function setBaseMap(baseMapKey, options) {
+      const config = baseMapStyles[baseMapKey];
+      const settings = options || {};
+      if (!config) return false;
+      if (config.requiresKey && !maptilerKey) {
+        if (!settings.quiet) {
+          window.alert("MapTiler satellite and streets styles need window.rayMapsMaptilerKey to be set.");
+        }
+        return false;
+      }
       if (!window.maplibregl || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true }))) {
-        return;
+        return false;
       }
-      if (openFreeMapLayer) {
-        map.removeLayer(openFreeMapLayer);
+      if (baseMapLayer) {
+        map.removeLayer(baseMapLayer);
       }
-      openFreeMapLayer = L.maplibreGL({
-        style: nextStyle
+      baseMapLayer = L.maplibreGL({
+        style: config.getStyle()
       }).addTo(map);
-      activeOpenFreeMapStyle = nextStyle;
+      activeBaseMapKey = baseMapKey;
+      updateBaseMapControl();
+      return true;
     }
+
+    function refreshActiveBaseMap() {
+      if (activeBaseMapKey === "openfreemap") {
+        setBaseMap("openfreemap", { quiet: true });
+      }
+    }
+
+    function updateBaseMapControl() {
+      if (!baseMapControlElement) return;
+      baseMapControlElement.querySelectorAll("button").forEach((button) => {
+        const key = button.dataset.baseMap;
+        const config = baseMapStyles[key];
+        button.setAttribute("aria-pressed", String(key === activeBaseMapKey));
+        button.disabled = Boolean(config && config.requiresKey && !maptilerKey);
+      });
+    }
+
+    function addBaseMapControl() {
+      const BaseMapControl = L.Control.extend({
+        options: {
+          position: "topright"
+        },
+        onAdd: function () {
+          const container = L.DomUtil.create("div", "maps-basemap-control leaflet-control");
+          Object.entries(baseMapStyles).forEach(([key, config]) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.dataset.baseMap = key;
+            button.textContent = config.label;
+            button.title = config.requiresKey && !maptilerKey ? "Set window.rayMapsMaptilerKey to enable this MapTiler style." : `Use ${config.label} basemap`;
+            button.addEventListener("click", () => setBaseMap(key));
+            container.appendChild(button);
+          });
+          L.DomEvent.disableClickPropagation(container);
+          L.DomEvent.disableScrollPropagation(container);
+          baseMapControlElement = container;
+          updateBaseMapControl();
+          return container;
+        }
+      });
+
+      map.addControl(new BaseMapControl());
+    }
+
+    let userAccuracyCircle;
+    let userLocationMarker;
+    let locateControlContainer;
+    let locateControlIcon;
+
+    function addLocateControl() {
+      const LocateControl = L.Control.extend({
+        options: {
+          position: "topleft"
+        },
+        onAdd: function () {
+          const container = L.DomUtil.create("div", "leaflet-control-locate leaflet-bar leaflet-control");
+          const link = L.DomUtil.create("a", "leaflet-bar-part leaflet-bar-part-single", container);
+          const icon = L.DomUtil.create("span", "leaflet-control-locate-location-arrow", link);
+          link.href = "#";
+          link.title = "Show me where I am";
+          link.setAttribute("role", "button");
+          link.setAttribute("aria-label", "Show me where I am");
+          link.addEventListener("click", function (event) {
+            event.preventDefault();
+            L.DomUtil.addClass(container, "requesting");
+            L.DomUtil.removeClass(container, "active");
+            L.DomUtil.removeClass(container, "following");
+            L.DomUtil.removeClass(icon, "leaflet-control-locate-location-arrow");
+            L.DomUtil.addClass(icon, "leaflet-control-locate-spinner");
+            map.locate({
+              enableHighAccuracy: true,
+              maxZoom: 16,
+              setView: true
+            });
+          });
+          L.DomEvent.disableClickPropagation(container);
+          L.DomEvent.disableScrollPropagation(container);
+          locateControlContainer = container;
+          locateControlIcon = icon;
+          return container;
+        }
+      });
+
+      map.addControl(new LocateControl());
+    }
+
+    function setLocateControlState(state) {
+      if (!locateControlContainer || !locateControlIcon) return;
+      L.DomUtil.removeClass(locateControlContainer, "requesting");
+      L.DomUtil.removeClass(locateControlContainer, "active");
+      L.DomUtil.removeClass(locateControlContainer, "following");
+      L.DomUtil.removeClass(locateControlIcon, "leaflet-control-locate-spinner");
+      L.DomUtil.addClass(locateControlIcon, "leaflet-control-locate-location-arrow");
+      if (state) {
+        L.DomUtil.addClass(locateControlContainer, state);
+      }
+    }
+
+    map.on("locationfound", function (event) {
+      setLocateControlState("following");
+
+      if (userLocationMarker) {
+        map.removeLayer(userLocationMarker);
+      }
+      if (userAccuracyCircle) {
+        map.removeLayer(userAccuracyCircle);
+      }
+
+      userLocationMarker = L.marker(event.latlng, {
+        title: "Your location"
+      }).addTo(map).bindPopup("You are here");
+      userAccuracyCircle = L.circle(event.latlng, {
+        color: "#0969da",
+        fillColor: "#0969da",
+        fillOpacity: 0.12,
+        radius: event.accuracy || 0,
+        weight: 1
+      }).addTo(map);
+    });
+
+    map.on("locationerror", function (error) {
+      setLocateControlState();
+      window.alert(error.message || "Could not determine your location.");
+    });
+
+    map.on("dragstart zoomstart", function () {
+      if (locateControlContainer && L.DomUtil.hasClass(locateControlContainer, "following")) {
+        setLocateControlState("active");
+      }
+    });
 
     map.attributionControl.addAttribution(
       '<a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a>'
@@ -287,7 +520,7 @@ permalink: /maps/
     const councilDistrictBorderLayer = L.geoJSON(null, {
       style: (feature) => getCouncilDistrictStyle(feature, "border"),
       onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "border")
-    }).addTo(map);
+    });
     let markerMode = "markers";
 
     L.control.layers(null, {
@@ -296,6 +529,18 @@ permalink: /maps/
     }, {
       collapsed: false
     }).addTo(map);
+
+    let syncingDistrictLayers = false;
+    map.on("overlayadd", function (event) {
+      if (syncingDistrictLayers) return;
+      syncingDistrictLayers = true;
+      if (event.layer === councilDistrictFillLayer && map.hasLayer(councilDistrictBorderLayer)) {
+        map.removeLayer(councilDistrictBorderLayer);
+      } else if (event.layer === councilDistrictBorderLayer && map.hasLayer(councilDistrictFillLayer)) {
+        map.removeLayer(councilDistrictFillLayer);
+      }
+      syncingDistrictLayers = false;
+    });
 
     const list = document.querySelector("[data-map-list]");
     const count = document.querySelector("[data-map-count]");
@@ -550,9 +795,11 @@ permalink: /maps/
     renderPlaces();
     loadCouncilDistricts();
 
-    setOpenFreeMapStyle();
+    addBaseMapControl();
+    addLocateControl();
+    setBaseMap("openfreemap", { quiet: true });
 
-    new MutationObserver(setOpenFreeMapStyle).observe(document.body, {
+    new MutationObserver(refreshActiveBaseMap).observe(document.body, {
       attributes: true,
       attributeFilter: ["class"]
     });
@@ -560,9 +807,9 @@ permalink: /maps/
     if (window.matchMedia) {
       const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
       if (darkModeQuery.addEventListener) {
-        darkModeQuery.addEventListener("change", setOpenFreeMapStyle);
+        darkModeQuery.addEventListener("change", refreshActiveBaseMap);
       } else if (darkModeQuery.addListener) {
-        darkModeQuery.addListener(setOpenFreeMapStyle);
+        darkModeQuery.addListener(refreshActiveBaseMap);
       }
     }
   })();
