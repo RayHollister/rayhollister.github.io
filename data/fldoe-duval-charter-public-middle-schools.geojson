@@ -1,0 +1,132 @@
+{
+  "type": "FeatureCollection",
+  "name": "FLDOE Duval charter middle schools",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.75922,
+          30.26944
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "1021",
+        "school_name": "SCHOOL OF SUCCESS ACADEMY-SOS",
+        "school_name_short": "SCHOOL OF SUCCESS ACADEMY-SOS",
+        "school_type": "Middle School",
+        "charter": "YES",
+        "public_school_type": "Public Charter",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "6974 WILSON BLVD",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32210-3663",
+        "phone_number": "(904)573-0880",
+        "principal_first": "GENELL",
+        "principal_last": "MILLS",
+        "total_students": 106,
+        "cep_percentage": 93.4,
+        "teacher_count": 12,
+        "title1": "YES",
+        "alt_school": "N",
+        "alt_school_label": "No",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1021&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.71281,
+          30.43747
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "1261",
+        "school_name": "SOMERSET ACADEMY-MIDDLE, EAGLE CAMPUS",
+        "school_name_short": "SOMERSET ACADEMY-MIDDLE, EAGLE CAMPUS",
+        "school_type": "Middle School",
+        "charter": "YES",
+        "public_school_type": "Public Charter",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "2100 DUNN AVE",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32218-4754",
+        "phone_number": "(904)503-0661",
+        "principal_first": "OLATUNJI",
+        "principal_last": "WILLIAMS",
+        "total_students": 160,
+        "cep_percentage": 80.6,
+        "teacher_count": 10,
+        "title1": "YES",
+        "alt_school": "N",
+        "alt_school_label": "No",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1261&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.76027,
+          30.24792
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "5981",
+        "school_name": "KIPP IMPACT ACADEMY",
+        "school_name_short": "KIPP IMPACT ACADEMY",
+        "school_type": "Middle School",
+        "charter": "YES",
+        "public_school_type": "Public Charter",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "7000 103RD ST",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32210-6859",
+        "phone_number": "(904)720-4620",
+        "principal_first": "DOMINIQUE",
+        "principal_last": "KEYS",
+        "total_students": 884,
+        "cep_percentage": 100.0,
+        "teacher_count": 66,
+        "title1": "YES",
+        "alt_school": "N",
+        "alt_school_label": "No",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=5981&district=16"
+      }
+    }
+  ]
+}

@@ -48,3 +48,17 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - Middle Schools
   - High Schools
   - Dedicated Magnet Schools
+
+## Florida School Report Cards
+
+- [Florida Department of Education Know Your Schools Mapping](https://edudata.fldoe.org/ReportCards/Mapping.html)
+  - Traditional Public Elementary
+  - Traditional Public Middle
+  - Traditional Public High
+  - Traditional Public Combination
+  - Traditional Public Magnet
+  - Charter Public Elementary
+  - Charter Public Middle
+  - Charter Public High
+  - Charter Public Combination
+  - Charter Public Magnet

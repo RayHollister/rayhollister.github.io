@@ -1,0 +1,216 @@
+{
+  "type": "FeatureCollection",
+  "name": "FLDOE Duval charter high schools",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.57241,
+          30.33705
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "0471",
+        "school_name": "LONE STAR MYCROSCHOOL, INC",
+        "school_name_short": "LONE STAR MYCROSCHOOL, INC",
+        "school_type": "High School",
+        "charter": "YES",
+        "public_school_type": "Public Charter",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "8050-1 LONE STAR RD",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32211-6227",
+        "phone_number": "(904)725-5998",
+        "principal_first": "LASHANDA",
+        "principal_last": "EVANS",
+        "total_students": 186,
+        "cep_percentage": 86.0,
+        "teacher_count": 6,
+        "title1": "YES",
+        "alt_school": "A",
+        "alt_school_label": "Alternative Education Center",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0471&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.77369,
+          30.29284
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "0531",
+        "school_name": "DUVAL MYCROSCHOOL, INC",
+        "school_name_short": "DUVAL MYCROSCHOOL, INC.",
+        "school_type": "High School",
+        "charter": "YES",
+        "public_school_type": "Public Charter",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "1584 NORMANDY VILLAGE PKWY STE 25",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32221-6800",
+        "phone_number": "(904)783-3611",
+        "principal_first": "KYANNE",
+        "principal_last": "WAY",
+        "total_students": 202,
+        "cep_percentage": 28.2,
+        "teacher_count": 6,
+        "title1": "YES",
+        "alt_school": "A",
+        "alt_school_label": "Alternative Education Center",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0531&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.58521,
+          30.23017
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "1311",
+        "school_name": "DUVAL CHARTER HIGH SCHOOL AT BAYMEADOWS",
+        "school_name_short": "DUVAL CHARTER HIGH SCHOOL AT BAYMEADOWS",
+        "school_type": "High School",
+        "charter": "YES",
+        "public_school_type": "Public Charter",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "7510 BAYMEADOWS WAY",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32256-6818",
+        "phone_number": "(904)638-7947",
+        "principal_first": "LAUREN",
+        "principal_last": "JACQUEZ",
+        "total_students": 785,
+        "cep_percentage": 46.4,
+        "teacher_count": 41,
+        "title1": "NO",
+        "alt_school": "N",
+        "alt_school_label": "No",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1311&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.67646,
+          30.4325
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "5421",
+        "school_name": "BISCAYNE MYCROSCHOOL, INC",
+        "school_name_short": "BISCAYNE MYCROSCHOOL, INC",
+        "school_type": "High School",
+        "charter": "YES",
+        "public_school_type": "Public Charter",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "1680 DUNN AVE STE 8",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32218-4782",
+        "phone_number": "(904)252-6311",
+        "principal_first": "ERICA",
+        "principal_last": "WILLIAMS",
+        "total_students": 209,
+        "cep_percentage": 67.0,
+        "teacher_count": 7,
+        "title1": "YES",
+        "alt_school": "A",
+        "alt_school_label": "Alternative Education Center",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=5421&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.53537,
+          30.3416
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "5731",
+        "school_name": "GLOBAL LEADERSHIP ACADEMY HIGH SCHOOL",
+        "school_name_short": "GLOBAL LEADERSHIP ACADEMY HIGH SCHOOL",
+        "school_type": "High School",
+        "charter": "YES",
+        "public_school_type": "Public Charter",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "1252 FROMAGE WAY",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32225-9006",
+        "phone_number": "(904)267-3007",
+        "principal_first": "LUANN",
+        "principal_last": "HOYSETH",
+        "total_students": 669,
+        "cep_percentage": 77.7,
+        "teacher_count": 40,
+        "title1": "YES",
+        "alt_school": "N",
+        "alt_school_label": "No",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=5731&district=16"
+      }
+    }
+  ]
+}

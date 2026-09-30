@@ -1,0 +1,552 @@
+{
+  "type": "FeatureCollection",
+  "name": "FLDOE Duval traditional combination schools",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.70069,
+          30.35488
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "0141",
+        "school_name": "GRAND PARK CAREER CENTER",
+        "school_name_short": "GRAND PARK CAREER CENTER",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "2335 W 18TH ST",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32209-4599",
+        "phone_number": "(904)630-6894",
+        "principal_first": "TYRONE",
+        "principal_last": "BLUE",
+        "total_students": 225,
+        "cep_percentage": 97.8,
+        "teacher_count": 19,
+        "title1": "YES",
+        "alt_school": "A",
+        "alt_school_label": "Alternative Education Center",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0141&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.68543,
+          30.37245
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "0171",
+        "school_name": "THE BRIDGE TO SUCCESS ACADEMY MIDDLE SCHOOL",
+        "school_name_short": "THE BRIDGE TO SUCCESS ACADEMY MIDDLE SCHOOL",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "5443 MONCRIEF RD",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32209-3160",
+        "phone_number": "(904)924-3035",
+        "principal_first": "LATOYA",
+        "principal_last": "COUNCIL",
+        "total_students": 359,
+        "cep_percentage": 95.3,
+        "teacher_count": 23,
+        "title1": "YES",
+        "alt_school": "A",
+        "alt_school_label": "Alternative Education Center",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0171&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.55793,
+          30.36034
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "0271",
+        "school_name": "GRASP ACADEMY AT DON BREWER",
+        "school_name_short": "GRASP ACADEMY AT DON BREWER",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "3385 HARTSFIELD RD",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32277-0917",
+        "phone_number": "(904)745-4909",
+        "principal_first": "ANNESSIA",
+        "principal_last": "POWELL",
+        "total_students": 295,
+        "cep_percentage": 72.5,
+        "teacher_count": 30,
+        "title1": "YES",
+        "alt_school": "A",
+        "alt_school_label": "Alternative Education Center",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0271&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.76059,
+          30.25234
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "0281",
+        "school_name": "OAK HILL ACADEMY",
+        "school_name_short": "OAK HILL ACADEMY",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "6910 DAUGHTRY BLVD S",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32210-6844",
+        "phone_number": "(904)573-1030",
+        "principal_first": "STEPHANIE",
+        "principal_last": "SMITH",
+        "total_students": 272,
+        "cep_percentage": 75.7,
+        "teacher_count": 39,
+        "title1": "YES",
+        "alt_school": "E",
+        "alt_school_label": "ESE Center",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0281&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.97776,
+          30.30509
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "0381",
+        "school_name": "BALDWIN MIDDLE-SENIOR HIGH SCHOOL",
+        "school_name_short": "BALDWIN MIDDLE-SENIOR HIGH SCHOOL",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "P",
+        "magnet_status_label": "Magnet Program",
+        "magnet_specialty": "J",
+        "magnet_specialty_label": "Career Academy",
+        "physical_address": "291 MILL ST W",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32234-1307",
+        "phone_number": "(904)266-1200",
+        "principal_first": "MICHAEL",
+        "principal_last": "TOWNSEND",
+        "total_students": 1356,
+        "cep_percentage": 42.0,
+        "teacher_count": 65,
+        "title1": "YES",
+        "alt_school": "N",
+        "alt_school_label": "No",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0381&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.63903,
+          30.34488
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "0491",
+        "school_name": "DUVAL REGIONAL JUVENILE DETENTION CENTER",
+        "school_name_short": "DUVAL REGIONAL JUVENILE DETENTION CENTER",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "1214 E 8TH ST",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32206-4006",
+        "phone_number": "(904)798-4819",
+        "principal_first": "EDWARD",
+        "principal_last": "ROBINSON",
+        "total_students": 90,
+        "cep_percentage": 36.7,
+        "teacher_count": 9,
+        "title1": "NO",
+        "alt_school": "D",
+        "alt_school_label": "DJJ School",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0491&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.60184,
+          30.35361
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "0811",
+        "school_name": "PACE CENTER FOR GIRLS-JAX",
+        "school_name_short": "PACE CENTER FOR GIRLS-JAX",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "2933 UNIVERSITY BLVD N",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32211-3322",
+        "phone_number": "(904)448-8002",
+        "principal_first": "EDWARD",
+        "principal_last": "ROBINSON",
+        "total_students": 69,
+        "cep_percentage": 81.2,
+        "teacher_count": 5,
+        "title1": "YES",
+        "alt_school": "D",
+        "alt_school_label": "DJJ School",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0811&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.66585,
+          30.34603
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "1451",
+        "school_name": "DARNELL COOKMAN MIDDLE/HIGH SCHOOL",
+        "school_name_short": "DARNELL COOKMAN MIDDLE/HIGH SCHOOL",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "S",
+        "magnet_status_label": "Magnet School",
+        "magnet_specialty": "E",
+        "magnet_specialty_label": "Medical",
+        "physical_address": "1701 N DAVIS ST",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32209-6518",
+        "phone_number": "(904)630-6805",
+        "principal_first": "PAUL",
+        "principal_last": "DAVIS",
+        "total_students": 1018,
+        "cep_percentage": 41.4,
+        "teacher_count": 44,
+        "title1": "YES",
+        "alt_school": "N",
+        "alt_school_label": "No",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1451&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.67028,
+          30.33895
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "1542",
+        "school_name": "JOHN E. FORD K-8 SCHOOL",
+        "school_name_short": "JOHN E. FORD K-8 SCHOOL",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "S",
+        "magnet_status_label": "Magnet School",
+        "magnet_specialty": "C",
+        "magnet_specialty_label": "Foreign Language",
+        "physical_address": "1137 CLEVELAND ST",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32209-6414",
+        "phone_number": "(904)630-6540",
+        "principal_first": "TINA",
+        "principal_last": "BENNETT",
+        "total_students": 660,
+        "cep_percentage": 73.9,
+        "teacher_count": 38,
+        "title1": "YES",
+        "alt_school": "N",
+        "alt_school_label": "No",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1542&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.72781,
+          30.34278
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "1701",
+        "school_name": "PALM AVENUE EXCEP. STUDENT CENTER",
+        "school_name_short": "PALM AVENUE EXCEP. STUDENT CTR",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "1301 W PALM AVE",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32254-2349",
+        "phone_number": "(904)693-7516",
+        "principal_first": "MICHAEL",
+        "principal_last": "ALEXANDER",
+        "total_students": 232,
+        "cep_percentage": 46.6,
+        "teacher_count": 22,
+        "title1": "YES",
+        "alt_school": "E",
+        "alt_school_label": "ESE Center",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1701&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.76024,
+          30.25482
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "1811",
+        "school_name": "HOSPITAL AND HOMEBOUND",
+        "school_name_short": "HOSPITAL AND HOMEBOUND",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "7050 MELVIN RD",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32210",
+        "phone_number": "(904)348-5191",
+        "principal_first": "MARK",
+        "principal_last": "ERTEL",
+        "total_students": 86,
+        "cep_percentage": 17.4,
+        "teacher_count": 10,
+        "title1": "NO",
+        "alt_school": "E",
+        "alt_school_label": "ESE Center",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1811&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.82094,
+          30.25322
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "2741",
+        "school_name": "WESTVIEW K-8",
+        "school_name_short": "WESTVIEW K-8",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "5270 CONNIE JEAN RD",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32210-8697",
+        "phone_number": "(904)573-1082",
+        "principal_first": "JAMIE",
+        "principal_last": "GRIFFIN",
+        "total_students": 1051,
+        "cep_percentage": 84.3,
+        "teacher_count": 79,
+        "title1": "YES",
+        "alt_school": "N",
+        "alt_school_label": "No",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2741&district=16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.65059,
+          30.3172
+        ]
+      },
+      "properties": {
+        "source": "Florida Department of Education Know Your Schools Mapping",
+        "source_url": "https://edudata.fldoe.org/ReportCards/Mapping.html",
+        "year": "2526",
+        "district_number": "16",
+        "district_name": "DUVAL",
+        "location_district": "16",
+        "school_number": "7023",
+        "school_name": "DUVAL VIRTUAL INSTRUCTION ACADEMY",
+        "school_name_short": "DUVAL VIRTUAL INSTRUCTION ACADEMY",
+        "school_type": "Combination School",
+        "charter": "NO",
+        "public_school_type": "Traditional Public",
+        "magnet_status": "Z",
+        "magnet_status_label": "Non-Magnet",
+        "magnet_specialty": "Z",
+        "magnet_specialty_label": "None",
+        "physical_address": "1701 PRUDENTIAL DR",
+        "physical_city": "JACKSONVILLE",
+        "physical_state": "FL",
+        "physical_zip": "32217-3398",
+        "phone_number": "(904)390-2037",
+        "principal_first": "CANDICE",
+        "principal_last": "MIXON",
+        "total_students": 659,
+        "cep_percentage": 31.3,
+        "teacher_count": 25,
+        "title1": "NO",
+        "alt_school": "N",
+        "alt_school_label": "No",
+        "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=7023&district=16"
+      }
+    }
+  ]
+}

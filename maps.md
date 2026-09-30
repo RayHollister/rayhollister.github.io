@@ -216,6 +216,13 @@ permalink: /maps/
     margin-top: 0;
   }
 
+  .maps-layer-subheading {
+    color: #57606a;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-top: 0.35rem;
+  }
+
   .maps-layer-group-row {
     display: grid;
     gap: 0.3rem;
@@ -753,6 +760,16 @@ permalink: /maps/
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, getSchoolStyle("magnet")),
       onEachFeature: (feature, layer) => addSchoolInteractivity(feature, layer)
     });
+    const fldoeTraditionalElementarySchoolsLayer = createFldoeSchoolLayer("elementary");
+    const fldoeTraditionalMiddleSchoolsLayer = createFldoeSchoolLayer("middle");
+    const fldoeTraditionalHighSchoolsLayer = createFldoeSchoolLayer("high");
+    const fldoeTraditionalCombinationSchoolsLayer = createFldoeSchoolLayer("combination");
+    const fldoeTraditionalMagnetSchoolsLayer = createFldoeSchoolLayer("magnet");
+    const fldoeCharterElementarySchoolsLayer = createFldoeSchoolLayer("elementary");
+    const fldoeCharterMiddleSchoolsLayer = createFldoeSchoolLayer("middle");
+    const fldoeCharterHighSchoolsLayer = createFldoeSchoolLayer("high");
+    const fldoeCharterCombinationSchoolsLayer = createFldoeSchoolLayer("combination");
+    const fldoeCharterMagnetSchoolsLayer = createFldoeSchoolLayer("magnet");
     const boundaryLayerControls = [];
     const geographyLayerControls = [];
     let governmentLayerMode = "fill";
@@ -790,7 +807,17 @@ permalink: /maps/
         elementarySchoolsLayer,
         middleSchoolsLayer,
         highSchoolsLayer,
-        dedicatedMagnetSchoolsLayer
+        dedicatedMagnetSchoolsLayer,
+        fldoeTraditionalElementarySchoolsLayer,
+        fldoeTraditionalMiddleSchoolsLayer,
+        fldoeTraditionalHighSchoolsLayer,
+        fldoeTraditionalCombinationSchoolsLayer,
+        fldoeTraditionalMagnetSchoolsLayer,
+        fldoeCharterElementarySchoolsLayer,
+        fldoeCharterMiddleSchoolsLayer,
+        fldoeCharterHighSchoolsLayer,
+        fldoeCharterCombinationSchoolsLayer,
+        fldoeCharterMagnetSchoolsLayer
       ].forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       moveLayerGroup(busStopsLayer, "bringToFront");
     }
@@ -940,6 +967,13 @@ permalink: /maps/
       return heading;
     }
 
+    function createLayerSubheading(label) {
+      const heading = document.createElement("div");
+      heading.className = "maps-layer-subheading";
+      heading.textContent = label;
+      return heading;
+    }
+
     function appendLayerControls(parent, controls) {
       controls.forEach((control) => {
         parent.appendChild(control.labelElement);
@@ -1078,6 +1112,23 @@ permalink: /maps/
             createBoundaryLayerInput("Middle Schools", middleSchoolsLayer),
             createBoundaryLayerInput("High Schools", highSchoolsLayer),
             createBoundaryLayerInput("Dedicated Magnet Schools", dedicatedMagnetSchoolsLayer)
+          ]);
+          overlays.appendChild(createLayerHeading("Florida School Report Cards"));
+          overlays.appendChild(createLayerSubheading("Traditional Public"));
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("Elementary", fldoeTraditionalElementarySchoolsLayer),
+            createBoundaryLayerInput("Middle", fldoeTraditionalMiddleSchoolsLayer),
+            createBoundaryLayerInput("High", fldoeTraditionalHighSchoolsLayer),
+            createBoundaryLayerInput("Combination", fldoeTraditionalCombinationSchoolsLayer),
+            createBoundaryLayerInput("Magnet", fldoeTraditionalMagnetSchoolsLayer)
+          ]);
+          overlays.appendChild(createLayerSubheading("Charter Public"));
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("Elementary", fldoeCharterElementarySchoolsLayer),
+            createBoundaryLayerInput("Middle", fldoeCharterMiddleSchoolsLayer),
+            createBoundaryLayerInput("High", fldoeCharterHighSchoolsLayer),
+            createBoundaryLayerInput("Combination", fldoeCharterCombinationSchoolsLayer),
+            createBoundaryLayerInput("Magnet", fldoeCharterMagnetSchoolsLayer)
           ]);
           setupCollapsibleMapControl(container, "Layers", list, {
             iconPath: "M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z"
@@ -1441,6 +1492,7 @@ permalink: /maps/
         elementary: "#0891b2",
         middle: "#dc2626",
         high: "#16a34a",
+        combination: "#ca8a04",
         magnet: "#9333ea"
       };
       const fillColor = colors[type] || "#111827";
@@ -1452,6 +1504,13 @@ permalink: /maps/
         radius: 5,
         weight: 1.5
       };
+    }
+
+    function createFldoeSchoolLayer(type) {
+      return L.geoJSON(null, {
+        pointToLayer: (feature, latlng) => L.circleMarker(latlng, getSchoolStyle(type)),
+        onEachFeature: (feature, layer) => addFldoeSchoolInteractivity(feature, layer)
+      });
     }
 
     function getSchoolName(feature) {
@@ -1501,6 +1560,71 @@ permalink: /maps/
     function addSchoolInteractivity(feature, layer) {
       const name = getSchoolName(feature);
       layer.bindPopup(createSchoolPopup(feature));
+      if (name) {
+        layer.bindTooltip(name, {
+          sticky: true
+        });
+      }
+    }
+
+    function getFldoeSchoolName(feature) {
+      const properties = feature.properties || {};
+      return properties.school_name || properties.school_name_short || "School";
+    }
+
+    function formatFldoeAddress(properties) {
+      return [
+        properties.physical_address,
+        [properties.physical_city, properties.physical_state, properties.physical_zip].filter(Boolean).join(" ")
+      ].filter(Boolean).join(", ");
+    }
+
+    function appendFldoePopupLine(popup, label, value) {
+      if (value === undefined || value === null || value === "") return;
+      const line = document.createElement("span");
+      line.textContent = label ? `${label}: ${value}` : value;
+      popup.appendChild(line);
+    }
+
+    function createFldoeSchoolPopup(feature) {
+      const properties = feature.properties || {};
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+      const principal = [properties.principal_first, properties.principal_last].filter(Boolean).join(" ");
+
+      popup.className = "maps-district-popup";
+      title.textContent = getFldoeSchoolName(feature);
+      popup.appendChild(title);
+
+      appendFldoePopupLine(popup, "", properties.public_school_type);
+      appendFldoePopupLine(popup, "School type", properties.school_type);
+      appendFldoePopupLine(popup, "Address", formatFldoeAddress(properties));
+      appendFldoePopupLine(popup, "Phone", properties.phone_number);
+      appendFldoePopupLine(popup, "Principal", principal);
+      appendFldoePopupLine(popup, "Students", properties.total_students);
+      appendFldoePopupLine(popup, "Teachers", properties.teacher_count);
+      appendFldoePopupLine(popup, "CEP", properties.cep_percentage ? `${properties.cep_percentage}%` : "");
+      appendFldoePopupLine(popup, "Title I", properties.title1);
+      appendFldoePopupLine(popup, "Magnet status", properties.magnet_status_label);
+      appendFldoePopupLine(popup, "Magnet specialty", properties.magnet_specialty_label);
+      appendFldoePopupLine(popup, "Alternative/ESE/DJJ", properties.alt_school_label);
+      appendFldoePopupLine(popup, "School number", properties.school_number);
+
+      if (properties.report_card_url) {
+        const link = document.createElement("a");
+        link.href = properties.report_card_url;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = "View FLDOE report card";
+        popup.appendChild(link);
+      }
+
+      return popup;
+    }
+
+    function addFldoeSchoolInteractivity(feature, layer) {
+      const name = getFldoeSchoolName(feature);
+      layer.bindPopup(createFldoeSchoolPopup(feature));
       if (name) {
         layer.bindTooltip(name, {
           sticky: true
@@ -1679,6 +1803,16 @@ permalink: /maps/
     loadGeoJsonLayer("/data/middle-schools.geojson", middleSchoolsLayer, "middle schools");
     loadGeoJsonLayer("/data/high-schools.geojson", highSchoolsLayer, "high schools");
     loadGeoJsonLayer("/data/dedicated-magnet-schools.geojson", dedicatedMagnetSchoolsLayer, "dedicated magnet schools");
+    loadGeoJsonLayer("/data/fldoe-duval-traditional-public-elementary-schools.geojson", fldoeTraditionalElementarySchoolsLayer, "FLDOE traditional public elementary schools");
+    loadGeoJsonLayer("/data/fldoe-duval-traditional-public-middle-schools.geojson", fldoeTraditionalMiddleSchoolsLayer, "FLDOE traditional public middle schools");
+    loadGeoJsonLayer("/data/fldoe-duval-traditional-public-high-schools.geojson", fldoeTraditionalHighSchoolsLayer, "FLDOE traditional public high schools");
+    loadGeoJsonLayer("/data/fldoe-duval-traditional-public-combination-schools.geojson", fldoeTraditionalCombinationSchoolsLayer, "FLDOE traditional public combination schools");
+    loadGeoJsonLayer("/data/fldoe-duval-traditional-public-magnet-schools.geojson", fldoeTraditionalMagnetSchoolsLayer, "FLDOE traditional public magnet schools");
+    loadGeoJsonLayer("/data/fldoe-duval-charter-public-elementary-schools.geojson", fldoeCharterElementarySchoolsLayer, "FLDOE charter public elementary schools");
+    loadGeoJsonLayer("/data/fldoe-duval-charter-public-middle-schools.geojson", fldoeCharterMiddleSchoolsLayer, "FLDOE charter public middle schools");
+    loadGeoJsonLayer("/data/fldoe-duval-charter-public-high-schools.geojson", fldoeCharterHighSchoolsLayer, "FLDOE charter public high schools");
+    loadGeoJsonLayer("/data/fldoe-duval-charter-public-combination-schools.geojson", fldoeCharterCombinationSchoolsLayer, "FLDOE charter public combination schools");
+    loadGeoJsonLayer("/data/fldoe-duval-charter-public-magnet-schools.geojson", fldoeCharterMagnetSchoolsLayer, "FLDOE charter public magnet schools");
 
     addLocateControl();
     L.control.fullscreen({
