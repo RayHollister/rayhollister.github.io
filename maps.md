@@ -866,14 +866,6 @@ permalink: /maps/
           const overlays = L.DomUtil.create("div", "leaflet-control-layers-overlays", list);
           overlays.appendChild(createLayerHeading("Government"));
           appendLayerControls(overlays, [
-            createBoundaryLayerInput("Florida House Overlays", floridaHouseFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Florida House Borders", floridaHouseBorderLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Florida Senate Overlays", floridaSenateFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Florida Senate Borders", floridaSenateBorderLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Zip Codes Overlays", zipCodeFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Zip Codes Borders", zipCodeBorderLayer, { group: "boundaries" })
-          ]);
-          appendLayerControls(overlays, [
             createBoundaryLayerInput("City Council District Overlays", councilDistrictFillLayer, { group: "boundaries" }),
             createBoundaryLayerInput("City Council District Borders", councilDistrictBorderLayer, { group: "boundaries" }),
             createBoundaryLayerInput("City Council District At Large Overlays", councilAtLargeFillLayer, { group: "boundaries" }),
@@ -881,7 +873,13 @@ permalink: /maps/
             createBoundaryLayerInput("Cities Overlays", cityFillLayer, { group: "boundaries" }),
             createBoundaryLayerInput("Cities Borders", cityBorderLayer, { group: "boundaries" }),
             createBoundaryLayerInput("Neighborhood Overlays", neighborhoodFillLayer, { group: "boundaries" }),
-            createBoundaryLayerInput("Neighborhood Borders", neighborhoodBorderLayer, { group: "boundaries" })
+            createBoundaryLayerInput("Neighborhood Borders", neighborhoodBorderLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Florida House Overlays", floridaHouseFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Florida House Borders", floridaHouseBorderLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Florida Senate Overlays", floridaSenateFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Florida Senate Borders", floridaSenateBorderLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Zip Codes Overlays", zipCodeFillLayer, { group: "boundaries" }),
+            createBoundaryLayerInput("Zip Codes Borders", zipCodeBorderLayer, { group: "boundaries" })
           ]);
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
