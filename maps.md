@@ -10,40 +10,57 @@ permalink: /maps/
 <style>
   .maps-page {
     display: grid;
-    gap: 1.5rem;
+    min-height: calc(100vh - 56px);
   }
 
+  .page-content {
+    padding: 0;
+  }
+
+  .page-content .wrapper {
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .post {
+    margin-bottom: 0;
+  }
+
+  .post-header,
   .site-footer {
     display: none;
   }
 
   .maps-intro {
-    max-width: 44rem;
-  }
-
-  .maps-intro p {
-    font-size: 1.05rem;
-    line-height: 1.55;
+    display: none;
   }
 
   .maps-shell {
-    border: 1px solid #d8dee4;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 18rem;
-    min-height: 34rem;
+    min-height: calc(100vh - 56px);
+    position: relative;
   }
 
   #ray-map {
-    min-height: 34rem;
+    height: calc(100vh - 56px);
+    min-height: 28rem;
     width: 100%;
   }
 
   .maps-panel {
     background: #f6f8fa;
-    border-left: 1px solid #d8dee4;
+    border: 1px solid #d8dee4;
+    bottom: 1rem;
+    box-shadow: 0 12px 28px rgba(27, 31, 36, 0.18);
     display: flex;
     flex-direction: column;
+    max-height: min(26rem, calc(100vh - 8rem));
     min-width: 0;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    width: min(18rem, calc(100vw - 2rem));
+    z-index: 500;
   }
 
   .maps-panel__header,
@@ -106,26 +123,27 @@ permalink: /maps/
   }
 
   @media (max-width: 760px) {
+    .maps-page,
     .maps-shell {
-      grid-template-columns: 1fr;
+      min-height: calc(100vh - 48px);
     }
 
     #ray-map {
-      min-height: 28rem;
+      height: calc(100vh - 48px);
+      min-height: 24rem;
     }
 
     .maps-panel {
-      border-left: 0;
-      border-top: 1px solid #d8dee4;
+      bottom: 0.75rem;
+      max-height: 40vh;
+      right: 0.75rem;
+      top: auto;
+      width: calc(100vw - 1.5rem);
     }
   }
 </style>
 
 <section class="maps-page">
-  <div class="maps-intro">
-    <p>Places, routes, and notes will live here.</p>
-  </div>
-
   <div class="maps-shell">
     <div id="ray-map" aria-label="Interactive map"></div>
 
