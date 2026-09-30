@@ -819,7 +819,7 @@ permalink: /maps/
         fillColor: mode === "border" ? "transparent" : color,
         fillOpacity: mode === "border" ? 0 : 0.16,
         opacity: 0.95,
-        weight: mode === "border" ? 3 : 2
+        weight: mode === "border" ? 1.25 : 0.75
       };
     }
 
@@ -927,7 +927,7 @@ permalink: /maps/
         mouseover: function () {
           layer.setStyle({
             fillOpacity: mode === "border" ? 0 : 0.28,
-            weight: 3
+            weight: mode === "border" ? 1.75 : 1.25
           });
         },
         mouseout: function () {
@@ -950,7 +950,7 @@ permalink: /maps/
         mouseover: function () {
           layer.setStyle({
             fillOpacity: mode === "border" ? 0 : 0.28,
-            weight: 3
+            weight: mode === "border" ? 1.75 : 1.25
           });
         },
         mouseout: function () {
