@@ -312,56 +312,81 @@ permalink: /maps/
     L.Control.zoomHome().addTo(map);
 
     const openFreeMapStyles = {
-      light: "https://tiles.openfreemap.org/styles/positron",
-      dark: "https://tiles.openfreemap.org/styles/dark"
+      positron: "https://tiles.openfreemap.org/styles/positron"
     };
-    const maptilerKey = window.rayMapsMaptilerKey || "";
+    const openMapTilesSource = "https://tiles.openfreemap.org/planet";
+    const openFreeMapGlyphs = "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf";
     const baseMapStyles = {
-      openfreemap: {
-        label: "OpenFreeMap",
-        getStyle: () => isDarkModeEnabled() ? openFreeMapStyles.dark : openFreeMapStyles.light
+      positron: {
+        label: "Positron",
+        getStyle: () => openFreeMapStyles.positron
       },
-      satellite: {
-        label: "Satellite",
-        requiresKey: true,
-        getStyle: () => `https://api.maptiler.com/maps/satellite/style.json?key=${encodeURIComponent(maptilerKey)}`
+      osmBright: {
+        label: "OSM Bright",
+        getStyle: () => "https://raw.githubusercontent.com/openmaptiles/osm-bright-gl-style/master/style.json",
+        useOpenFreeMapSource: true
       },
-      streets: {
-        label: "Streets",
-        requiresKey: true,
-        getStyle: () => `https://api.maptiler.com/maps/streets-v2/style.json?key=${encodeURIComponent(maptilerKey)}`
+      darkMatter: {
+        label: "Dark Matter",
+        getStyle: () => "https://raw.githubusercontent.com/openmaptiles/dark-matter-gl-style/master/style.json",
+        useOpenFreeMapSource: true
+      },
+      basic: {
+        label: "Basic",
+        getStyle: () => "https://raw.githubusercontent.com/openmaptiles/maptiler-basic-gl-style/master/style.json",
+        useOpenFreeMapSource: true
       }
     };
-    let activeBaseMapKey = "openfreemap";
+    let activeBaseMapKey = "positron";
     let baseMapControlElement;
     let baseMapLayer;
+    let baseMapRequestId = 0;
 
-    function isDarkModeEnabled() {
-      const storedDarkMode = localStorage.getItem("darkMode");
-      return storedDarkMode === "enabled" ||
-        (window.matchMedia &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches &&
-          storedDarkMode !== "disabled");
+    async function getBaseMapStyle(config) {
+      const style = config.getStyle();
+      if (!config.useOpenFreeMapSource) {
+        return style;
+      }
+
+      const response = await fetch(style);
+      if (!response.ok) {
+        throw new Error(`Could not load ${config.label} style.`);
+      }
+      const styleJson = await response.json();
+      styleJson.sources = styleJson.sources || {};
+      styleJson.sources.openmaptiles = {
+        type: "vector",
+        url: openMapTilesSource
+      };
+      styleJson.glyphs = openFreeMapGlyphs;
+      return styleJson;
     }
 
-    function setBaseMap(baseMapKey, options) {
+    async function setBaseMap(baseMapKey, options) {
       const config = baseMapStyles[baseMapKey];
       const settings = options || {};
+      const requestId = ++baseMapRequestId;
       if (!config) return false;
-      if (config.requiresKey && !maptilerKey) {
+      if (!window.maplibregl || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true }))) {
+        return false;
+      }
+      let nextStyle;
+      try {
+        nextStyle = await getBaseMapStyle(config);
+      } catch (error) {
         if (!settings.quiet) {
-          window.alert("MapTiler satellite and streets styles need window.rayMapsMaptilerKey to be set.");
+          window.alert(error.message || `Could not load ${config.label} basemap.`);
         }
         return false;
       }
-      if (!window.maplibregl || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true }))) {
+      if (requestId !== baseMapRequestId) {
         return false;
       }
       if (baseMapLayer) {
         map.removeLayer(baseMapLayer);
       }
       baseMapLayer = L.maplibreGL({
-        style: config.getStyle()
+        style: nextStyle
       }).addTo(map);
       activeBaseMapKey = baseMapKey;
       updateBaseMapControl();
@@ -369,8 +394,8 @@ permalink: /maps/
     }
 
     function refreshActiveBaseMap() {
-      if (activeBaseMapKey === "openfreemap") {
-        setBaseMap("openfreemap", { quiet: true });
+      if (activeBaseMapKey === "positron") {
+        setBaseMap("positron", { quiet: true });
       }
     }
 
@@ -378,9 +403,7 @@ permalink: /maps/
       if (!baseMapControlElement) return;
       baseMapControlElement.querySelectorAll("button").forEach((button) => {
         const key = button.dataset.baseMap;
-        const config = baseMapStyles[key];
         button.setAttribute("aria-pressed", String(key === activeBaseMapKey));
-        button.disabled = Boolean(config && config.requiresKey && !maptilerKey);
       });
     }
 
@@ -396,8 +419,10 @@ permalink: /maps/
             button.type = "button";
             button.dataset.baseMap = key;
             button.textContent = config.label;
-            button.title = config.requiresKey && !maptilerKey ? "Set window.rayMapsMaptilerKey to enable this MapTiler style." : `Use ${config.label} basemap`;
-            button.addEventListener("click", () => setBaseMap(key));
+            button.title = `Use ${config.label} basemap`;
+            button.addEventListener("click", () => {
+              setBaseMap(key);
+            });
             container.appendChild(button);
           });
           L.DomEvent.disableClickPropagation(container);
@@ -523,7 +548,7 @@ permalink: /maps/
     });
     let markerMode = "markers";
 
-    L.control.layers(null, {
+    const districtLayerControl = L.control.layers(null, {
       "City Council District Overlays": councilDistrictFillLayer,
       "City Council District Borders": councilDistrictBorderLayer
     }, {
@@ -531,6 +556,24 @@ permalink: /maps/
     }).addTo(map);
 
     let syncingDistrictLayers = false;
+
+    function syncDistrictLayerInputs() {
+      const controlContainer = districtLayerControl.getContainer();
+      if (!controlContainer) return;
+
+      controlContainer.querySelectorAll(".leaflet-control-layers-overlays label").forEach((label) => {
+        const input = label.querySelector("input");
+        const text = label.textContent.trim();
+        if (!input) return;
+
+        if (text === "City Council District Overlays") {
+          input.checked = map.hasLayer(councilDistrictFillLayer);
+        } else if (text === "City Council District Borders") {
+          input.checked = map.hasLayer(councilDistrictBorderLayer);
+        }
+      });
+    }
+
     map.on("overlayadd", function (event) {
       if (syncingDistrictLayers) return;
       syncingDistrictLayers = true;
@@ -540,6 +583,13 @@ permalink: /maps/
         map.removeLayer(councilDistrictFillLayer);
       }
       syncingDistrictLayers = false;
+      syncDistrictLayerInputs();
+    });
+
+    map.on("overlayremove", function () {
+      if (!syncingDistrictLayers) {
+        syncDistrictLayerInputs();
+      }
     });
 
     const list = document.querySelector("[data-map-list]");
@@ -797,7 +847,7 @@ permalink: /maps/
 
     addBaseMapControl();
     addLocateControl();
-    setBaseMap("openfreemap", { quiet: true });
+    setBaseMap("positron", { quiet: true });
 
     new MutationObserver(refreshActiveBaseMap).observe(document.body, {
       attributes: true,
