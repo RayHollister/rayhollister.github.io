@@ -670,6 +670,24 @@ permalink: /maps/
       }
     }
 
+    function centerBoundaryFeature(featureLayer) {
+      if (featureLayer.getBounds) {
+        const bounds = featureLayer.getBounds();
+        if (bounds.isValid()) {
+          map.panTo(bounds.getCenter(), {
+            animate: true
+          });
+        }
+      }
+    }
+
+    function handleBoundaryFeatureClick(event, activeLayer, activeFeatureLayer) {
+      isolateBoundaryFeature(activeLayer, activeFeatureLayer);
+      if (event.originalEvent && event.originalEvent.shiftKey) {
+        centerBoundaryFeature(activeFeatureLayer);
+      }
+    }
+
     function setBoundaryLayer(control, enabled, allowMultiple) {
       if (enabled) {
         if (!map.hasLayer(control.layer)) map.addLayer(control.layer);
@@ -933,8 +951,8 @@ permalink: /maps/
         mouseout: function () {
           layer.setStyle(getCouncilDistrictStyle(feature, mode));
         },
-        click: function () {
-          isolateBoundaryFeature(getBoundaryLayer("district", mode), layer);
+        click: function (event) {
+          handleBoundaryFeatureClick(event, getBoundaryLayer("district", mode), layer);
         }
       });
     }
@@ -956,8 +974,8 @@ permalink: /maps/
         mouseout: function () {
           layer.setStyle(getBoundaryStyle(feature, mode, layerType));
         },
-        click: function () {
-          isolateBoundaryFeature(getBoundaryLayer(layerType, mode), layer);
+        click: function (event) {
+          handleBoundaryFeatureClick(event, getBoundaryLayer(layerType, mode), layer);
         }
       });
     }
