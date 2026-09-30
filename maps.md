@@ -973,8 +973,9 @@ permalink: /maps/
       input.type = "checkbox";
       input.className = "leaflet-control-layers-selector";
       input.addEventListener("change", function () {
+        const enabled = input.checked;
         controls.forEach((control) => {
-          setBoundaryLayer(control, input.checked, true);
+          setBoundaryLayer(control, enabled, true);
         });
         syncInput();
       });
