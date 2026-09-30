@@ -280,16 +280,19 @@ permalink: /maps/
     }) : undefined;
     const activePlaceLayer = L.layerGroup().addTo(map);
     const archivedPlaceLayer = L.layerGroup();
-    const councilDistrictLayer = L.geoJSON(null, {
-      style: getCouncilDistrictStyle,
-      onEachFeature: addCouncilDistrictInteractivity
+    const councilDistrictFillLayer = L.geoJSON(null, {
+      style: (feature) => getCouncilDistrictStyle(feature, "fill"),
+      onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "fill")
+    }).addTo(map);
+    const councilDistrictBorderLayer = L.geoJSON(null, {
+      style: (feature) => getCouncilDistrictStyle(feature, "border"),
+      onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "border")
     }).addTo(map);
     let markerMode = "markers";
 
     L.control.layers(null, {
-      "City council districts": councilDistrictLayer,
-      "Active places": activePlaceLayer,
-      "Archived places": archivedPlaceLayer
+      "City Council District Overlays": councilDistrictFillLayer,
+      "City Council District Borders": councilDistrictBorderLayer
     }, {
       collapsed: false
     }).addTo(map);
@@ -328,7 +331,7 @@ permalink: /maps/
       return Number.parseInt(properties.DISTRICT_N || properties.CC || properties.DISTRICT, 10);
     }
 
-    function getCouncilDistrictStyle(feature) {
+    function getCouncilDistrictStyle(feature, mode) {
       const colors = [
         "#2563eb", "#dc2626", "#16a34a", "#9333ea", "#ea580c",
         "#0891b2", "#be123c", "#4f46e5", "#65a30d", "#c026d3",
@@ -339,10 +342,10 @@ permalink: /maps/
 
       return {
         color,
-        fillColor: color,
-        fillOpacity: 0.16,
+        fillColor: mode === "border" ? "transparent" : color,
+        fillOpacity: mode === "border" ? 0 : 0.16,
         opacity: 0.95,
-        weight: 2
+        weight: mode === "border" ? 3 : 2
       };
     }
 
@@ -381,7 +384,7 @@ permalink: /maps/
       return popup;
     }
 
-    function addCouncilDistrictInteractivity(feature, layer) {
+    function addCouncilDistrictInteractivity(feature, layer, mode) {
       const district = (feature.properties || {}).CC || getDistrictNumber(feature);
       layer.bindPopup(createCouncilDistrictPopup(feature));
       if (district) {
@@ -392,12 +395,12 @@ permalink: /maps/
       layer.on({
         mouseover: function () {
           layer.setStyle({
-            fillOpacity: 0.28,
+            fillOpacity: mode === "border" ? 0 : 0.28,
             weight: 3
           });
         },
         mouseout: function () {
-          councilDistrictLayer.resetStyle(layer);
+          layer.setStyle(getCouncilDistrictStyle(feature, mode));
         }
       });
     }
@@ -530,9 +533,10 @@ permalink: /maps/
           return response.json();
         })
         .then((districts) => {
-          councilDistrictLayer.addData(districts);
-          if (!places.length && councilDistrictLayer.getLayers().length) {
-            map.fitBounds(councilDistrictLayer.getBounds(), {
+          councilDistrictFillLayer.addData(districts);
+          councilDistrictBorderLayer.addData(districts);
+          if (!places.length && councilDistrictFillLayer.getLayers().length) {
+            map.fitBounds(councilDistrictFillLayer.getBounds(), {
               padding: [24, 24]
             });
           }
