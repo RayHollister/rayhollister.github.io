@@ -574,6 +574,29 @@ permalink: /maps/
 
     const boundaryLayerControls = [];
 
+    function moveLayerGroup(layer, direction) {
+      if (!map.hasLayer(layer) || !layer.eachLayer) return;
+      layer.eachLayer((childLayer) => {
+        if (childLayer[direction]) {
+          childLayer[direction]();
+        }
+      });
+    }
+
+    function orderMapLayers() {
+      [
+        councilDistrictFillLayer,
+        councilDistrictBorderLayer,
+        councilAtLargeFillLayer,
+        councilAtLargeBorderLayer,
+        cityFillLayer,
+        cityBorderLayer
+      ].forEach((layer) => moveLayerGroup(layer, "bringToBack"));
+
+      moveLayerGroup(busRoutesLayer, "bringToFront");
+      moveLayerGroup(busStopsLayer, "bringToFront");
+    }
+
     function syncDistrictLayerInputs() {
       boundaryLayerControls.forEach((control) => {
         if (control.input) {
@@ -591,6 +614,7 @@ permalink: /maps/
       } else if (map.hasLayer(control.layer)) {
         map.removeLayer(control.layer);
       }
+      orderMapLayers();
       syncDistrictLayerInputs();
     }
 
@@ -1056,6 +1080,7 @@ permalink: /maps/
         .then((districts) => {
           councilDistrictFillLayer.addData(districts);
           councilDistrictBorderLayer.addData(districts);
+          orderMapLayers();
           if (!places.length && councilDistrictFillLayer.getLayers().length) {
             map.fitBounds(councilDistrictFillLayer.getBounds(), {
               padding: [24, 24]
@@ -1078,6 +1103,7 @@ permalink: /maps/
         .then((geojson) => {
           fillLayer.addData(geojson);
           borderLayer.addData(geojson);
+          orderMapLayers();
         })
         .catch((error) => {
           console.warn(error);
@@ -1094,6 +1120,7 @@ permalink: /maps/
         })
         .then((geojson) => {
           layer.addData(geojson);
+          orderMapLayers();
         })
         .catch((error) => {
           console.warn(error);
