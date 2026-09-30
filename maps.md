@@ -210,6 +210,10 @@ permalink: /maps/
     outline: 0;
   }
 
+  .leaflet-interactive:focus {
+    outline: 0;
+  }
+
   .leaflet-control-locate a {
     cursor: pointer;
   }
@@ -613,10 +617,64 @@ permalink: /maps/
       });
     }
 
-    function setBoundaryLayer(control, enabled) {
+    function getBoundaryFeatureStyle(feature, mode, layerType) {
+      return layerType === "district"
+        ? getCouncilDistrictStyle(feature, mode)
+        : getBoundaryStyle(feature, mode, layerType);
+    }
+
+    function restoreBoundaryLayerFeatures(layerGroup) {
+      if (!layerGroup.eachLayer) return;
+      layerGroup.eachLayer((featureLayer) => {
+        const options = featureLayer.options || {};
+        if (featureLayer.setStyle && featureLayer.feature && options.boundaryMode && options.boundaryType) {
+          featureLayer.setStyle(getBoundaryFeatureStyle(featureLayer.feature, options.boundaryMode, options.boundaryType));
+        }
+        if (featureLayer._path) {
+          featureLayer._path.style.pointerEvents = "";
+        }
+      });
+    }
+
+    function hideBoundaryFeature(featureLayer) {
+      if (featureLayer.setStyle) {
+        featureLayer.setStyle({
+          fillOpacity: 0,
+          opacity: 0,
+          weight: 0
+        });
+      }
+      if (featureLayer.closeTooltip) featureLayer.closeTooltip();
+      if (featureLayer.closePopup) featureLayer.closePopup();
+      if (featureLayer._path) {
+        featureLayer._path.style.pointerEvents = "none";
+      }
+    }
+
+    function isolateBoundaryFeature(activeLayer, activeFeatureLayer) {
+      hideOtherBoundaryLayers(activeLayer);
+      restoreBoundaryLayerFeatures(activeLayer);
+      if (activeLayer.eachLayer) {
+        activeLayer.eachLayer((featureLayer) => {
+          if (featureLayer !== activeFeatureLayer) {
+            hideBoundaryFeature(featureLayer);
+          }
+        });
+      }
+      if (activeFeatureLayer._path) {
+        activeFeatureLayer._path.style.pointerEvents = "";
+      }
+      orderMapLayers();
+      if (activeFeatureLayer.bringToFront) {
+        activeFeatureLayer.bringToFront();
+      }
+    }
+
+    function setBoundaryLayer(control, enabled, allowMultiple) {
       if (enabled) {
         if (!map.hasLayer(control.layer)) map.addLayer(control.layer);
-        if (control.group) {
+        restoreBoundaryLayerFeatures(control.layer);
+        if (control.group && !allowMultiple) {
           boundaryLayerControls.forEach((otherControl) => {
             if (otherControl !== control && otherControl.group === control.group && map.hasLayer(otherControl.layer)) {
               map.removeLayer(otherControl.layer);
@@ -630,6 +688,16 @@ permalink: /maps/
       syncDistrictLayerInputs();
     }
 
+    function hideOtherBoundaryLayers(activeLayer) {
+      boundaryLayerControls.forEach((control) => {
+        if (control.group === "boundaries" && control.layer !== activeLayer && map.hasLayer(control.layer)) {
+          map.removeLayer(control.layer);
+        }
+      });
+      orderMapLayers();
+      syncDistrictLayerInputs();
+    }
+
     function createBoundaryLayerInput(label, layer, options) {
       const labelElement = document.createElement("label");
       const row = document.createElement("span");
@@ -637,11 +705,16 @@ permalink: /maps/
       const text = document.createElement("span");
       const settings = options || {};
       const control = { input, layer, group: settings.group || "" };
+      let allowMultipleOnNextChange = false;
 
       input.type = "checkbox";
       input.className = "leaflet-control-layers-selector";
-      input.addEventListener("change", function () {
-        setBoundaryLayer(control, input.checked);
+      input.addEventListener("click", function (event) {
+        allowMultipleOnNextChange = event.shiftKey;
+      });
+      input.addEventListener("change", function (event) {
+        setBoundaryLayer(control, input.checked, allowMultipleOnNextChange);
+        allowMultipleOnNextChange = false;
       });
 
       text.textContent = ` ${label}`;
@@ -754,6 +827,16 @@ permalink: /maps/
       return getBoundaryStyle(feature, mode, "district");
     }
 
+    function getBoundaryLayer(layerType, mode) {
+      if (layerType === "atLarge") {
+        return mode === "border" ? councilAtLargeBorderLayer : councilAtLargeFillLayer;
+      }
+      if (layerType === "city") {
+        return mode === "border" ? cityBorderLayer : cityFillLayer;
+      }
+      return mode === "border" ? councilDistrictBorderLayer : councilDistrictFillLayer;
+    }
+
     function getBoundaryTitle(feature, layerType) {
       const properties = feature.properties || {};
       if (layerType === "atLarge") {
@@ -832,6 +915,8 @@ permalink: /maps/
 
     function addCouncilDistrictInteractivity(feature, layer, mode) {
       const district = (feature.properties || {}).CC || getDistrictNumber(feature);
+      layer.options.boundaryMode = mode;
+      layer.options.boundaryType = "district";
       layer.bindPopup(createCouncilDistrictPopup(feature));
       if (district) {
         layer.bindTooltip(`District ${district}`, {
@@ -847,11 +932,16 @@ permalink: /maps/
         },
         mouseout: function () {
           layer.setStyle(getCouncilDistrictStyle(feature, mode));
+        },
+        click: function () {
+          isolateBoundaryFeature(getBoundaryLayer("district", mode), layer);
         }
       });
     }
 
     function addBoundaryInteractivity(feature, layer, mode, layerType) {
+      layer.options.boundaryMode = mode;
+      layer.options.boundaryType = layerType;
       layer.bindPopup(createBoundaryPopup(feature, layerType));
       layer.bindTooltip(getBoundaryTitle(feature, layerType), {
         sticky: true
@@ -865,6 +955,9 @@ permalink: /maps/
         },
         mouseout: function () {
           layer.setStyle(getBoundaryStyle(feature, mode, layerType));
+        },
+        click: function () {
+          isolateBoundaryFeature(getBoundaryLayer(layerType, mode), layer);
         }
       });
     }
