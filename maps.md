@@ -212,6 +212,10 @@ permalink: /maps/
     text-transform: uppercase;
   }
 
+  .leaflet-control-layers-overlays > .maps-layer-heading:first-child {
+    margin-top: 0;
+  }
+
   .maps-layer-group-row {
     display: grid;
     gap: 0.3rem;
@@ -289,7 +293,7 @@ permalink: /maps/
   }
 
   .maps-layer-mode-switch input:checked ~ .maps-layer-mode-switch__track .maps-layer-mode-switch__knob {
-    background: #0969da;
+    background: black;
     transform: translateX(14px);
   }
 
