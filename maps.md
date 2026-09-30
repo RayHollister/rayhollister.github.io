@@ -74,41 +74,90 @@ permalink: /maps/
     margin-top: 0.25rem;
   }
 
+  .maps-control-panel,
   .maps-basemap-control {
     background: #fff;
     border: 1px solid #d0d7de;
     box-shadow: 0 2px 8px rgba(27, 31, 36, 0.15);
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
   }
 
-  .maps-basemap-control button {
+  .maps-control-panel__toggle {
+    align-items: center;
+    background: #fff;
+    border: 0;
+    border-bottom: 1px solid #d0d7de;
+    color: #24292f;
+    cursor: pointer;
+    display: flex;
+    font: inherit;
+    font-weight: 600;
+    justify-content: space-between;
+    min-width: 7rem;
+    padding: 0.45rem 0.6rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  .maps-control-panel__toggle::after {
+    content: "Hide";
+    color: #57606a;
+    font-size: 0.78rem;
+    font-weight: 400;
+    margin-left: 0.75rem;
+  }
+
+  .maps-control-panel:not(.is-open) .maps-control-panel__toggle {
+    border-bottom: 0;
+  }
+
+  .maps-control-panel:not(.is-open) .maps-control-panel__toggle::after {
+    content: "Show";
+  }
+
+  .maps-control-panel:not(.is-open) .maps-control-panel__body {
+    display: none;
+  }
+
+  .maps-basemap-control .maps-control-panel__body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .maps-basemap-control button[data-base-map] {
     background: #fff;
     border: 0;
     cursor: pointer;
     font: inherit;
   }
 
-  .maps-basemap-control button {
+  .maps-basemap-control button[data-base-map] {
     border-bottom: 1px solid #d0d7de;
     min-width: 7rem;
     padding: 0.45rem 0.6rem;
     text-align: left;
   }
 
-  .maps-basemap-control button:last-child {
+  .maps-basemap-control button[data-base-map]:last-child {
     border-bottom: 0;
   }
 
-  .maps-basemap-control button[aria-pressed="true"] {
+  .maps-basemap-control button[data-base-map][aria-pressed="true"] {
     background: #0969da;
     color: #fff;
   }
 
-  .maps-basemap-control button:disabled {
+  .maps-basemap-control button[data-base-map]:disabled {
     color: #8c959f;
     cursor: not-allowed;
+  }
+
+  .maps-layers-control .leaflet-control-layers-list {
+    margin: 0;
+  }
+
+  .maps-layers-control .leaflet-control-layers-overlays {
+    padding: 0.45rem 0.6rem;
   }
 
   .leaflet-control-layers-overlays label:focus,
@@ -176,6 +225,14 @@ permalink: /maps/
       min-height: 0;
     }
 
+    .maps-control-panel {
+      max-width: min(17rem, calc(100vw - 5rem));
+    }
+
+    .maps-control-panel__body {
+      max-height: min(45vh, 22rem);
+      overflow: auto;
+    }
   }
 </style>
 
@@ -301,10 +358,33 @@ permalink: /maps/
 
     function updateBaseMapControl() {
       if (!baseMapControlElement) return;
-      baseMapControlElement.querySelectorAll("button").forEach((button) => {
+      baseMapControlElement.querySelectorAll("button[data-base-map]").forEach((button) => {
         const key = button.dataset.baseMap;
         button.setAttribute("aria-pressed", String(key === activeBaseMapKey));
       });
+    }
+
+    function setupCollapsibleMapControl(container, label, body) {
+      const toggle = document.createElement("button");
+      const isMobile = window.matchMedia && window.matchMedia("(max-width: 760px)").matches;
+
+      container.classList.add("maps-control-panel");
+      body.classList.add("maps-control-panel__body");
+      toggle.type = "button";
+      toggle.className = "maps-control-panel__toggle";
+      toggle.textContent = label;
+      toggle.setAttribute("aria-label", `${label} control`);
+      container.insertBefore(toggle, body);
+
+      function setOpen(open) {
+        container.classList.toggle("is-open", open);
+        toggle.setAttribute("aria-expanded", String(open));
+      }
+
+      toggle.addEventListener("click", function () {
+        setOpen(!container.classList.contains("is-open"));
+      });
+      setOpen(!isMobile);
     }
 
     function addBaseMapControl() {
@@ -314,6 +394,8 @@ permalink: /maps/
         },
         onAdd: function () {
           const container = L.DomUtil.create("div", "maps-basemap-control leaflet-control");
+          const body = document.createElement("div");
+          container.appendChild(body);
           Object.entries(baseMapStyles).forEach(([key, config]) => {
             const button = document.createElement("button");
             button.type = "button";
@@ -323,8 +405,9 @@ permalink: /maps/
             button.addEventListener("click", () => {
               setBaseMap(key);
             });
-            container.appendChild(button);
+            body.appendChild(button);
           });
+          setupCollapsibleMapControl(container, "Basemap", body);
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
           baseMapControlElement = container;
@@ -650,7 +733,7 @@ permalink: /maps/
           position: "topright"
         },
         onAdd: function () {
-          const container = L.DomUtil.create("div", "leaflet-control-layers leaflet-control-layers-expanded leaflet-control");
+          const container = L.DomUtil.create("div", "leaflet-control-layers leaflet-control-layers-expanded leaflet-control maps-layers-control");
           const list = L.DomUtil.create("section", "leaflet-control-layers-list", container);
           const overlays = L.DomUtil.create("div", "leaflet-control-layers-overlays", list);
           [
@@ -667,6 +750,7 @@ permalink: /maps/
           ].forEach((control) => {
             overlays.appendChild(control.labelElement);
           });
+          setupCollapsibleMapControl(container, "Layers", list);
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
           syncDistrictLayerInputs();
