@@ -2,6 +2,10 @@ a.white:visited, a.white:hover {
     color: white;
 }
 
+.site-nav .trigger {
+    text-align: right;
+}
+
 .site-nav .nav-dropdown {
     position: relative;
     display: block;
@@ -25,7 +29,7 @@ a.white:visited, a.white:hover {
     min-width: 240px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
     z-index: 10;
-    text-align: left;
+    text-align: right;
 }
 
 .site-nav .nav-dropdown__link {
@@ -53,7 +57,7 @@ a.white:visited, a.white:hover {
 
 @media screen and (max-width: 599px) {
     .site-nav .nav-dropdown {
-        margin-left: 20px;
+        margin-left: 0;
     }
 
     .site-nav .nav-dropdown__label::after {
@@ -70,7 +74,8 @@ a.white:visited, a.white:hover {
     }
 
     .site-nav .nav-dropdown__link {
-        padding-left: 1.5rem;
+        padding-left: 1rem;
+        padding-right: 10px;
     }
 }
 

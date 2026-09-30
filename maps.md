@@ -1407,9 +1407,10 @@ permalink: /maps/
     loadGeoJsonLayer("/data/high-schools.geojson", highSchoolsLayer, "high schools");
     loadGeoJsonLayer("/data/dedicated-magnet-schools.geojson", dedicatedMagnetSchoolsLayer, "dedicated magnet schools");
 
+    addLocateControl();
     addDistrictLayerControl();
     addBaseMapControl();
-    addLocateControl();
+    
     setBaseMap("positron", { quiet: true });
 
     new MutationObserver(refreshActiveBaseMap).observe(document.body, {
