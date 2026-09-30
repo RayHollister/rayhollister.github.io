@@ -546,53 +546,64 @@ permalink: /maps/
       style: (feature) => getCouncilDistrictStyle(feature, "border"),
       onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "border")
     });
+    const councilAtLargeFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "atLarge"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "atLarge")
+    });
+    const councilAtLargeBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "atLarge"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "atLarge")
+    });
+    const cityFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "city"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "city")
+    });
+    const cityBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "city"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "city")
+    });
     let markerMode = "markers";
 
-    let councilDistrictFillInput;
-    let councilDistrictBorderInput;
+    const boundaryLayerControls = [];
 
     function syncDistrictLayerInputs() {
-      if (councilDistrictFillInput) {
-        councilDistrictFillInput.checked = map.hasLayer(councilDistrictFillLayer);
-      }
-      if (councilDistrictBorderInput) {
-        councilDistrictBorderInput.checked = map.hasLayer(councilDistrictBorderLayer);
-      }
+      boundaryLayerControls.forEach((control) => {
+        if (control.input) {
+          control.input.checked = map.hasLayer(control.layer);
+        }
+      });
     }
 
-    function setDistrictLayer(layerMode, enabled) {
-      if (layerMode === "fill") {
-        if (enabled) {
-          if (!map.hasLayer(councilDistrictFillLayer)) map.addLayer(councilDistrictFillLayer);
-          if (map.hasLayer(councilDistrictBorderLayer)) map.removeLayer(councilDistrictBorderLayer);
-        } else if (map.hasLayer(councilDistrictFillLayer)) {
-          map.removeLayer(councilDistrictFillLayer);
+    function setBoundaryLayer(control, enabled) {
+      if (enabled) {
+        if (!map.hasLayer(control.layer)) map.addLayer(control.layer);
+        if (control.exclusiveLayer && map.hasLayer(control.exclusiveLayer)) {
+          map.removeLayer(control.exclusiveLayer);
         }
-      } else if (enabled) {
-        if (!map.hasLayer(councilDistrictBorderLayer)) map.addLayer(councilDistrictBorderLayer);
-        if (map.hasLayer(councilDistrictFillLayer)) map.removeLayer(councilDistrictFillLayer);
-      } else if (map.hasLayer(councilDistrictBorderLayer)) {
-        map.removeLayer(councilDistrictBorderLayer);
+      } else if (map.hasLayer(control.layer)) {
+        map.removeLayer(control.layer);
       }
       syncDistrictLayerInputs();
     }
 
-    function createDistrictLayerInput(label, layerMode) {
+    function createBoundaryLayerInput(label, layer, exclusiveLayer) {
       const labelElement = document.createElement("label");
       const row = document.createElement("span");
       const input = document.createElement("input");
       const text = document.createElement("span");
+      const control = { input, layer, exclusiveLayer };
 
       input.type = "checkbox";
       input.className = "leaflet-control-layers-selector";
       input.addEventListener("change", function () {
-        setDistrictLayer(layerMode, input.checked);
+        setBoundaryLayer(control, input.checked);
       });
 
       text.textContent = ` ${label}`;
       row.appendChild(input);
       row.appendChild(text);
       labelElement.appendChild(row);
+      boundaryLayerControls.push(control);
       return { input, labelElement };
     }
 
@@ -605,13 +616,16 @@ permalink: /maps/
           const container = L.DomUtil.create("div", "leaflet-control-layers leaflet-control-layers-expanded leaflet-control");
           const list = L.DomUtil.create("section", "leaflet-control-layers-list", container);
           const overlays = L.DomUtil.create("div", "leaflet-control-layers-overlays", list);
-          const fillControl = createDistrictLayerInput("City Council District Overlays", "fill");
-          const borderControl = createDistrictLayerInput("City Council District Borders", "border");
-
-          councilDistrictFillInput = fillControl.input;
-          councilDistrictBorderInput = borderControl.input;
-          overlays.appendChild(fillControl.labelElement);
-          overlays.appendChild(borderControl.labelElement);
+          [
+            createBoundaryLayerInput("City Council District Overlays", councilDistrictFillLayer, councilDistrictBorderLayer),
+            createBoundaryLayerInput("City Council District Borders", councilDistrictBorderLayer, councilDistrictFillLayer),
+            createBoundaryLayerInput("City Council District At Large Overlay", councilAtLargeFillLayer, councilAtLargeBorderLayer),
+            createBoundaryLayerInput("City Council District At Large Boundaries", councilAtLargeBorderLayer, councilAtLargeFillLayer),
+            createBoundaryLayerInput("Cities Overlay", cityFillLayer, cityBorderLayer),
+            createBoundaryLayerInput("Cities Boundaries", cityBorderLayer, cityFillLayer)
+          ].forEach((control) => {
+            overlays.appendChild(control.labelElement);
+          });
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
           syncDistrictLayerInputs();
@@ -656,14 +670,29 @@ permalink: /maps/
       return Number.parseInt(properties.DISTRICT_N || properties.CC || properties.DISTRICT, 10);
     }
 
-    function getCouncilDistrictStyle(feature, mode) {
+    function getBoundaryNumber(feature, layerType) {
+      const properties = feature.properties || {};
+      if (layerType === "atLarge") {
+        return Number.parseInt(properties.CCAL, 10);
+      }
+      if (layerType === "city") {
+        return Number.parseInt(properties.city_code || properties.FPLACE90, 10);
+      }
+      return getDistrictNumber(feature);
+    }
+
+    function getBoundaryColor(feature, layerType) {
       const colors = [
         "#2563eb", "#dc2626", "#16a34a", "#9333ea", "#ea580c",
         "#0891b2", "#be123c", "#4f46e5", "#65a30d", "#c026d3",
         "#0f766e", "#b45309", "#0284c7", "#7c3aed"
       ];
-      const districtNumber = getDistrictNumber(feature);
-      const color = colors[((Number.isFinite(districtNumber) ? districtNumber : 1) - 1) % colors.length];
+      const boundaryNumber = getBoundaryNumber(feature, layerType);
+      return colors[((Number.isFinite(boundaryNumber) ? boundaryNumber : 1) - 1) % colors.length];
+    }
+
+    function getBoundaryStyle(feature, mode, layerType) {
+      const color = getBoundaryColor(feature, layerType);
 
       return {
         color,
@@ -672,6 +701,51 @@ permalink: /maps/
         opacity: 0.95,
         weight: mode === "border" ? 3 : 2
       };
+    }
+
+    function getCouncilDistrictStyle(feature, mode) {
+      return getBoundaryStyle(feature, mode, "district");
+    }
+
+    function getBoundaryTitle(feature, layerType) {
+      const properties = feature.properties || {};
+      if (layerType === "atLarge") {
+        return properties.CCAL ? `Council District At Large ${properties.CCAL}` : "Council District At Large";
+      }
+      if (layerType === "city") {
+        return properties.Name || "City";
+      }
+      const district = properties.CC || properties.DISTRICT_N || properties.DISTRICT || "";
+      return district ? `Council District ${district}` : "Council District";
+    }
+
+    function getBoundarySubtitle(feature, layerType) {
+      const properties = feature.properties || {};
+      if (layerType === "atLarge") {
+        return properties.C_NAME || "";
+      }
+      if (layerType === "city") {
+        return properties.ESN ? `ESN ${properties.ESN}` : "";
+      }
+      return properties.MEMBER_NAM || "";
+    }
+
+    function createBoundaryPopup(feature, layerType) {
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+      const subtitle = getBoundarySubtitle(feature, layerType);
+
+      popup.className = "maps-district-popup";
+      title.textContent = getBoundaryTitle(feature, layerType);
+      popup.appendChild(title);
+
+      if (subtitle) {
+        const line = document.createElement("span");
+        line.textContent = subtitle;
+        popup.appendChild(line);
+      }
+
+      return popup;
     }
 
     function createCouncilDistrictPopup(feature) {
@@ -726,6 +800,24 @@ permalink: /maps/
         },
         mouseout: function () {
           layer.setStyle(getCouncilDistrictStyle(feature, mode));
+        }
+      });
+    }
+
+    function addBoundaryInteractivity(feature, layer, mode, layerType) {
+      layer.bindPopup(createBoundaryPopup(feature, layerType));
+      layer.bindTooltip(getBoundaryTitle(feature, layerType), {
+        sticky: true
+      });
+      layer.on({
+        mouseover: function () {
+          layer.setStyle({
+            fillOpacity: mode === "border" ? 0 : 0.28,
+            weight: 3
+          });
+        },
+        mouseout: function () {
+          layer.setStyle(getBoundaryStyle(feature, mode, layerType));
         }
       });
     }
@@ -871,9 +963,38 @@ permalink: /maps/
         });
     }
 
+    function loadBoundaryLayers(url, fillLayer, borderLayer, label) {
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Could not load ${label}: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((geojson) => {
+          fillLayer.addData(geojson);
+          borderLayer.addData(geojson);
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
+
     filter.addEventListener("input", renderPlaces);
     renderPlaces();
     loadCouncilDistricts();
+    loadBoundaryLayers(
+      "/data/city-council-at-large-districts.geojson",
+      councilAtLargeFillLayer,
+      councilAtLargeBorderLayer,
+      "city council at-large districts"
+    );
+    loadBoundaryLayers(
+      "/data/city-boundaries.geojson",
+      cityFillLayer,
+      cityBorderLayer,
+      "city boundaries"
+    );
 
     addDistrictLayerControl();
     addBaseMapControl();
