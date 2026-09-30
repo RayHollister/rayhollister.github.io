@@ -157,10 +157,6 @@ permalink: /maps/
     width: 16px;
   }
 
-  .maps-control-panel.is-open .maps-control-panel__toggle--icon {
-    border-bottom: 1px solid #ccc;
-  }
-
   .maps-control-panel.is-open .leaflet-control-layers-list {
     display: block;
   }
@@ -219,15 +215,20 @@ permalink: /maps/
   .maps-layer-group-row {
     display: grid;
     gap: 0.3rem;
-    grid-template-columns: minmax(9rem, 1fr) auto;
+    grid-template-columns: minmax(9rem, 1fr);
     align-items: center;
   }
 
-  .maps-layer-group-row__name {
+  .leaflet-control-layers-overlays .maps-layer-group-row__name {
     align-items: center;
     display: flex;
     gap: 0.45rem;
     min-width: 0;
+  }
+
+  .maps-layer-group-row__name .leaflet-control-layers-selector {
+    flex: 0 0 auto;
+    margin-right: 0;
   }
 
   .maps-layer-group-row label {
@@ -239,12 +240,29 @@ permalink: /maps/
     display: inline-flex;
   }
 
+  .maps-layers-control {
+    position: relative;
+  }
+
+  .maps-layers-control > .maps-layer-mode-switch {
+    position: absolute;
+    right: 6px;
+    top: 0;
+    z-index: 1;
+  }
+
+  .maps-layers-control:not(.is-open) > .maps-layer-mode-switch {
+    display: none;
+  }
+
   .maps-layer-mode-switch__track {
-    background: #0969da;
-    border: 1px solid #0969da;
+    background: black;
+    border: 1px solid black;
+    box-sizing: border-box;
     border-radius: 0px;
     display: inline-flex;
     height: 16px;
+    margin: 7px 0;
     padding: 2px;
     transition: background 0.15s ease, border-color 0.15s ease;
     width: 32px;
@@ -254,10 +272,10 @@ permalink: /maps/
     background: #fff;
     border-radius: 1px;
     display: block;
-    height: 16px;
+    height: 10px;
     transform: translateX(0);
     transition: background 0.15s ease, transform 0.15s ease;
-    width: 16px;
+    width: 12px;
   }
 
   .maps-layer-mode-switch input {
@@ -732,6 +750,9 @@ permalink: /maps/
       onEachFeature: (feature, layer) => addSchoolInteractivity(feature, layer)
     });
     const boundaryLayerControls = [];
+    const geographyLayerControls = [];
+    let governmentLayerMode = "fill";
+    let governmentLayerModeInput;
 
     function moveLayerGroup(layer, direction) {
       if (!map.hasLayer(layer) || !layer.eachLayer) return;
@@ -921,17 +942,67 @@ permalink: /maps/
       });
     }
 
+    function createLayerModeSwitch(label) {
+      const modeLabel = document.createElement("label");
+      const modeInput = document.createElement("input");
+      const modeTrack = document.createElement("span");
+      const modeKnob = document.createElement("span");
+
+      modeLabel.className = "maps-layer-mode-switch";
+      modeInput.type = "checkbox";
+      modeInput.setAttribute("aria-label", label);
+      modeTrack.className = "maps-layer-mode-switch__track";
+      modeKnob.className = "maps-layer-mode-switch__knob";
+      modeTrack.appendChild(modeKnob);
+      modeLabel.appendChild(modeInput);
+      modeLabel.appendChild(modeTrack);
+      return { labelElement: modeLabel, input: modeInput };
+    }
+
+    function addGovernmentLayerModeSwitch(container) {
+      const modeSwitch = createLayerModeSwitch("Use borders for government layers");
+
+      governmentLayerModeInput = modeSwitch.input;
+      governmentLayerModeInput.addEventListener("change", function () {
+        setGovernmentLayerMode(governmentLayerModeInput.checked ? "border" : "fill");
+      });
+      container.appendChild(modeSwitch.labelElement);
+    }
+
+    function getSelectedGeographyControl(geographyControl) {
+      return governmentLayerMode === "border" ? geographyControl.borderControl : geographyControl.overlayControl;
+    }
+
+    function setGovernmentLayerMode(mode) {
+      governmentLayerMode = mode;
+      if (governmentLayerModeInput) {
+        governmentLayerModeInput.checked = mode === "border";
+      }
+      geographyLayerControls.forEach((geographyControl) => {
+        const nextControl = getSelectedGeographyControl(geographyControl);
+        const previousControl = mode === "border" ? geographyControl.overlayControl : geographyControl.borderControl;
+        const isActive = map.hasLayer(previousControl.layer) || map.hasLayer(nextControl.layer);
+        if (!isActive) return;
+        if (map.hasLayer(previousControl.layer)) {
+          map.removeLayer(previousControl.layer);
+        }
+        if (!map.hasLayer(nextControl.layer)) {
+          map.addLayer(nextControl.layer);
+        }
+        restoreBoundaryLayerFeatures(nextControl.layer);
+      });
+      orderMapLayers();
+      syncDistrictLayerInputs();
+    }
+
     function appendGeographyLayerRow(parent, name, overlayLayer, borderLayer) {
       const row = document.createElement("div");
       const layerLabel = document.createElement("label");
       const layerInput = document.createElement("input");
       const nameText = document.createElement("span");
-      const modeLabel = document.createElement("label");
-      const modeInput = document.createElement("input");
-      const modeTrack = document.createElement("span");
-      const modeKnob = document.createElement("span");
       const overlayControl = { layer: overlayLayer, group: "boundaries" };
       const borderControl = { layer: borderLayer, group: "boundaries" };
+      const geographyControl = { overlayControl, borderControl };
       let allowMultipleOnNextChange = false;
 
       row.className = "maps-layer-group-row";
@@ -942,28 +1013,15 @@ permalink: /maps/
       layerLabel.appendChild(layerInput);
       layerLabel.appendChild(nameText);
 
-      modeLabel.className = "maps-layer-mode-switch";
-      modeInput.type = "checkbox";
-      modeInput.setAttribute("aria-label", `${name} borders`);
-      modeTrack.className = "maps-layer-mode-switch__track";
-      modeKnob.className = "maps-layer-mode-switch__knob";
-      modeTrack.appendChild(modeKnob);
-      modeLabel.appendChild(modeInput);
-      modeLabel.appendChild(modeTrack);
-
       function getSelectedControl() {
-        return modeInput.checked ? borderControl : overlayControl;
+        return getSelectedGeographyControl(geographyControl);
       }
 
       function syncRowInputs() {
         const isOverlayActive = map.hasLayer(overlayLayer);
         const isBorderActive = map.hasLayer(borderLayer);
         layerInput.checked = isOverlayActive || isBorderActive;
-        if (isBorderActive) {
-          modeInput.checked = true;
-        } else if (isOverlayActive) {
-          modeInput.checked = false;
-        }
+        row.classList.toggle("is-active", layerInput.checked);
       }
 
       overlayControl.syncInput = syncRowInputs;
@@ -973,26 +1031,18 @@ permalink: /maps/
         allowMultipleOnNextChange = event.shiftKey;
       });
       layerInput.addEventListener("change", function () {
-        setBoundaryLayer(getSelectedControl(), layerInput.checked, allowMultipleOnNextChange);
+        if (layerInput.checked) {
+          setBoundaryLayer(getSelectedControl(), true, allowMultipleOnNextChange);
+        } else {
+          setBoundaryLayer(overlayControl, false, true);
+          setBoundaryLayer(borderControl, false, true);
+        }
         allowMultipleOnNextChange = false;
       });
-      modeInput.addEventListener("change", function () {
-        const previousControl = modeInput.checked ? overlayControl : borderControl;
-        const nextControl = getSelectedControl();
-        const wasEnabled = map.hasLayer(previousControl.layer) || map.hasLayer(nextControl.layer);
-        if (map.hasLayer(previousControl.layer)) {
-          map.removeLayer(previousControl.layer);
-        }
-        if (wasEnabled) {
-          setBoundaryLayer(nextControl, true, true);
-        } else {
-          syncDistrictLayerInputs();
-        }
-      });
 
+      geographyLayerControls.push(geographyControl);
       boundaryLayerControls.push(overlayControl, borderControl);
       row.appendChild(layerLabel);
-      row.appendChild(modeLabel);
       parent.appendChild(row);
     }
 
@@ -1028,6 +1078,7 @@ permalink: /maps/
           setupCollapsibleMapControl(container, "Layers", list, {
             iconPath: "M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z"
           });
+          addGovernmentLayerModeSwitch(container);
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
           syncDistrictLayerInputs();
