@@ -155,6 +155,16 @@ permalink: /maps/
     color: #57606a;
   }
 
+  .maps-district-popup strong,
+  .maps-district-popup span,
+  .maps-district-popup a {
+    display: block;
+  }
+
+  .maps-district-popup span {
+    margin-top: 0.25rem;
+  }
+
   @media (max-width: 760px) {
     .maps-page,
     .maps-shell {
@@ -270,9 +280,14 @@ permalink: /maps/
     }) : undefined;
     const activePlaceLayer = L.layerGroup().addTo(map);
     const archivedPlaceLayer = L.layerGroup();
+    const councilDistrictLayer = L.geoJSON(null, {
+      style: getCouncilDistrictStyle,
+      onEachFeature: addCouncilDistrictInteractivity
+    }).addTo(map);
     let markerMode = "markers";
 
     L.control.layers(null, {
+      "City council districts": councilDistrictLayer,
       "Active places": activePlaceLayer,
       "Archived places": archivedPlaceLayer
     }, {
@@ -306,6 +321,85 @@ permalink: /maps/
         url: place.url || "",
         zoom: place.zoom
       };
+    }
+
+    function getDistrictNumber(feature) {
+      const properties = feature.properties || {};
+      return Number.parseInt(properties.DISTRICT_N || properties.CC || properties.DISTRICT, 10);
+    }
+
+    function getCouncilDistrictStyle(feature) {
+      const colors = [
+        "#2563eb", "#dc2626", "#16a34a", "#9333ea", "#ea580c",
+        "#0891b2", "#be123c", "#4f46e5", "#65a30d", "#c026d3",
+        "#0f766e", "#b45309", "#0284c7", "#7c3aed"
+      ];
+      const districtNumber = getDistrictNumber(feature);
+      const color = colors[((Number.isFinite(districtNumber) ? districtNumber : 1) - 1) % colors.length];
+
+      return {
+        color,
+        fillColor: color,
+        fillOpacity: 0.16,
+        opacity: 0.95,
+        weight: 2
+      };
+    }
+
+    function createCouncilDistrictPopup(feature) {
+      const properties = feature.properties || {};
+      const district = properties.CC || properties.DISTRICT_N || properties.DISTRICT || "";
+      const member = properties.MEMBER_NAM || "";
+      const email = properties.E_MAIL || "";
+      const phone = properties.PHONE || "";
+      const popup = document.createElement("div");
+      popup.className = "maps-district-popup";
+
+      const title = document.createElement("strong");
+      title.textContent = district ? `Council District ${district}` : "Council District";
+      popup.appendChild(title);
+
+      if (member) {
+        const memberLine = document.createElement("span");
+        memberLine.textContent = member;
+        popup.appendChild(memberLine);
+      }
+
+      if (phone) {
+        const phoneLine = document.createElement("span");
+        phoneLine.textContent = phone;
+        popup.appendChild(phoneLine);
+      }
+
+      if (email) {
+        const emailLink = document.createElement("a");
+        emailLink.href = `mailto:${email}`;
+        emailLink.textContent = email;
+        popup.appendChild(emailLink);
+      }
+
+      return popup;
+    }
+
+    function addCouncilDistrictInteractivity(feature, layer) {
+      const district = (feature.properties || {}).CC || getDistrictNumber(feature);
+      layer.bindPopup(createCouncilDistrictPopup(feature));
+      if (district) {
+        layer.bindTooltip(`District ${district}`, {
+          sticky: true
+        });
+      }
+      layer.on({
+        mouseover: function () {
+          layer.setStyle({
+            fillOpacity: 0.28,
+            weight: 3
+          });
+        },
+        mouseout: function () {
+          councilDistrictLayer.resetStyle(layer);
+        }
+      });
     }
 
     function createPlacePopup(place) {
@@ -427,8 +521,30 @@ permalink: /maps/
       });
     }
 
+    function loadCouncilDistricts() {
+      fetch("/data/city-council-districts.geojson")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Could not load council districts: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((districts) => {
+          councilDistrictLayer.addData(districts);
+          if (!places.length && councilDistrictLayer.getLayers().length) {
+            map.fitBounds(councilDistrictLayer.getBounds(), {
+              padding: [24, 24]
+            });
+          }
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
+
     filter.addEventListener("input", renderPlaces);
     renderPlaces();
+    loadCouncilDistricts();
 
     setOpenFreeMapStyle();
 
