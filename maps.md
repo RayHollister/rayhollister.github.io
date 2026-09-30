@@ -670,12 +670,14 @@ permalink: /maps/
       }
     }
 
-    function centerBoundaryFeature(featureLayer) {
+    function zoomToBoundaryFeature(featureLayer) {
       if (featureLayer.getBounds) {
         const bounds = featureLayer.getBounds();
         if (bounds.isValid()) {
-          map.panTo(bounds.getCenter(), {
-            animate: true
+          map.fitBounds(bounds, {
+            animate: true,
+            maxZoom: 15,
+            padding: [32, 32]
           });
         }
       }
@@ -684,7 +686,7 @@ permalink: /maps/
     function handleBoundaryFeatureClick(event, activeLayer, activeFeatureLayer) {
       isolateBoundaryFeature(activeLayer, activeFeatureLayer);
       if (event.originalEvent && event.originalEvent.shiftKey) {
-        centerBoundaryFeature(activeFeatureLayer);
+        zoomToBoundaryFeature(activeFeatureLayer);
       }
     }
 
