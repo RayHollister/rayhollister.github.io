@@ -562,6 +562,14 @@ permalink: /maps/
       style: (feature) => getBoundaryStyle(feature, "border", "city"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "city")
     });
+    const busRoutesLayer = L.geoJSON(null, {
+      style: (feature) => getBusRouteStyle(feature),
+      onEachFeature: (feature, layer) => addBusRouteInteractivity(feature, layer)
+    });
+    const busStopsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getBusStopStyle()),
+      onEachFeature: (feature, layer) => addBusStopInteractivity(feature, layer)
+    });
     let markerMode = "markers";
 
     const boundaryLayerControls = [];
@@ -622,7 +630,9 @@ permalink: /maps/
             createBoundaryLayerInput("City Council District At Large Overlay", councilAtLargeFillLayer, councilAtLargeBorderLayer),
             createBoundaryLayerInput("City Council District At Large Boundaries", councilAtLargeBorderLayer, councilAtLargeFillLayer),
             createBoundaryLayerInput("Cities Overlay", cityFillLayer, cityBorderLayer),
-            createBoundaryLayerInput("Cities Boundaries", cityBorderLayer, cityFillLayer)
+            createBoundaryLayerInput("Cities Boundaries", cityBorderLayer, cityFillLayer),
+            createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer),
+            createBoundaryLayerInput("JTA Bus Stops", busStopsLayer)
           ].forEach((control) => {
             overlays.appendChild(control.labelElement);
           });
@@ -822,6 +832,100 @@ permalink: /maps/
       });
     }
 
+    function normalizeHexColor(value, fallback) {
+      const color = String(value || "").replace("#", "").trim();
+      return /^[0-9a-fA-F]{6}$/.test(color) ? `#${color}` : fallback;
+    }
+
+    function getBusRouteStyle(feature) {
+      const color = normalizeHexColor((feature.properties || {}).route_color, "#0f766e");
+      return {
+        color,
+        opacity: 0.88,
+        weight: 3
+      };
+    }
+
+    function getBusStopStyle() {
+      return {
+        color: "#ffffff",
+        fillColor: "#111827",
+        fillOpacity: 0.9,
+        opacity: 1,
+        radius: 3,
+        weight: 1
+      };
+    }
+
+    function createBusRoutePopup(feature) {
+      const properties = feature.properties || {};
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+      const name = [properties.route_short_name, properties.route_long_name].filter(Boolean).join(" - ");
+
+      popup.className = "maps-district-popup";
+      title.textContent = name || `Route ${properties.route_id || ""}`.trim() || "JTA Bus Route";
+      popup.appendChild(title);
+
+      if (properties.shape_id) {
+        const shapeLine = document.createElement("span");
+        shapeLine.textContent = `Shape ${properties.shape_id}`;
+        popup.appendChild(shapeLine);
+      }
+
+      return popup;
+    }
+
+    function createBusStopPopup(feature) {
+      const properties = feature.properties || {};
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+
+      popup.className = "maps-district-popup";
+      title.textContent = properties.stop_name || "JTA Bus Stop";
+      popup.appendChild(title);
+
+      if (properties.stop_code) {
+        const codeLine = document.createElement("span");
+        codeLine.textContent = `Stop ${properties.stop_code}`;
+        popup.appendChild(codeLine);
+      }
+
+      return popup;
+    }
+
+    function addBusRouteInteractivity(feature, layer) {
+      const properties = feature.properties || {};
+      const name = [properties.route_short_name, properties.route_long_name].filter(Boolean).join(" - ");
+      layer.bindPopup(createBusRoutePopup(feature));
+      if (name) {
+        layer.bindTooltip(name, {
+          sticky: true
+        });
+      }
+      layer.on({
+        mouseover: function () {
+          layer.setStyle({
+            opacity: 1,
+            weight: 5
+          });
+        },
+        mouseout: function () {
+          layer.setStyle(getBusRouteStyle(feature));
+        }
+      });
+    }
+
+    function addBusStopInteractivity(feature, layer) {
+      const properties = feature.properties || {};
+      layer.bindPopup(createBusStopPopup(feature));
+      if (properties.stop_name) {
+        layer.bindTooltip(properties.stop_name, {
+          sticky: true
+        });
+      }
+    }
+
     function createPlacePopup(place) {
       const popup = document.createElement("div");
       const title = document.createElement("strong");
@@ -980,6 +1084,22 @@ permalink: /maps/
         });
     }
 
+    function loadGeoJsonLayer(url, layer, label) {
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Could not load ${label}: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((geojson) => {
+          layer.addData(geojson);
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
+
     filter.addEventListener("input", renderPlaces);
     renderPlaces();
     loadCouncilDistricts();
@@ -995,6 +1115,8 @@ permalink: /maps/
       cityBorderLayer,
       "city boundaries"
     );
+    loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
+    loadGeoJsonLayer("/data/jta-bus-stops.geojson", busStopsLayer, "JTA bus stops");
 
     addDistrictLayerControl();
     addBaseMapControl();
