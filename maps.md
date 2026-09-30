@@ -17,10 +17,20 @@ permalink: /maps/
     height: calc(100vh - 56px);
     height: calc(100dvh - 56px);
     min-height: 0;
+    position: relative;
+    z-index: 0;
   }
 
   body {
     overflow: hidden;
+  }
+
+  .site-header {
+    z-index: 1200;
+  }
+
+  .site-nav {
+    z-index: 1201;
   }
 
   .page-content {
