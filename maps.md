@@ -327,6 +327,37 @@ image: /media/2026/09/maps-featured.png
     display: none;
   }
 
+  .maps-focus-control {
+    border-top: 1px solid #d0d7de;
+    display: grid;
+    gap: 0.35rem;
+    margin: 0.45rem -0.6rem 0;
+    padding: 0.45rem 0.6rem 0;
+  }
+
+  .maps-focus-control button {
+    background: #fff;
+    border: 1px solid #d0d7de;
+    border-radius: 4px;
+    color: #24292f;
+    cursor: pointer;
+    flex: 1 1 auto;
+    font: inherit;
+    padding: 0.25rem 0.45rem;
+  }
+
+  .maps-focus-control button[aria-pressed="true"] {
+    background: #0969da;
+    border-color: #0969da;
+    color: #fff;
+  }
+
+  .maps-focus-control__status {
+    color: #57606a;
+    font-size: 0.78rem;
+    line-height: 1.25;
+  }
+
   .maps-layer-mode-switch__track {
     background: black;
     border: 1px solid black;
@@ -956,6 +987,11 @@ image: /media/2026/09/maps-featured.png
     const explicitQueryLayerSlugs = new Set();
     let governmentLayerMode = "fill";
     let governmentLayerModeInput;
+    let mapInteractionMode = "browse";
+    let focusToggleButton;
+    let focusStatusElement;
+    let focusedBoundary;
+    const focusLayerStates = new Map();
 
     function moveLayerGroup(layer, direction) {
       if (!map.hasLayer(layer) || !layer.eachLayer) return;
@@ -1062,7 +1098,230 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function rememberFocusLayerState(layer) {
+      if (!layer || focusLayerStates.has(layer._leaflet_id)) return;
+      focusLayerStates.set(layer._leaflet_id, {
+        layer,
+        opacity: layer.options && layer.options.opacity,
+        fillOpacity: layer.options && layer.options.fillOpacity,
+        interactive: layer.options && layer.options.interactive,
+        pointerEvents: layer._path ? layer._path.style.pointerEvents : "",
+        parent: getLayerParent(layer)
+      });
+    }
+
+    function getLayerParent(targetLayer) {
+      let parent;
+      [
+        councilDistrictFillLayer,
+        councilDistrictBorderLayer,
+        councilAtLargeFillLayer,
+        councilAtLargeBorderLayer,
+        schoolBoardDistrictFillLayer,
+        schoolBoardDistrictBorderLayer,
+        cityFillLayer,
+        cityBorderLayer,
+        countyFillLayer,
+        countyBorderLayer,
+        neighborhoodFillLayer,
+        neighborhoodBorderLayer,
+        cpacFillLayer,
+        cpacBorderLayer,
+        floridaHouseFillLayer,
+        floridaHouseBorderLayer,
+        floridaSenateFillLayer,
+        floridaSenateBorderLayer,
+        zipCodeFillLayer,
+        zipCodeBorderLayer,
+        congressionalDistrictFillLayer,
+        congressionalDistrictBorderLayer,
+        healthZoneFillLayer,
+        healthZoneBorderLayer,
+        healthZoneByZipCodeLayer,
+        jsoDistrictFillLayer,
+        jsoDistrictBorderLayer,
+        jsoSubsectionFillLayer,
+        jsoSubsectionBorderLayer,
+        neighborhoodOrganizationsLayer,
+        jsoPoliceStationsLayer,
+        busStopsLayer,
+        elementarySchoolsLayer,
+        middleSchoolsLayer,
+        highSchoolsLayer,
+        dedicatedMagnetSchoolsLayer,
+        fldoeTraditionalElementarySchoolsLayer,
+        fldoeTraditionalMiddleSchoolsLayer,
+        fldoeTraditionalHighSchoolsLayer,
+        fldoeTraditionalCombinationSchoolsLayer,
+        fldoeTraditionalMagnetSchoolsLayer,
+        fldoeCharterElementarySchoolsLayer,
+        fldoeCharterMiddleSchoolsLayer,
+        fldoeCharterHighSchoolsLayer,
+        fldoeCharterCombinationSchoolsLayer,
+        privateElementarySchoolsLayer,
+        privateMiddleSchoolsLayer,
+        privateHighSchoolsLayer,
+        privateCombinationSchoolsLayer,
+        postSecondarySchoolsLayer
+      ].some((layerGroup) => {
+        if (!layerGroup.hasLayer || !layerGroup.hasLayer(targetLayer)) return false;
+        parent = layerGroup;
+        return true;
+      });
+      return parent;
+    }
+
+    function restoreFocusLayerStates() {
+      focusLayerStates.forEach((state) => {
+        const layer = state.layer;
+        if (!layer) return;
+        if (state.parent && state.parent.resetStyle && layer.feature) {
+          state.parent.resetStyle(layer);
+        } else if (layer.setStyle) {
+          layer.setStyle({
+            opacity: state.opacity === undefined ? 1 : state.opacity,
+            fillOpacity: state.fillOpacity === undefined ? 0.9 : state.fillOpacity
+          });
+        } else if (layer.setOpacity) {
+          layer.setOpacity(state.opacity === undefined ? 1 : state.opacity);
+        }
+        if (layer.options) {
+          layer.options.interactive = state.interactive;
+        }
+        if (layer._path) {
+          layer._path.style.pointerEvents = state.pointerEvents || "";
+        }
+      });
+      focusLayerStates.clear();
+    }
+
+    function setLayerFocusVisibility(layer, visible) {
+      rememberFocusLayerState(layer);
+      if (layer.setStyle) {
+        layer.setStyle({
+          opacity: visible ? (layer.options.opacity === undefined ? 1 : layer.options.opacity) : 0,
+          fillOpacity: visible ? (layer.options.fillOpacity === undefined ? 0.9 : layer.options.fillOpacity) : 0
+        });
+      } else if (layer.setOpacity) {
+        layer.setOpacity(visible ? 1 : 0);
+      }
+      if (layer.options) {
+        layer.options.interactive = visible;
+      }
+      if (layer._path) {
+        layer._path.style.pointerEvents = visible ? "" : "none";
+      }
+    }
+
+    function setFocusedBoundaryStyle(layer) {
+      if (!layer || !layer.setStyle) return;
+      layer.setStyle({
+        fillOpacity: layer.options.boundaryMode === "border" ? 0 : 0.28,
+        opacity: 1,
+        weight: layer.options.boundaryMode === "border" ? 2.25 : 1.8
+      });
+    }
+
+    function getFocusGeometryFeature(feature, layerType) {
+      return getPointCountFeature(feature, layerType);
+    }
+
+    function doesFeatureMatchFocus(feature, focus) {
+      const properties = feature.properties || {};
+      const focusProperties = (focus.feature.properties || {});
+      if (focus.layerType === "healthZone") {
+        return properties.health_zone === focusProperties.health_zone;
+      }
+      return feature === focus.feature;
+    }
+
+    function getFocusSourceLayer(layerType, mode) {
+      if (layerType === "healthZone") {
+        return getActiveHealthZoneLayer() || getBoundaryLayer(layerType, mode);
+      }
+      return getBoundaryLayer(layerType, mode);
+    }
+
+    function applyFocusToBoundaryLayer(sourceLayer, focus) {
+      if (!sourceLayer || !sourceLayer.eachLayer) return;
+      sourceLayer.eachLayer((layer) => {
+        if (!layer.feature || !layer.setStyle) return;
+        const isFocused = doesFeatureMatchFocus(layer.feature, focus);
+        setLayerFocusVisibility(layer, isFocused);
+        if (isFocused) {
+          setFocusedBoundaryStyle(layer);
+        }
+      });
+    }
+
+    function applyFocusToPointLayers(focusFeature) {
+      const geometry = focusFeature.geometry || {};
+      countablePointLayers.forEach((pointLayer) => {
+        if (!map.hasLayer(pointLayer.layer) || !pointLayer.layer.eachLayer || !geometry.coordinates) return;
+        pointLayer.layer.eachLayer((layer) => {
+          if (!layer.getLatLng) return;
+          const latLng = layer.getLatLng();
+          const isInside = isPointInFeatureGeometry([latLng.lng, latLng.lat], geometry);
+          setLayerFocusVisibility(layer, isInside);
+        });
+      });
+    }
+
+    function updateFocusControl() {
+      if (focusToggleButton) {
+        focusToggleButton.setAttribute("aria-pressed", mapInteractionMode === "focus" ? "true" : "false");
+      }
+      if (focusStatusElement) {
+        if (focusedBoundary) {
+          focusStatusElement.textContent = `Focused on ${focusedBoundary.title}.`;
+        } else if (mapInteractionMode === "focus") {
+          focusStatusElement.textContent = "Click a polygon to focus the map.";
+        } else {
+          focusStatusElement.textContent = "Use Focus to isolate one polygon and its data points.";
+        }
+      }
+    }
+
+    function clearMapFocus(options) {
+      const settings = options || {};
+      restoreFocusLayerStates();
+      focusedBoundary = undefined;
+      if (settings.resetMode) {
+        mapInteractionMode = "browse";
+      }
+      updateFocusControl();
+    }
+
+    function focusBoundaryFeature(feature, layer, mode, layerType) {
+      const sourceLayer = getFocusSourceLayer(layerType, mode);
+      const focusFeature = getFocusGeometryFeature(feature, layerType);
+      const title = layerType === "district"
+        ? getBoundaryTitle(feature, "district")
+        : getBoundaryTitle(feature, layerType);
+
+      if (focusedBoundary && doesFeatureMatchFocus(feature, focusedBoundary)) {
+        clearMapFocus();
+        return;
+      }
+
+      restoreFocusLayerStates();
+      focusedBoundary = {
+        feature,
+        focusFeature,
+        layer,
+        layerType,
+        mode,
+        sourceLayer,
+        title
+      };
+      applyFocusToBoundaryLayer(sourceLayer, focusedBoundary);
+      applyFocusToPointLayers(focusFeature);
+      orderMapLayers();
+      updateFocusControl();
+    }
+
     function setBoundaryLayer(control, enabled, allowMultiple) {
+      clearMapFocus();
       if (enabled) {
         if (!map.hasLayer(control.layer)) map.addLayer(control.layer);
         restoreBoundaryLayerFeatures(control.layer);
@@ -1304,11 +1563,41 @@ image: /media/2026/09/maps-featured.png
       container.appendChild(modeSwitch.labelElement);
     }
 
+    function addFocusModeControl(container) {
+      if (!supportsPointerHover) return;
+
+      const wrapper = document.createElement("div");
+
+      wrapper.className = "maps-focus-control";
+
+      focusToggleButton = document.createElement("button");
+      focusToggleButton.type = "button";
+      focusToggleButton.textContent = "Focus";
+      focusToggleButton.setAttribute("aria-pressed", "false");
+      focusToggleButton.addEventListener("click", function () {
+        if (mapInteractionMode === "focus") {
+          clearMapFocus({ resetMode: true });
+        } else {
+          mapInteractionMode = "focus";
+          updateFocusControl();
+        }
+      });
+
+      focusStatusElement = document.createElement("span");
+      focusStatusElement.className = "maps-focus-control__status";
+
+      wrapper.appendChild(focusToggleButton);
+      wrapper.appendChild(focusStatusElement);
+      container.appendChild(wrapper);
+      updateFocusControl();
+    }
+
     function getSelectedGeographyControl(geographyControl) {
       return governmentLayerMode === "border" ? geographyControl.borderControl : geographyControl.overlayControl;
     }
 
     function setGovernmentLayerMode(mode) {
+      clearMapFocus();
       governmentLayerMode = mode;
       if (governmentLayerModeInput) {
         governmentLayerModeInput.checked = mode === "border";
@@ -1464,6 +1753,7 @@ image: /media/2026/09/maps-featured.png
             iconPath: "M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z"
           });
           addGovernmentLayerModeSwitch(container);
+          addFocusModeControl(overlays);
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
           syncDistrictLayerInputs();
@@ -1472,6 +1762,14 @@ image: /media/2026/09/maps-featured.png
       });
 
       map.addControl(new DistrictLayerControl());
+    }
+
+    function addFocusKeyboardShortcut() {
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && (focusedBoundary || mapInteractionMode === "focus")) {
+          clearMapFocus({ resetMode: true });
+        }
+      });
     }
 
     function registerMapQueryLayers() {
@@ -2177,6 +2475,11 @@ image: /media/2026/09/maps-featured.png
       layer.options.boundaryMode = mode;
       layer.options.boundaryType = "district";
       layer.bindPopup(() => createCouncilDistrictPopup(feature));
+      layer.on("click", function () {
+        if (mapInteractionMode === "focus") {
+          focusBoundaryFeature(feature, layer, mode, "district");
+        }
+      });
       if (district && supportsPointerHover) {
         layer.bindTooltip(`City Council District ${district}`, {
           sticky: true
@@ -2191,6 +2494,10 @@ image: /media/2026/09/maps-featured.png
             });
           },
           mouseout: function () {
+            if (focusedBoundary && doesFeatureMatchFocus(feature, focusedBoundary)) {
+              setFocusedBoundaryStyle(layer);
+              return;
+            }
             layer.setStyle(getCouncilDistrictStyle(feature, mode));
           }
         });
@@ -2201,6 +2508,11 @@ image: /media/2026/09/maps-featured.png
       layer.options.boundaryMode = mode;
       layer.options.boundaryType = layerType;
       layer.bindPopup(() => createBoundaryPopup(feature, layerType));
+      layer.on("click", function () {
+        if (mapInteractionMode === "focus") {
+          focusBoundaryFeature(feature, layer, mode, layerType);
+        }
+      });
       if (supportsPointerHover) {
         layer.bindTooltip(getBoundaryTooltipTitle(feature, layerType), {
           sticky: true
@@ -2215,6 +2527,10 @@ image: /media/2026/09/maps-featured.png
             });
           },
           mouseout: function () {
+            if (focusedBoundary && doesFeatureMatchFocus(feature, focusedBoundary)) {
+              setFocusedBoundaryStyle(layer);
+              return;
+            }
             layer.setStyle(getBoundaryStyle(feature, mode, layerType));
           }
         });
@@ -2758,6 +3074,10 @@ image: /media/2026/09/maps-featured.png
           fillLayer.addData(geojson);
           borderLayer.addData(geojson);
           orderMapLayers();
+          if (focusedBoundary) {
+            applyFocusToBoundaryLayer(focusedBoundary.sourceLayer, focusedBoundary);
+            applyFocusToPointLayers(focusedBoundary.focusFeature);
+          }
         })
         .catch((error) => {
           console.warn(error);
@@ -2775,6 +3095,10 @@ image: /media/2026/09/maps-featured.png
         .then((geojson) => {
           layer.addData(geojson);
           orderMapLayers();
+          if (focusedBoundary) {
+            applyFocusToBoundaryLayer(focusedBoundary.sourceLayer, focusedBoundary);
+            applyFocusToPointLayers(focusedBoundary.focusFeature);
+          }
         })
         .catch((error) => {
           console.warn(error);
@@ -2891,6 +3215,7 @@ image: /media/2026/09/maps-featured.png
     }).addTo(map);
     L.Control.zoomHome().addTo(map);
     addDistrictLayerControl();
+    addFocusKeyboardShortcut();
     registerMapQueryLayers();
     activateQueryLayers();
     addBaseMapControl();
