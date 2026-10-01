@@ -40,6 +40,8 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
 - [Jacksonville Sheriff's Office District and Subsector Lookup](https://experience.arcgis.com/experience/1a554e29e87c43869389dc46841e12f0)
   - Districts
   - Subsections
+- [City of Jacksonville My Neighborhood](https://maps.coj.net/MyNeighborhood/)
+  - Police Stations
 
 ## Transportation
 

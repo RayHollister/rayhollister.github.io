@@ -752,6 +752,10 @@ permalink: /maps/
       style: (feature) => getBoundaryStyle(feature, "border", "jsoSubsector"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "jsoSubsector")
     });
+    const jsoPoliceStationsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getPoliceStationStyle()),
+      onEachFeature: (feature, layer) => addPoliceStationInteractivity(feature, layer)
+    });
     const busRoutesLayer = L.geoJSON(null, {
       style: (feature) => getBusRouteStyle(feature),
       onEachFeature: (feature, layer) => addBusRouteInteractivity(feature, layer)
@@ -822,6 +826,7 @@ permalink: /maps/
       ].forEach((layer) => moveLayerGroup(layer, "bringToBack"));
 
       moveLayerGroup(busRoutesLayer, "bringToFront");
+      moveLayerGroup(jsoPoliceStationsLayer, "bringToFront");
       [
         elementarySchoolsLayer,
         middleSchoolsLayer,
@@ -1152,6 +1157,9 @@ permalink: /maps/
           overlays.appendChild(createLayerHeading("Jacksonville Sheriff's Office"));
           appendGeographyLayerRow(overlays, "Districts", jsoDistrictFillLayer, jsoDistrictBorderLayer);
           appendGeographyLayerRow(overlays, "Subsections", jsoSubsectionFillLayer, jsoSubsectionBorderLayer);
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("Police Stations", jsoPoliceStationsLayer)
+          ]);
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer),
@@ -1498,6 +1506,17 @@ permalink: /maps/
       };
     }
 
+    function getPoliceStationStyle() {
+      return {
+        color: "#ffffff",
+        fillColor: "#1d4ed8",
+        fillOpacity: 0.95,
+        opacity: 1,
+        radius: 6,
+        weight: 1.5
+      };
+    }
+
     function createBusRoutePopup(feature) {
       const properties = feature.properties || {};
       const popup = document.createElement("div");
@@ -1535,6 +1554,30 @@ permalink: /maps/
       return popup;
     }
 
+    function createPoliceStationPopup(feature) {
+      const properties = feature.properties || {};
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+
+      popup.className = "maps-district-popup";
+      title.textContent = "JSO Police Station";
+      popup.appendChild(title);
+
+      [
+        properties.ADDRESS,
+        properties.SUBSECTOR ? `Subsection ${properties.SUBSECTOR}` : "",
+        properties.ZONE ? `Zone ${properties.ZONE}` : "",
+        properties.HOURS,
+        properties.PHONE
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+
+      return popup;
+    }
+
     function addBusRouteInteractivity(feature, layer) {
       const properties = feature.properties || {};
       const name = [properties.route_short_name, properties.route_long_name].filter(Boolean).join(" - ");
@@ -1565,6 +1608,14 @@ permalink: /maps/
           sticky: true
         });
       }
+    }
+
+    function addPoliceStationInteractivity(feature, layer) {
+      const properties = feature.properties || {};
+      layer.bindPopup(createPoliceStationPopup(feature));
+      layer.bindTooltip(properties.ADDRESS || "JSO Police Station", {
+        sticky: true
+      });
     }
 
     function getSchoolStyle(type) {
@@ -1895,6 +1946,7 @@ permalink: /maps/
       jsoSubsectionBorderLayer,
       "JSO subsections"
     );
+    loadGeoJsonLayer("/data/jso-police-stations.geojson", jsoPoliceStationsLayer, "JSO police stations");
     loadGeoJsonLayer("/data/elementary-schools.geojson", elementarySchoolsLayer, "elementary schools");
     loadGeoJsonLayer("/data/middle-schools.geojson", middleSchoolsLayer, "middle schools");
     loadGeoJsonLayer("/data/high-schools.geojson", highSchoolsLayer, "high schools");

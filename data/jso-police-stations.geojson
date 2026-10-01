@@ -1,0 +1,152 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 1,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.66592129479378,
+          30.373013410180615
+        ]
+      },
+      "properties": {
+        "ADDRESS": "5258 NORWOOD AVE",
+        "SUBSECTOR": "C-4",
+        "ZONE": 1,
+        "HOURS": "8 a.m. to 5 p.m, M-F",
+        "EMAIL": null,
+        "PHONE": "904-630-0500",
+        "FAX": null,
+        "OBJECTID": 1
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.55128367015985,
+          30.354170881647004
+        ]
+      },
+      "properties": {
+        "ADDRESS": "9119 MERRILL RD",
+        "SUBSECTOR": "G-1",
+        "ZONE": 2,
+        "HOURS": "8 a.m. to 5 p.m, M-F",
+        "EMAIL": null,
+        "PHONE": "904-630-0500",
+        "FAX": null,
+        "OBJECTID": 2
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 3,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.57161634850638,
+          30.216446609707976
+        ]
+      },
+      "properties": {
+        "ADDRESS": "8875 LIBERTY RIDGE DR",
+        "SUBSECTOR": "I-4",
+        "ZONE": 3,
+        "HOURS": "8 a.m. to 5 p.m, M-F",
+        "EMAIL": null,
+        "PHONE": "904-630-0500",
+        "FAX": null,
+        "OBJECTID": 3
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 4,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.73823964122738,
+          30.269201377368127
+        ]
+      },
+      "properties": {
+        "ADDRESS": "3726 BLANDING BLVD",
+        "SUBSECTOR": "N-4",
+        "ZONE": 4,
+        "HOURS": "8 a.m. to 5 p.m, M-F",
+        "EMAIL": null,
+        "PHONE": "904-630-0500",
+        "FAX": null,
+        "OBJECTID": 4
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 5,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.68561490266404,
+          30.34515733663435
+        ]
+      },
+      "properties": {
+        "ADDRESS": "1767 KINGS RD",
+        "SUBSECTOR": "R-4",
+        "ZONE": 5,
+        "HOURS": "8 a.m. to 5 p.m, M-F",
+        "EMAIL": null,
+        "PHONE": "904-630-0500",
+        "FAX": null,
+        "OBJECTID": 5
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 6,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.67630847489818,
+          30.43278267529453
+        ]
+      },
+      "properties": {
+        "ADDRESS": "1680 DUNN AVE",
+        "SUBSECTOR": "V-5",
+        "ZONE": 6,
+        "HOURS": "8 a.m. to 5 p.m, M-F",
+        "EMAIL": null,
+        "PHONE": "904-630-0500",
+        "FAX": null,
+        "OBJECTID": 6
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 7,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.6508195306012,
+          30.32549989965116
+        ]
+      },
+      "properties": {
+        "ADDRESS": "501 E BAY ST",
+        "SUBSECTOR": "A-1",
+        "ZONE": 1,
+        "HOURS": "8 a.m. to 5 p.m, M-F",
+        "EMAIL": null,
+        "PHONE": "904-630-0500",
+        "FAX": null,
+        "OBJECTID": 7
+      }
+    }
+  ]
+}
