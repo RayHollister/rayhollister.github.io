@@ -1106,7 +1106,6 @@ image: /media/2026/09/maps-featured.png
     const focusLayerStates = new Map();
     let compareModeEnabled = false;
     let compareToggleButton;
-    let compareClearButton;
     let compareStatusElement;
     let pinnedCardPanel;
     let pinnedCardBody;
@@ -1715,9 +1714,6 @@ image: /media/2026/09/maps-featured.png
       if (compareToggleButton) {
         compareToggleButton.setAttribute("aria-pressed", compareModeEnabled ? "true" : "false");
       }
-      if (compareClearButton) {
-        compareClearButton.disabled = pinnedBoundaryCards.length === 0;
-      }
       if (compareStatusElement) {
         if (compareModeEnabled) {
           compareStatusElement.textContent = "Click polygons to pin their cards.";
@@ -1844,19 +1840,10 @@ image: /media/2026/09/maps-featured.png
         updateCompareControl();
       });
 
-      compareClearButton = document.createElement("button");
-      compareClearButton.type = "button";
-      compareClearButton.textContent = "Clear";
-      compareClearButton.disabled = true;
-      compareClearButton.addEventListener("click", function () {
-        clearPinnedCards();
-      });
-
       compareStatusElement = document.createElement("span");
       compareStatusElement.className = "maps-compare-control__status";
 
       actions.appendChild(compareToggleButton);
-      actions.appendChild(compareClearButton);
       wrapper.appendChild(actions);
       wrapper.appendChild(compareStatusElement);
       container.appendChild(wrapper);
