@@ -1538,7 +1538,7 @@ image: /media/2026/09/maps-featured.png
     function getBoundarySubtitle(feature, layerType) {
       const properties = feature.properties || {};
       if (layerType === "atLarge") {
-        return properties.C_NAME || "";
+        return properties.council_member_name || properties.C_NAME || "";
       }
       if (layerType === "city") {
         return properties.ESN ? `ESN ${properties.ESN}` : "";
@@ -1609,6 +1609,10 @@ image: /media/2026/09/maps-featured.png
     }
 
     function getCityCouncilMemberUrl(properties) {
+      if (properties.council_member_source_url) {
+        return properties.council_member_source_url;
+      }
+
       const districtUrls = {
         1: "https://www.jacksonville.gov/city-council/city-council-members/d01",
         2: "https://www.jacksonville.gov/city-council/city-council-members/d02",
@@ -1677,15 +1681,54 @@ image: /media/2026/09/maps-featured.png
         appendSchoolBoardMemberPopupDetails(popup, feature.properties || {});
       }
 
+      if (layerType === "atLarge") {
+        appendCityCouncilMemberPopupDetails(popup, feature.properties || {});
+      }
+
       return popup;
+    }
+
+    function appendCityCouncilMemberPopupDetails(popup, properties) {
+      if (properties.council_member_photo_url) {
+        const image = document.createElement("img");
+        image.src = properties.council_member_photo_url;
+        image.alt = properties.council_member_name || "City Council member";
+        image.loading = "lazy";
+        popup.insertBefore(image, popup.firstChild);
+      }
+
+      [
+        properties.council_member_leadership_role,
+        properties.council_member_role,
+        properties.council_member_phone ? `Phone: ${properties.council_member_phone}` : "",
+        properties.council_member_assistant ? `Assistant: ${properties.council_member_assistant}` : ""
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+
+      if (properties.council_member_email) {
+        const emailLink = document.createElement("a");
+        emailLink.href = `mailto:${properties.council_member_email}`;
+        emailLink.textContent = properties.council_member_email;
+        popup.appendChild(emailLink);
+      }
+
+      if (properties.council_member_source_url) {
+        const sourceLink = document.createElement("a");
+        sourceLink.href = properties.council_member_source_url;
+        sourceLink.target = "_blank";
+        sourceLink.rel = "noopener";
+        sourceLink.textContent = "View City Council member page";
+        popup.appendChild(sourceLink);
+      }
     }
 
     function createCouncilDistrictPopup(feature) {
       const properties = feature.properties || {};
       const district = properties.CC || properties.DISTRICT_N || properties.DISTRICT || "";
-      const member = properties.MEMBER_NAM || "";
-      const email = properties.E_MAIL || "";
-      const phone = properties.PHONE || "";
+      const member = properties.council_member_name || properties.MEMBER_NAM || "";
       const popup = document.createElement("div");
       popup.className = "maps-district-popup";
 
@@ -1705,18 +1748,7 @@ image: /media/2026/09/maps-featured.png
         popup.appendChild(memberLine);
       }
 
-      if (phone) {
-        const phoneLine = document.createElement("span");
-        phoneLine.textContent = phone;
-        popup.appendChild(phoneLine);
-      }
-
-      if (email) {
-        const emailLink = document.createElement("a");
-        emailLink.href = `mailto:${email}`;
-        emailLink.textContent = email;
-        popup.appendChild(emailLink);
-      }
+      appendCityCouncilMemberPopupDetails(popup, properties);
 
       return popup;
     }

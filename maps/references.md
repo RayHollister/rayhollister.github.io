@@ -42,7 +42,8 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
 - Congressional District reference links:
   - [Florida's 4th Congressional District](https://ballotpedia.org/Florida%27s_4th_Congressional_District)
   - [Florida's 5th Congressional District](https://ballotpedia.org/Florida%27s_5th_Congressional_District)
-- City Council member page links: [City of Jacksonville City Council Members](https://www.jacksonville.gov/city-council/city-council-members)
+- [City of Jacksonville City Council Members](https://www.jacksonville.gov/city-council/city-council-members)
+  - Current District Council Member and At Large Council Member names, roles, email addresses, phone numbers, assistants, photos, and profile links for City Council District and City Council District At Large popups.
 - Neighborhood Overlays and Neighborhood Borders:
   - Source repository: [RayHollister/JacksonvilleNeighborhoods](https://github.com/RayHollister/JacksonvilleNeighborhoods)
   - Runtime data URL: [neighborhoods.geojson](https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson)
