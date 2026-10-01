@@ -3512,12 +3512,12 @@ image: /media/2026/09/maps-featured.png
     loadGeoJsonLayer("/data/duval-private-schools.geojson", privateCombinationSchoolsLayer, "Duval private combination schools");
     loadGeoJsonLayer("/data/duval-post-secondary-schools.geojson", postSecondarySchoolsLayer, "Duval post-secondary schools");
 
+    addDistrictLayerControl();
     addLocateControl();
     L.control.fullscreen({
       position: "topleft"
     }).addTo(map);
     L.Control.zoomHome().addTo(map);
-    addDistrictLayerControl();
     addPinnedCardPanel();
     addFocusKeyboardShortcut();
     addCompareKeyboardShortcut();
