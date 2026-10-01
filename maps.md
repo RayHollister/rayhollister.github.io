@@ -358,6 +358,113 @@ image: /media/2026/09/maps-featured.png
     line-height: 1.25;
   }
 
+  .maps-compare-control {
+    border-top: 1px solid #d0d7de;
+    display: grid;
+    gap: 0.35rem;
+    margin: 0.45rem -0.6rem 0;
+    padding: 0.45rem 0.6rem 0;
+  }
+
+  .maps-compare-control__actions {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .maps-compare-control button,
+  .maps-pinned-card-panel button {
+    background: #fff;
+    border: 1px solid #d0d7de;
+    border-radius: 4px;
+    color: #24292f;
+    cursor: pointer;
+    font: inherit;
+    padding: 0.25rem 0.45rem;
+  }
+
+  .maps-compare-control button {
+    flex: 1 1 auto;
+  }
+
+  .maps-compare-control button[aria-pressed="true"] {
+    background: #0969da;
+    border-color: #0969da;
+    color: #fff;
+  }
+
+  .maps-compare-control button:disabled,
+  .maps-pinned-card-panel button:disabled {
+    color: #8c959f;
+    cursor: not-allowed;
+  }
+
+  .maps-compare-control__status {
+    color: #57606a;
+    font-size: 0.78rem;
+    line-height: 1.25;
+  }
+
+  .maps-pinned-card-panel {
+    background: #fff;
+    border: 1px solid #d0d7de;
+    box-shadow: 0 2px 8px rgb(27 31 36 / 12%);
+    display: none;
+    max-height: calc(100vh - 7rem);
+    max-height: calc(100dvh - 7rem);
+    overflow: hidden;
+    width: min(22rem, calc(100vw - 5rem));
+  }
+
+  .maps-pinned-card-panel.is-open {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .maps-pinned-card-panel__header {
+    align-items: center;
+    border-bottom: 1px solid #d0d7de;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    padding: 0.45rem 0.6rem;
+  }
+
+  .maps-pinned-card-panel__title {
+    font-weight: 700;
+  }
+
+  .maps-pinned-card-panel__body {
+    display: grid;
+    gap: 0.5rem;
+    overflow: auto;
+    padding: 0.6rem;
+  }
+
+  .maps-pinned-card {
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.55rem;
+  }
+
+  .maps-pinned-card__header {
+    align-items: start;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+  }
+
+  .maps-pinned-card__header strong {
+    margin-top: 0;
+  }
+
+  .maps-pinned-card__close {
+    flex: 0 0 auto;
+    line-height: 1;
+    padding: 0.15rem 0.35rem;
+  }
+
   .maps-layer-mode-switch__track {
     background: black;
     border: 1px solid black;
@@ -490,6 +597,11 @@ image: /media/2026/09/maps-featured.png
     .maps-control-panel__body {
       max-height: calc(100dvh - 5rem);
       overflow: auto;
+    }
+
+    .maps-compare-control,
+    .maps-pinned-card-panel {
+      display: none !important;
     }
   }
 </style>
@@ -992,6 +1104,12 @@ image: /media/2026/09/maps-featured.png
     let focusStatusElement;
     let focusedBoundary;
     const focusLayerStates = new Map();
+    let compareModeEnabled = false;
+    let compareToggleButton;
+    let compareStatusElement;
+    let pinnedCardPanel;
+    let pinnedCardBody;
+    const pinnedBoundaryCards = [];
 
     function moveLayerGroup(layer, direction) {
       if (!map.hasLayer(layer) || !layer.eachLayer) return;
@@ -1592,6 +1710,184 @@ image: /media/2026/09/maps-featured.png
       updateFocusControl();
     }
 
+    function updateCompareControl() {
+      if (compareToggleButton) {
+        compareToggleButton.setAttribute("aria-pressed", compareModeEnabled ? "true" : "false");
+      }
+      if (compareStatusElement) {
+        if (compareModeEnabled) {
+          compareStatusElement.textContent = "Click polygons to pin their cards.";
+        } else if (pinnedBoundaryCards.length) {
+          compareStatusElement.textContent = `${pinnedBoundaryCards.length.toLocaleString()} pinned card${pinnedBoundaryCards.length === 1 ? "" : "s"}.`;
+        } else {
+          compareStatusElement.textContent = "Use Compare to keep polygon cards open.";
+        }
+      }
+    }
+
+    function getPinnedCardKey(feature, layerType) {
+      const properties = feature.properties || {};
+      return [
+        layerType,
+        properties.GEOID,
+        properties.geoid,
+        properties.CC,
+        properties.CCAL,
+        properties.school_board_district,
+        properties.Name,
+        properties.NAME,
+        properties.label,
+        properties.health_zone,
+        properties.ZIPCODE,
+        properties.DISTRICT,
+        properties.SUBSECTOR,
+        getBoundaryTitle(feature, layerType)
+      ].filter(Boolean).join("|");
+    }
+
+    function createPinnedCardContent(card) {
+      if (card.layerType === "district") {
+        return createCouncilDistrictPopup(card.feature);
+      }
+      return createBoundaryPopup(card.feature, card.layerType);
+    }
+
+    function renderPinnedCards() {
+      if (!pinnedCardPanel || !pinnedCardBody) return;
+      pinnedCardBody.textContent = "";
+      pinnedCardPanel.classList.toggle("is-open", pinnedBoundaryCards.length > 0);
+
+      pinnedBoundaryCards.forEach((card) => {
+        const wrapper = document.createElement("article");
+        const header = document.createElement("div");
+        const title = document.createElement("strong");
+        const closeButton = document.createElement("button");
+        const content = createPinnedCardContent(card);
+
+        wrapper.className = "maps-pinned-card";
+        header.className = "maps-pinned-card__header";
+        title.textContent = card.title;
+        closeButton.type = "button";
+        closeButton.className = "maps-pinned-card__close";
+        closeButton.setAttribute("aria-label", `Remove ${card.title}`);
+        closeButton.textContent = "x";
+        closeButton.addEventListener("click", function () {
+          const index = pinnedBoundaryCards.indexOf(card);
+          if (index >= 0) {
+            pinnedBoundaryCards.splice(index, 1);
+            renderPinnedCards();
+          }
+        });
+
+        const duplicateTitle = Array.from(content.children).find((element) => {
+          return (element.tagName === "STRONG" || element.tagName === "A") && element.textContent === card.title;
+        });
+        if (duplicateTitle) {
+          content.removeChild(duplicateTitle);
+        }
+        header.appendChild(title);
+        header.appendChild(closeButton);
+        wrapper.appendChild(header);
+        wrapper.appendChild(content);
+        pinnedCardBody.appendChild(wrapper);
+      });
+
+      updateCompareControl();
+    }
+
+    function clearPinnedCards() {
+      pinnedBoundaryCards.splice(0, pinnedBoundaryCards.length);
+      renderPinnedCards();
+    }
+
+    function pinBoundaryFeature(feature, layerType) {
+      const key = getPinnedCardKey(feature, layerType);
+      const existingCard = pinnedBoundaryCards.find((card) => card.key === key);
+      const title = layerType === "district"
+        ? getBoundaryTitle(feature, "district")
+        : getBoundaryTitle(feature, layerType);
+
+      if (existingCard) {
+        existingCard.feature = feature;
+        renderPinnedCards();
+        return;
+      }
+
+      pinnedBoundaryCards.push({
+        feature,
+        key,
+        layerType,
+        title
+      });
+      renderPinnedCards();
+    }
+
+    function addCompareModeControl(container) {
+      if (!supportsPointerHover) return;
+
+      const wrapper = document.createElement("div");
+      const actions = document.createElement("div");
+
+      wrapper.className = "maps-compare-control";
+      actions.className = "maps-compare-control__actions";
+
+      compareToggleButton = document.createElement("button");
+      compareToggleButton.type = "button";
+      compareToggleButton.textContent = "Compare";
+      compareToggleButton.setAttribute("aria-pressed", "false");
+      compareToggleButton.addEventListener("click", function () {
+        compareModeEnabled = !compareModeEnabled;
+        updateCompareControl();
+      });
+
+      compareStatusElement = document.createElement("span");
+      compareStatusElement.className = "maps-compare-control__status";
+
+      actions.appendChild(compareToggleButton);
+      wrapper.appendChild(actions);
+      wrapper.appendChild(compareStatusElement);
+      container.appendChild(wrapper);
+      updateCompareControl();
+    }
+
+    function addPinnedCardPanel() {
+      if (!supportsPointerHover) return;
+
+      const PinnedCardControl = L.Control.extend({
+        options: {
+          position: "topright"
+        },
+        onAdd: function () {
+          pinnedCardPanel = L.DomUtil.create("aside", "maps-pinned-card-panel");
+          const header = L.DomUtil.create("div", "maps-pinned-card-panel__header", pinnedCardPanel);
+          const title = L.DomUtil.create("span", "maps-pinned-card-panel__title", header);
+          const clearButton = L.DomUtil.create("button", "", header);
+
+          title.textContent = "Pinned cards";
+          clearButton.type = "button";
+          clearButton.textContent = "Clear all";
+          clearButton.addEventListener("click", clearPinnedCards);
+          pinnedCardBody = L.DomUtil.create("div", "maps-pinned-card-panel__body", pinnedCardPanel);
+
+          L.DomEvent.disableClickPropagation(pinnedCardPanel);
+          L.DomEvent.disableScrollPropagation(pinnedCardPanel);
+          return pinnedCardPanel;
+        }
+      });
+
+      map.addControl(new PinnedCardControl());
+    }
+
+    function addCompareKeyboardShortcut() {
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && (compareModeEnabled || pinnedBoundaryCards.length)) {
+          compareModeEnabled = false;
+          clearPinnedCards();
+          updateCompareControl();
+        }
+      });
+    }
+
     function getSelectedGeographyControl(geographyControl) {
       return governmentLayerMode === "border" ? geographyControl.borderControl : geographyControl.overlayControl;
     }
@@ -1754,6 +2050,7 @@ image: /media/2026/09/maps-featured.png
           });
           addGovernmentLayerModeSwitch(container);
           addFocusModeControl(overlays);
+          addCompareModeControl(overlays);
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
           syncDistrictLayerInputs();
@@ -2479,6 +2776,9 @@ image: /media/2026/09/maps-featured.png
         if (mapInteractionMode === "focus") {
           focusBoundaryFeature(feature, layer, mode, "district");
         }
+        if (compareModeEnabled) {
+          pinBoundaryFeature(feature, "district");
+        }
       });
       if (district && supportsPointerHover) {
         layer.bindTooltip(`City Council District ${district}`, {
@@ -2511,6 +2811,9 @@ image: /media/2026/09/maps-featured.png
       layer.on("click", function () {
         if (mapInteractionMode === "focus") {
           focusBoundaryFeature(feature, layer, mode, layerType);
+        }
+        if (compareModeEnabled) {
+          pinBoundaryFeature(feature, layerType);
         }
       });
       if (supportsPointerHover) {
@@ -3215,7 +3518,9 @@ image: /media/2026/09/maps-featured.png
     }).addTo(map);
     L.Control.zoomHome().addTo(map);
     addDistrictLayerControl();
+    addPinnedCardPanel();
     addFocusKeyboardShortcut();
+    addCompareKeyboardShortcut();
     registerMapQueryLayers();
     activateQueryLayers();
     addBaseMapControl();
