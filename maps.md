@@ -736,6 +736,14 @@ permalink: /maps/
       style: (feature) => getBoundaryStyle(feature, "border", "zipCode"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "zipCode")
     });
+    const congressionalDistrictFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "congressional"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "congressional")
+    });
+    const congressionalDistrictBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "congressional"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "congressional")
+    });
     const jsoDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "jsoDistrict"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "jsoDistrict")
@@ -819,6 +827,8 @@ permalink: /maps/
         floridaSenateBorderLayer,
         zipCodeFillLayer,
         zipCodeBorderLayer,
+        congressionalDistrictFillLayer,
+        congressionalDistrictBorderLayer,
         jsoDistrictFillLayer,
         jsoDistrictBorderLayer,
         jsoSubsectionFillLayer,
@@ -1150,12 +1160,13 @@ permalink: /maps/
           appendGeographyLayerRow(overlays, "City Council District", councilDistrictFillLayer, councilDistrictBorderLayer);
           appendGeographyLayerRow(overlays, "City Council District At Large", councilAtLargeFillLayer, councilAtLargeBorderLayer);
           appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer);
-          appendGeographyLayerRow(overlays, "Neighborhood", neighborhoodFillLayer, neighborhoodBorderLayer);
+          appendGeographyLayerRow(overlays, "Neighborhoods", neighborhoodFillLayer, neighborhoodBorderLayer);
           appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer);
           appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer);
           appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer);
+          appendGeographyLayerRow(overlays, "Congressional Districts", congressionalDistrictFillLayer, congressionalDistrictBorderLayer);
           overlays.appendChild(createLayerHeading("Jacksonville Sheriff's Office"));
-          appendGeographyLayerRow(overlays, "Districts", jsoDistrictFillLayer, jsoDistrictBorderLayer);
+          appendGeographyLayerRow(overlays, "Zones", jsoDistrictFillLayer, jsoDistrictBorderLayer);
           appendGeographyLayerRow(overlays, "Subsections", jsoSubsectionFillLayer, jsoSubsectionBorderLayer);
           appendLayerControls(overlays, [
             createBoundaryLayerInput("Police Stations", jsoPoliceStationsLayer)
@@ -1236,7 +1247,7 @@ permalink: /maps/
         return Number.parseInt(properties.city_code || properties.FPLACE90, 10);
       }
       if (layerType === "neighborhood") {
-        return getStringColorNumber(properties.NAME || properties.NUM_NAME || "Neighborhood");
+        return getStringColorNumber(properties.NAME || properties.NUM_NAME || "Neighborhoods");
       }
       if (layerType === "floridaHouse") {
         return Number.parseInt(properties.HSE, 10);
@@ -1246,6 +1257,9 @@ permalink: /maps/
       }
       if (layerType === "zipCode") {
         return Number.parseInt(properties.ZIPCODE, 10);
+      }
+      if (layerType === "congressional") {
+        return Number.parseInt(properties.BASENAME || properties.GEOID, 10);
       }
       if (layerType === "jsoDistrict") {
         return Number.parseInt(properties.DISTRICT, 10);
@@ -1311,6 +1325,9 @@ permalink: /maps/
       if (layerType === "zipCode") {
         return mode === "border" ? zipCodeBorderLayer : zipCodeFillLayer;
       }
+      if (layerType === "congressional") {
+        return mode === "border" ? congressionalDistrictBorderLayer : congressionalDistrictFillLayer;
+      }
       if (layerType === "jsoDistrict") {
         return mode === "border" ? jsoDistrictBorderLayer : jsoDistrictFillLayer;
       }
@@ -1329,7 +1346,7 @@ permalink: /maps/
         return properties.Name || "City";
       }
       if (layerType === "neighborhood") {
-        return properties.NAME || properties.NUM_NAME || "Neighborhood";
+        return properties.NAME || properties.NUM_NAME || "Neighborhoods";
       }
       if (layerType === "floridaHouse") {
         return properties.HSE ? `Florida House District ${properties.HSE}` : "Florida House District";
@@ -1340,14 +1357,17 @@ permalink: /maps/
       if (layerType === "zipCode") {
         return properties.ZIPCODE ? `ZIP Code ${properties.ZIPCODE}` : "ZIP Code";
       }
+      if (layerType === "congressional") {
+        return properties.BASENAME ? `Florida's ${properties.BASENAME}th Congressional District` : "Florida Congressional District";
+      }
       if (layerType === "jsoDistrict") {
-        return properties.DISTRICT ? `JSO District ${properties.DISTRICT}` : "JSO District";
+        return properties.DISTRICT ? `JSO Zone ${properties.DISTRICT}` : "JSO Zone";
       }
       if (layerType === "jsoSubsector") {
         return properties.SUBSECTOR ? `JSO Subsection ${properties.SUBSECTOR}` : "JSO Subsection";
       }
       const district = properties.CC || properties.DISTRICT_N || properties.DISTRICT || "";
-      return district ? `Council District ${district}` : "Council District";
+      return district ? `City Council District ${district}` : "City Council District";
     }
 
     function getBoundarySubtitle(feature, layerType) {
@@ -1370,6 +1390,9 @@ permalink: /maps/
       if (layerType === "zipCode") {
         return [properties.USPS_CITY, properties.USPS_STATE].filter(Boolean).join(", ");
       }
+      if (layerType === "congressional") {
+        return properties.CDSESSN ? `${properties.CDSESSN}th Congress` : "";
+      }
       if (layerType === "jsoDistrict") {
         return "Jacksonville Sheriff's Office";
       }
@@ -1379,13 +1402,59 @@ permalink: /maps/
       return properties.MEMBER_NAM || "";
     }
 
+    function getCityCouncilMemberUrl(properties) {
+      const districtUrls = {
+        1: "https://www.jacksonville.gov/city-council/city-council-members/d01",
+        2: "https://www.jacksonville.gov/city-council/city-council-members/d02",
+        3: "https://www.jacksonville.gov/city-council/city-council-members/d03",
+        4: "https://www.jacksonville.gov/city-council/city-council-members/d04",
+        5: "https://www.jacksonville.gov/city-council/city-council-members/d05",
+        6: "https://www.jacksonville.gov/city-council/city-council-members/d06",
+        7: "https://www.jacksonville.gov/city-council/city-council-members/d07",
+        8: "https://www.jacksonville.gov/city-council/city-council-members/d08",
+        9: "https://www.jacksonville.gov/city-council/city-council-members/d09",
+        10: "https://www.jacksonville.gov/city-council/city-council-members/d10",
+        11: "https://www.jacksonville.gov/city-council/city-council-members/d11",
+        12: "https://www.jacksonville.gov/city-council/city-council-members/d12",
+        13: "https://www.jacksonville.gov/city-council/city-council-members/d13",
+        14: "https://www.jacksonville.gov/city-council/city-council-members/d14"
+      };
+      const atLargeUrls = {
+        2: "https://www.jacksonville.gov/city-council/city-council-members/al2",
+        3: "https://www.jacksonville.gov/city-council/city-council-members/al3",
+        4: "https://www.jacksonville.gov/city-council/city-council-members/al4",
+        5: "https://www.jacksonville.gov/city-council/city-council-members/al5"
+      };
+      const district = Number.parseInt(properties.CC || properties.DISTRICT_N || properties.DISTRICT, 10);
+      const atLarge = Number.parseInt(properties.CCAL, 10);
+
+      return atLargeUrls[atLarge] || districtUrls[district] || "";
+    }
+
+    function getBoundaryTitleUrl(feature, layerType) {
+      const properties = feature.properties || {};
+      if (layerType === "atLarge") {
+        return getCityCouncilMemberUrl(properties);
+      }
+      if (layerType === "congressional") {
+        return properties.ballotpedia_url || "";
+      }
+      return "";
+    }
+
     function createBoundaryPopup(feature, layerType) {
       const popup = document.createElement("div");
-      const title = document.createElement("strong");
+      const titleUrl = getBoundaryTitleUrl(feature, layerType);
+      const title = titleUrl ? document.createElement("a") : document.createElement("strong");
       const subtitle = getBoundarySubtitle(feature, layerType);
 
       popup.className = "maps-district-popup";
       title.textContent = getBoundaryTitle(feature, layerType);
+      if (titleUrl) {
+        title.href = titleUrl;
+        title.target = "_blank";
+        title.rel = "noopener";
+      }
       popup.appendChild(title);
 
       if (subtitle) {
@@ -1406,8 +1475,14 @@ permalink: /maps/
       const popup = document.createElement("div");
       popup.className = "maps-district-popup";
 
-      const title = document.createElement("strong");
-      title.textContent = district ? `Council District ${district}` : "Council District";
+      const memberUrl = getCityCouncilMemberUrl(properties);
+      const title = memberUrl ? document.createElement("a") : document.createElement("strong");
+      title.textContent = district ? `City Council District ${district}` : "City Council District";
+      if (memberUrl) {
+        title.href = memberUrl;
+        title.target = "_blank";
+        title.rel = "noopener";
+      }
       popup.appendChild(title);
 
       if (member) {
@@ -1438,7 +1513,7 @@ permalink: /maps/
       layer.options.boundaryType = "district";
       layer.bindPopup(createCouncilDistrictPopup(feature));
       if (district) {
-        layer.bindTooltip(`District ${district}`, {
+        layer.bindTooltip(`City Council District ${district}`, {
           sticky: true
         });
       }
@@ -1931,6 +2006,12 @@ permalink: /maps/
       zipCodeFillLayer,
       zipCodeBorderLayer,
       "ZIP Codes"
+    );
+    loadBoundaryLayers(
+      "/data/congressional-districts.geojson",
+      congressionalDistrictFillLayer,
+      congressionalDistrictBorderLayer,
+      "Congressional districts"
     );
     loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
     loadGeoJsonLayer("/data/jta-bus-stops.geojson", busStopsLayer, "JTA bus stops");
