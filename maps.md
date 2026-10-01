@@ -1775,15 +1775,23 @@ image: /media/2026/09/maps-featured.png
       setGovernmentOverlayOpacity(opacity / 100);
     }
 
+    function hasBoundaryLayerQuery(tokens) {
+      return tokens.some((token) => {
+        const control = queryLayerControls.get(token);
+        return control && control.group === "boundaries";
+      });
+    }
+
     function activateQueryLayers() {
       const tokens = getQueryLayerTokens();
       if (!tokens.length) return;
 
+      const includesBoundaryLayer = hasBoundaryLayerQuery(tokens);
       const includesDefaultCouncilDistrict = tokens.some((token) => {
         const control = queryLayerControls.get(token);
         return control && control.layer === councilDistrictFillLayer;
       });
-      if (!includesDefaultCouncilDistrict && map.hasLayer(councilDistrictFillLayer)) {
+      if (includesBoundaryLayer && !includesDefaultCouncilDistrict && map.hasLayer(councilDistrictFillLayer)) {
         map.removeLayer(councilDistrictFillLayer);
         orderMapLayers();
         syncDistrictLayerInputs();
