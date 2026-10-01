@@ -2,6 +2,8 @@
 layout: page
 title: Maps
 permalink: /maps/
+description: "Explore Jacksonville, Florida neighborhood organizations, CPAC districts, schools, transit, public safety, council districts, and local boundaries on an interactive map."
+image: /media/2026/09/maps-featured.png
 ---
 
 <link rel="stylesheet" href="/leaflet/leaflet.css">
@@ -895,7 +897,7 @@ permalink: /maps/
     }
 
     function orderMapLayers() {
-      [
+      const polygonLayers = [
         councilDistrictFillLayer,
         councilDistrictBorderLayer,
         councilAtLargeFillLayer,
@@ -918,12 +920,16 @@ permalink: /maps/
         jsoDistrictBorderLayer,
         jsoSubsectionFillLayer,
         jsoSubsectionBorderLayer
-      ].forEach((layer) => moveLayerGroup(layer, "bringToBack"));
-
-      moveLayerGroup(busRoutesLayer, "bringToFront");
-      moveLayerGroup(jsoPoliceStationsLayer, "bringToFront");
-      moveLayerGroup(neighborhoodOrganizationsLayer, "bringToFront");
-      [
+      ];
+      const lineLayers = [
+        busRoutesLayer
+      ];
+      const pointLayers = [
+        activePlaceLayer,
+        archivedPlaceLayer,
+        jsoPoliceStationsLayer,
+        neighborhoodOrganizationsLayer,
+        busStopsLayer,
         elementarySchoolsLayer,
         middleSchoolsLayer,
         highSchoolsLayer,
@@ -942,7 +948,11 @@ permalink: /maps/
         privateHighSchoolsLayer,
         privateCombinationSchoolsLayer,
         postSecondarySchoolsLayer
-      ].forEach((layer) => moveLayerGroup(layer, "bringToFront"));
+      ];
+
+      polygonLayers.forEach((layer) => moveLayerGroup(layer, "bringToBack"));
+      lineLayers.forEach((layer) => moveLayerGroup(layer, "bringToFront"));
+      pointLayers.forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       moveLayerGroup(busStopsLayer, "bringToFront");
     }
 
