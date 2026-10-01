@@ -815,6 +815,14 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "border", "city"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "city")
     });
+    const countyFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "county"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "county")
+    });
+    const countyBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "county"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "county")
+    });
     const neighborhoodFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "neighborhood"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "neighborhood")
@@ -965,6 +973,8 @@ image: /media/2026/09/maps-featured.png
         schoolBoardDistrictBorderLayer,
         cityFillLayer,
         cityBorderLayer,
+        countyFillLayer,
+        countyBorderLayer,
         neighborhoodFillLayer,
         neighborhoodBorderLayer,
         cpacFillLayer,
@@ -1379,6 +1389,7 @@ image: /media/2026/09/maps-featured.png
           appendGeographyLayerRow(overlays, "City Council District At Large", councilAtLargeFillLayer, councilAtLargeBorderLayer);
           appendGeographyLayerRow(overlays, "School Board Districts", schoolBoardDistrictFillLayer, schoolBoardDistrictBorderLayer);
           appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer);
+          appendGeographyLayerRow(overlays, "Duval County", countyFillLayer, countyBorderLayer);
           appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer);
           appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer);
           appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer);
@@ -1465,6 +1476,7 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["councilatlarge", "councildistrictatlarge", "citycouncilatlarge", "citycouncildistrictatlarge"], councilAtLargeFillLayer, { group: "boundaries", slug: "citycouncilatlarge", alternateLayers: [councilAtLargeBorderLayer] });
       registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries", slug: "schoolboarddistricts", alternateLayers: [schoolBoardDistrictBorderLayer] });
       registerQueryLayer(["cities", "cityboundaries"], cityFillLayer, { group: "boundaries", slug: "cities", alternateLayers: [cityBorderLayer] });
+      registerQueryLayer(["county", "duvalcounty", "duvalcountyboundary", "countyboundary"], countyFillLayer, { group: "boundaries", slug: "duvalcounty", alternateLayers: [countyBorderLayer] });
       registerQueryLayer(["floridahouse", "house", "statehouse"], floridaHouseFillLayer, { group: "boundaries", slug: "floridahouse", alternateLayers: [floridaHouseBorderLayer] });
       registerQueryLayer(["floridasenate", "senate", "statesenate"], floridaSenateFillLayer, { group: "boundaries", slug: "floridasenate", alternateLayers: [floridaSenateBorderLayer] });
       registerQueryLayer(["zip", "zips", "zipcode", "zipcodes", "zcta", "zctas"], zipCodeFillLayer, { group: "boundaries", slug: "zipcodes", alternateLayers: [zipCodeBorderLayer] });
@@ -1521,6 +1533,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "city") {
         return Number.parseInt(properties.city_code || properties.FPLACE90, 10);
+      }
+      if (layerType === "county") {
+        return getStringColorNumber(properties.geoid || properties.GEOID || properties.name || "County");
       }
       if (layerType === "schoolBoard") {
         return Number.parseInt(properties.school_board_district || properties.SB, 10);
@@ -1598,6 +1613,9 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "city") {
         return mode === "border" ? cityBorderLayer : cityFillLayer;
       }
+      if (layerType === "county") {
+        return mode === "border" ? countyBorderLayer : countyFillLayer;
+      }
       if (layerType === "schoolBoard") {
         return mode === "border" ? schoolBoardDistrictBorderLayer : schoolBoardDistrictFillLayer;
       }
@@ -1638,6 +1656,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "city") {
         return properties.Name || "City";
+      }
+      if (layerType === "county") {
+        return properties.label || properties.name || properties.NAME || "County";
       }
       if (layerType === "schoolBoard") {
         return properties.label || (properties.school_board_district ? `Duval County School Board District ${properties.school_board_district}` : "Duval County School Board District");
@@ -1688,6 +1709,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "city") {
         return properties.ESN ? `ESN ${properties.ESN}` : "";
+      }
+      if (layerType === "county") {
+        return properties.boundary_type || "County boundary";
       }
       if (layerType === "schoolBoard") {
         return properties.member_name || "";
@@ -2775,6 +2799,12 @@ image: /media/2026/09/maps-featured.png
       cityFillLayer,
       cityBorderLayer,
       "city boundaries"
+    );
+    loadBoundaryLayers(
+      "/data/duval-county.geojson",
+      countyFillLayer,
+      countyBorderLayer,
+      "Duval County boundary"
     );
     loadBoundaryLayers(
       "https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson",
