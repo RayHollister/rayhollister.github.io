@@ -1519,7 +1519,7 @@ image: /media/2026/09/maps-featured.png
         return properties.state_senate_member_name || properties.SEN_NAME || "";
       }
       if (layerType === "zipCode") {
-        return [properties.USPS_CITY, properties.USPS_STATE].filter(Boolean).join(", ");
+        return properties.boundary_type || [properties.USPS_CITY, properties.USPS_STATE].filter(Boolean).join(", ");
       }
       if (layerType === "congressional") {
         return properties.CDSESSN ? `${properties.CDSESSN}th Congress` : "";
@@ -1666,7 +1666,31 @@ image: /media/2026/09/maps-featured.png
         appendHealthZonePopupDetails(popup, feature.properties || {});
       }
 
+      if (layerType === "zipCode") {
+        appendZipCodePopupDetails(popup, feature.properties || {});
+      }
+
       return popup;
+    }
+
+    function appendZipCodePopupDetails(popup, properties) {
+      [
+        properties.source,
+        properties.caveat
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+
+      if (properties.source_url) {
+        const sourceLink = document.createElement("a");
+        sourceLink.href = properties.source_url;
+        sourceLink.target = "_blank";
+        sourceLink.rel = "noopener";
+        sourceLink.textContent = "View Census TIGER/Line source";
+        popup.appendChild(sourceLink);
+      }
     }
 
     function appendHealthZonePopupDetails(popup, properties) {

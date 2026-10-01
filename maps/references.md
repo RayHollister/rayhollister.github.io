@@ -22,8 +22,6 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - Florida House Borders
   - Florida Senate Overlays
   - Florida Senate Borders
-  - Zip Codes Overlays
-  - Zip Codes Borders
   - City Council District Overlays
   - City Council District Borders
   - City Council District At Large Overlays
@@ -48,6 +46,13 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - Current representative names, parties, district-office phone numbers, office addresses, photos, contact links, and profile links for Florida House popups.
 - [Florida Senate](https://www.flsenate.gov/Senators)
   - Current senator names, parties, email addresses, phone numbers, district-office addresses, photos, and profile links for Florida Senate popups.
+- ZIP Code / ZCTA boundaries:
+  - Geometry source: [U.S. Census Bureau TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
+  - ZIP Code Tabulation Area geometry: 2024 TIGER/Line `ZCTA520`.
+  - Duval County clip boundary: 2024 TIGER/Line County, Duval County, Florida (`STATEFP=12`, `COUNTYFP=031`).
+  - Note: USPS is authoritative for ZIP Codes as mail-routing data, but USPS does not publish official ZIP Code polygon boundaries. The map uses Census ZIP Code Tabulation Areas (ZCTAs), which are public statistical approximations of USPS ZIP Code service areas, clipped to Duval County.
+  - Zip Codes Overlays
+  - Zip Codes Borders
 - Neighborhood Overlays and Neighborhood Borders:
   - Source repository: [RayHollister/JacksonvilleNeighborhoods](https://github.com/RayHollister/JacksonvilleNeighborhoods)
   - Runtime data URL: [neighborhoods.geojson](https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson)
