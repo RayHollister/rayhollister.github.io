@@ -1663,6 +1663,16 @@ image: /media/2026/09/maps-featured.png
             hideMapContextMenu();
           }
         ));
+        mapContextMenuElement.appendChild(createContextMenuButton(
+          "Compare",
+          `Compare ${getBoundaryTitle(boundaryContext.feature, boundaryContext.layerType)}`,
+          () => {
+            compareModeEnabled = true;
+            pinBoundaryFeature(boundaryContext.feature, boundaryContext.layerType);
+            updateCompareControl();
+            hideMapContextMenu();
+          }
+        ));
       }
 
       const container = map.getContainer();
@@ -2475,7 +2485,22 @@ image: /media/2026/09/maps-featured.png
       return colorsByGeoid[properties.geoid || properties.GEOID] || "#006778";
     }
 
+    function getCityBoundaryColor(feature) {
+      const properties = feature.properties || {};
+      const colorsByName = {
+        "City of Jacksonville": "#006778",
+        "City of Atlantic Beach": "#F4CA40",
+        "City of Baldwin": "#7B2CBF",
+        "City of Jacksonville Beach": "#2A9D8F",
+        "City of Neptune Beach": "#D45087"
+      };
+      return colorsByName[properties.Name || properties.NAME] || "#006778";
+    }
+
     function getBoundaryColor(feature, layerType) {
+      if (layerType === "city") {
+        return getCityBoundaryColor(feature);
+      }
       if (layerType === "county") {
         return getCountyBoundaryColor(feature);
       }
