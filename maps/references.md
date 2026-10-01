@@ -92,6 +92,7 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - Health Zone 6 (Beaches): 32227, 32228, 32233, 32250, 32266.
   - Current working assumption pending confirmation from Florida Department of Health in Duval County: health zones clip at the Duval County line, and 32259 and 32081 belong with Health Zone 3.
   - Geometry is built from the map's Census-based ZIP/ZCTA layer: [U.S. Census Bureau TIGER/Line 2024 ZCTA520](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html), clipped to the U.S. Census Bureau TIGER/Line 2024 Duval County boundary. 32215 is listed in the health-zone ZIP breakdown, but no polygon geometry is available in the Census-clipped ZIP/ZCTA layer.
+  - ZCTAs are Census statistical approximations of USPS ZIP Code service areas; USPS does not publish official ZIP Code polygon boundaries.
   - Query-only alternate layer: `?layer=healthzones-byzipcodes` uses the listed Health Zone ZIP-code groups without adding 32081 or 32259 to Health Zone 3, and uses full Census ZCTA geometry, including the full 32234 ZCTA.
 
 ## Transportation

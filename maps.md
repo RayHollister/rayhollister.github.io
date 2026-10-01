@@ -2031,10 +2031,7 @@ image: /media/2026/09/maps-featured.png
     function appendHealthZonePopupDetails(popup, properties) {
       [
         properties.data_source,
-        properties.geometry_source ? `Geometry: ${properties.geometry_source}` : "",
-        properties.geometry_assumption,
         properties.assumption_note,
-        properties.source_zip_caveat,
         properties.missing_geometry_note
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
