@@ -114,6 +114,21 @@ image: /media/2026/09/maps-featured.png
     flex-direction: column;
   }
 
+  .maps-control-panel__header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .maps-layers-control.is-open .maps-control-panel__header {
+    border-bottom: 1px solid #d0d7de;
+    padding-right: 0.45rem;
+  }
+
+  .maps-layers-control:not(.is-open) .maps-control-panel__header {
+    display: block;
+  }
+
   .maps-control-panel__toggle {
     align-items: center;
     background: #fff;
@@ -249,7 +264,9 @@ image: /media/2026/09/maps-featured.png
   }
 
   .leaflet-control-layers-overlays > .maps-layer-heading:first-child {
+    border-top: 0;
     margin-top: 0;
+    padding-top: 0;
   }
 
   .maps-layer-subheading {
@@ -316,25 +333,16 @@ image: /media/2026/09/maps-featured.png
     position: relative;
   }
 
-  .maps-layers-control.is-open .maps-control-panel__toggle--icon {
-    left: 0;
-    position: absolute;
-    top: 0;
-    z-index: 2;
+  .maps-layers-control .maps-layer-mode-switch {
+    align-items: center;
+    display: flex;
+    flex: 0 0 32px;
+    height: 30px;
+    justify-content: center;
+    width: 60px;
   }
 
-  .maps-layers-control.is-open .maps-control-panel__body {
-    padding-top: 30px;
-  }
-
-  .maps-layers-control > .maps-layer-mode-switch {
-    position: absolute;
-    right: 6px;
-    top: 0;
-    z-index: 1;
-  }
-
-  .maps-layers-control:not(.is-open) > .maps-layer-mode-switch {
+  .maps-layers-control:not(.is-open) .maps-layer-mode-switch {
     display: none;
   }
 
@@ -485,6 +493,7 @@ image: /media/2026/09/maps-featured.png
     height: 16px;
     margin: 7px 0;
     padding: 2px;
+    position: relative;
     transition: background 0.15s ease, border-color 0.15s ease;
     width: 32px;
   }
@@ -494,8 +503,10 @@ image: /media/2026/09/maps-featured.png
     border-radius: 1px;
     display: block;
     height: 10px;
-    transform: translateX(0);
-    transition: background 0.15s ease, transform 0.15s ease;
+    left: 2px;
+    position: absolute;
+    top: 2px;
+    transition: background 0.15s ease, left 0.15s ease;
     width: 12px;
   }
 
@@ -505,13 +516,13 @@ image: /media/2026/09/maps-featured.png
     pointer-events: none;
   }
 
-  .maps-layer-mode-switch input:checked ~ .maps-layer-mode-switch__track {
+  .maps-layer-mode-switch.is-border-mode .maps-layer-mode-switch__track {
     background: transparent;
   }
 
-  .maps-layer-mode-switch input:checked ~ .maps-layer-mode-switch__track .maps-layer-mode-switch__knob {
+  .maps-layer-mode-switch.is-border-mode .maps-layer-mode-switch__knob {
     background: black;
-    transform: translateX(14px);
+    left: 16px;
   }
 
   .leaflet-control-layers-overlays label:focus,
@@ -731,6 +742,8 @@ image: /media/2026/09/maps-featured.png
     function setupCollapsibleMapControl(container, label, body, options) {
       const toggle = document.createElement("button");
       const settings = options || {};
+      const headerAction = settings.headerAction || null;
+      let header = null;
       const viewportPadding = 12;
 
       container.classList.add("maps-control-panel");
@@ -752,13 +765,22 @@ image: /media/2026/09/maps-featured.png
       } else {
         toggle.textContent = label;
       }
-      container.insertBefore(toggle, body);
+      if (headerAction) {
+        header = document.createElement("div");
+        header.className = "maps-control-panel__header";
+        header.appendChild(toggle);
+        header.appendChild(headerAction);
+        container.insertBefore(header, body);
+      } else {
+        container.insertBefore(toggle, body);
+      }
 
       function fitOpenPanelToViewport() {
         if (!container.classList.contains("is-open")) return;
         const containerTop = container.getBoundingClientRect().top;
         const availableHeight = Math.max(160, window.innerHeight - containerTop - viewportPadding);
-        const bodyHeight = Math.max(120, availableHeight - toggle.offsetHeight);
+        const headerHeight = header ? header.offsetHeight : toggle.offsetHeight;
+        const bodyHeight = Math.max(120, availableHeight - headerHeight);
         container.style.maxHeight = `${availableHeight}px`;
         body.style.maxHeight = `${bodyHeight}px`;
       }
@@ -840,7 +862,7 @@ image: /media/2026/09/maps-featured.png
     function addLocateControl() {
       const LocateControl = L.Control.extend({
         options: {
-          position: "topleft"
+          position: "bottomleft"
         },
         onAdd: function () {
           const container = L.DomUtil.create("div", "leaflet-control-locate leaflet-bar leaflet-control");
@@ -1110,6 +1132,7 @@ image: /media/2026/09/maps-featured.png
     const explicitQueryLayerSlugs = new Set();
     let governmentLayerMode = "fill";
     let governmentLayerModeInput;
+    let governmentLayerModeSwitchLabel;
     let mapInteractionMode = "browse";
     let focusToggleButton;
     let focusStatusElement;
@@ -1682,14 +1705,16 @@ image: /media/2026/09/maps-featured.png
       return { labelElement: modeLabel, input: modeInput };
     }
 
-    function addGovernmentLayerModeSwitch(container) {
+    function createGovernmentLayerModeSwitch() {
       const modeSwitch = createLayerModeSwitch("Use borders for government layers");
 
       governmentLayerModeInput = modeSwitch.input;
+      governmentLayerModeSwitchLabel = modeSwitch.labelElement;
       governmentLayerModeInput.addEventListener("change", function () {
         setGovernmentLayerMode(governmentLayerModeInput.checked ? "border" : "fill");
       });
-      container.appendChild(modeSwitch.labelElement);
+      updateGovernmentLayerModeSwitch();
+      return modeSwitch.labelElement;
     }
 
     function addFocusModeControl(container) {
@@ -1903,12 +1928,20 @@ image: /media/2026/09/maps-featured.png
       return governmentLayerMode === "border" ? geographyControl.borderControl : geographyControl.overlayControl;
     }
 
+    function updateGovernmentLayerModeSwitch() {
+      const isBorderMode = governmentLayerMode === "border";
+      if (governmentLayerModeInput) {
+        governmentLayerModeInput.checked = isBorderMode;
+      }
+      if (governmentLayerModeSwitchLabel) {
+        governmentLayerModeSwitchLabel.classList.toggle("is-border-mode", isBorderMode);
+      }
+    }
+
     function setGovernmentLayerMode(mode) {
       clearMapFocus();
       governmentLayerMode = mode;
-      if (governmentLayerModeInput) {
-        governmentLayerModeInput.checked = mode === "border";
-      }
+      updateGovernmentLayerModeSwitch();
       geographyLayerControls.forEach((geographyControl) => {
         const nextControl = getSelectedGeographyControl(geographyControl);
         const previousControl = mode === "border" ? geographyControl.overlayControl : geographyControl.borderControl;
@@ -2056,10 +2089,11 @@ image: /media/2026/09/maps-featured.png
             createLayerGroupToggle("Toggle all", privateSchoolControls)
           ]);
           appendLayerControls(overlays, privateSchoolControls);
+          const layerModeSwitch = createGovernmentLayerModeSwitch();
           setupCollapsibleMapControl(container, "Layers", list, {
-            iconPath: "M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z"
+            iconPath: "M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z",
+            headerAction: layerModeSwitch
           });
-          addGovernmentLayerModeSwitch(container);
           addFocusModeControl(overlays);
           addCompareModeControl(overlays);
           L.DomEvent.disableClickPropagation(container);
@@ -3524,11 +3558,13 @@ image: /media/2026/09/maps-featured.png
     loadGeoJsonLayer("/data/duval-post-secondary-schools.geojson", postSecondarySchoolsLayer, "Duval post-secondary schools");
 
     addDistrictLayerControl();
+    L.Control.zoomHome({
+      position: "topleft"
+    }).addTo(map);
     addLocateControl();
     L.control.fullscreen({
       position: "topleft"
     }).addTo(map);
-    L.Control.zoomHome().addTo(map);
     addPinnedCardPanel();
     addFocusKeyboardShortcut();
     addCompareKeyboardShortcut();
