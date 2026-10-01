@@ -89,6 +89,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 ## Health
 
 - Health Zones:
+  - Source framework: Florida Department of Health in Duval County health-zone framework; ZIP breakdown from Health Planning Council of Northeast Florida Housing HIA report citing DOH-Duval community health planning materials.
   - Duval County is divided into six multi-ZIP-code health zones for regional health data tracking and community planning by the Florida Department of Health in Duval County.
   - The [Health Planning Council of Northeast Florida Housing Health Impact Assessment](https://hpcnef.org/wp-content/uploads/2016/02/Housing-HIA-Report_Final-6-7-17.pdf) lists the six health-zone ZIP-code groupings and cites the Florida Department of Health in Duval County Community Health Assessment and Community Health Improvement Plan as the source for the health-zone map.
   - The same report also identifies Florida Department of Health in Duval County as the data source for several health-zone indicators.

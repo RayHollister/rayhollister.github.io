@@ -467,9 +467,10 @@ image: /media/2026/09/maps-featured.png
     appearance: none;
     --maps-layer-opacity-alpha: 0.25;
     --maps-layer-opacity-percent: 25%;
+    --maps-layer-thumb-border-color: rgb(64 64 64);
     background: linear-gradient(
       to right,
-      #424242 0 var(--maps-layer-opacity-percent),
+      rgb(66 66 66 / var(--maps-layer-opacity-alpha)) 0 var(--maps-layer-opacity-percent),
       #fff var(--maps-layer-opacity-percent) 100%
     );
     border: 0;
@@ -478,7 +479,6 @@ image: /media/2026/09/maps-featured.png
     display: block;
     height: 18px;
     margin: 0;
-    opacity: var(--maps-layer-opacity-alpha);
     position: relative;
     width: 100%;
     z-index: 1;
@@ -496,8 +496,8 @@ image: /media/2026/09/maps-featured.png
   .maps-layer-opacity-control input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    background: #424242;
-    border: 0;
+    background: rgb(66 66 66 / var(--maps-layer-opacity-alpha));
+    border: 1px solid var(--maps-layer-thumb-border-color);
     border-radius: 0;
     box-sizing: border-box;
     height: 18px;
@@ -515,14 +515,14 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-layer-opacity-control input[type="range"]::-moz-range-progress {
-    background: #424242;
+    background: rgb(66 66 66 / var(--maps-layer-opacity-alpha));
     border: 0;
     height: 18px;
   }
 
   .maps-layer-opacity-control input[type="range"]::-moz-range-thumb {
-    background: #424242;
-    border: 0;
+    background: rgb(66 66 66 / var(--maps-layer-opacity-alpha));
+    border: 1px solid var(--maps-layer-thumb-border-color);
     border-radius: 0;
     box-sizing: border-box;
     height: 18px;
@@ -1964,10 +1964,12 @@ image: /media/2026/09/maps-featured.png
     function updateGovernmentLayerOpacityControl() {
       const opacityPercent = Math.round(governmentOverlayOpacity * 100);
       if (governmentLayerOpacityInput) {
+        const thumbBorderChannel = Math.round(governmentOverlayOpacity * 255);
         governmentLayerOpacityInput.value = String(opacityPercent);
         governmentLayerOpacityInput.title = `Overlay opacity: ${opacityPercent}%`;
         governmentLayerOpacityInput.style.setProperty("--maps-layer-opacity-alpha", String(governmentOverlayOpacity));
         governmentLayerOpacityInput.style.setProperty("--maps-layer-opacity-percent", `${opacityPercent}%`);
+        governmentLayerOpacityInput.style.setProperty("--maps-layer-thumb-border-color", `rgb(${thumbBorderChannel} ${thumbBorderChannel} ${thumbBorderChannel})`);
       }
       if (governmentLayerOpacityLabel) {
         governmentLayerOpacityLabel.title = `Overlay opacity: ${opacityPercent}%`;
@@ -2726,7 +2728,6 @@ image: /media/2026/09/maps-featured.png
 
     function appendHealthZonePopupDetails(popup, properties) {
       [
-        properties.data_source,
         properties.assumption_note,
         properties.missing_geometry_note
       ].filter(Boolean).forEach((value) => {
