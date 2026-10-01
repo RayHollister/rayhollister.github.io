@@ -862,7 +862,7 @@ image: /media/2026/09/maps-featured.png
     function addLocateControl() {
       const LocateControl = L.Control.extend({
         options: {
-          position: "bottomleft"
+          position: "topleft"
         },
         onAdd: function () {
           const container = L.DomUtil.create("div", "leaflet-control-locate leaflet-bar leaflet-control");
@@ -3561,7 +3561,6 @@ image: /media/2026/09/maps-featured.png
     L.Control.zoomHome({
       position: "topleft"
     }).addTo(map);
-    addLocateControl();
     L.control.fullscreen({
       position: "topleft"
     }).addTo(map);
@@ -3571,6 +3570,7 @@ image: /media/2026/09/maps-featured.png
     registerMapQueryLayers();
     activateQueryLayers();
     addBaseMapControl();
+    addLocateControl();
     
     setBaseMap("positron", { quiet: true });
 
