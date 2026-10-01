@@ -337,6 +337,21 @@ image: /media/2026/09/maps-featured.png
     height: 30px;
     justify-content: center;
     min-width: 5rem;
+    position: relative;
+  }
+
+  .maps-layers-control .maps-layer-opacity-control::after {
+    border: 1px solid #424242;
+    box-sizing: border-box;
+    content: "";
+    height: 18px;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
   }
 
   .maps-layers-control:not(.is-open) .maps-layer-header-actions {
@@ -351,14 +366,18 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-layer-header-actions button {
+    align-items: center;
     background: #fff;
-    border: 0;
     border: 1px solid #424242;
+    box-sizing: border-box;
     color: #424242;
     cursor: pointer;
+    display: inline-flex;
     flex: 0 0 auto;
     font-size: 11px;
-    padding: 0.075rem 0.45rem;
+    height: 18px;
+    line-height: 1;
+    padding: 0 0.45rem;
   }
 
   .maps-layer-header-actions button[aria-pressed="true"] {
@@ -446,17 +465,28 @@ image: /media/2026/09/maps-featured.png
   .maps-layer-opacity-control input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
-    background: transparent;
+    --maps-layer-opacity-alpha: 0.25;
+    --maps-layer-opacity-percent: 25%;
+    background: linear-gradient(
+      to right,
+      #424242 0 var(--maps-layer-opacity-percent),
+      #fff var(--maps-layer-opacity-percent) 100%
+    );
+    border: 0;
+    box-sizing: border-box;
     cursor: pointer;
     display: block;
     height: 18px;
     margin: 0;
+    opacity: var(--maps-layer-opacity-alpha);
+    position: relative;
     width: 100%;
+    z-index: 1;
   }
 
   .maps-layer-opacity-control input[type="range"]::-webkit-slider-runnable-track {
-    background: #fff;
-    border: 1px solid #424242;
+    background: transparent;
+    border: 0;
     border-radius: 0;
     box-sizing: border-box;
     height: 18px;
@@ -470,18 +500,24 @@ image: /media/2026/09/maps-featured.png
     border: 0;
     border-radius: 0;
     box-sizing: border-box;
-    height: 16px;
+    height: 18px;
     margin-top: 0;
     width: 18px;
   }
 
   .maps-layer-opacity-control input[type="range"]::-moz-range-track {
-    background: #fff;
-    border: 1px solid #424242;
+    background: transparent;
+    border: 0;
     border-radius: 0;
     box-sizing: border-box;
     height: 18px;
     width: 100%;
+  }
+
+  .maps-layer-opacity-control input[type="range"]::-moz-range-progress {
+    background: #424242;
+    border: 0;
+    height: 18px;
   }
 
   .maps-layer-opacity-control input[type="range"]::-moz-range-thumb {
@@ -1930,7 +1966,8 @@ image: /media/2026/09/maps-featured.png
       if (governmentLayerOpacityInput) {
         governmentLayerOpacityInput.value = String(opacityPercent);
         governmentLayerOpacityInput.title = `Overlay opacity: ${opacityPercent}%`;
-        governmentLayerOpacityInput.style.opacity = String(0.35 + (governmentOverlayOpacity * 0.65));
+        governmentLayerOpacityInput.style.setProperty("--maps-layer-opacity-alpha", String(governmentOverlayOpacity));
+        governmentLayerOpacityInput.style.setProperty("--maps-layer-opacity-percent", `${opacityPercent}%`);
       }
       if (governmentLayerOpacityLabel) {
         governmentLayerOpacityLabel.title = `Overlay opacity: ${opacityPercent}%`;
@@ -2051,10 +2088,10 @@ image: /media/2026/09/maps-featured.png
           ]);
           appendGeographyLayerRow(overlays, "Citizens Planning Advisory Committee (CPACs)", cpacFillLayer, cpacBorderLayer);
           overlays.appendChild(createLayerHeading("Jacksonville Sheriff's Office"));
-          appendGeographyLayerRow(overlays, "Districts", jsoDistrictFillLayer, jsoDistrictBorderLayer);
-          appendGeographyLayerRow(overlays, "Subsections", jsoSubsectionFillLayer, jsoSubsectionBorderLayer);
+          appendGeographyLayerRow(overlays, "JSO Districts", jsoDistrictFillLayer, jsoDistrictBorderLayer);
+          appendGeographyLayerRow(overlays, "JSO Subsections", jsoSubsectionFillLayer, jsoSubsectionBorderLayer);
           appendLayerControls(overlays, [
-            createBoundaryLayerInput("Substations", jsoPoliceStationsLayer)
+            createBoundaryLayerInput("JSO Substations", jsoPoliceStationsLayer)
           ]);
           overlays.appendChild(createLayerHeading("Health"));
           appendGeographyLayerRow(overlays, "Health Zones", healthZoneFillLayer, healthZoneBorderLayer);
@@ -2087,7 +2124,7 @@ image: /media/2026/09/maps-featured.png
           ];
           const fldoeSchoolControls = traditionalPublicSchoolControls.concat(charterPublicSchoolControls, privateSchoolControls, postSecondarySchoolControls);
 
-          overlays.appendChild(createLayerHeading("Educational Institutions"));
+          overlays.appendChild(createLayerHeading("Education"));
           appendLayerControls(overlays, [
             createLayerGroupToggle("All Schools", fldoeSchoolControls)
           ]);
