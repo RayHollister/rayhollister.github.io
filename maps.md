@@ -412,6 +412,8 @@ permalink: /maps/
       scrollWheelZoom: true,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
+    let isolatedBoundaryLayer = null;
+    let skipNextBoundaryRestoreClick = false;
 
     const openFreeMapStyles = {
       positron: "https://tiles.openfreemap.org/styles/positron",
@@ -660,6 +662,18 @@ permalink: /maps/
       if (locateControlContainer && L.DomUtil.hasClass(locateControlContainer, "following")) {
         setLocateControlState("active");
       }
+    });
+
+    map.on("click", function () {
+      if (skipNextBoundaryRestoreClick) {
+        skipNextBoundaryRestoreClick = false;
+        return;
+      }
+      if (!isolatedBoundaryLayer) return;
+      restoreBoundaryLayerFeatures(isolatedBoundaryLayer);
+      isolatedBoundaryLayer = null;
+      orderMapLayers();
+      syncDistrictLayerInputs();
     });
 
     map.attributionControl.addAttribution(
@@ -933,6 +947,8 @@ permalink: /maps/
 
     function handleBoundaryFeatureClick(event, activeLayer, activeFeatureLayer) {
       isolateBoundaryFeature(activeLayer, activeFeatureLayer);
+      isolatedBoundaryLayer = activeLayer;
+      skipNextBoundaryRestoreClick = true;
       if (event.originalEvent && event.originalEvent.shiftKey) {
         zoomToBoundaryFeature(activeFeatureLayer);
       }
@@ -951,6 +967,9 @@ permalink: /maps/
         }
       } else if (map.hasLayer(control.layer)) {
         map.removeLayer(control.layer);
+        if (isolatedBoundaryLayer === control.layer) {
+          isolatedBoundaryLayer = null;
+        }
       }
       orderMapLayers();
       syncDistrictLayerInputs();
@@ -1166,10 +1185,10 @@ permalink: /maps/
           appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer);
           appendGeographyLayerRow(overlays, "Congressional Districts", congressionalDistrictFillLayer, congressionalDistrictBorderLayer);
           overlays.appendChild(createLayerHeading("Jacksonville Sheriff's Office"));
-          appendGeographyLayerRow(overlays, "Zones", jsoDistrictFillLayer, jsoDistrictBorderLayer);
+          appendGeographyLayerRow(overlays, "Districts", jsoDistrictFillLayer, jsoDistrictBorderLayer);
           appendGeographyLayerRow(overlays, "Subsections", jsoSubsectionFillLayer, jsoSubsectionBorderLayer);
           appendLayerControls(overlays, [
-            createBoundaryLayerInput("Police Stations", jsoPoliceStationsLayer)
+            createBoundaryLayerInput("Substations", jsoPoliceStationsLayer)
           ]);
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
@@ -1361,7 +1380,7 @@ permalink: /maps/
         return properties.BASENAME ? `Florida's ${properties.BASENAME}th Congressional District` : "Florida Congressional District";
       }
       if (layerType === "jsoDistrict") {
-        return properties.DISTRICT ? `JSO Zone ${properties.DISTRICT}` : "JSO Zone";
+        return properties.DISTRICT ? `JSO District ${properties.DISTRICT}` : "JSO District";
       }
       if (layerType === "jsoSubsector") {
         return properties.SUBSECTOR ? `JSO Subsection ${properties.SUBSECTOR}` : "JSO Subsection";
@@ -1633,22 +1652,41 @@ permalink: /maps/
       const properties = feature.properties || {};
       const popup = document.createElement("div");
       const title = document.createElement("strong");
+      const directionsUrl = properties.directions_url || "";
 
       popup.className = "maps-district-popup";
-      title.textContent = "JSO Police Station";
+      title.textContent = properties.name || "JSO Substation";
       popup.appendChild(title);
 
       [
-        properties.ADDRESS,
-        properties.SUBSECTOR ? `Subsection ${properties.SUBSECTOR}` : "",
-        properties.ZONE ? `Zone ${properties.ZONE}` : "",
-        properties.HOURS,
-        properties.PHONE
+        properties.neighborhoods,
+        properties.commander ? `District Commander ${properties.commander}` : "",
+        properties.address,
+        properties.located && properties.located_label ? `${properties.located_label}: ${properties.located}` : properties.located,
+        properties.hours ? `Hours: ${properties.hours}` : "",
+        properties.phone ? `Phone: ${properties.phone}` : "",
+        properties.fax ? `Fax: ${properties.fax}` : ""
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
         line.textContent = value;
         popup.appendChild(line);
       });
+
+      if (properties.email) {
+        const emailLink = document.createElement("a");
+        emailLink.href = `mailto:${properties.email}`;
+        emailLink.textContent = properties.email;
+        popup.appendChild(emailLink);
+      }
+
+      if (directionsUrl) {
+        const directionsLink = document.createElement("a");
+        directionsLink.href = directionsUrl;
+        directionsLink.target = "_blank";
+        directionsLink.rel = "noopener";
+        directionsLink.textContent = "Directions";
+        popup.appendChild(directionsLink);
+      }
 
       return popup;
     }
@@ -1688,7 +1726,7 @@ permalink: /maps/
     function addPoliceStationInteractivity(feature, layer) {
       const properties = feature.properties || {};
       layer.bindPopup(createPoliceStationPopup(feature));
-      layer.bindTooltip(properties.ADDRESS || "JSO Police Station", {
+      layer.bindTooltip(properties.name || "JSO Substation", {
         sticky: true
       });
     }

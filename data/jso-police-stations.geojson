@@ -3,28 +3,31 @@
   "features": [
     {
       "type": "Feature",
-      "id": 1,
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -81.66592129479378,
-          30.373013410180615
+          -81.6760183,
+          30.3215722
         ]
       },
       "properties": {
-        "ADDRESS": "5258 NORWOOD AVE",
-        "SUBSECTOR": "C-4",
-        "ZONE": 1,
-        "HOURS": "8 a.m. to 5 p.m, M-F",
-        "EMAIL": null,
-        "PHONE": "904-630-0500",
-        "FAX": null,
-        "OBJECTID": 1
+        "district": 1,
+        "name": "District 1 Substation",
+        "neighborhoods": "Brooklyn / Downtown / Eastside / San Marco / Springfield",
+        "commander": "Jimmy Ricks",
+        "address": "450 Magnolia Street, Jacksonville, FL 32204",
+        "located_label": "Located in",
+        "located": "Jacksonville Sheriff's Office Public Services Building",
+        "hours": "8 a.m. to 5 p.m., Monday through Friday",
+        "phone": "904.630.8144",
+        "fax": "904.630.8155",
+        "email": "JSODistrict1@jaxsheriff.org",
+        "directions_url": "https://www.google.com/maps/dir//450+Magnolia+St,+Jacksonville,+FL+32204",
+        "source_url": "https://www.jaxsheriff.org/Your-Neighborhood.aspx"
       }
     },
     {
       "type": "Feature",
-      "id": 2,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -33,19 +36,23 @@
         ]
       },
       "properties": {
-        "ADDRESS": "9119 MERRILL RD",
-        "SUBSECTOR": "G-1",
-        "ZONE": 2,
-        "HOURS": "8 a.m. to 5 p.m, M-F",
-        "EMAIL": null,
-        "PHONE": "904-630-0500",
-        "FAX": null,
-        "OBJECTID": 2
+        "district": 2,
+        "name": "District 2 Substation",
+        "neighborhoods": "Arlington / Intracoastal West",
+        "commander": "Rickie Valentine",
+        "address": "9119 Merrill Road, Jacksonville, FL 32225",
+        "located_label": "Located in",
+        "located": "Merrill Crossing",
+        "hours": "8 a.m. to 5 p.m., Monday through Friday",
+        "phone": "904.630.8166",
+        "fax": "904.630.8170",
+        "email": "JSODistrict2@jaxsheriff.org",
+        "directions_url": "https://goo.gl/maps/eaDfjM8xFA7FeG4Q9",
+        "source_url": "https://www.jaxsheriff.org/Your-Neighborhood.aspx"
       }
     },
     {
       "type": "Feature",
-      "id": 3,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -54,19 +61,23 @@
         ]
       },
       "properties": {
-        "ADDRESS": "8875 LIBERTY RIDGE DR",
-        "SUBSECTOR": "I-4",
-        "ZONE": 3,
-        "HOURS": "8 a.m. to 5 p.m, M-F",
-        "EMAIL": null,
-        "PHONE": "904-630-0500",
-        "FAX": null,
-        "OBJECTID": 3
+        "district": 3,
+        "name": "District 3 Substation",
+        "neighborhoods": "Mandarin / Southside",
+        "commander": "Petena Tillman",
+        "address": "8875 Liberty Ridge Drive, Suite 110, Jacksonville, FL 32256",
+        "located_label": "Located off of",
+        "located": "Prominence Parkway",
+        "hours": "8 a.m. to 5 p.m., Monday through Friday",
+        "phone": "904.630.8100",
+        "fax": "904.630.8101",
+        "email": "JSODistrict3@jaxsheriff.org",
+        "directions_url": "https://www.google.com/maps/dir/30.3398912,-81.6775168/REAR+of+building,+8875+Liberty+Ridge+Dr,+Jacksonville,+FL+32256",
+        "source_url": "https://www.jaxsheriff.org/Your-Neighborhood.aspx"
       }
     },
     {
       "type": "Feature",
-      "id": 4,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -75,19 +86,23 @@
         ]
       },
       "properties": {
-        "ADDRESS": "3726 BLANDING BLVD",
-        "SUBSECTOR": "N-4",
-        "ZONE": 4,
-        "HOURS": "8 a.m. to 5 p.m, M-F",
-        "EMAIL": null,
-        "PHONE": "904-630-0500",
-        "FAX": null,
-        "OBJECTID": 4
+        "district": 4,
+        "name": "District 4 Substation",
+        "neighborhoods": "Avondale / Ortega / Westside",
+        "commander": "Adam Blinn",
+        "address": "3726 Blanding Boulevard, Jacksonville, FL 32210",
+        "located_label": "Located at",
+        "located": "Cedar Hills Shopping Center",
+        "hours": "8 a.m. to 5 p.m., Monday through Friday",
+        "phone": "904.630.8133",
+        "fax": "904.630.8122",
+        "email": "JSODistrict4@jaxsheriff.org",
+        "directions_url": "https://goo.gl/maps/91aQvzkuDhs",
+        "source_url": "https://www.jaxsheriff.org/Your-Neighborhood.aspx"
       }
     },
     {
       "type": "Feature",
-      "id": 5,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -96,19 +111,23 @@
         ]
       },
       "properties": {
-        "ADDRESS": "1767 KINGS RD",
-        "SUBSECTOR": "R-4",
-        "ZONE": 5,
-        "HOURS": "8 a.m. to 5 p.m, M-F",
-        "EMAIL": null,
-        "PHONE": "904-630-0500",
-        "FAX": null,
-        "OBJECTID": 5
+        "district": 5,
+        "name": "District 5 Substation",
+        "neighborhoods": "Baldwin / New Town / Northwest / Riverside",
+        "commander": "Harry Massey",
+        "address": "1767 Kings Road, Jacksonville, FL 32209",
+        "located_label": "Located at",
+        "located": "Edward Waters University",
+        "hours": "8 a.m. to 5 p.m., Monday through Friday",
+        "phone": "904.470.8900",
+        "fax": "904.470.8318",
+        "email": "JSODistrict5@jaxsheriff.org",
+        "directions_url": "https://goo.gl/maps/dcSJQs3rPdx",
+        "source_url": "https://www.jaxsheriff.org/Your-Neighborhood.aspx"
       }
     },
     {
       "type": "Feature",
-      "id": 6,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -117,35 +136,19 @@
         ]
       },
       "properties": {
-        "ADDRESS": "1680 DUNN AVE",
-        "SUBSECTOR": "V-5",
-        "ZONE": 6,
-        "HOURS": "8 a.m. to 5 p.m, M-F",
-        "EMAIL": null,
-        "PHONE": "904-630-0500",
-        "FAX": null,
-        "OBJECTID": 6
-      }
-    },
-    {
-      "type": "Feature",
-      "id": 7,
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -81.6508195306012,
-          30.32549989965116
-        ]
-      },
-      "properties": {
-        "ADDRESS": "501 E BAY ST",
-        "SUBSECTOR": "A-1",
-        "ZONE": 1,
-        "HOURS": "8 a.m. to 5 p.m, M-F",
-        "EMAIL": null,
-        "PHONE": "904-630-0500",
-        "FAX": null,
-        "OBJECTID": 7
+        "district": 6,
+        "name": "District 6 Substation",
+        "neighborhoods": "Northside / San Mateo / Oceanway",
+        "commander": "Scott Lundquist",
+        "address": "1680 Dunn Avenue, Suite 39, Jacksonville, FL 32218",
+        "located_label": "Located at",
+        "located": "Rutgers Plaza",
+        "hours": "8 a.m. to 5 p.m., Monday through Friday",
+        "phone": "904.630.8688",
+        "fax": "904.630.8677",
+        "email": "JSODistrict6@jaxsheriff.org",
+        "directions_url": "https://goo.gl/maps/ckSaf63o4wdZ6g4XA",
+        "source_url": "https://www.jaxsheriff.org/Your-Neighborhood.aspx"
       }
     }
   ]
