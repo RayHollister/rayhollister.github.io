@@ -824,6 +824,8 @@ permalink: /maps/
     const fldoeCharterMiddleSchoolsLayer = createFldoeSchoolLayer("middle");
     const fldoeCharterHighSchoolsLayer = createFldoeSchoolLayer("high");
     const fldoeCharterCombinationSchoolsLayer = createFldoeSchoolLayer("combination");
+    const privateSchoolsLayer = createFldoeSchoolLayer("private");
+    const postSecondarySchoolsLayer = createFldoeSchoolLayer("postSecondary");
     const boundaryLayerControls = [];
     const geographyLayerControls = [];
     let governmentLayerMode = "fill";
@@ -877,7 +879,9 @@ permalink: /maps/
         fldoeCharterElementarySchoolsLayer,
         fldoeCharterMiddleSchoolsLayer,
         fldoeCharterHighSchoolsLayer,
-        fldoeCharterCombinationSchoolsLayer
+        fldoeCharterCombinationSchoolsLayer,
+        privateSchoolsLayer,
+        postSecondarySchoolsLayer
       ].forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       moveLayerGroup(busStopsLayer, "bringToFront");
     }
@@ -1222,7 +1226,11 @@ permalink: /maps/
             createBoundaryLayerInput("High", fldoeCharterHighSchoolsLayer),
             createBoundaryLayerInput("Combination", fldoeCharterCombinationSchoolsLayer)
           ];
-          const fldoeSchoolControls = traditionalPublicSchoolControls.concat(charterPublicSchoolControls);
+          const otherSchoolControls = [
+            createBoundaryLayerInput("Private Schools", privateSchoolsLayer),
+            createBoundaryLayerInput("Post-Secondary Schools", postSecondarySchoolsLayer)
+          ];
+          const fldoeSchoolControls = traditionalPublicSchoolControls.concat(charterPublicSchoolControls, otherSchoolControls);
 
           overlays.appendChild(createLayerHeading("Educational Institutions"));
           appendLayerControls(overlays, [
@@ -1238,6 +1246,7 @@ permalink: /maps/
             createLayerGroupToggle("Toggle all", charterPublicSchoolControls)
           ]);
           appendLayerControls(overlays, charterPublicSchoolControls);
+          appendLayerControls(overlays, otherSchoolControls);
           setupCollapsibleMapControl(container, "Layers", list, {
             iconPath: "M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z"
           });
@@ -1752,7 +1761,9 @@ permalink: /maps/
         middle: "#dc2626",
         high: "#16a34a",
         combination: "#ca8a04",
-        magnet: "#9333ea"
+        magnet: "#9333ea",
+        private: "#be123c",
+        postSecondary: "#0f766e"
       };
       const fillColor = colors[type] || "#111827";
       return {
@@ -1832,6 +1843,7 @@ permalink: /maps/
     }
 
     function formatFldoeAddress(properties) {
+      if (properties.address) return properties.address;
       if (properties.formatted_address) return properties.formatted_address;
       return [
         properties.physical_address,
@@ -1860,18 +1872,37 @@ permalink: /maps/
       }
       popup.appendChild(title);
 
-      appendFldoePopupLine(popup, "", properties.public_school_type);
+      appendFldoePopupLine(popup, "", properties.public_school_type || properties.category);
       appendFldoePopupLine(popup, "School type", properties.school_type);
       appendFldoePopupLine(popup, "Address", formatFldoeAddress(properties));
       appendFldoePopupLine(popup, "Phone", properties.phone_number);
-      appendFldoePopupLine(popup, "Students", properties.total_students);
+      appendFldoePopupLine(popup, "Grade levels", properties.grade_levels);
+      appendFldoePopupLine(popup, "Students", properties.total_students || properties.enrollment);
       appendFldoePopupLine(popup, "Teachers", properties.teacher_count);
       appendFldoePopupLine(popup, "Community Eligibility Provision", properties.cep_percentage ? `${properties.cep_percentage}%` : "");
       appendFldoePopupLine(popup, "Title I", properties.title1);
       appendFldoePopupLine(popup, "Magnet status", properties.magnet_status_label);
       appendFldoePopupLine(popup, "Magnet specialty", properties.magnet_specialty_label);
       appendFldoePopupLine(popup, "Alternative/ESE/DJJ", properties.alt_school_label);
+      appendFldoePopupLine(popup, "Operating", properties.operating);
+      appendFldoePopupLine(popup, "Operator class", properties.operator_class);
+      appendFldoePopupLine(popup, "Owner", properties.owner);
+      appendFldoePopupLine(popup, "Programs", properties.programs);
+      appendFldoePopupLine(popup, "Director", properties.director);
+      appendFldoePopupLine(popup, "Director email", properties.director_email);
+      appendFldoePopupLine(popup, "Contact", properties.contact);
+      appendFldoePopupLine(popup, "Contact email", properties.contact_email);
+      appendFldoePopupLine(popup, "Religious", properties.religious);
+      appendFldoePopupLine(popup, "Denomination", properties.denomination);
+      appendFldoePopupLine(popup, "Non-profit", properties.non_profit);
+      appendFldoePopupLine(popup, "Accreditation", properties.accreditation);
+      appendFldoePopupLine(popup, "FES Educational Options", properties.fes_educational_options);
+      appendFldoePopupLine(popup, "FTC", properties.ftc);
+      appendFldoePopupLine(popup, "FES Unique Abilities", properties.fes_unique_abilities);
+      appendFldoePopupLine(popup, "PEP", properties.pep);
+      appendFldoePopupLine(popup, "Notes", properties.notes);
       appendFldoePopupLine(popup, "School number", properties.school_number);
+      appendFldoePopupLine(popup, "Federal ID", properties.federal_id);
 
       if (properties.school_website) {
         const link = document.createElement("a");
@@ -1879,6 +1910,15 @@ permalink: /maps/
         link.target = "_blank";
         link.rel = "noopener";
         link.textContent = "View school website";
+        popup.appendChild(link);
+      }
+
+      if (properties.google_map_url) {
+        const link = document.createElement("a");
+        link.href = properties.google_map_url;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = "View on Google Maps";
         popup.appendChild(link);
       }
 
@@ -2094,6 +2134,8 @@ permalink: /maps/
     loadGeoJsonLayer("/data/fldoe-duval-charter-public-middle-schools.geojson", fldoeCharterMiddleSchoolsLayer, "FLDOE charter public middle schools");
     loadGeoJsonLayer("/data/fldoe-duval-charter-public-high-schools.geojson", fldoeCharterHighSchoolsLayer, "FLDOE charter public high schools");
     loadGeoJsonLayer("/data/fldoe-duval-charter-public-combination-schools.geojson", fldoeCharterCombinationSchoolsLayer, "FLDOE charter public combination schools");
+    loadGeoJsonLayer("/data/duval-private-schools.geojson", privateSchoolsLayer, "Duval private schools");
+    loadGeoJsonLayer("/data/duval-post-secondary-schools.geojson", postSecondarySchoolsLayer, "Duval post-secondary schools");
 
     addLocateControl();
     L.control.fullscreen({

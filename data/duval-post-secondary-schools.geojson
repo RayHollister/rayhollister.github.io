@@ -1,0 +1,886 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Cda Technical Institute",
+        "federal_id": "447874",
+        "address": "91 Trout River Drive, Jacksonville, FL, 32208",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Cda Technical Institute INC",
+        "enrollment": "0",
+        "description": "Cda Technical Institute",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3773462359"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.64813975607728,
+          30.39161277514399
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Chamberlain College OF Nursing-Florida",
+        "federal_id": "457129",
+        "address": "5200 Belfort Rd, Jacksonville, FL, 32256",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Jax Concourse Owners Corp",
+        "enrollment": "0",
+        "description": "Chamberlain College OF Nursing-Florida",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4357245912"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.5864850796725,
+          30.243483440588054
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Columbia College - Jacksonville",
+        "federal_id": "17706529",
+        "address": "7077 Bonneval Road, Jacksonville, FL, 32216",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Hh Center LLC",
+        "enrollment": "0",
+        "description": "Columbia College - Jacksonville",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4252646310"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.59737391386805,
+          30.24702824757611
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Columbia College-Nas Jacksonville",
+        "federal_id": "17706504",
+        "address": "110 Yorktown Ave, Jacksonville, FL, 32244",
+        "school_type": "College/university",
+        "operating": "Federal",
+        "operator_class": "Public",
+        "owner": "U S A Air Base",
+        "enrollment": "0",
+        "description": "Columbia College-Nas Jacksonville",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3497544119"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.67572763831508,
+          30.2268791173484
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Concorde Career Institute-Jacksonville",
+        "federal_id": "133845",
+        "address": "7259 Salisbury Road, Jacksonville, FL, 32256",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Plymouth Salisbury Business Pa",
+        "enrollment": "0",
+        "description": "Concorde Career Institute-Jacksonville",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4402545397"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.58174956983066,
+          30.23885955054768
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Edward Waters College",
+        "federal_id": "133526",
+        "address": "1658 Kings Road, Jacksonville, FL, 32209",
+        "phone_number": "904-470-8000",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Edward Waters College",
+        "enrollment": "0",
+        "description": "Edward Waters College",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3428757070"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.6836866810763,
+          30.343703561645754
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Embry-Riddle Aeronautical University",
+        "federal_id": "426314",
+        "address": "6801 Roosevelt Blvd, Jacksonville, FL, 32212",
+        "phone_number": "800-522-6787",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "U S A Air Base",
+        "enrollment": "0",
+        "description": "Embry-Riddle Aeronautical University",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3258743303"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.7004826125084,
+          30.219380007158684
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Embry-Riddle Aeronautical University - Jacksonville-Ns Mayport",
+        "address": "460 Massey Avenue, Jacksonville, FL, 32228",
+        "phone_number": "904-249-6700",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Ribault Bay Naval Reservation",
+        "enrollment": "0",
+        "description": "Embry-Riddle Aeronautical University - Jacksonville-Ns Mayport",
+        "google_map_url": "https://www.google.com/maps/place/17RMP6068461766"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.4092239561892,
+          30.38722416989006
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida Career College-Jacksonville",
+        "federal_id": "487436",
+        "address": "6600 Youngerman Circle, Jacksonville, FL, 32244",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Cathedral-Baypointe Associates",
+        "enrollment": "0",
+        "description": "Florida Career College-Jacksonville",
+        "google_map_url": "https://www.google.com/maps/place/17RMP2770240748"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.75106708993407,
+          30.196048234081662
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida Coastal School OF Law",
+        "federal_id": "434715",
+        "address": "8787 Baypine Rd, Jacksonville, FL, 32256",
+        "phone_number": "904-680-7700",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Jacksonville Fl IV Fgf LLC",
+        "enrollment": "0",
+        "description": "Florida Coastal School OF Law",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4416744711"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.58024137976278,
+          30.232673660807325
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida State College AT Jacksonville",
+        "address": "5640 New World Ave, Jacksonville, FL, 32221",
+        "phone_number": "904-779-4200",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "Florida Community College AT J",
+        "enrollment": "0",
+        "description": "Florida State College AT Jacksonville",
+        "google_map_url": "https://www.google.com/maps/place/17RMP1430546859"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.89072825066735,
+          30.25031671480082
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida State College AT Jacksonville Advanced Technology Center",
+        "federal_id": "133702",
+        "address": "401 W State ST, Jacksonville, FL, 32202",
+        "phone_number": "904-598-5600",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "Florida Junior College AT Jax",
+        "enrollment": "0",
+        "description": "Florida State College AT Jacksonville Advanced Technology Center",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3642956208"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.66134623047923,
+          30.336036431827537
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida State College AT Jacksonville Aviation Center",
+        "address": "13450 Lake Fretwell ST, Jacksonville, FL, 32221",
+        "phone_number": "904-317-3800",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "City OF Jacksonville",
+        "enrollment": "0",
+        "description": "Florida State College AT Jacksonville Aviation Center",
+        "google_map_url": "https://www.google.com/maps/place/17RMP1466244081"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.88678962088473,
+          30.225274780035054
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida State College AT Jacksonville Deerwood Center",
+        "address": "9911 Old Baymeadows Rd, Jacksonville, FL, 32256",
+        "phone_number": "904-381-3572",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "Florida Community College AT J",
+        "enrollment": "0",
+        "description": "Florida State College AT Jacksonville Deerwood Center",
+        "comments": "(FORMERLY FLORIDA COMMUNITY COLLEGE CAMPUSES KENT CAMPUS)",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4670943532"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.5537580012144,
+          30.222151660746956
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida State College AT Jacksonville Downtown Campus",
+        "address": "101 State ST W, Jacksonville, FL, 32202",
+        "phone_number": "904-646-2300",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "Florida Junior College AT Jax",
+        "enrollment": "0",
+        "description": "Florida State College AT Jacksonville Downtown Campus",
+        "comments": "(FORMERLY FLORIDA COMMUNITY COLLEGE DOWNTOEN CAMPUS)",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3666156071"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.65891947868224,
+          30.334813110720006
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida State College AT Jacksonville Kent Campus",
+        "address": "3939 Roosevelt Blvd, Jacksonville, FL, 32205",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "Florida Junior College AT Jax",
+        "enrollment": "0",
+        "description": "Florida State College AT Jacksonville Kent Campus",
+        "comments": "(FORMERLY FLORIDA COMMUNITY COLLEGE KENT CAMPUS)",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3087052245"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.71891671976755,
+          30.299977482142978
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida State College AT Jacksonville Nassau Center",
+        "address": "76346 William Burgess Boulevard, Jacksonville, FL, 32097",
+        "phone_number": "904-548-4400",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "District Board OF Trustees",
+        "enrollment": "0",
+        "description": "Florida State College AT Jacksonville Nassau Center",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4008786484"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.62503095971778,
+          30.609423201161743
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida State College AT Jacksonville North Campus",
+        "address": "4501 Capper Rd, Jacksonville, FL, 32218",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "Florida Junior College AT Jax",
+        "enrollment": "0",
+        "description": "Florida State College AT Jacksonville North Campus",
+        "comments": "(FORMERLY FLORIDA COMMUNITY COLLEGE NORTH CAMPUS)",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3099466573"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.71857195969532,
+          30.42926529000967
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida State College AT Jacksonville Open Campus & Urban Resource Center",
+        "address": "601 State ST W, Jacksonville, FL, 32202",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "Florida Community College AT J",
+        "enrollment": "0",
+        "description": "Florida State College AT Jacksonville Open Campus & Urban Resource Center",
+        "comments": "(FORMERLY FLORIDA COMMUNITY COLLEGE OPEN CAMPUS)",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3620556147"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.66366794973496,
+          30.335476900485805
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Florida State College AT Jacksonville South Campus",
+        "address": "11901 Beach Blvd, Jacksonville, FL, 32246",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "Florida Junior College AT Jax",
+        "enrollment": "0",
+        "description": "Florida State College AT Jacksonville South Campus",
+        "comments": "(FORMERLY FLORIDA COMMUNITY COLLEGE SOUTH CAMPUS)",
+        "google_map_url": "https://www.google.com/maps/place/17RMP5102151241"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.50930844970884,
+          30.291898750641472
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Jacksonville University",
+        "federal_id": "134945",
+        "address": "2800 University Boulevard North, Jacksonville, FL, 32211",
+        "phone_number": "904-256-8000",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Jacksonville University",
+        "enrollment": "0",
+        "description": "Jacksonville University",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4193657943"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.60415550910876,
+          30.3519750496485
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Jersey College",
+        "federal_id": "45519603",
+        "address": "8131 Baymeadows Cir W, Jacksonville, FL, 32256",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "8131 Bmjax Partners LLC",
+        "enrollment": "0",
+        "description": "Jersey College",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4555743558"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.56573302239748,
+          30.222332985382103
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Keiser University-Jacksonville",
+        "federal_id": "13508108",
+        "address": "6430 Southpoint Parkway, Jacksonville, FL, 32216",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Summit AT Southpoint Investors",
+        "enrollment": "0",
+        "description": "Keiser University-Jacksonville",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4201447642"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.60277229153216,
+          30.259026231098694
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Mayo Clinic College OF Medicine AND Science - Florida",
+        "federal_id": "17395701",
+        "address": "4500 San Pablo Rd S, Jacksonville, FL, 32224",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Mayo Clinic Jacksonville",
+        "enrollment": "0",
+        "description": "Mayo Clinic College OF Medicine AND Science - Florida",
+        "google_map_url": "https://www.google.com/maps/place/17RMP5756647994"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.44112088501485,
+          30.262844719669634
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Southern Illinois University AT Nas Jacksonville",
+        "address": "6801 Roosevelt Blvd, Jacksonville, FL, 32212",
+        "phone_number": "904-778-0061",
+        "school_type": "College/university",
+        "operating": "Federal",
+        "operator_class": "Public",
+        "owner": "U S A Air Base",
+        "enrollment": "0",
+        "description": "Southern Illinois University AT Nas Jacksonville",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3497444096"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.6757372094163,
+          30.2266729523395
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Stenotype Institute OF Jacksonville INC-Jacksonville",
+        "address": "3563 Phillips Highway Building E Suite 501, Jacksonville, FL, 32207",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "enrollment": "0",
+        "description": "Stenotype Institute OF Jacksonville INC-Jacksonville",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3907851126"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.63349648997365,
+          30.290322175318934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Strayer University-Baymeadows Campus",
+        "federal_id": "44903805",
+        "address": "8375 Dix Ellis Trail Ste 200, Jacksonville, FL, 32256",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Crocker Partners V Freedom LLC",
+        "enrollment": "0",
+        "description": "Strayer University-Baymeadows Campus",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4519142889"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.56950014684762,
+          30.216280183508083
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Sunstate Academy-Jones Technical Institute",
+        "federal_id": "487311",
+        "address": "8813 Western Way, Jacksonville, FL, 32256",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Compass Rose Foundation INC",
+        "enrollment": "0",
+        "description": "Sunstate Academy-Jones Technical Institute",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4594841985"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.56158425990161,
+          30.20815933427915
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Trinity Baptist College",
+        "federal_id": "137953",
+        "address": "800 Hammond Blvd, Jacksonville, FL, 32221",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Trinity Baptist Church OF Jack",
+        "enrollment": "0",
+        "description": "Trinity Baptist College",
+        "google_map_url": "https://www.google.com/maps/place/17RMP2335653429"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.79713840982438,
+          30.310206520843643
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Tulsa Welding School-Jacksonville",
+        "federal_id": "476063",
+        "address": "1750 Southside Boulevard, Jacksonville, FL, 32216",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Caruso John E Trust",
+        "enrollment": "0",
+        "description": "Tulsa Welding School-Jacksonville",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4615453656"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.56004033888554,
+          30.313483220824928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "Tulsa Welding School-Jacksonville Campus",
+        "federal_id": "442329",
+        "address": "3500 Southside Blvd Jacksonville, Jacksonville, FL, 32216",
+        "phone_number": "877-935-3529",
+        "school_type": "College/university",
+        "operating": "Private",
+        "operator_class": "Private",
+        "owner": "Egrcm Jax I LLC",
+        "enrollment": "0",
+        "description": "Tulsa Welding School-Jacksonville Campus",
+        "google_map_url": "https://www.google.com/maps/place/17RMP4610550234"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.56037853863705,
+          30.28260409087384
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "University OF Florida - Health Science Center",
+        "address": "655 W 8th ST, Jacksonville, FL, 32209",
+        "phone_number": "904-244-3145",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "Duval County Hospital Authorit",
+        "enrollment": "0",
+        "description": "University OF Florida - Health Science Center",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3615857574"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.66425266037562,
+          30.34835093062167
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "University OF Florida - Pediatric Center",
+        "address": "6271 ST Augustine Rd, Jacksonville, FL, 32217",
+        "phone_number": "904-737-5239",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "Kessell Derrick L Trust",
+        "enrollment": "0",
+        "description": "University OF Florida - Pediatric Center",
+        "google_map_url": "https://www.google.com/maps/place/17RMP3984347434"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.62532898919714,
+          30.25703978152047
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "University OF Florida - Whitney Marine Lab",
+        "address": "9505 Ocean Shore Blvd, Jacksonville, FL, 32080",
+        "phone_number": "904-461-4000",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "University OF Florida",
+        "enrollment": "0",
+        "description": "University OF Florida - Whitney Marine Lab",
+        "google_map_url": "https://www.google.com/maps/place/17RMN7924082264"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.21452436009014,
+          29.6702213596324
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
+        "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
+        "category": "Post-Secondary School",
+        "school_name": "University OF North Florida - Main Campus",
+        "federal_id": "136172",
+        "address": "1 UNF Dr, Jacksonville, FL, 32224",
+        "school_type": "College/university",
+        "operating": "State",
+        "operator_class": "Public",
+        "owner": "Tiitf-University OF N Florida",
+        "enrollment": "0",
+        "description": "University OF North Florida - Main Campus",
+        "google_map_url": "https://www.google.com/maps/place/17RMP5105648694"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.50883463977506,
+          30.268917511343812
+        ]
+      }
+    }
+  ]
+}

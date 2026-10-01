@@ -68,6 +68,9 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - Charter Public Middle
   - Charter Public High
   - Charter Public Combination
+- [University of Florida GeoPlan Center FGDL GEOPLAN_Points](https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer)
+  - [Schools - Private (Points)](https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/15)
+  - [Schools - Public and Post-Secondary (Points)](https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14)
 
 ## Duval County Public Schools Lookup Map
 
