@@ -1483,7 +1483,7 @@ image: /media/2026/09/maps-featured.png
         return properties.BASENAME ? `Florida's ${properties.BASENAME}th Congressional District` : "Florida Congressional District";
       }
       if (layerType === "healthZone") {
-        return properties.label || (properties.health_zone ? `Health Zone ${properties.health_zone}` : "Health Zone");
+        return properties.tooltip_label || properties.label || (properties.health_zone ? `Health Zone ${properties.health_zone}` : "Health Zone");
       }
       if (layerType === "jsoDistrict") {
         return properties.DISTRICT ? `JSO District ${properties.DISTRICT}` : "JSO District";
@@ -1697,6 +1697,9 @@ image: /media/2026/09/maps-featured.png
       [
         properties.data_source,
         properties.geometry_source ? `Geometry: ${properties.geometry_source}` : "",
+        properties.geometry_assumption,
+        properties.assumption_note,
+        properties.source_zip_caveat,
         properties.missing_geometry_note
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
