@@ -278,6 +278,23 @@ image: /media/2026/09/maps-featured.png
     margin-right: 0;
   }
 
+  .maps-layer-geometry-icon {
+    align-items: center;
+    color: #57606a;
+    display: inline-flex;
+    flex: 0 0 auto;
+    height: 14px;
+    justify-content: center;
+    width: 14px;
+  }
+
+  .maps-layer-geometry-icon svg {
+    display: block;
+    fill: currentColor;
+    height: 14px;
+    width: 14px;
+  }
+
   .maps-layer-group-row label {
     white-space: nowrap;
   }
@@ -914,6 +931,7 @@ image: /media/2026/09/maps-featured.png
     const postSecondarySchoolsLayer = createFldoeSchoolLayer("postSecondary");
     const boundaryLayerControls = [];
     const geographyLayerControls = [];
+    const countablePointLayers = [];
     const queryLayerControls = new Map();
     const queryLayerSlugsByLayer = new Map();
     const explicitQueryLayerSlugs = new Set();
@@ -1135,10 +1153,39 @@ image: /media/2026/09/maps-featured.png
       syncDistrictLayerInputs();
     }
 
+    function createLayerGeometryIcon(type) {
+      const icon = document.createElement("span");
+      const geometryType = type || "point";
+      const paths = {
+        point: '<circle cx="8" cy="8" r="4"></circle>',
+        line: '<path d="M2 11.5L6.2 6.8L9.6 9.1L14 3.8L14 6.2L10 11L6.6 8.7L2 14Z"></path>',
+        polygon: '<path d="M2.2 5.4L7.1 1.9L13.8 4.2L12.5 12.3L5.1 14.1L2.2 5.4ZM4.1 6L6.4 12L10.9 10.9L11.8 5.5L7.4 4L4.1 6Z"></path>'
+      };
+
+      icon.className = `maps-layer-geometry-icon maps-layer-geometry-icon--${geometryType}`;
+      icon.setAttribute("aria-hidden", "true");
+      icon.innerHTML = `<svg viewBox="0 0 16 16" focusable="false">${paths[geometryType] || paths.point}</svg>`;
+      return icon;
+    }
+
+    function appendLayerLabelContents(labelElement, input, label, geometryType) {
+      const text = document.createElement("span");
+      text.textContent = label;
+      labelElement.appendChild(input);
+      labelElement.appendChild(createLayerGeometryIcon(geometryType));
+      labelElement.appendChild(text);
+      return text;
+    }
+
+    function registerCountablePointLayer(label, layer, options) {
+      const settings = options || {};
+      if (settings.geometryType === "line" || settings.geometryType === "polygon" || settings.countable === false) return;
+      countablePointLayers.push({ label: settings.countLabel || label, layer });
+    }
+
     function createBoundaryLayerInput(label, layer, options) {
       const labelElement = document.createElement("label");
       const input = document.createElement("input");
-      const text = document.createElement("span");
       const settings = options || {};
       const control = { input, layer, group: settings.group || "" };
       let allowMultipleOnNextChange = false;
@@ -1154,9 +1201,8 @@ image: /media/2026/09/maps-featured.png
         allowMultipleOnNextChange = false;
       });
 
-      text.textContent = label;
-      labelElement.appendChild(input);
-      labelElement.appendChild(text);
+      appendLayerLabelContents(labelElement, input, label, settings.geometryType || "point");
+      registerCountablePointLayer(label, layer, settings);
       boundaryLayerControls.push(control);
       return { input, labelElement, control };
     }
@@ -1267,7 +1313,6 @@ image: /media/2026/09/maps-featured.png
       const row = document.createElement("div");
       const layerLabel = document.createElement("label");
       const layerInput = document.createElement("input");
-      const nameText = document.createElement("span");
       const overlayControl = { layer: overlayLayer, group: "boundaries" };
       const borderControl = { layer: borderLayer, group: "boundaries" };
       const geographyControl = { overlayControl, borderControl };
@@ -1277,9 +1322,7 @@ image: /media/2026/09/maps-featured.png
       layerLabel.className = "maps-layer-group-row__name";
       layerInput.type = "checkbox";
       layerInput.className = "leaflet-control-layers-selector";
-      nameText.textContent = name;
-      layerLabel.appendChild(layerInput);
-      layerLabel.appendChild(nameText);
+      appendLayerLabelContents(layerLabel, layerInput, name, "polygon");
 
       function getSelectedControl() {
         return getSelectedGeographyControl(geographyControl);
@@ -1348,27 +1391,27 @@ image: /media/2026/09/maps-featured.png
           appendGeographyLayerRow(overlays, "Health Zones", healthZoneFillLayer, healthZoneBorderLayer);
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
-            createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer),
-            createBoundaryLayerInput("JTA Bus Stops", busStopsLayer)
+            createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer, { geometryType: "line" }),
+            createBoundaryLayerInput("JTA Bus Stops", busStopsLayer, { countLabel: "JTA Bus Stops" })
           ]);
           const traditionalPublicSchoolControls = [
-            createBoundaryLayerInput("Elementary", fldoeTraditionalElementarySchoolsLayer),
-            createBoundaryLayerInput("Middle", fldoeTraditionalMiddleSchoolsLayer),
-            createBoundaryLayerInput("High", fldoeTraditionalHighSchoolsLayer),
-            createBoundaryLayerInput("Combination", fldoeTraditionalCombinationSchoolsLayer),
-            createBoundaryLayerInput("Magnet", fldoeTraditionalMagnetSchoolsLayer)
+            createBoundaryLayerInput("Elementary", fldoeTraditionalElementarySchoolsLayer, { countLabel: "Traditional Public Elementary" }),
+            createBoundaryLayerInput("Middle", fldoeTraditionalMiddleSchoolsLayer, { countLabel: "Traditional Public Middle" }),
+            createBoundaryLayerInput("High", fldoeTraditionalHighSchoolsLayer, { countLabel: "Traditional Public High" }),
+            createBoundaryLayerInput("Combination", fldoeTraditionalCombinationSchoolsLayer, { countLabel: "Traditional Public Combination" }),
+            createBoundaryLayerInput("Magnet", fldoeTraditionalMagnetSchoolsLayer, { countLabel: "Traditional Public Magnet" })
           ];
           const charterPublicSchoolControls = [
-            createBoundaryLayerInput("Elementary", fldoeCharterElementarySchoolsLayer),
-            createBoundaryLayerInput("Middle", fldoeCharterMiddleSchoolsLayer),
-            createBoundaryLayerInput("High", fldoeCharterHighSchoolsLayer),
-            createBoundaryLayerInput("Combination", fldoeCharterCombinationSchoolsLayer)
+            createBoundaryLayerInput("Elementary", fldoeCharterElementarySchoolsLayer, { countLabel: "Charter Public Elementary" }),
+            createBoundaryLayerInput("Middle", fldoeCharterMiddleSchoolsLayer, { countLabel: "Charter Public Middle" }),
+            createBoundaryLayerInput("High", fldoeCharterHighSchoolsLayer, { countLabel: "Charter Public High" }),
+            createBoundaryLayerInput("Combination", fldoeCharterCombinationSchoolsLayer, { countLabel: "Charter Public Combination" })
           ];
           const privateSchoolControls = [
-            createBoundaryLayerInput("Elementary", privateElementarySchoolsLayer),
-            createBoundaryLayerInput("Middle", privateMiddleSchoolsLayer),
-            createBoundaryLayerInput("High", privateHighSchoolsLayer),
-            createBoundaryLayerInput("Combination", privateCombinationSchoolsLayer)
+            createBoundaryLayerInput("Elementary", privateElementarySchoolsLayer, { countLabel: "Private Elementary" }),
+            createBoundaryLayerInput("Middle", privateMiddleSchoolsLayer, { countLabel: "Private Middle" }),
+            createBoundaryLayerInput("High", privateHighSchoolsLayer, { countLabel: "Private High" }),
+            createBoundaryLayerInput("Combination", privateCombinationSchoolsLayer, { countLabel: "Private Combination" })
           ];
           const postSecondarySchoolControls = [
             createBoundaryLayerInput("Post-Secondary Schools", postSecondarySchoolsLayer)
@@ -1752,6 +1795,78 @@ image: /media/2026/09/maps-featured.png
       return "";
     }
 
+    function isPointInRing(point, ring) {
+      let inside = false;
+      const x = point[0];
+      const y = point[1];
+
+      for (let index = 0, previousIndex = ring.length - 1; index < ring.length; previousIndex = index, index += 1) {
+        const current = ring[index];
+        const previous = ring[previousIndex];
+        const xi = current[0];
+        const yi = current[1];
+        const xj = previous[0];
+        const yj = previous[1];
+        const intersects = ((yi > y) !== (yj > y)) && (x < ((xj - xi) * (y - yi)) / (yj - yi) + xi);
+        if (intersects) inside = !inside;
+      }
+
+      return inside;
+    }
+
+    function isPointInPolygonCoordinates(point, polygonCoordinates) {
+      if (!polygonCoordinates.length || !isPointInRing(point, polygonCoordinates[0])) return false;
+      return !polygonCoordinates.slice(1).some((hole) => isPointInRing(point, hole));
+    }
+
+    function isPointInFeatureGeometry(point, geometry) {
+      if (!geometry) return false;
+      if (geometry.type === "Polygon") {
+        return isPointInPolygonCoordinates(point, geometry.coordinates || []);
+      }
+      if (geometry.type === "MultiPolygon") {
+        return (geometry.coordinates || []).some((polygonCoordinates) => isPointInPolygonCoordinates(point, polygonCoordinates));
+      }
+      return false;
+    }
+
+    function countLayerPointsInFeature(pointLayer, polygonFeature) {
+      let count = 0;
+      const geometry = polygonFeature.geometry || {};
+      if (!pointLayer.eachLayer || !geometry.coordinates) return count;
+
+      pointLayer.eachLayer((layer) => {
+        if (!layer.getLatLng) return;
+        const latLng = layer.getLatLng();
+        if (isPointInFeatureGeometry([latLng.lng, latLng.lat], geometry)) {
+          count += 1;
+        }
+      });
+
+      return count;
+    }
+
+    function appendActivePointCounts(popup, feature) {
+      const activeCounts = countablePointLayers
+        .filter((pointLayer) => map.hasLayer(pointLayer.layer))
+        .map((pointLayer) => ({
+          label: pointLayer.label,
+          count: countLayerPointsInFeature(pointLayer.layer, feature)
+        }));
+
+      if (!activeCounts.length) return;
+
+      const heading = document.createElement("strong");
+      heading.textContent = "Visible points in this area:";
+      popup.appendChild(heading);
+
+      activeCounts.forEach((pointLayer) => {
+        const line = document.createElement("span");
+        line.textContent = `${pointLayer.label}: ${pointLayer.count.toLocaleString()}`;
+        popup.appendChild(line);
+      });
+    }
+
     function createBoundaryPopup(feature, layerType) {
       const popup = document.createElement("div");
       const titleUrl = getBoundaryTitleUrl(feature, layerType);
@@ -1796,6 +1911,8 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "zipCode") {
         appendZipCodePopupDetails(popup, feature.properties || {});
       }
+
+      appendActivePointCounts(popup, feature);
 
       return popup;
     }
@@ -1959,6 +2076,7 @@ image: /media/2026/09/maps-featured.png
       }
 
       appendCityCouncilMemberPopupDetails(popup, properties);
+      appendActivePointCounts(popup, feature);
 
       return popup;
     }
@@ -1967,7 +2085,7 @@ image: /media/2026/09/maps-featured.png
       const district = (feature.properties || {}).CC || getDistrictNumber(feature);
       layer.options.boundaryMode = mode;
       layer.options.boundaryType = "district";
-      layer.bindPopup(createCouncilDistrictPopup(feature));
+      layer.bindPopup(() => createCouncilDistrictPopup(feature));
       if (district && supportsPointerHover) {
         layer.bindTooltip(`City Council District ${district}`, {
           sticky: true
@@ -1991,7 +2109,7 @@ image: /media/2026/09/maps-featured.png
     function addBoundaryInteractivity(feature, layer, mode, layerType) {
       layer.options.boundaryMode = mode;
       layer.options.boundaryType = layerType;
-      layer.bindPopup(createBoundaryPopup(feature, layerType));
+      layer.bindPopup(() => createBoundaryPopup(feature, layerType));
       if (supportsPointerHover) {
         layer.bindTooltip(getBoundaryTitle(feature, layerType), {
           sticky: true
