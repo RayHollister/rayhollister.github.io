@@ -1946,7 +1946,7 @@ image: /media/2026/09/maps-featured.png
       if (!activeCounts.length) return;
 
       const heading = document.createElement("strong");
-      heading.textContent = `Visible points in ${boundaryTitle}:`;
+      heading.textContent = `Data points in ${boundaryTitle || "this area"}:`;
       popup.appendChild(heading);
 
       activeCounts.forEach((pointLayer) => {
@@ -2164,7 +2164,7 @@ image: /media/2026/09/maps-featured.png
       }
 
       appendCityCouncilMemberPopupDetails(popup, properties);
-      appendActivePointCounts(popup, feature);
+      appendActivePointCounts(popup, feature, title.textContent);
 
       return popup;
     }
