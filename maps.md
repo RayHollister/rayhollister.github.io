@@ -161,6 +161,11 @@ permalink: /maps/
     display: block;
   }
 
+  .maps-control-panel__body {
+    max-height: calc(100dvh - 2rem);
+    overflow: auto;
+  }
+
   .maps-basemap-control .maps-control-panel__body {
     display: flex;
     flex-direction: column;
@@ -237,7 +242,15 @@ permalink: /maps/
     min-width: 0;
   }
 
-  .maps-layer-group-row__name .leaflet-control-layers-selector {
+  .leaflet-control-layers-overlays .maps-layer-control-row {
+    align-items: center;
+    display: flex;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+
+  .maps-layer-group-row__name .leaflet-control-layers-selector,
+  .maps-layer-control-row .leaflet-control-layers-selector {
     flex: 0 0 auto;
     margin-right: 0;
   }
@@ -987,13 +1000,13 @@ permalink: /maps/
 
     function createBoundaryLayerInput(label, layer, options) {
       const labelElement = document.createElement("label");
-      const row = document.createElement("span");
       const input = document.createElement("input");
       const text = document.createElement("span");
       const settings = options || {};
       const control = { input, layer, group: settings.group || "" };
       let allowMultipleOnNextChange = false;
 
+      labelElement.className = "maps-layer-control-row";
       input.type = "checkbox";
       input.className = "leaflet-control-layers-selector";
       input.addEventListener("click", function (event) {
@@ -1004,17 +1017,15 @@ permalink: /maps/
         allowMultipleOnNextChange = false;
       });
 
-      text.textContent = ` ${label}`;
-      row.appendChild(input);
-      row.appendChild(text);
-      labelElement.appendChild(row);
+      text.textContent = label;
+      labelElement.appendChild(input);
+      labelElement.appendChild(text);
       boundaryLayerControls.push(control);
       return { input, labelElement, control };
     }
 
     function createLayerGroupToggle(label, layerControls) {
       const labelElement = document.createElement("label");
-      const row = document.createElement("span");
       const input = document.createElement("input");
       const text = document.createElement("span");
       const controls = layerControls.map((layerControl) => layerControl.control).filter(Boolean);
@@ -1024,6 +1035,7 @@ permalink: /maps/
         input.indeterminate = controls.some((control) => map.hasLayer(control.layer)) && !input.checked;
       }
 
+      labelElement.className = "maps-layer-control-row";
       input.type = "checkbox";
       input.className = "leaflet-control-layers-selector";
       input.addEventListener("change", function () {
@@ -1034,10 +1046,9 @@ permalink: /maps/
         syncInput();
       });
 
-      text.textContent = ` ${label}`;
-      row.appendChild(input);
-      row.appendChild(text);
-      labelElement.appendChild(row);
+      text.textContent = label;
+      labelElement.appendChild(input);
+      labelElement.appendChild(text);
       boundaryLayerControls.push({ syncInput });
       return { input, labelElement };
     }
