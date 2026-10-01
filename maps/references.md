@@ -34,11 +34,11 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - Current School Board member names, roles, email addresses, phone numbers, and photos for School Board District popups.
   - Citizens Planning Advisory Committee (CPACs) Overlays
   - Citizens Planning Advisory Committee (CPACs) Borders
-- Duval County boundary:
+- County boundaries:
   - Geometry source: [U.S. Census Bureau TIGERweb State/County boundary service](https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1)
-  - County record: Duval County, Florida (`STATE=12`, `COUNTY=031`, `GEOID=12031`).
-  - Duval County Overlays
-  - Duval County Borders
+  - County records: Baker, Clay, Duval, Nassau, and St. Johns counties, Florida.
+  - Counties Overlays
+  - Counties Borders
 - [119th Congressional Districts](https://www.arcgis.com/home/item.html?id=56f9d1c5628349c684245185a020d18a&sublayer=0)
   - Congressional Districts Overlays
   - Congressional Districts Borders

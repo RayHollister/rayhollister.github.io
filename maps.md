@@ -1389,7 +1389,7 @@ image: /media/2026/09/maps-featured.png
           appendGeographyLayerRow(overlays, "City Council District At Large", councilAtLargeFillLayer, councilAtLargeBorderLayer);
           appendGeographyLayerRow(overlays, "School Board Districts", schoolBoardDistrictFillLayer, schoolBoardDistrictBorderLayer);
           appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer);
-          appendGeographyLayerRow(overlays, "Duval County", countyFillLayer, countyBorderLayer);
+          appendGeographyLayerRow(overlays, "Counties", countyFillLayer, countyBorderLayer);
           appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer);
           appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer);
           appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer);
@@ -1476,7 +1476,7 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["councilatlarge", "councildistrictatlarge", "citycouncilatlarge", "citycouncildistrictatlarge"], councilAtLargeFillLayer, { group: "boundaries", slug: "citycouncilatlarge", alternateLayers: [councilAtLargeBorderLayer] });
       registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries", slug: "schoolboarddistricts", alternateLayers: [schoolBoardDistrictBorderLayer] });
       registerQueryLayer(["cities", "cityboundaries"], cityFillLayer, { group: "boundaries", slug: "cities", alternateLayers: [cityBorderLayer] });
-      registerQueryLayer(["county", "duvalcounty", "duvalcountyboundary", "countyboundary"], countyFillLayer, { group: "boundaries", slug: "duvalcounty", alternateLayers: [countyBorderLayer] });
+      registerQueryLayer(["county", "counties", "countyboundaries", "duvalcounty", "duvalcountyboundary", "countyboundary"], countyFillLayer, { group: "boundaries", slug: "counties", alternateLayers: [countyBorderLayer] });
       registerQueryLayer(["floridahouse", "house", "statehouse"], floridaHouseFillLayer, { group: "boundaries", slug: "floridahouse", alternateLayers: [floridaHouseBorderLayer] });
       registerQueryLayer(["floridasenate", "senate", "statesenate"], floridaSenateFillLayer, { group: "boundaries", slug: "floridasenate", alternateLayers: [floridaSenateBorderLayer] });
       registerQueryLayer(["zip", "zips", "zipcode", "zipcodes", "zcta", "zctas"], zipCodeFillLayer, { group: "boundaries", slug: "zipcodes", alternateLayers: [zipCodeBorderLayer] });
@@ -1935,7 +1935,7 @@ image: /media/2026/09/maps-featured.png
       return feature;
     }
 
-    function appendActivePointCounts(popup, feature) {
+    function appendActivePointCounts(popup, feature, boundaryTitle) {
       const activeCounts = countablePointLayers
         .filter((pointLayer) => map.hasLayer(pointLayer.layer))
         .map((pointLayer) => ({
@@ -1946,7 +1946,7 @@ image: /media/2026/09/maps-featured.png
       if (!activeCounts.length) return;
 
       const heading = document.createElement("strong");
-      heading.textContent = "Visible points in this area:";
+      heading.textContent = `Visible points in ${boundaryTitle}:`;
       popup.appendChild(heading);
 
       activeCounts.forEach((pointLayer) => {
@@ -1962,9 +1962,10 @@ image: /media/2026/09/maps-featured.png
       const title = titleUrl ? document.createElement("a") : document.createElement("strong");
       const subtitle = getBoundarySubtitle(feature, layerType);
       const pointCountFeature = getPointCountFeature(feature, layerType);
+      const boundaryTitle = getBoundaryTitle(feature, layerType);
 
       popup.className = "maps-district-popup";
-      title.textContent = getBoundaryTitle(feature, layerType);
+      title.textContent = boundaryTitle;
       if (titleUrl) {
         title.href = titleUrl;
         title.target = "_blank";
@@ -2002,7 +2003,7 @@ image: /media/2026/09/maps-featured.png
         appendZipCodePopupDetails(popup, feature.properties || {});
       }
 
-      appendActivePointCounts(popup, pointCountFeature);
+      appendActivePointCounts(popup, pointCountFeature, boundaryTitle);
 
       return popup;
     }
@@ -2801,10 +2802,10 @@ image: /media/2026/09/maps-featured.png
       "city boundaries"
     );
     loadBoundaryLayers(
-      "/data/duval-county.geojson",
+      "/data/counties.geojson",
       countyFillLayer,
       countyBorderLayer,
-      "Duval County boundary"
+      "county boundaries"
     );
     loadBoundaryLayers(
       "https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson",
