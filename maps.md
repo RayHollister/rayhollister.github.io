@@ -326,22 +326,17 @@ image: /media/2026/09/maps-featured.png
     white-space: nowrap;
   }
 
-  .maps-layer-mode-switch {
-    align-items: center;
-    display: inline-flex;
-  }
-
   .maps-layers-control {
     position: relative;
   }
 
-  .maps-layers-control .maps-layer-mode-switch {
+  .maps-layers-control .maps-layer-opacity-control {
     align-items: center;
     display: flex;
-    flex: 0 0 32px;
+    flex: 1 1 7rem;
     height: 30px;
     justify-content: center;
-    width: 60px;
+    min-width: 5rem;
   }
 
   .maps-layers-control:not(.is-open) .maps-layer-header-actions {
@@ -351,6 +346,7 @@ image: /media/2026/09/maps-featured.png
   .maps-layer-header-actions {
     align-items: center;
     display: flex;
+    flex: 1 1 auto;
     gap: 0.25rem;
   }
 
@@ -360,9 +356,9 @@ image: /media/2026/09/maps-featured.png
     border: 1px solid #424242;
     color: #424242;
     cursor: pointer;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     font-size: 11px;
-    padding: 0.075rem 0.45rem
+    padding: 0.075rem 0.45rem;
   }
 
   .maps-layer-header-actions button[aria-pressed="true"] {
@@ -447,45 +443,12 @@ image: /media/2026/09/maps-featured.png
     padding: 0.15rem 0.35rem;
   }
 
-  .maps-layer-mode-switch__track {
-    background: transparent;
-    border: 1px solid black;
-    box-sizing: border-box;
-    border-radius: 0px;
-    display: inline-flex;
-    height: 16px;
-    margin: 7px 0;
-    padding: 2px;
-    position: relative;
-    transition: background 0.15s ease, border-color 0.15s ease;
-    width: 32px;
-  }
-
-  .maps-layer-mode-switch__knob {
-    background: black;
-    border-radius: 1px;
+  .maps-layer-opacity-control input {
+    accent-color: #424242;
+    cursor: pointer;
     display: block;
-    height: 10px;
-    left: 2px;
-    position: absolute;
-    top: 2px;
-    transition: background 0.15s ease, left 0.15s ease;
-    width: 12px;
-  }
-
-  .maps-layer-mode-switch input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .maps-layer-mode-switch.is-overlay-mode .maps-layer-mode-switch__track {
-    background: black;
-  }
-
-  .maps-layer-mode-switch.is-overlay-mode .maps-layer-mode-switch__knob {
-    background: #fff;
-    left: 16px;
+    margin: 0;
+    width: 100%;
   }
 
   .leaflet-control-layers-overlays label:focus,
@@ -1092,9 +1055,11 @@ image: /media/2026/09/maps-featured.png
     const queryLayerControls = new Map();
     const queryLayerSlugsByLayer = new Map();
     const explicitQueryLayerSlugs = new Set();
+    const defaultGovernmentOverlayOpacity = 0.25;
     let governmentLayerMode = "fill";
-    let governmentLayerModeInput;
-    let governmentLayerModeSwitchLabel;
+    let governmentOverlayOpacity = defaultGovernmentOverlayOpacity;
+    let governmentLayerOpacityInput;
+    let governmentLayerOpacityLabel;
     let mapInteractionMode = "browse";
     let focusToggleButton;
     let focusedBoundary;
@@ -1195,6 +1160,10 @@ image: /media/2026/09/maps-featured.png
       return layerType === "district"
         ? getCouncilDistrictStyle(feature, mode)
         : getBoundaryStyle(feature, mode, layerType);
+    }
+
+    function getOverlayFillOpacity(multiplier) {
+      return Math.max(0, Math.min(1, governmentOverlayOpacity * (multiplier || 1)));
     }
 
     function restoreBoundaryLayerFeatures(layerGroup) {
@@ -1328,7 +1297,7 @@ image: /media/2026/09/maps-featured.png
     function setFocusedBoundaryStyle(layer) {
       if (!layer || !layer.setStyle) return;
       layer.setStyle({
-        fillOpacity: layer.options.boundaryMode === "border" ? 0 : 0.28,
+        fillOpacity: layer.options.boundaryMode === "border" ? 0 : getOverlayFillOpacity(1.25),
         opacity: 1,
         weight: layer.options.boundaryMode === "border" ? 2.25 : 1.8
       });
@@ -1512,6 +1481,14 @@ image: /media/2026/09/maps-featured.png
         .filter(Boolean);
     }
 
+    function activateOpacityQuery() {
+      const params = new URLSearchParams(window.location.search);
+      if (!params.has("opacity")) return;
+      const opacity = Number(params.get("opacity"));
+      if (!Number.isFinite(opacity)) return;
+      setGovernmentOverlayOpacity(opacity / 100);
+    }
+
     function activateQueryLayers() {
       const tokens = getQueryLayerTokens();
       if (!tokens.length) return;
@@ -1649,33 +1626,24 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
-    function createLayerModeSwitch(label) {
-      const modeLabel = document.createElement("label");
-      const modeInput = document.createElement("input");
-      const modeTrack = document.createElement("span");
-      const modeKnob = document.createElement("span");
+    function createGovernmentLayerOpacityControl() {
+      const opacityLabel = document.createElement("label");
+      const opacityInput = document.createElement("input");
 
-      modeLabel.className = "maps-layer-mode-switch";
-      modeInput.type = "checkbox";
-      modeInput.setAttribute("aria-label", label);
-      modeTrack.className = "maps-layer-mode-switch__track";
-      modeKnob.className = "maps-layer-mode-switch__knob";
-      modeTrack.appendChild(modeKnob);
-      modeLabel.appendChild(modeInput);
-      modeLabel.appendChild(modeTrack);
-      return { labelElement: modeLabel, input: modeInput };
-    }
-
-    function createGovernmentLayerModeSwitch() {
-      const modeSwitch = createLayerModeSwitch("Show government layer overlays");
-
-      governmentLayerModeInput = modeSwitch.input;
-      governmentLayerModeSwitchLabel = modeSwitch.labelElement;
-      governmentLayerModeInput.addEventListener("change", function () {
-        setGovernmentLayerMode(governmentLayerModeInput.checked ? "fill" : "border");
+      opacityLabel.className = "maps-layer-opacity-control";
+      opacityInput.type = "range";
+      opacityInput.min = "0";
+      opacityInput.max = "100";
+      opacityInput.step = "1";
+      opacityInput.setAttribute("aria-label", "Government layer overlay opacity");
+      opacityInput.addEventListener("input", function () {
+        setGovernmentOverlayOpacity(Number(opacityInput.value) / 100, { updateUrl: true });
       });
-      updateGovernmentLayerModeSwitch();
-      return modeSwitch.labelElement;
+      opacityLabel.appendChild(opacityInput);
+      governmentLayerOpacityInput = opacityInput;
+      governmentLayerOpacityLabel = opacityLabel;
+      updateGovernmentLayerOpacityControl();
+      return opacityLabel;
     }
 
     function createLayerHeaderActions() {
@@ -1685,7 +1653,7 @@ image: /media/2026/09/maps-featured.png
         wrapper.appendChild(createFocusModeControl());
         wrapper.appendChild(createCompareModeControl());
       }
-      wrapper.appendChild(createGovernmentLayerModeSwitch());
+      wrapper.appendChild(createGovernmentLayerOpacityControl());
       return wrapper;
     }
 
@@ -1873,26 +1841,38 @@ image: /media/2026/09/maps-featured.png
     }
 
     function getSelectedGeographyControl(geographyControl) {
-      return governmentLayerMode === "border" ? geographyControl.borderControl : geographyControl.overlayControl;
+      return geographyControl.overlayControl;
     }
 
-    function updateGovernmentLayerModeSwitch() {
-      const isOverlayMode = governmentLayerMode === "fill";
-      if (governmentLayerModeInput) {
-        governmentLayerModeInput.checked = isOverlayMode;
+    function updateGovernmentLayerOpacityControl() {
+      const opacityPercent = Math.round(governmentOverlayOpacity * 100);
+      if (governmentLayerOpacityInput) {
+        governmentLayerOpacityInput.value = String(opacityPercent);
+        governmentLayerOpacityInput.title = `Overlay opacity: ${opacityPercent}%`;
+        governmentLayerOpacityInput.style.opacity = String(0.35 + (governmentOverlayOpacity * 0.65));
       }
-      if (governmentLayerModeSwitchLabel) {
-        governmentLayerModeSwitchLabel.classList.toggle("is-overlay-mode", isOverlayMode);
+      if (governmentLayerOpacityLabel) {
+        governmentLayerOpacityLabel.title = `Overlay opacity: ${opacityPercent}%`;
       }
     }
 
-    function setGovernmentLayerMode(mode) {
+    function updateOpacityQueryUrl() {
+      const url = new URL(window.location.href);
+      const opacityPercent = Math.round(governmentOverlayOpacity * 100);
+      url.searchParams.set("opacity", String(opacityPercent));
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function setGovernmentOverlayOpacity(value, options) {
+      const settings = options || {};
+      const nextOpacity = Math.max(0, Math.min(1, Number.isFinite(value) ? value : 1));
       clearMapFocus();
-      governmentLayerMode = mode;
-      updateGovernmentLayerModeSwitch();
+      governmentOverlayOpacity = nextOpacity;
+      governmentLayerMode = "fill";
+      updateGovernmentLayerOpacityControl();
       geographyLayerControls.forEach((geographyControl) => {
-        const nextControl = getSelectedGeographyControl(geographyControl);
-        const previousControl = mode === "border" ? geographyControl.overlayControl : geographyControl.borderControl;
+        const nextControl = geographyControl.overlayControl;
+        const previousControl = geographyControl.borderControl;
         const isActive = map.hasLayer(previousControl.layer) || map.hasLayer(nextControl.layer);
         if (!isActive) return;
         if (map.hasLayer(previousControl.layer)) {
@@ -1903,8 +1883,14 @@ image: /media/2026/09/maps-featured.png
         }
         restoreBoundaryLayerFeatures(nextControl.layer);
       });
+      if (map.hasLayer(healthZoneByZipCodeLayer)) {
+        restoreBoundaryLayerFeatures(healthZoneByZipCodeLayer);
+      }
       orderMapLayers();
       syncDistrictLayerInputs();
+      if (settings.updateUrl) {
+        updateOpacityQueryUrl();
+      }
     }
 
     function appendGeographyLayerRow(parent, name, overlayLayer, borderLayer) {
@@ -2184,8 +2170,8 @@ image: /media/2026/09/maps-featured.png
 
       return {
         color,
-        fillColor: mode === "border" ? "transparent" : color,
-        fillOpacity: mode === "border" ? 0 : 0.16,
+        fillColor: color,
+        fillOpacity: mode === "border" ? 0 : getOverlayFillOpacity(),
         opacity: 0.95,
         weight: mode === "border" ? 1.25 : 0.75
       };
@@ -2780,7 +2766,7 @@ image: /media/2026/09/maps-featured.png
         layer.on({
           mouseover: function () {
             layer.setStyle({
-              fillOpacity: mode === "border" ? 0 : 0.28,
+              fillOpacity: mode === "border" ? 0 : getOverlayFillOpacity(1.25),
               weight: mode === "border" ? 1.75 : 1.25
             });
           },
@@ -2816,7 +2802,7 @@ image: /media/2026/09/maps-featured.png
         layer.on({
           mouseover: function () {
             layer.setStyle({
-              fillOpacity: mode === "border" ? 0 : 0.28,
+              fillOpacity: mode === "border" ? 0 : getOverlayFillOpacity(1.25),
               weight: mode === "border" ? 1.75 : 1.25
             });
           },
@@ -3514,6 +3500,7 @@ image: /media/2026/09/maps-featured.png
     addFocusKeyboardShortcut();
     addCompareKeyboardShortcut();
     registerMapQueryLayers();
+    activateOpacityQuery();
     activateQueryLayers();
     addBaseMapControl();
     addLocateControl();
