@@ -35,6 +35,12 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - Runtime data URL: [neighborhoods.geojson](https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson)
   - Note: Although this map was created by the City of Jacksonville, this is not an official neighborhood boundaries map. Many of these neighborhoods do not have "official" boundaries, as they have not been defined legally. Also, there are several typos in this file that have not all been fixed.
 
+## Jacksonville Sheriff's Office
+
+- [Jacksonville Sheriff's Office District and Subsector Lookup](https://experience.arcgis.com/experience/1a554e29e87c43869389dc46841e12f0)
+  - Districts
+  - Subsections
+
 ## Transportation
 
 - [JTA GTFS Archive](https://ride.jtafla.com/gtfs-archive/)

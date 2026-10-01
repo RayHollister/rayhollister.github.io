@@ -736,6 +736,22 @@ permalink: /maps/
       style: (feature) => getBoundaryStyle(feature, "border", "zipCode"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "zipCode")
     });
+    const jsoDistrictFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "jsoDistrict"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "jsoDistrict")
+    });
+    const jsoDistrictBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "jsoDistrict"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "jsoDistrict")
+    });
+    const jsoSubsectionFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "jsoSubsector"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "jsoSubsector")
+    });
+    const jsoSubsectionBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "jsoSubsector"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "jsoSubsector")
+    });
     const busRoutesLayer = L.geoJSON(null, {
       style: (feature) => getBusRouteStyle(feature),
       onEachFeature: (feature, layer) => addBusRouteInteractivity(feature, layer)
@@ -798,7 +814,11 @@ permalink: /maps/
         floridaSenateFillLayer,
         floridaSenateBorderLayer,
         zipCodeFillLayer,
-        zipCodeBorderLayer
+        zipCodeBorderLayer,
+        jsoDistrictFillLayer,
+        jsoDistrictBorderLayer,
+        jsoSubsectionFillLayer,
+        jsoSubsectionBorderLayer
       ].forEach((layer) => moveLayerGroup(layer, "bringToBack"));
 
       moveLayerGroup(busRoutesLayer, "bringToFront");
@@ -1129,6 +1149,9 @@ permalink: /maps/
           appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer);
           appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer);
           appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer);
+          overlays.appendChild(createLayerHeading("Jacksonville Sheriff's Office"));
+          appendGeographyLayerRow(overlays, "Districts", jsoDistrictFillLayer, jsoDistrictBorderLayer);
+          appendGeographyLayerRow(overlays, "Subsections", jsoSubsectionFillLayer, jsoSubsectionBorderLayer);
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer),
@@ -1216,6 +1239,12 @@ permalink: /maps/
       if (layerType === "zipCode") {
         return Number.parseInt(properties.ZIPCODE, 10);
       }
+      if (layerType === "jsoDistrict") {
+        return Number.parseInt(properties.DISTRICT, 10);
+      }
+      if (layerType === "jsoSubsector") {
+        return getStringColorNumber(properties.SUBSECTOR || properties.SECTOR || "Subsection");
+      }
       return getDistrictNumber(feature);
     }
 
@@ -1274,6 +1303,12 @@ permalink: /maps/
       if (layerType === "zipCode") {
         return mode === "border" ? zipCodeBorderLayer : zipCodeFillLayer;
       }
+      if (layerType === "jsoDistrict") {
+        return mode === "border" ? jsoDistrictBorderLayer : jsoDistrictFillLayer;
+      }
+      if (layerType === "jsoSubsector") {
+        return mode === "border" ? jsoSubsectionBorderLayer : jsoSubsectionFillLayer;
+      }
       return mode === "border" ? councilDistrictBorderLayer : councilDistrictFillLayer;
     }
 
@@ -1296,6 +1331,12 @@ permalink: /maps/
       }
       if (layerType === "zipCode") {
         return properties.ZIPCODE ? `ZIP Code ${properties.ZIPCODE}` : "ZIP Code";
+      }
+      if (layerType === "jsoDistrict") {
+        return properties.DISTRICT ? `JSO District ${properties.DISTRICT}` : "JSO District";
+      }
+      if (layerType === "jsoSubsector") {
+        return properties.SUBSECTOR ? `JSO Subsection ${properties.SUBSECTOR}` : "JSO Subsection";
       }
       const district = properties.CC || properties.DISTRICT_N || properties.DISTRICT || "";
       return district ? `Council District ${district}` : "Council District";
@@ -1320,6 +1361,12 @@ permalink: /maps/
       }
       if (layerType === "zipCode") {
         return [properties.USPS_CITY, properties.USPS_STATE].filter(Boolean).join(", ");
+      }
+      if (layerType === "jsoDistrict") {
+        return "Jacksonville Sheriff's Office";
+      }
+      if (layerType === "jsoSubsector") {
+        return [properties.SECTOR ? `Sector ${properties.SECTOR}` : "", properties.DISTRICT ? `District ${properties.DISTRICT}` : ""].filter(Boolean).join(" / ");
       }
       return properties.MEMBER_NAM || "";
     }
@@ -1836,6 +1883,18 @@ permalink: /maps/
     );
     loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
     loadGeoJsonLayer("/data/jta-bus-stops.geojson", busStopsLayer, "JTA bus stops");
+    loadBoundaryLayers(
+      "/data/jso-districts.geojson",
+      jsoDistrictFillLayer,
+      jsoDistrictBorderLayer,
+      "JSO districts"
+    );
+    loadBoundaryLayers(
+      "/data/jso-subsectors.geojson",
+      jsoSubsectionFillLayer,
+      jsoSubsectionBorderLayer,
+      "JSO subsections"
+    );
     loadGeoJsonLayer("/data/elementary-schools.geojson", elementarySchoolsLayer, "elementary schools");
     loadGeoJsonLayer("/data/middle-schools.geojson", middleSchoolsLayer, "middle schools");
     loadGeoJsonLayer("/data/high-schools.geojson", highSchoolsLayer, "high schools");
