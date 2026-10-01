@@ -316,6 +316,17 @@ image: /media/2026/09/maps-featured.png
     position: relative;
   }
 
+  .maps-layers-control.is-open .maps-control-panel__toggle--icon {
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+  }
+
+  .maps-layers-control.is-open .maps-control-panel__body {
+    padding-top: 30px;
+  }
+
   .maps-layers-control > .maps-layer-mode-switch {
     position: absolute;
     right: 6px;
