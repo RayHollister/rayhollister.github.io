@@ -1314,7 +1314,7 @@ image: /media/2026/09/maps-featured.png
         : getBoundaryTitle(feature, layerType);
 
       if (focusedBoundary && doesFeatureMatchFocus(feature, focusedBoundary)) {
-        clearMapFocus({ resetMode: true });
+        clearMapFocus();
         return;
       }
 
