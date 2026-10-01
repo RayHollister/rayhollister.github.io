@@ -236,7 +236,7 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-basemap-control button[data-base-map][aria-pressed="true"] {
-    background: #0969da;
+    background: #424242;
     color: #fff;
   }
 
@@ -342,55 +342,33 @@ image: /media/2026/09/maps-featured.png
     width: 60px;
   }
 
-  .maps-layers-control:not(.is-open) .maps-layer-mode-switch {
+  .maps-layers-control:not(.is-open) .maps-layer-header-actions {
     display: none;
   }
 
-  .maps-focus-control {
-    border-top: 1px solid #d0d7de;
-    display: grid;
-    gap: 0.35rem;
-    margin: 0.45rem -0.6rem 0;
-    padding: 0.45rem 0.6rem 0;
+  .maps-layer-header-actions {
+    align-items: center;
+    display: flex;
+    gap: 0.25rem;
   }
 
-  .maps-focus-control button {
+  .maps-layer-header-actions button {
     background: #fff;
-    border: 1px solid #d0d7de;
-    border-radius: 4px;
-    color: #24292f;
+    border: 0;
+    border: 1px solid #424242;
+    color: #424242;
     cursor: pointer;
     flex: 1 1 auto;
-    font: inherit;
-    padding: 0.25rem 0.45rem;
+    font-size: 11px;
+    padding: 0.075rem 0.45rem
   }
 
-  .maps-focus-control button[aria-pressed="true"] {
-    background: #0969da;
-    border-color: #0969da;
+  .maps-layer-header-actions button[aria-pressed="true"] {
+    background: #424242;
+    border-color: #424242;
     color: #fff;
   }
 
-  .maps-focus-control__status {
-    color: #57606a;
-    font-size: 0.78rem;
-    line-height: 1.25;
-  }
-
-  .maps-compare-control {
-    border-top: 1px solid #d0d7de;
-    display: grid;
-    gap: 0.35rem;
-    margin: 0.45rem -0.6rem 0;
-    padding: 0.45rem 0.6rem 0;
-  }
-
-  .maps-compare-control__actions {
-    display: flex;
-    gap: 0.35rem;
-  }
-
-  .maps-compare-control button,
   .maps-pinned-card-panel button {
     background: #fff;
     border: 1px solid #d0d7de;
@@ -401,26 +379,9 @@ image: /media/2026/09/maps-featured.png
     padding: 0.25rem 0.45rem;
   }
 
-  .maps-compare-control button {
-    flex: 1 1 auto;
-  }
-
-  .maps-compare-control button[aria-pressed="true"] {
-    background: #0969da;
-    border-color: #0969da;
-    color: #fff;
-  }
-
-  .maps-compare-control button:disabled,
   .maps-pinned-card-panel button:disabled {
     color: #8c959f;
     cursor: not-allowed;
-  }
-
-  .maps-compare-control__status {
-    color: #57606a;
-    font-size: 0.78rem;
-    line-height: 1.25;
   }
 
   .maps-pinned-card-panel {
@@ -485,7 +446,7 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-layer-mode-switch__track {
-    background: black;
+    background: transparent;
     border: 1px solid black;
     box-sizing: border-box;
     border-radius: 0px;
@@ -499,7 +460,7 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-layer-mode-switch__knob {
-    background: #fff;
+    background: black;
     border-radius: 1px;
     display: block;
     height: 10px;
@@ -516,12 +477,12 @@ image: /media/2026/09/maps-featured.png
     pointer-events: none;
   }
 
-  .maps-layer-mode-switch.is-border-mode .maps-layer-mode-switch__track {
-    background: transparent;
+  .maps-layer-mode-switch.is-overlay-mode .maps-layer-mode-switch__track {
+    background: black;
   }
 
-  .maps-layer-mode-switch.is-border-mode .maps-layer-mode-switch__knob {
-    background: black;
+  .maps-layer-mode-switch.is-overlay-mode .maps-layer-mode-switch__knob {
+    background: #fff;
     left: 16px;
   }
 
@@ -621,7 +582,6 @@ image: /media/2026/09/maps-featured.png
       overflow: auto;
     }
 
-    .maps-compare-control,
     .maps-pinned-card-panel {
       display: none !important;
     }
@@ -1135,12 +1095,10 @@ image: /media/2026/09/maps-featured.png
     let governmentLayerModeSwitchLabel;
     let mapInteractionMode = "browse";
     let focusToggleButton;
-    let focusStatusElement;
     let focusedBoundary;
     const focusLayerStates = new Map();
     let compareModeEnabled = false;
     let compareToggleButton;
-    let compareStatusElement;
     let pinnedCardPanel;
     let pinnedCardBody;
     const pinnedBoundaryCards = [];
@@ -1422,15 +1380,16 @@ image: /media/2026/09/maps-featured.png
     function updateFocusControl() {
       if (focusToggleButton) {
         focusToggleButton.setAttribute("aria-pressed", mapInteractionMode === "focus" ? "true" : "false");
-      }
-      if (focusStatusElement) {
+        let title;
         if (focusedBoundary) {
-          focusStatusElement.textContent = `Focused on ${focusedBoundary.title}.`;
+          title = `Focused on ${focusedBoundary.title}.`;
         } else if (mapInteractionMode === "focus") {
-          focusStatusElement.textContent = "Click a polygon to focus the map.";
+          title = "Click a polygon to focus the map.";
         } else {
-          focusStatusElement.textContent = "Use Focus to isolate one polygon and its data points.";
+          title = "Use Focus to isolate one polygon and its data points.";
         }
+        focusToggleButton.title = title;
+        focusToggleButton.setAttribute("aria-label", title);
       }
     }
 
@@ -1706,24 +1665,29 @@ image: /media/2026/09/maps-featured.png
     }
 
     function createGovernmentLayerModeSwitch() {
-      const modeSwitch = createLayerModeSwitch("Use borders for government layers");
+      const modeSwitch = createLayerModeSwitch("Show government layer overlays");
 
       governmentLayerModeInput = modeSwitch.input;
       governmentLayerModeSwitchLabel = modeSwitch.labelElement;
       governmentLayerModeInput.addEventListener("change", function () {
-        setGovernmentLayerMode(governmentLayerModeInput.checked ? "border" : "fill");
+        setGovernmentLayerMode(governmentLayerModeInput.checked ? "fill" : "border");
       });
       updateGovernmentLayerModeSwitch();
       return modeSwitch.labelElement;
     }
 
-    function addFocusModeControl(container) {
-      if (!supportsPointerHover) return;
-
+    function createLayerHeaderActions() {
       const wrapper = document.createElement("div");
+      wrapper.className = "maps-layer-header-actions";
+      if (supportsPointerHover) {
+        wrapper.appendChild(createFocusModeControl());
+        wrapper.appendChild(createCompareModeControl());
+      }
+      wrapper.appendChild(createGovernmentLayerModeSwitch());
+      return wrapper;
+    }
 
-      wrapper.className = "maps-focus-control";
-
+    function createFocusModeControl() {
       focusToggleButton = document.createElement("button");
       focusToggleButton.type = "button";
       focusToggleButton.textContent = "Focus";
@@ -1737,27 +1701,23 @@ image: /media/2026/09/maps-featured.png
         }
       });
 
-      focusStatusElement = document.createElement("span");
-      focusStatusElement.className = "maps-focus-control__status";
-
-      wrapper.appendChild(focusToggleButton);
-      wrapper.appendChild(focusStatusElement);
-      container.appendChild(wrapper);
       updateFocusControl();
+      return focusToggleButton;
     }
 
     function updateCompareControl() {
       if (compareToggleButton) {
         compareToggleButton.setAttribute("aria-pressed", compareModeEnabled ? "true" : "false");
-      }
-      if (compareStatusElement) {
+        let title;
         if (compareModeEnabled) {
-          compareStatusElement.textContent = "Click polygons to pin their cards.";
+          title = "Click polygons to pin their cards.";
         } else if (pinnedBoundaryCards.length) {
-          compareStatusElement.textContent = `${pinnedBoundaryCards.length.toLocaleString()} pinned card${pinnedBoundaryCards.length === 1 ? "" : "s"}.`;
+          title = `${pinnedBoundaryCards.length.toLocaleString()} pinned card${pinnedBoundaryCards.length === 1 ? "" : "s"}.`;
         } else {
-          compareStatusElement.textContent = "Use Compare to keep polygon cards open.";
+          title = "Use Compare to keep polygon cards open.";
         }
+        compareToggleButton.title = title;
+        compareToggleButton.setAttribute("aria-label", title);
       }
     }
 
@@ -1858,15 +1818,7 @@ image: /media/2026/09/maps-featured.png
       renderPinnedCards();
     }
 
-    function addCompareModeControl(container) {
-      if (!supportsPointerHover) return;
-
-      const wrapper = document.createElement("div");
-      const actions = document.createElement("div");
-
-      wrapper.className = "maps-compare-control";
-      actions.className = "maps-compare-control__actions";
-
+    function createCompareModeControl() {
       compareToggleButton = document.createElement("button");
       compareToggleButton.type = "button";
       compareToggleButton.textContent = "Compare";
@@ -1876,14 +1828,8 @@ image: /media/2026/09/maps-featured.png
         updateCompareControl();
       });
 
-      compareStatusElement = document.createElement("span");
-      compareStatusElement.className = "maps-compare-control__status";
-
-      actions.appendChild(compareToggleButton);
-      wrapper.appendChild(actions);
-      wrapper.appendChild(compareStatusElement);
-      container.appendChild(wrapper);
       updateCompareControl();
+      return compareToggleButton;
     }
 
     function addPinnedCardPanel() {
@@ -1929,12 +1875,12 @@ image: /media/2026/09/maps-featured.png
     }
 
     function updateGovernmentLayerModeSwitch() {
-      const isBorderMode = governmentLayerMode === "border";
+      const isOverlayMode = governmentLayerMode === "fill";
       if (governmentLayerModeInput) {
-        governmentLayerModeInput.checked = isBorderMode;
+        governmentLayerModeInput.checked = isOverlayMode;
       }
       if (governmentLayerModeSwitchLabel) {
-        governmentLayerModeSwitchLabel.classList.toggle("is-border-mode", isBorderMode);
+        governmentLayerModeSwitchLabel.classList.toggle("is-overlay-mode", isOverlayMode);
       }
     }
 
@@ -2089,13 +2035,11 @@ image: /media/2026/09/maps-featured.png
             createLayerGroupToggle("Toggle all", privateSchoolControls)
           ]);
           appendLayerControls(overlays, privateSchoolControls);
-          const layerModeSwitch = createGovernmentLayerModeSwitch();
+          const layerHeaderActions = createLayerHeaderActions();
           setupCollapsibleMapControl(container, "Layers", list, {
             iconPath: "M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z",
-            headerAction: layerModeSwitch
+            headerAction: layerHeaderActions
           });
-          addFocusModeControl(overlays);
-          addCompareModeControl(overlays);
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
           syncDistrictLayerInputs();
