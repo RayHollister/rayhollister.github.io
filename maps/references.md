@@ -69,7 +69,10 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - Charter Public High
   - Charter Public Combination
 - [Florida Department of Education Private School Directory spreadsheet](https://www.floridaschoolchoice.org/information/privateschooldirectory/DownloadExcelFile.aspx)
-  - Private Schools
+  - Private Schools Elementary
+  - Private Schools Middle
+  - Private Schools High
+  - Private Schools Combination
   - Treated as authoritative for private school names, addresses, contacts, participation fields, grade levels, and survey data.
 - [University of Florida GeoPlan Center FGDL GEOPLAN_Points](https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer)
   - [Schools - Private (Points)](https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/15), used for coordinates where records match the Florida Department of Education private school spreadsheet.
