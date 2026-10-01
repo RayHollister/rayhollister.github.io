@@ -1061,6 +1061,16 @@ image: /media/2026/09/maps-featured.png
       const tokens = getQueryLayerTokens();
       if (!tokens.length) return;
 
+      const includesDefaultCouncilDistrict = tokens.some((token) => {
+        const control = queryLayerControls.get(token);
+        return control && control.layer === councilDistrictFillLayer;
+      });
+      if (!includesDefaultCouncilDistrict && map.hasLayer(councilDistrictFillLayer)) {
+        map.removeLayer(councilDistrictFillLayer);
+        orderMapLayers();
+        syncDistrictLayerInputs();
+      }
+
       tokens.forEach((token) => {
         const control = queryLayerControls.get(token);
         if (control) {
