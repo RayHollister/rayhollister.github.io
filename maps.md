@@ -850,6 +850,10 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "border", "healthZone"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "healthZone")
     });
+    const healthZoneByZipCodeLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "healthZone"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "healthZone")
+    });
     const jsoDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "jsoDistrict"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "jsoDistrict")
@@ -949,6 +953,7 @@ image: /media/2026/09/maps-featured.png
         congressionalDistrictBorderLayer,
         healthZoneFillLayer,
         healthZoneBorderLayer,
+        healthZoneByZipCodeLayer,
         jsoDistrictFillLayer,
         jsoDistrictBorderLayer,
         jsoSubsectionFillLayer,
@@ -1048,7 +1053,7 @@ image: /media/2026/09/maps-featured.png
 
     function registerQueryLayer(aliases, layer, options) {
       const settings = options || {};
-      const querySlug = normalizeLayerQueryToken(settings.slug || aliases[0]);
+      const querySlug = String(settings.slug || normalizeLayerQueryToken(aliases[0]));
       queryLayerSlugsByLayer.set(layer, querySlug);
       (settings.alternateLayers || []).forEach((alternateLayer) => {
         queryLayerSlugsByLayer.set(alternateLayer, querySlug);
@@ -1416,6 +1421,7 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["neighborhood", "neighborhoods"], neighborhoodFillLayer, { group: "boundaries", slug: "neighborhoods", alternateLayers: [neighborhoodBorderLayer] });
       registerQueryLayer(["cpac", "cpacs", "planningdistricts"], cpacFillLayer, { group: "boundaries", slug: "cpacs", alternateLayers: [cpacBorderLayer] });
       registerQueryLayer(["health", "healthzone", "healthzones"], healthZoneFillLayer, { group: "boundaries", slug: "healthzones", alternateLayers: [healthZoneBorderLayer] });
+      registerQueryLayer(["healthzones-byzipcodes", "healthzonesbyzipcodes", "healthzonesbyzip", "healthzoneslistedzips"], healthZoneByZipCodeLayer, { group: "boundaries", slug: "healthzones-byzipcodes" });
       registerQueryLayer(["jsodistrict", "jsodistricts", "sheriffdistricts"], jsoDistrictFillLayer, { group: "boundaries", slug: "jsodistricts", alternateLayers: [jsoDistrictBorderLayer] });
       registerQueryLayer(["jsosubsection", "jsosubsections", "jsosubsector", "jsosubsectors"], jsoSubsectionFillLayer, { group: "boundaries", slug: "jsosubsections", alternateLayers: [jsoSubsectionBorderLayer] });
       registerQueryLayer(["neighborhoodorganizations", "neighborhoodorgs", "neighborhoodpoints"], neighborhoodOrganizationsLayer, { slug: "neighborhoodorganizations" });
@@ -2629,6 +2635,7 @@ image: /media/2026/09/maps-featured.png
       healthZoneBorderLayer,
       "Duval County health zones"
     );
+    loadGeoJsonLayer("/data/duval-health-zones-by-zipcodes.geojson", healthZoneByZipCodeLayer, "Duval County health zones by listed ZIP codes");
     loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
     loadGeoJsonLayer("/data/jta-bus-stops.geojson", busStopsLayer, "JTA bus stops");
     loadBoundaryLayers(
