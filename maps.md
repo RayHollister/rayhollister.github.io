@@ -962,6 +962,9 @@ permalink: /maps/
       isolateBoundaryFeature(activeLayer, activeFeatureLayer);
       isolatedBoundaryLayer = activeLayer;
       skipNextBoundaryRestoreClick = true;
+      window.setTimeout(() => {
+        skipNextBoundaryRestoreClick = false;
+      }, 0);
       if (event.originalEvent && event.originalEvent.shiftKey) {
         zoomToBoundaryFeature(activeFeatureLayer);
       }
