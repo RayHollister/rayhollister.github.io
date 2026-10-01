@@ -86,6 +86,14 @@ image: /media/2026/09/maps-featured.png
     margin-top: 0.25rem;
   }
 
+  .maps-district-popup strong {
+    margin-top: 0.5rem;
+  }
+
+  .maps-district-popup strong:first-child {
+    margin-top: 0;
+  }
+
   .maps-district-popup img {
     border-radius: 4px;
     display: block;
@@ -1653,7 +1661,7 @@ image: /media/2026/09/maps-featured.png
         return properties.BASENAME ? `Florida's ${properties.BASENAME}th Congressional District` : "Florida Congressional District";
       }
       if (layerType === "healthZone") {
-        return properties.tooltip_label || properties.label || (properties.health_zone ? `Health Zone ${properties.health_zone}` : "Health Zone");
+        return properties.label || (properties.health_zone ? `Health Zone ${properties.health_zone}` : "Health Zone");
       }
       if (layerType === "jsoDistrict") {
         return properties.DISTRICT ? `JSO District ${properties.DISTRICT}` : "JSO District";
@@ -1663,6 +1671,14 @@ image: /media/2026/09/maps-featured.png
       }
       const district = properties.CC || properties.DISTRICT_N || properties.DISTRICT || "";
       return district ? `City Council District ${district}` : "City Council District";
+    }
+
+    function getBoundaryTooltipTitle(feature, layerType) {
+      const properties = feature.properties || {};
+      if (layerType === "healthZone") {
+        return properties.tooltip_label || getBoundaryTitle(feature, layerType);
+      }
+      return getBoundaryTitle(feature, layerType);
     }
 
     function getBoundarySubtitle(feature, layerType) {
@@ -1846,6 +1862,55 @@ image: /media/2026/09/maps-featured.png
       return count;
     }
 
+    function getActiveHealthZoneLayer() {
+      if (map.hasLayer(healthZoneByZipCodeLayer)) return healthZoneByZipCodeLayer;
+      if (map.hasLayer(healthZoneFillLayer)) return healthZoneFillLayer;
+      if (map.hasLayer(healthZoneBorderLayer)) return healthZoneBorderLayer;
+      return null;
+    }
+
+    function getHealthZoneCountFeature(feature) {
+      const properties = feature.properties || {};
+      const healthZone = properties.health_zone;
+      const sourceLayer = getActiveHealthZoneLayer();
+      const polygons = [];
+
+      if (!sourceLayer || !sourceLayer.eachLayer || healthZone === undefined || healthZone === null) {
+        return feature;
+      }
+
+      sourceLayer.eachLayer((layer) => {
+        const layerFeature = layer.feature || {};
+        const layerProperties = layerFeature.properties || {};
+        const geometry = layerFeature.geometry || {};
+        if (layerProperties.health_zone !== healthZone) return;
+
+        if (geometry.type === "Polygon") {
+          polygons.push(geometry.coordinates);
+        } else if (geometry.type === "MultiPolygon") {
+          polygons.push(...(geometry.coordinates || []));
+        }
+      });
+
+      if (!polygons.length) return feature;
+
+      return {
+        type: "Feature",
+        properties,
+        geometry: {
+          type: "MultiPolygon",
+          coordinates: polygons
+        }
+      };
+    }
+
+    function getPointCountFeature(feature, layerType) {
+      if (layerType === "healthZone") {
+        return getHealthZoneCountFeature(feature);
+      }
+      return feature;
+    }
+
     function appendActivePointCounts(popup, feature) {
       const activeCounts = countablePointLayers
         .filter((pointLayer) => map.hasLayer(pointLayer.layer))
@@ -1872,6 +1937,7 @@ image: /media/2026/09/maps-featured.png
       const titleUrl = getBoundaryTitleUrl(feature, layerType);
       const title = titleUrl ? document.createElement("a") : document.createElement("strong");
       const subtitle = getBoundarySubtitle(feature, layerType);
+      const pointCountFeature = getPointCountFeature(feature, layerType);
 
       popup.className = "maps-district-popup";
       title.textContent = getBoundaryTitle(feature, layerType);
@@ -1912,7 +1978,7 @@ image: /media/2026/09/maps-featured.png
         appendZipCodePopupDetails(popup, feature.properties || {});
       }
 
-      appendActivePointCounts(popup, feature);
+      appendActivePointCounts(popup, pointCountFeature);
 
       return popup;
     }
@@ -2111,7 +2177,7 @@ image: /media/2026/09/maps-featured.png
       layer.options.boundaryType = layerType;
       layer.bindPopup(() => createBoundaryPopup(feature, layerType));
       if (supportsPointerHover) {
-        layer.bindTooltip(getBoundaryTitle(feature, layerType), {
+        layer.bindTooltip(getBoundaryTooltipTitle(feature, layerType), {
           sticky: true
         });
       }
