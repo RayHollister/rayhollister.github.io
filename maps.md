@@ -443,12 +443,59 @@ image: /media/2026/09/maps-featured.png
     padding: 0.15rem 0.35rem;
   }
 
-  .maps-layer-opacity-control input {
-    accent-color: #424242;
+  .maps-layer-opacity-control input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
     cursor: pointer;
     display: block;
+    height: 18px;
     margin: 0;
     width: 100%;
+  }
+
+  .maps-layer-opacity-control input[type="range"]::-webkit-slider-runnable-track {
+    background: #fff;
+    border: 1px solid #424242;
+    border-radius: 0;
+    box-sizing: border-box;
+    height: 18px;
+    width: 100%;
+  }
+
+  .maps-layer-opacity-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #424242;
+    border: 0;
+    border-radius: 0;
+    box-sizing: border-box;
+    height: 16px;
+    margin-top: 0;
+    width: 18px;
+  }
+
+  .maps-layer-opacity-control input[type="range"]::-moz-range-track {
+    background: #fff;
+    border: 1px solid #424242;
+    border-radius: 0;
+    box-sizing: border-box;
+    height: 18px;
+    width: 100%;
+  }
+
+  .maps-layer-opacity-control input[type="range"]::-moz-range-thumb {
+    background: #424242;
+    border: 0;
+    border-radius: 0;
+    box-sizing: border-box;
+    height: 18px;
+    width: 18px;
+  }
+
+  .maps-layer-opacity-control input[type="range"]:focus-visible {
+    outline: 2px solid #0969da;
+    outline-offset: 2px;
   }
 
   .leaflet-control-layers-overlays label:focus,
