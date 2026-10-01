@@ -466,11 +466,12 @@ image: /media/2026/09/maps-featured.png
     -webkit-appearance: none;
     appearance: none;
     --maps-layer-opacity-alpha: 0.25;
+    --maps-layer-opacity-fill-color: rgb(208 208 208);
     --maps-layer-opacity-percent: 25%;
     --maps-layer-thumb-border-color: rgb(64 64 64);
     background: linear-gradient(
       to right,
-      rgb(66 66 66 / var(--maps-layer-opacity-alpha)) 0 var(--maps-layer-opacity-percent),
+      var(--maps-layer-opacity-fill-color) 0 var(--maps-layer-opacity-percent),
       #fff var(--maps-layer-opacity-percent) 100%
     );
     border: 0;
@@ -496,7 +497,7 @@ image: /media/2026/09/maps-featured.png
   .maps-layer-opacity-control input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    background: rgb(66 66 66 / var(--maps-layer-opacity-alpha));
+    background: var(--maps-layer-opacity-fill-color);
     border: 1px solid var(--maps-layer-thumb-border-color);
     border-radius: 0;
     box-sizing: border-box;
@@ -515,13 +516,13 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-layer-opacity-control input[type="range"]::-moz-range-progress {
-    background: rgb(66 66 66 / var(--maps-layer-opacity-alpha));
+    background: var(--maps-layer-opacity-fill-color);
     border: 0;
     height: 18px;
   }
 
   .maps-layer-opacity-control input[type="range"]::-moz-range-thumb {
-    background: rgb(66 66 66 / var(--maps-layer-opacity-alpha));
+    background: var(--maps-layer-opacity-fill-color);
     border: 1px solid var(--maps-layer-thumb-border-color);
     border-radius: 0;
     box-sizing: border-box;
@@ -1965,9 +1966,11 @@ image: /media/2026/09/maps-featured.png
       const opacityPercent = Math.round(governmentOverlayOpacity * 100);
       if (governmentLayerOpacityInput) {
         const thumbBorderChannel = Math.round(governmentOverlayOpacity * 255);
+        const opacityFillChannel = Math.round(255 - ((255 - 66) * governmentOverlayOpacity));
         governmentLayerOpacityInput.value = String(opacityPercent);
         governmentLayerOpacityInput.title = `Overlay opacity: ${opacityPercent}%`;
         governmentLayerOpacityInput.style.setProperty("--maps-layer-opacity-alpha", String(governmentOverlayOpacity));
+        governmentLayerOpacityInput.style.setProperty("--maps-layer-opacity-fill-color", `rgb(${opacityFillChannel} ${opacityFillChannel} ${opacityFillChannel})`);
         governmentLayerOpacityInput.style.setProperty("--maps-layer-opacity-percent", `${opacityPercent}%`);
         governmentLayerOpacityInput.style.setProperty("--maps-layer-thumb-border-color", `rgb(${thumbBorderChannel} ${thumbBorderChannel} ${thumbBorderChannel})`);
       }
