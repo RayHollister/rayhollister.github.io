@@ -90,6 +90,11 @@ permalink: /maps/
     overflow: hidden;
   }
 
+  .maps-control-panel.is-open {
+    display: flex;
+    flex-direction: column;
+  }
+
   .maps-control-panel__toggle {
     align-items: center;
     background: #fff;
@@ -163,12 +168,13 @@ permalink: /maps/
 
   .maps-control-panel__body {
     max-height: calc(100dvh - 2rem);
+    min-height: 0;
     overflow: auto;
   }
 
   .maps-layers-control .maps-control-panel__body {
-    max-height: calc(100vh - 7rem);
-    max-height: calc(100dvh - 7rem);
+    max-height: calc(100vh - 10rem);
+    max-height: calc(100dvh - 10rem);
     overflow-y: auto;
   }
 
@@ -398,8 +404,12 @@ permalink: /maps/
       width: 30px;
     }
 
+    .maps-control-panel.is-open {
+      max-height: calc(100dvh - 0.75rem);
+    }
+
     .maps-control-panel__body {
-      max-height: min(45vh, 22rem);
+      max-height: calc(100dvh - 5rem);
       overflow: auto;
     }
   }
@@ -518,6 +528,7 @@ permalink: /maps/
     function setupCollapsibleMapControl(container, label, body, options) {
       const toggle = document.createElement("button");
       const settings = options || {};
+      const viewportPadding = 12;
 
       container.classList.add("maps-control-panel");
       body.classList.add("maps-control-panel__body");
@@ -540,14 +551,36 @@ permalink: /maps/
       }
       container.insertBefore(toggle, body);
 
+      function fitOpenPanelToViewport() {
+        if (!container.classList.contains("is-open")) return;
+        const containerTop = container.getBoundingClientRect().top;
+        const availableHeight = Math.max(160, window.innerHeight - containerTop - viewportPadding);
+        const bodyHeight = Math.max(120, availableHeight - toggle.offsetHeight);
+        container.style.maxHeight = `${availableHeight}px`;
+        body.style.maxHeight = `${bodyHeight}px`;
+      }
+
+      function clearPanelViewportFit() {
+        container.style.maxHeight = "";
+        body.style.maxHeight = "";
+      }
+
       function setOpen(open) {
         container.classList.toggle("is-open", open);
         toggle.setAttribute("aria-expanded", String(open));
+        if (open) {
+          fitOpenPanelToViewport();
+          window.requestAnimationFrame(fitOpenPanelToViewport);
+        } else {
+          clearPanelViewportFit();
+        }
       }
 
       toggle.addEventListener("click", function () {
         setOpen(!container.classList.contains("is-open"));
       });
+      window.addEventListener("resize", fitOpenPanelToViewport);
+      window.addEventListener("orientationchange", fitOpenPanelToViewport);
       document.addEventListener("pointerdown", function (event) {
         if (container.classList.contains("is-open") && !container.contains(event.target)) {
           setOpen(false);
