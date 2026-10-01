@@ -774,6 +774,9 @@ image: /media/2026/09/maps-featured.png
     map.attributionControl.addAttribution(
       '<a href="https://github.com/RayHollister/JacksonvilleNeighborhoods" target="_blank" rel="noopener">Jacksonville Neighborhoods</a>'
     );
+    map.attributionControl.addAttribution(
+      '<a href="/maps/references/">Disclaimer and Data Sources</a>'
+    );
 
     const markerIcon = window.L.ExtraMarkers ? L.ExtraMarkers.icon({
       icon: "fa-map-marker-alt",
