@@ -778,6 +778,18 @@ permalink: /maps/
       style: (feature) => getBoundaryStyle(feature, "border", "neighborhood"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "neighborhood")
     });
+    const neighborhoodOrganizationsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getNeighborhoodOrganizationStyle()),
+      onEachFeature: (feature, layer) => addNeighborhoodOrganizationInteractivity(feature, layer)
+    });
+    const cpacFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "cpac"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "cpac")
+    });
+    const cpacBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "cpac"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "cpac")
+    });
     const floridaHouseFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "floridaHouse"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "floridaHouse")
@@ -892,6 +904,8 @@ permalink: /maps/
         cityBorderLayer,
         neighborhoodFillLayer,
         neighborhoodBorderLayer,
+        cpacFillLayer,
+        cpacBorderLayer,
         floridaHouseFillLayer,
         floridaHouseBorderLayer,
         floridaSenateFillLayer,
@@ -908,6 +922,7 @@ permalink: /maps/
 
       moveLayerGroup(busRoutesLayer, "bringToFront");
       moveLayerGroup(jsoPoliceStationsLayer, "bringToFront");
+      moveLayerGroup(neighborhoodOrganizationsLayer, "bringToFront");
       [
         elementarySchoolsLayer,
         middleSchoolsLayer,
@@ -1242,11 +1257,16 @@ permalink: /maps/
           appendGeographyLayerRow(overlays, "City Council District", councilDistrictFillLayer, councilDistrictBorderLayer);
           appendGeographyLayerRow(overlays, "City Council District At Large", councilAtLargeFillLayer, councilAtLargeBorderLayer);
           appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer);
-          appendGeographyLayerRow(overlays, "Neighborhoods", neighborhoodFillLayer, neighborhoodBorderLayer);
           appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer);
           appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer);
           appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer);
           appendGeographyLayerRow(overlays, "Congressional Districts", congressionalDistrictFillLayer, congressionalDistrictBorderLayer);
+          overlays.appendChild(createLayerHeading("Neighborhood"));
+          appendGeographyLayerRow(overlays, "Neighborhoods", neighborhoodFillLayer, neighborhoodBorderLayer);
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("Neighborhood Organizations", neighborhoodOrganizationsLayer)
+          ]);
+          appendGeographyLayerRow(overlays, "Citizens Planning Advisory Committee (CPACs)", cpacFillLayer, cpacBorderLayer);
           overlays.appendChild(createLayerHeading("Jacksonville Sheriff's Office"));
           appendGeographyLayerRow(overlays, "Districts", jsoDistrictFillLayer, jsoDistrictBorderLayer);
           appendGeographyLayerRow(overlays, "Subsections", jsoSubsectionFillLayer, jsoSubsectionBorderLayer);
@@ -1346,6 +1366,9 @@ permalink: /maps/
       if (layerType === "neighborhood") {
         return getStringColorNumber(properties.NAME || properties.NUM_NAME || "Neighborhoods");
       }
+      if (layerType === "cpac") {
+        return Number.parseInt(properties.cpac_district || properties.DIST || properties.planning_district || properties.PD_ID, 10);
+      }
       if (layerType === "floridaHouse") {
         return Number.parseInt(properties.HSE, 10);
       }
@@ -1413,6 +1436,9 @@ permalink: /maps/
       if (layerType === "neighborhood") {
         return mode === "border" ? neighborhoodBorderLayer : neighborhoodFillLayer;
       }
+      if (layerType === "cpac") {
+        return mode === "border" ? cpacBorderLayer : cpacFillLayer;
+      }
       if (layerType === "floridaHouse") {
         return mode === "border" ? floridaHouseBorderLayer : floridaHouseFillLayer;
       }
@@ -1444,6 +1470,9 @@ permalink: /maps/
       }
       if (layerType === "neighborhood") {
         return properties.NAME || properties.NUM_NAME || "Neighborhoods";
+      }
+      if (layerType === "cpac") {
+        return properties.cpac_label || properties.CPAC || properties.NAME || "CPAC / Planning District";
       }
       if (layerType === "floridaHouse") {
         return properties.HSE ? `Florida House District ${properties.HSE}` : "Florida House District";
@@ -1477,6 +1506,9 @@ permalink: /maps/
       }
       if (layerType === "neighborhood") {
         return properties.NUM_NAME && properties.NUM_NAME !== properties.NAME ? properties.NUM_NAME : "";
+      }
+      if (layerType === "cpac") {
+        return properties.cpac_district ? `Planning District ${properties.planning_district || properties.PD_ID || properties.cpac_district}` : "Planning District";
       }
       if (layerType === "floridaHouse") {
         return properties.HSE_NAME || properties.DELEGATES || "";
@@ -1536,6 +1568,9 @@ permalink: /maps/
       }
       if (layerType === "congressional") {
         return properties.ballotpedia_url || "";
+      }
+      if (layerType === "cpac") {
+        return properties.cpac_url || "";
       }
       return "";
     }
@@ -1690,6 +1725,17 @@ permalink: /maps/
       };
     }
 
+    function getNeighborhoodOrganizationStyle() {
+      return {
+        color: "#ffffff",
+        fillColor: "#be123c",
+        fillOpacity: 0.95,
+        opacity: 1,
+        radius: 5,
+        weight: 1.5
+      };
+    }
+
     function createBusRoutePopup(feature) {
       const properties = feature.properties || {};
       const popup = document.createElement("div");
@@ -1770,6 +1816,31 @@ permalink: /maps/
       return popup;
     }
 
+    function createNeighborhoodOrganizationPopup(feature) {
+      const properties = feature.properties || {};
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+
+      popup.className = "maps-district-popup";
+      title.textContent = properties.name || "Neighborhood Organization";
+      popup.appendChild(title);
+
+      [
+        properties.type,
+        properties.address,
+        properties.cpac ? `CPAC: ${properties.cpac}` : "",
+        properties.planning_district ? `Planning District ${properties.planning_district}` : "",
+        properties.council_district ? `City Council District ${properties.council_district}` : "",
+        properties.date_registered ? `Registered ${properties.date_registered}` : ""
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+
+      return popup;
+    }
+
     function addBusRouteInteractivity(feature, layer) {
       const properties = feature.properties || {};
       const name = [properties.route_short_name, properties.route_long_name].filter(Boolean).join(" - ");
@@ -1806,6 +1877,14 @@ permalink: /maps/
       const properties = feature.properties || {};
       layer.bindPopup(createPoliceStationPopup(feature));
       layer.bindTooltip(properties.name || "JSO Substation", {
+        sticky: true
+      });
+    }
+
+    function addNeighborhoodOrganizationInteractivity(feature, layer) {
+      const properties = feature.properties || {};
+      layer.bindPopup(createNeighborhoodOrganizationPopup(feature));
+      layer.bindTooltip(properties.name || "Neighborhood Organization", {
         sticky: true
       });
     }
@@ -2183,6 +2262,13 @@ permalink: /maps/
       neighborhoodFillLayer,
       neighborhoodBorderLayer,
       "neighborhood boundaries"
+    );
+    loadGeoJsonLayer("/data/neighborhood-organizations.geojson", neighborhoodOrganizationsLayer, "neighborhood organizations");
+    loadBoundaryLayers(
+      "/data/cpac-planning-districts.geojson",
+      cpacFillLayer,
+      cpacBorderLayer,
+      "CPAC planning districts"
     );
     loadBoundaryLayers(
       "/data/florida-house-districts.geojson",

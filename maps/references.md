@@ -30,6 +30,8 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - City Council District At Large Borders
   - Cities Overlays
   - Cities Borders
+  - Citizens Planning Advisory Committee (CPACs) Overlays
+  - Citizens Planning Advisory Committee (CPACs) Borders
 - [119th Congressional Districts](https://www.arcgis.com/home/item.html?id=56f9d1c5628349c684245185a020d18a&sublayer=0)
   - Congressional Districts Overlays
   - Congressional Districts Borders
@@ -41,6 +43,13 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - Source repository: [RayHollister/JacksonvilleNeighborhoods](https://github.com/RayHollister/JacksonvilleNeighborhoods)
   - Runtime data URL: [neighborhoods.geojson](https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson)
   - Note: Although this map was created by the City of Jacksonville, this is not an official neighborhood boundaries map. Many of these neighborhoods do not have "official" boundaries, as they have not been defined legally. Also, there are several typos in this file that have not all been fixed.
+- [City of Jacksonville Neighborhood Organizations Directory](https://jaxnhorg.coj.net/#/orglist)
+  - Neighborhood Organizations
+  - Organization addresses normalized locally; Neighborhood organization point coordinates geocoded from the public organization addresses.
+- [ArcGIS World Geocoding Service](https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer)
+  - Used to geocode public Neighborhood organization addresses.
+- [City of Jacksonville Citizen Planning Advisory Committees](https://www.jacksonville.gov/departments/neighborhoods/neighborhood-services-office/citizen-planning-advisory-committees-(cpacs))
+  - CPAC district names and reference links
 
 ## Jacksonville Sheriff's Office
 

@@ -1,0 +1,3533 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.673749,
+          30.357989
+        ]
+      },
+      "properties": {
+        "organization_id": 190,
+        "name": "29th & Chase Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 1,
+        "address": "1210 23rd St W, Jacksonville, FL 32209",
+        "date_registered": "2017-11-09",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1210 23RD ST W, JACKSONVILLE, 32209",
+        "geocode_score": 99.89,
+        "geocode_match_address": "1210 W 23rd St, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.656955,
+          30.36304
+        ]
+      },
+      "properties": {
+        "organization_id": 79,
+        "name": "2nd Mile Ministries",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 1,
+        "address": "4003 Pearl St N, Jacksonville, FL 32206",
+        "date_registered": "2017-05-18",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4003 PEARL ST N, JACKSONVILLE, 32206",
+        "geocode_score": 99.89,
+        "geocode_match_address": "4003 N Pearl St, Jacksonville, Florida, 32206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.695135,
+          30.308886
+        ]
+      },
+      "properties": {
+        "organization_id": 1467,
+        "name": "Aids Memorial of NE Florida",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 5,
+        "address": "2767 Herschel St, Jacksonville, FL 32205",
+        "date_registered": "2022-04-11",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2767 HERSCHEL ST, JACKSONVILLE, 32205",
+        "geocode_score": 100,
+        "geocode_match_address": "2767 Herschel St, Jacksonville, Florida, 32205"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.652138,
+          30.370238
+        ]
+      },
+      "properties": {
+        "organization_id": 1535,
+        "name": "Alexandra's organization",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "5020 Main St N, Jacksonville, FL 32206",
+        "date_registered": "2023-03-30",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5020 MAIN ST N, JACKSONVILLE, 32206",
+        "geocode_score": 100,
+        "geocode_match_address": "5020 Main St N, Jacksonville, Florida, 32206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.769791,
+          30.203043
+        ]
+      },
+      "properties": {
+        "organization_id": 75,
+        "name": "Amanda Crossing",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 14,
+        "planning_district": 4,
+        "address": "7926 Amandas Crossing Dr W, Jacksonville, FL 32244",
+        "date_registered": "2017-05-17",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "7926 AMANDAS CROSSING DR W, JACKSONVILLE, 32244",
+        "geocode_score": 100,
+        "geocode_match_address": "7926 Amandas Crossing Dr W, Jacksonville, Florida, 32244"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.684593,
+          30.396887
+        ]
+      },
+      "properties": {
+        "organization_id": 277,
+        "name": "Angel Kids Pediatrics",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "2040 Riverview St, Jacksonville, FL 32208",
+        "date_registered": "2018-12-12",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2040 RIVERVIEW ST, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "2040 Riverview St, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.537577,
+          30.309607
+        ]
+      },
+      "properties": {
+        "organization_id": 1558,
+        "name": "Arlington East Neighborhood Crime Watch Assoc.",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 4,
+        "planning_district": 2,
+        "address": "2248 Leon Rd, Jacksonville, FL 32246",
+        "date_registered": "2023-07-26",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2248 LEON RD, JACKSONVILLE, 32246",
+        "geocode_score": 100,
+        "geocode_match_address": "2248 Leon Rd, Jacksonville, Florida, 32246"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.588542,
+          30.145757
+        ]
+      },
+      "properties": {
+        "organization_id": 1455,
+        "name": "Bannons Walk Neighborhood",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 6,
+        "planning_district": 3,
+        "address": "4530 Bannons Walk Ct, Jacksonville, FL 32258",
+        "date_registered": "2022-03-05",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4530 BANNONS WALK CT, JACKSONVILLE, 32258",
+        "geocode_score": 100,
+        "geocode_match_address": "4530 Bannons Walk Ct, Jacksonville, Florida, 32258"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.514663,
+          30.144878
+        ]
+      },
+      "properties": {
+        "organization_id": 1482,
+        "name": "Bayard Community Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 11,
+        "planning_district": 3,
+        "address": "12545 Snyder St, Jacksonville, FL 32256",
+        "date_registered": "2022-06-14",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "12545 SNYDER ST, JACKSONVILLE, 32256",
+        "geocode_score": 100,
+        "geocode_match_address": "12545 Snyder St, Jacksonville, Florida, 32256"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.685892,
+          30.337355
+        ]
+      },
+      "properties": {
+        "organization_id": 208,
+        "name": "Better Living Community Assoc.",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 5,
+        "address": "1010 Acorn St, Jacksonville, FL 32209",
+        "date_registered": "2018-02-16",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1010 ACORN ST, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "1010 Acorn St, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.663417,
+          30.435463
+        ]
+      },
+      "properties": {
+        "organization_id": 12,
+        "name": "Bluegrass Northwood Homeowners",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 8,
+        "planning_district": 6,
+        "address": "1051 Easy St, Jacksonville, FL 32218",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1051 EASY ST, JACKSONVILLE, 32218",
+        "geocode_score": 100,
+        "geocode_match_address": "1051 Easy St, Jacksonville, Florida, 32218"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.686054,
+          30.311462
+        ]
+      },
+      "properties": {
+        "organization_id": 1719,
+        "name": "Boho Arts District",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 5,
+        "address": "1615 Osceola St, Jacksonville, FL 32204",
+        "date_registered": "2026-03-12",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1615 OSCEOLA ST, JACKSONVILLE, 32204",
+        "geocode_score": 100,
+        "geocode_match_address": "1615 Osceola St, Jacksonville, Florida, 32204"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.600097,
+          30.266421
+        ]
+      },
+      "properties": {
+        "organization_id": 300,
+        "name": "Bowden Acres",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 4,
+        "planning_district": 3,
+        "address": "3314 Eman Dr, Jacksonville, FL 32216",
+        "date_registered": "2019-06-17",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3314 EMAN DR, JACKSONVILLE, 32216",
+        "geocode_score": 100,
+        "geocode_match_address": "3314 Eman Dr, Jacksonville, Florida, 32216"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.7768,
+          30.430718
+        ]
+      },
+      "properties": {
+        "organization_id": 1649,
+        "name": "Brandon Chase",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 8,
+        "planning_district": 6,
+        "address": "10838 Brandon Chase Dr, Jacksonville, FL 32219",
+        "date_registered": "2024-12-06",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "10838 BRANDON CHASE DR, JACKSONVILLE, 32219",
+        "geocode_score": 100,
+        "geocode_match_address": "10838 Brandon Chase Dr, Jacksonville, Florida, 32219"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.7768,
+          30.430718
+        ]
+      },
+      "properties": {
+        "organization_id": 1641,
+        "name": "Brandon Chase Sub Division",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 8,
+        "planning_district": 6,
+        "address": "10838 Brandon Chase Dr, Jacksonville, FL 32219",
+        "date_registered": "2024-11-13",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "10838 BRANDON CHASE DR, JACKSONVILLE, 32219",
+        "geocode_score": 100,
+        "geocode_match_address": "10838 Brandon Chase Dr, Jacksonville, Florida, 32219"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.593708,
+          30.154322
+        ]
+      },
+      "properties": {
+        "organization_id": 210,
+        "name": "Brandon Glenn Neighborhood Committee",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 6,
+        "planning_district": 3,
+        "address": "4341 Brandon Glenn Ct, Jacksonville, FL 32258",
+        "date_registered": "2018-03-18",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4341 BRANDON GLENN CT, JACKSONVILLE, 32258",
+        "geocode_score": 100,
+        "geocode_match_address": "4341 Brandon Glenn Ct, Jacksonville, Florida, 32258"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.600436,
+          30.215463
+        ]
+      },
+      "properties": {
+        "organization_id": 41,
+        "name": "Brierwood Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "9017 Latimer Rd E, Jacksonville, FL 32257",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "9017 LATIMER RD E, JACKSONVILLE, 32257",
+        "geocode_score": 100,
+        "geocode_match_address": "9017 Latimer Rd E, Jacksonville, Florida, 32257"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.674851,
+          30.325898
+        ]
+      },
+      "properties": {
+        "organization_id": 212,
+        "name": "Brooklyn Neighborhood Assoc",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "202 Spruce St, Jacksonville, FL 32204",
+        "date_registered": "2018-04-25",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "202 SPRUCE ST, JACKSONVILLE, 32204",
+        "geocode_score": 100,
+        "geocode_match_address": "202 Spruce St, Jacksonville, Florida, 32204"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.463837,
+          30.29009
+        ]
+      },
+      "properties": {
+        "organization_id": 123,
+        "name": "Brougham Avenue Golden Glades",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 3,
+        "planning_district": 2,
+        "address": "3089 Brougham Ave, Jacksonville, FL 32246",
+        "date_registered": "2017-06-13",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3089 BROUGHAM AVE, JACKSONVILLE, 32246",
+        "geocode_score": 100,
+        "geocode_match_address": "3089 Brougham Ave, Jacksonville, Florida, 32246"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.729628,
+          30.377451
+        ]
+      },
+      "properties": {
+        "organization_id": 135,
+        "name": "Carver Manor Lincoln Estates Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "6549 Kinlock Dr, Jacksonville, FL 32219",
+        "date_registered": "2017-06-20",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "6549 KINLOCK DR, JACKSONVILLE, 32219",
+        "geocode_score": 100,
+        "geocode_match_address": "6549 Kinlock Dr, Jacksonville, Florida, 32219"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.889699,
+          30.238846
+        ]
+      },
+      "properties": {
+        "organization_id": 16,
+        "name": "Cecil Pines Adult Living Community",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 12,
+        "planning_district": 4,
+        "address": "6011 New World Ave, Jacksonville, FL 32221",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "6011 NEW WORLD AVE, JACKSONVILLE, 32221",
+        "geocode_score": 98.04,
+        "geocode_match_address": "6011 New World Rd, Jacksonville, Florida, 32221"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.763448,
+          30.276839
+        ]
+      },
+      "properties": {
+        "organization_id": 146,
+        "name": "Cedar Hills Estates Community Association",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 9,
+        "planning_district": 4,
+        "address": "7056 Queen of Hearts Ct, Jacksonville, FL 32210",
+        "date_registered": "2017-07-11",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "7056 QUEEN OF HEARTS CT, JACKSONVILLE, 32210",
+        "geocode_score": 100,
+        "geocode_match_address": "7056 Queen of Hearts Ct, Jacksonville, Florida, 32210"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.694857,
+          30.354384
+        ]
+      },
+      "properties": {
+        "organization_id": 1421,
+        "name": "Central Fairfax Community Association Inc.",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "2118 18th St W, Jacksonville, FL 32209",
+        "date_registered": "2021-10-19",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2118 18TH ST W, JACKSONVILLE, 32209",
+        "geocode_score": 99.89,
+        "geocode_match_address": "2118 W 18th St, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.57051,
+          30.305566
+        ]
+      },
+      "properties": {
+        "organization_id": 39,
+        "name": "Century Point Lakeside Village Civic Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 4,
+        "planning_district": 2,
+        "address": "8178 Libra Ct, Jacksonville, FL 32216",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "8178 LIBRA CT, JACKSONVILLE, 32216",
+        "geocode_score": 100,
+        "geocode_match_address": "8178 Libra Ct, Jacksonville, Florida, 32216"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.770056,
+          30.206952
+        ]
+      },
+      "properties": {
+        "organization_id": 126,
+        "name": "Cinnamon Lakes Neighborhood Watch Program",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 14,
+        "planning_district": 4,
+        "address": "7552 Allspice Cir N, Jacksonville, FL 32244",
+        "date_registered": "2017-06-13",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "7552 ALLSPICE CIR N, JACKSONVILLE, 32244",
+        "geocode_score": 100,
+        "geocode_match_address": "7552 Allspice Cir N, Jacksonville, Florida, 32244"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.706883,
+          30.427013
+        ]
+      },
+      "properties": {
+        "organization_id": 360,
+        "name": "Citizens of Capper Road",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 8,
+        "planning_district": 6,
+        "address": "3656 Capper Rd, Jacksonville, FL 32218",
+        "date_registered": "2020-06-30",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3656 CAPPER RD, JACKSONVILLE, 32218",
+        "geocode_score": 100,
+        "geocode_match_address": "3656 Capper Rd, Jacksonville, Florida, 32218"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.608075,
+          30.321874
+        ]
+      },
+      "properties": {
+        "organization_id": 295,
+        "name": "Clifton Civic Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 1,
+        "planning_district": 2,
+        "address": "5440 Weller Pl, Jacksonville, FL 32211",
+        "date_registered": "2019-05-05",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5440 WELLER PL, JACKSONVILLE, 32211",
+        "geocode_score": 100,
+        "geocode_match_address": "5440 Weller Pl, Jacksonville, Florida, 32211"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.501471,
+          30.36223
+        ]
+      },
+      "properties": {
+        "organization_id": 60,
+        "name": "Cobblestone Association, Inc.",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 2,
+        "planning_district": 2,
+        "address": "2771 Monument Rd, 29, FL JACKSONVILLE",
+        "date_registered": "2017-05-16",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2771 MONUMENT RD, 29, JACKSONVILLE, 32225",
+        "geocode_score": 100,
+        "geocode_match_address": "2771 Monument Rd, Suite 29, Jacksonville, Florida, 32225"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.617883,
+          30.523257
+        ]
+      },
+      "properties": {
+        "organization_id": 1546,
+        "name": "COEJ",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 8,
+        "planning_district": 6,
+        "address": "15725 Pinyon Ln, Jacksonville, FL 32218",
+        "date_registered": "2023-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "15725 PINYON LN, JACKSONVILLE, 32218",
+        "geocode_score": 100,
+        "geocode_match_address": "15725 Pinyon Ln, Jacksonville, Florida, 32218"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.57568,
+          30.364848
+        ]
+      },
+      "properties": {
+        "organization_id": 61,
+        "name": "Colony Cove Trails Neighborhood Organization",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 1,
+        "planning_district": 2,
+        "address": "7356 Colony Cv Ln, Jacksonville, FL 32277",
+        "date_registered": "2017-05-16",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "7356 COLONY COVE LN, JACKSONVILLE, 32277",
+        "geocode_score": 100,
+        "geocode_match_address": "7356 Colony Cove Ln, Jacksonville, Florida, 32277"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.721137,
+          30.24857
+        ]
+      },
+      "properties": {
+        "organization_id": 1504,
+        "name": "Come Back Kids Inc",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 9,
+        "planning_district": 4,
+        "address": "5327 Timuquana Rd, 213, FL JACKSONVILLE",
+        "date_registered": "2022-10-31",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5327 TIMUQUANA RD, 213, JACKSONVILLE, 32210",
+        "geocode_score": 100,
+        "geocode_match_address": "5327 Timuquana Rd, Apartment 213, Jacksonville, Florida, 32210"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.418309,
+          30.349558
+        ]
+      },
+      "properties": {
+        "organization_id": 64,
+        "name": "Cypress Cove Good Neighbor Group",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 13,
+        "planning_district": 2,
+        "address": "2265 Palm Landing Dr, Jacksonville, FL 32233",
+        "date_registered": "2017-05-16",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2265 PALM LANDING DR, JACKSONVILLE, 32233",
+        "geocode_score": 100,
+        "geocode_match_address": "2265 Palm Landing Dr, Jacksonville, Florida, 32233"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.664434,
+          30.390791
+        ]
+      },
+      "properties": {
+        "organization_id": 1615,
+        "name": "Destined For A Change, Inc",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "539 Estes Rd, Jacksonville, FL 32208",
+        "date_registered": "2024-05-07",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "539 ESTES RD, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "539 Estes Rd, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.654494,
+          30.318875
+        ]
+      },
+      "properties": {
+        "organization_id": 340,
+        "name": "Downtown Dwellers Association, Incorporated",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 5,
+        "planning_district": 1,
+        "address": "1431 Riverplace Blvd, 3705, FL JACKSONVILLE",
+        "date_registered": "2019-11-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1431 RIVERPLACE BLVD, 3705, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "1431 Riverplace Blvd, Apartment 3705, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.660689,
+          30.328848
+        ]
+      },
+      "properties": {
+        "organization_id": 261,
+        "name": "Downtown Vision Alliance, Inc.",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "214 Hogan St N, Jacksonville, FL 32202",
+        "date_registered": "2018-10-19",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "214 HOGAN ST N, JACKSONVILLE, 32202",
+        "geocode_score": 99.89,
+        "geocode_match_address": "214 N Hogan St, Jacksonville, Florida, 32202"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.660689,
+          30.328848
+        ]
+      },
+      "properties": {
+        "organization_id": 181,
+        "name": "Downtown Vision, Inc.",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "214 Hogan St N, Jacksonville, FL 32202",
+        "date_registered": "2017-10-17",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "214 HOGAN ST N, JACKSONVILLE, 32202",
+        "geocode_score": 99.89,
+        "geocode_match_address": "214 N Hogan St, Jacksonville, Florida, 32202"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.676223,
+          30.342641
+        ]
+      },
+      "properties": {
+        "organization_id": 1579,
+        "name": "Durkeeville Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "1322 Grothe St, Jacksonville, FL 32209",
+        "date_registered": "2023-11-09",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1322 GROTHE ST, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "1322 Grothe St, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.689769,
+          30.360417
+        ]
+      },
+      "properties": {
+        "organization_id": 1602,
+        "name": "Duval Legacy Leaders",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "3616 Effee St, Jacksonville, FL 32209",
+        "date_registered": "2024-03-01",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3616 EFFEE ST, Jacksonville, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "3616 Effee St, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.720724,
+          30.374094
+        ]
+      },
+      "properties": {
+        "organization_id": 1622,
+        "name": "Edgewood Manor Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "6059 Bart Rd, Jacksonville, FL 32209",
+        "date_registered": "2024-07-08",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "6059 BART RD, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "6059 Bart Rd, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.550764,
+          30.507425
+        ]
+      },
+      "properties": {
+        "organization_id": 14,
+        "name": "Edwards Creek",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 2,
+        "planning_district": 6,
+        "address": "14836 Edwards Creek Rd, Jacksonville, FL 32226",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "14836 EDWARDS CREEK RD, JACKSONVILLE, 32226",
+        "geocode_score": 100,
+        "geocode_match_address": "14836 Edwards Creek Rd, Jacksonville, Florida, 32226"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.61644,
+          30.310662
+        ]
+      },
+      "properties": {
+        "organization_id": 1695,
+        "name": "Empire Point Community Council",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 1,
+        "planning_district": 2,
+        "address": "4842 Empire Ave, Jacksonville, FL 32207",
+        "date_registered": "2025-10-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4842 EMPIRE AVE, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "4842 Empire Ave, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.7195,
+          30.29353
+        ]
+      },
+      "properties": {
+        "organization_id": 18,
+        "name": "Fishweir Neighborhood Watch",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 4,
+        "address": "1542 Geraldine Dr, Jacksonville, FL 32205",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1542 GERALDINE DR, JACKSONVILLE, 32205",
+        "geocode_score": 100,
+        "geocode_match_address": "1542 Geraldine Dr, Jacksonville, Florida, 32205"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.509742,
+          30.352242
+        ]
+      },
+      "properties": {
+        "organization_id": 160,
+        "name": "Fort Caroline Lakes Community Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 2,
+        "planning_district": 2,
+        "address": "11368 Ft Caroline Lakes Dr N, Jacksonville, FL 32225",
+        "date_registered": "2017-08-11",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "11368 FT CAROLINE LAKES DR N, JACKSONVILLE, 32225",
+        "geocode_score": 100,
+        "geocode_match_address": "11368 Fort Caroline Lakes Dr N, Jacksonville, Florida, 32225"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.589035,
+          30.297696
+        ]
+      },
+      "properties": {
+        "organization_id": 67,
+        "name": "Glynlea Park Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 4,
+        "planning_district": 2,
+        "address": "1131 Glynlea Rd, Jacksonville, FL 32216",
+        "date_registered": "2017-05-16",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1131 GLYNLEA RD, JACKSONVILLE, 32216",
+        "geocode_score": 100,
+        "geocode_match_address": "1131 Glynlea Rd, Jacksonville, Florida, 32216"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.559968,
+          30.140412
+        ]
+      },
+      "properties": {
+        "organization_id": 356,
+        "name": "GOFUNDME SIDEWALK KNOTAH ROAD",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 6,
+        "planning_district": 3,
+        "address": "12589 Knotah Rd, C, FL JACKSONVILLE",
+        "date_registered": "2020-03-04",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "12589 KNOTAH RD, C, JACKSONVILLE, 32258",
+        "geocode_score": 99.64,
+        "geocode_match_address": "12589 Knotah Rd, Jacksonville, Florida, 32258"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.604111,
+          30.222344
+        ]
+      },
+      "properties": {
+        "organization_id": 172,
+        "name": "Goodbys Cove",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "8713 Goodbys Trace Ct, Jacksonville, FL 32217",
+        "date_registered": "2017-09-25",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "8713 GOODBYS TRACE CT, JACKSONVILLE, 32217",
+        "geocode_score": 100,
+        "geocode_match_address": "8713 Goodbys Trace Ct, Jacksonville, Florida, 32217"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.657705,
+          30.282439
+        ]
+      },
+      "properties": {
+        "organization_id": 1647,
+        "name": "Granada Preservation Society",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "4000 San Jose Blvd, Jacksonville, FL 32207",
+        "date_registered": "2024-12-04",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4000 SAN JOSE BLVD, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "4000 San Jose Blvd, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.689097,
+          30.356095
+        ]
+      },
+      "properties": {
+        "organization_id": 282,
+        "name": "Grand Boulevard Crime Watch",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "1937 20th St W, Jacksonville, FL 32209",
+        "date_registered": "2019-02-13",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1937 20TH ST W, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "1937 20th St W, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.706445,
+          30.355281
+        ]
+      },
+      "properties": {
+        "organization_id": 119,
+        "name": "Grand Park Community Association",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "2617 Vernon St, Jacksonville, FL 32209",
+        "date_registered": "2017-06-08",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2617 VERNON ST, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "2617 Vernon St, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.564008,
+          30.181868
+        ]
+      },
+      "properties": {
+        "organization_id": 141,
+        "name": "Greater Hood Road Community Association Inc.",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 6,
+        "planning_district": 3,
+        "address": "5608 Blue Pacific Dr, Jacksonville, FL 32257",
+        "date_registered": "2017-06-28",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5608 BLUE PACIFIC DR, JACKSONVILLE, 32257",
+        "geocode_score": 100,
+        "geocode_match_address": "5608 Blue Pacific Dr, Jacksonville, Florida, 32257"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.676518,
+          30.360407
+        ]
+      },
+      "properties": {
+        "organization_id": 1586,
+        "name": "Greenwood 100 Inc",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 1,
+        "address": "3610 Moncrief Rd, Jacksonville, FL 32209",
+        "date_registered": "2023-12-06",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3610 MONCRIEF RD, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "3610 Moncrief Rd, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.538475,
+          30.214288
+        ]
+      },
+      "properties": {
+        "organization_id": 1659,
+        "name": "Hampton Glen at Deerwood",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 11,
+        "planning_district": 3,
+        "address": "8515 Hampton Ridge Blvd S, Jacksonville, FL 32256",
+        "date_registered": "2024-12-25",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "8515 HAMPTON RIDGE BLVD S, JACKSONVILLE, 32256",
+        "geocode_score": 98.87,
+        "geocode_match_address": "8515 Hampton Ridge Blvd, Jacksonville, Florida, 32256"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.625065,
+          30.308678
+        ]
+      },
+      "properties": {
+        "organization_id": 313,
+        "name": "Harbor Oaks of St. Nicholas",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 5,
+        "planning_district": 2,
+        "address": "1424 Halliday Ln N, Jacksonville, FL 32207",
+        "date_registered": "2019-08-19",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1424 HALLIDAY LN N, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "1424 Halliday Ln N, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.72148,
+          30.398691
+        ]
+      },
+      "properties": {
+        "organization_id": 317,
+        "name": "Harbor View Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "4814 Hatteras Rd, Jacksonville, FL 32208",
+        "date_registered": "2019-09-13",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4814 HATTERAS RD, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "4814 Hatteras Rd, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.541515,
+          30.128009
+        ]
+      },
+      "properties": {
+        "organization_id": 1445,
+        "name": "Hawthorn Homeowners Association Inc",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 6,
+        "planning_district": 3,
+        "address": "6450 Autumn Berry Cir, Jacksonville, FL 32258",
+        "date_registered": "2022-01-22",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "6450 AUTUMN BERRY CIR, JACKSONVILLE, 32258",
+        "geocode_score": 100,
+        "geocode_match_address": "6450 Autumn Berry Cir, Jacksonville, Florida, 32258"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.439684,
+          30.391272
+        ]
+      },
+      "properties": {
+        "organization_id": 37,
+        "name": "Heckscher Drive Community Club",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 2,
+        "planning_district": 6,
+        "address": "9364 Heckscher Dr, Jacksonville, FL 32226",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "9364 HECKSCHER DR, JACKSONVILLE, 32226",
+        "geocode_score": 100,
+        "geocode_match_address": "9364 Heckscher Dr, Jacksonville, Florida, 32226"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.685265,
+          30.373768
+        ]
+      },
+      "properties": {
+        "organization_id": 1398,
+        "name": "Hill Top Village Neighborhood Association, Inc.",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "1646 45th St W, Jacksonville, FL 32208",
+        "date_registered": "2021-06-14",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1646 45TH ST W, JACKSONVILLE, 32208",
+        "geocode_score": 99.89,
+        "geocode_match_address": "1646 W 45th St, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.643814,
+          30.333399
+        ]
+      },
+      "properties": {
+        "organization_id": 22,
+        "name": "Historic Eastside Community Development Corporation",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "925 Spearing St, Jacksonville, FL 32206",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "925 SPEARING ST, JACKSONVILLE, 32206",
+        "geocode_score": 100,
+        "geocode_match_address": "925 Spearing St, Jacksonville, Florida, 32206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.584473,
+          30.305172
+        ]
+      },
+      "properties": {
+        "organization_id": 115,
+        "name": "Holiday Hill Community Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 4,
+        "planning_district": 2,
+        "address": "7011 Holiday Rd N, Jacksonville, FL 32216",
+        "date_registered": "2017-06-07",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "7011 HOLIDAY RD N, JACKSONVILLE, 32216",
+        "geocode_score": 100,
+        "geocode_match_address": "7011 Holiday Rd N, Jacksonville, Florida, 32216"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.580995,
+          30.306933
+        ]
+      },
+      "properties": {
+        "organization_id": 209,
+        "name": "Holiday Hill Manor Civic Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 4,
+        "planning_district": 2,
+        "address": "424 Tahitian Ter, Jacksonville, FL 32216",
+        "date_registered": "2018-02-22",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "424 TAHITIAN TER, JACKSONVILLE, 32216",
+        "geocode_score": 100,
+        "geocode_match_address": "424 Tahitian Ter, Jacksonville, Florida, 32216"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.77862,
+          30.254315
+        ]
+      },
+      "properties": {
+        "organization_id": 293,
+        "name": "Honey Bee s Cleaning Service LLC",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 9,
+        "planning_district": 4,
+        "address": "7883 Melvin Rd, Jacksonville, FL 32210",
+        "date_registered": "2019-04-03",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "7883 MELVIN RD, JACKSONVILLE, 32210",
+        "geocode_score": 100,
+        "geocode_match_address": "7883 Melvin Rd, Jacksonville, Florida, 32210"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.559867,
+          30.369445
+        ]
+      },
+      "properties": {
+        "organization_id": 238,
+        "name": "Huguenot Landing Way",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 1,
+        "planning_district": 2,
+        "address": "3774 Huguenot Landing Way, Jacksonville, FL 32277",
+        "date_registered": "2018-08-11",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3774 HUGUENOT LANDING WAY, JACKSONVILLE, 32277",
+        "geocode_score": 100,
+        "geocode_match_address": "3774 Huguenot Landing Way, Jacksonville, Florida, 32277"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.470734,
+          30.318564
+        ]
+      },
+      "properties": {
+        "organization_id": 80,
+        "name": "Indian Springs Community Association",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 3,
+        "planning_district": 2,
+        "address": "12770 Atlantic Blvd, Jacksonville, FL 32225",
+        "date_registered": "2017-05-18",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "12770 ATLANTIC BLVD, JACKSONVILLE, 32225",
+        "geocode_score": 100,
+        "geocode_match_address": "12770 Atlantic Blvd, Jacksonville, Florida, 32225"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.676893,
+          30.361291
+        ]
+      },
+      "properties": {
+        "organization_id": 177,
+        "name": "Jacksonville Alumni Kappa Appha Psi Fraternity Foundation",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "3717 Moncrief Rd W, Jacksonville, FL 32208",
+        "date_registered": "2017-10-03",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3717 MONCRIEF RD W, JACKSONVILLE, 32208",
+        "geocode_score": 99.52,
+        "geocode_match_address": "3717 Moncrief Rd W, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.639609,
+          30.332647
+        ]
+      },
+      "properties": {
+        "organization_id": 1672,
+        "name": "JAX - HENA",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "1138 Odessa St, Jacksonville, FL 32206",
+        "date_registered": "2025-06-30",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1138 ODESSA ST, JACKSONVILLE, 32206",
+        "geocode_score": 100,
+        "geocode_match_address": "1138 Odessa St, Jacksonville, Florida, 32206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.49905,
+          30.283894
+        ]
+      },
+      "properties": {
+        "organization_id": 364,
+        "name": "Jax Pemberton Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 3,
+        "planning_district": 3,
+        "address": "3476 Pemberton St, Jacksonville, FL 32224",
+        "date_registered": "2020-09-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3476 PEMBERTON ST, JACKSONVILLE, 32224",
+        "geocode_score": 100,
+        "geocode_match_address": "3476 Pemberton St, Jacksonville, Florida, 32224"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.698142,
+          30.381857
+        ]
+      },
+      "properties": {
+        "organization_id": 1484,
+        "name": "Jewels of the Future Inc",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "6050 Moncrief Rd, 10, FL JACKSONVILLE",
+        "date_registered": "2022-06-17",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "6050 MONCRIEF RD, 10, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "6050 Moncrief Rd, Suite 10, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.572115,
+          30.139511
+        ]
+      },
+      "properties": {
+        "organization_id": 1533,
+        "name": "Julington Forest Inc.",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 6,
+        "planning_district": 3,
+        "address": "5162 Breezeway Ct, Jacksonville, FL 32258",
+        "date_registered": "2023-03-17",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5162 BREEZEWAY CT, JACKSONVILLE, 32258",
+        "geocode_score": 100,
+        "geocode_match_address": "5162 Breezeway Ct, Jacksonville, Florida, 32258"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.712733,
+          30.279272
+        ]
+      },
+      "properties": {
+        "organization_id": 161,
+        "name": "Lakeside Park Preservation",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 4,
+        "address": "4427 Herschel St, Jacksonville, FL 32210",
+        "date_registered": "2017-08-14",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4427 HERSCHEL ST, JACKSONVILLE, 32210",
+        "geocode_score": 100,
+        "geocode_match_address": "4427 Herschel St, Jacksonville, Florida, 32210"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.660781,
+          30.331952
+        ]
+      },
+      "properties": {
+        "organization_id": 184,
+        "name": "Lavilla's United Voice",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "311 Ashley St W, Jacksonville, FL 32202",
+        "date_registered": "2017-10-19",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "311 ASHLEY ST W, JACKSONVILLE, 32202",
+        "geocode_score": 99.89,
+        "geocode_match_address": "311 W Ashley St, Jacksonville, Florida, 32202"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.727601,
+          30.244602
+        ]
+      },
+      "properties": {
+        "organization_id": 1551,
+        "name": "Lexington Square community",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 14,
+        "planning_district": 4,
+        "address": "5579 Cabot Dr N, Jacksonville, FL 32244",
+        "date_registered": "2023-06-12",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5579 CABOT DR N, JACKSONVILLE, 32244",
+        "geocode_score": 100,
+        "geocode_match_address": "5579 Cabot Dr N, Jacksonville, Florida, 32244"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.656669,
+          30.327319
+        ]
+      },
+      "properties": {
+        "organization_id": 361,
+        "name": "Lift Jax",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "40 Adams St E, Suite 200, FL JACKSONVILLE",
+        "date_registered": "2020-08-04",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "40 ADAMS ST E, Suite 200, JACKSONVILLE, 32202",
+        "geocode_score": 99.87,
+        "geocode_match_address": "40 E Adams St, Suite 200, Jacksonville, Florida, 32202"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.746428,
+          30.399055
+        ]
+      },
+      "properties": {
+        "organization_id": 1727,
+        "name": "Lincoln Villa Community Association Northwest, Inc (LV-CAN)",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "8117 Thrasher Ave, Jacksonville, FL 32219",
+        "date_registered": "2026-06-26",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "8117 THRASHER AVE, JACKSONVILLE, 32219",
+        "geocode_score": 100,
+        "geocode_match_address": "8117 Thrasher Ave, Jacksonville, Florida, 32219"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.619024,
+          30.310791
+        ]
+      },
+      "properties": {
+        "organization_id": 211,
+        "name": "Live Oak Manor Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 1,
+        "planning_district": 2,
+        "address": "1360 Live Oak Ln, Jacksonville, FL 32207",
+        "date_registered": "2018-03-19",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1360 LIVE OAK LN, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "1360 Live Oak Ln, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.670255,
+          30.327834
+        ]
+      },
+      "properties": {
+        "organization_id": 236,
+        "name": "Lofts at LaVilla, Ltd.",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "995 Water St, Jacksonville, FL 32204",
+        "date_registered": "2018-07-30",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "995 WATER ST, JACKSONVILLE, 32204",
+        "geocode_score": 100,
+        "geocode_match_address": "995 Water St, Jacksonville, Florida, 32204"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.668547,
+          30.330854
+        ]
+      },
+      "properties": {
+        "organization_id": 287,
+        "name": "Lofts at Monroe, Ltd.",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "906 Monroe St W, Jacksonville, FL 32204",
+        "date_registered": "2019-02-26",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "906 MONROE ST W, JACKSONVILLE, 32204",
+        "geocode_score": 100,
+        "geocode_match_address": "906 Monroe St W, Jacksonville, Florida, 32204"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.596053,
+          30.295513
+        ]
+      },
+      "properties": {
+        "organization_id": 1593,
+        "name": "Love Grove",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 4,
+        "planning_district": 2,
+        "address": "6346 Smallwood Rd, Jacksonville, FL 32216",
+        "date_registered": "2023-12-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "6346 SMALLWOOD RD, JACKSONVILLE, 32216",
+        "geocode_score": 100,
+        "geocode_match_address": "6346 Smallwood Rd, Jacksonville, Florida, 32216"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.706619,
+          30.376778
+        ]
+      },
+      "properties": {
+        "organization_id": 207,
+        "name": "MAGNOLIA GARDEN COMMUNITY DEVELOPMENT CORP.",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "5805 Begonia Rd, Jacksonville, FL 32209",
+        "date_registered": "2018-02-16",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5805 BEGONIA RD, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "5805 Begonia Rd, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.706684,
+          30.380615
+        ]
+      },
+      "properties": {
+        "organization_id": 266,
+        "name": "Magnolia Gardens North",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "6129 Japonica Rd W, Jacksonville, FL 32209",
+        "date_registered": "2018-11-05",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "6129 JAPONICA RD W, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "6129 Japonica Rd W, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.831153,
+          30.251421
+        ]
+      },
+      "properties": {
+        "organization_id": 223,
+        "name": "Magnolia Glynn Subdivision",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 12,
+        "planning_district": 4,
+        "address": "10263 Magnolia Hills Dr, Jacksonville, FL 32210",
+        "date_registered": "2018-07-14",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "10263 MAGNOLIA HILLS DR, JACKSONVILLE, 32210",
+        "geocode_score": 100,
+        "geocode_match_address": "10263 Magnolia Hills Dr, Jacksonville, Florida, 32210"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.665522,
+          30.152887
+        ]
+      },
+      "properties": {
+        "organization_id": 1598,
+        "name": "Mandarin Point",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 6,
+        "planning_district": 3,
+        "address": "13026 Silver Oak Dr, Jacksonville, FL 32223",
+        "date_registered": "2024-02-07",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "13026 SILVER OAK DR, JACKSONVILLE, 32223",
+        "geocode_score": 100,
+        "geocode_match_address": "13026 Silver Oak Dr, Jacksonville, Florida, 32223"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.564072,
+          30.133995
+        ]
+      },
+      "properties": {
+        "organization_id": 1539,
+        "name": "Manor Del Rio",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 6,
+        "planning_district": 3,
+        "address": "12882 Beaubien Rd, Jacksonville, FL 32258",
+        "date_registered": "2023-04-26",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "12882 BEAUBIEN RD, JACKSONVILLE, 32258",
+        "geocode_score": 100,
+        "geocode_match_address": "12882 Beaubien Rd, Jacksonville, Florida, 32258"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.427203,
+          30.395691
+        ]
+      },
+      "properties": {
+        "organization_id": 1718,
+        "name": "Mayport Waterfront Partnership",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 13,
+        "planning_district": 2,
+        "address": "4875 Ocean St, Jacksonville, FL 32233",
+        "date_registered": "2026-02-27",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4875 OCEAN ST, JACKSONVILLE, 32233",
+        "geocode_score": 100,
+        "geocode_match_address": "4875 Ocean St, Jacksonville, Florida, 32233"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.642677,
+          30.331882
+        ]
+      },
+      "properties": {
+        "organization_id": 1498,
+        "name": "MELANIN MARKET INC",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "826 A Philip Randolph Blvd, Unit 822, FL JACKSONVILLE",
+        "date_registered": "2022-09-10",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "826 A PHILIP RANDOLPH BLVD, Unit 822, JACKSONVILLE, 32206",
+        "geocode_score": 100,
+        "geocode_match_address": "826 A Philip Randolph Blvd, Jacksonville, Florida, 32206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.659233,
+          30.367504
+        ]
+      },
+      "properties": {
+        "organization_id": 217,
+        "name": "Metro Gardens Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "530 Linwood Ave, Jacksonville, FL 32206",
+        "date_registered": "2018-05-22",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "530 LINWOOD AVE, JACKSONVILLE, 32206",
+        "geocode_score": 100,
+        "geocode_match_address": "530 Linwood Ave, Jacksonville, Florida, 32206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.67617,
+          30.381038
+        ]
+      },
+      "properties": {
+        "organization_id": 117,
+        "name": "Moncrief Springs",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "7051 Alan Ave, Jacksonville, FL 32208",
+        "date_registered": "2017-06-08",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "7051 ALAN AVE, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "7051 Alan Ave, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.674668,
+          30.381586
+        ]
+      },
+      "properties": {
+        "organization_id": 1714,
+        "name": "Moncrief Springs Improvement Association Inc",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "1302 Carvill Ave, Jacksonville, FL 32208",
+        "date_registered": "2026-01-28",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1302 CARVILL AVE, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "1302 Carvill Ave, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.725254,
+          30.304413
+        ]
+      },
+      "properties": {
+        "organization_id": 20,
+        "name": "Murray Hill Preservation Association",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 4,
+        "address": "4630 Delta Ave, Jacksonville, FL 32205",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4630 DELTA AVE, JACKSONVILLE, 32205",
+        "geocode_score": 100,
+        "geocode_match_address": "4630 Delta Ave, Jacksonville, Florida, 32205"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.623233,
+          30.279047
+        ]
+      },
+      "properties": {
+        "organization_id": 1605,
+        "name": "My Englewood Community Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "4360 Turner Ave, Jacksonville, FL 32207",
+        "date_registered": "2024-03-13",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4360 TURNER AVE, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "4360 Turner Ave, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.686505,
+          30.382265
+        ]
+      },
+      "properties": {
+        "organization_id": 1578,
+        "name": "Nature Sparks Inc",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "7527 Tampa Ave, Jacksonville, FL 32208",
+        "date_registered": "2023-11-03",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "7527 TAMPA AVE, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "7527 Tampa Ave, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.664756,
+          30.389754
+        ]
+      },
+      "properties": {
+        "organization_id": 1412,
+        "name": "North Jacksonville Trout River Manor Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "502 Estes Rd, Jacksonville, FL 32208",
+        "date_registered": "2021-08-02",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "502 ESTES RD, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "502 Estes Rd, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.697743,
+          30.322836
+        ]
+      },
+      "properties": {
+        "organization_id": 120,
+        "name": "North Riverside Community Development",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 9,
+        "planning_district": 5,
+        "address": "2711 Edison Ave, Jacksonville, FL 32254",
+        "date_registered": "2017-06-09",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2711 EDISON AVE, JACKSONVILLE, 32254",
+        "geocode_score": 100,
+        "geocode_match_address": "2711 Edison Ave, Jacksonville, Florida, 32254"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.651481,
+          30.385335
+        ]
+      },
+      "properties": {
+        "organization_id": 132,
+        "name": "North Shore Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "7335 Barberie St, Jacksonville, FL 32208",
+        "date_registered": "2017-06-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "7335 BARBERIE ST, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "7335 Barberie St, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.675355,
+          30.358463
+        ]
+      },
+      "properties": {
+        "organization_id": 31,
+        "name": "Northside Ministers Alliance",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "3328 Moncrief Rd W, Jacksonville, FL 32209",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3328 MONCRIEF RD W, JACKSONVILLE, 32209",
+        "geocode_score": 99.71,
+        "geocode_match_address": "3328 Moncrief Rd, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.675659,
+          30.359192
+        ]
+      },
+      "properties": {
+        "organization_id": 185,
+        "name": "Northwest Jacksonville CDC",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 1,
+        "address": "3416 Moncrief Rd, Jacksonville, FL 32209",
+        "date_registered": "2017-10-19",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3416 MONCRIEF RD, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "3416 Moncrief Rd, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.606143,
+          30.315188
+        ]
+      },
+      "properties": {
+        "organization_id": 156,
+        "name": "Oak Haven Preservation Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 1,
+        "planning_district": 2,
+        "address": "1300 Oak Haven Rd, Jacksonville, FL 32207",
+        "date_registered": "2017-08-07",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1300 OAK HAVEN RD, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "1300 Oak Haven Rd, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.777966,
+          30.2422
+        ]
+      },
+      "properties": {
+        "organization_id": 78,
+        "name": "Oak Hill Neighborhood Watch",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 14,
+        "planning_district": 4,
+        "address": "5831 Triumph Ln, Jacksonville, FL 32244",
+        "date_registered": "2017-05-18",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5831 TRIUMPH LN, JACKSONVILLE, 32244",
+        "geocode_score": 99.55,
+        "geocode_match_address": "5831 Triumph Ln E, Jacksonville, Florida, 32244"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.700794,
+          30.36808
+        ]
+      },
+      "properties": {
+        "organization_id": 264,
+        "name": "Old Floradale Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "5013 Campenella Dr, Jacksonville, FL 32209",
+        "date_registered": "2018-10-31",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5013 CAMPENELLA DR, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "5013 Campenella Dr, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.672876,
+          30.153059
+        ]
+      },
+      "properties": {
+        "organization_id": 7,
+        "name": "Olde Mandarin Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 6,
+        "planning_district": 3,
+        "address": "13054 Mandarin Rd, Jacksonville, FL 32223",
+        "date_registered": "2017-05-10",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "13054 MANDARIN RD, JACKSONVILLE, 32223",
+        "geocode_score": 100,
+        "geocode_match_address": "13054 Mandarin Rd, Jacksonville, Florida, 32223"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.638459,
+          30.332279
+        ]
+      },
+      "properties": {
+        "organization_id": 1621,
+        "name": "Operation G.L.A.D.D Dads Inc",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "1235 Pippin St, Jacksonville, FL 32206",
+        "date_registered": "2024-06-10",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1235 PIPPIN ST, JACKSONVILLE, 32206",
+        "geocode_score": 100,
+        "geocode_match_address": "1235 Pippin St, Jacksonville, Florida, 32206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.719551,
+          30.25574
+        ]
+      },
+      "properties": {
+        "organization_id": 138,
+        "name": "Ortega Farms Neighborhood Watch",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 9,
+        "planning_district": 4,
+        "address": "5335 Ortega Oaks Ln, Jacksonville, FL 32210",
+        "date_registered": "2017-06-21",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5335 ORTEGA OAKS LN, JACKSONVILLE, 32210",
+        "geocode_score": 100,
+        "geocode_match_address": "5335 Ortega Oaks Ln, Jacksonville, Florida, 32210"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.640509,
+          30.38629
+        ]
+      },
+      "properties": {
+        "organization_id": 171,
+        "name": "Panama Park Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "8029 Buffalo Ave, Jacksonville, FL 32208",
+        "date_registered": "2017-09-25",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "8029 BUFFALO AVE, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "8029 Buffalo Ave, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.421469,
+          30.341523
+        ]
+      },
+      "properties": {
+        "organization_id": 281,
+        "name": "Paradise Oaks Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 13,
+        "planning_district": 2,
+        "address": "2040 Paradise Oaks Ct, Jacksonville, FL 32233",
+        "date_registered": "2019-02-12",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2040 PARADISE OAKS CT, JACKSONVILLE, 32233",
+        "geocode_score": 100,
+        "geocode_match_address": "2040 Paradise Oaks Ct, Jacksonville, Florida, 32233"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.742575,
+          30.363642
+        ]
+      },
+      "properties": {
+        "organization_id": 1576,
+        "name": "Pickettville Civic CLub",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "3459 Ln Ave N, Jacksonville, FL 32254",
+        "date_registered": "2023-10-29",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3459 LANE AVE N, JACKSONVILLE, 32254",
+        "geocode_score": 100,
+        "geocode_match_address": "3459 Lane Ave N, Jacksonville, Florida, 32254"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.64134,
+          30.280441
+        ]
+      },
+      "properties": {
+        "organization_id": 204,
+        "name": "Pineforest Community Action",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "2121 Thomas Ct, Jacksonville, FL 32207",
+        "date_registered": "2018-02-06",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2121 THOMAS CT, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "2121 Thomas Ct, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.665414,
+          30.35532
+        ]
+      },
+      "properties": {
+        "organization_id": 203,
+        "name": "Planet Watch",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "2823 Mars Ave, Jacksonville, FL 32206",
+        "date_registered": "2018-02-06",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2823 MARS AVE, JACKSONVILLE, 32206",
+        "geocode_score": 100,
+        "geocode_match_address": "2823 Mars Ave, Jacksonville, Florida, 32206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.588911,
+          30.336155
+        ]
+      },
+      "properties": {
+        "organization_id": 198,
+        "name": "POISE, INC",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 1,
+        "planning_district": 2,
+        "address": "1461 Rogero Rd, Jacksonville, FL 32211",
+        "date_registered": "2018-01-23",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1461 ROGERO RD, JACKSONVILLE, 32211",
+        "geocode_score": 100,
+        "geocode_match_address": "1461 Rogero Rd, Jacksonville, Florida, 32211"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.67509,
+          30.358999
+        ]
+      },
+      "properties": {
+        "organization_id": 1720,
+        "name": "Pride on the North Side",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 1,
+        "address": "3405 Moncrief Rd, Jacksonville, FL 32209",
+        "date_registered": "2026-03-13",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3405 MONCRIEF RD, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "3405 Moncrief Rd, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.518602,
+          30.353516
+        ]
+      },
+      "properties": {
+        "organization_id": 1483,
+        "name": "Raley Creek Community",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 2,
+        "planning_district": 2,
+        "address": "10969 Creekview Dr, Jacksonville, FL 32225",
+        "date_registered": "2022-06-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "10969 CREEKVIEW DR, JACKSONVILLE, 32225",
+        "geocode_score": 100,
+        "geocode_match_address": "10969 Creekview Dr, Jacksonville, Florida, 32225"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.671557,
+          30.337407
+        ]
+      },
+      "properties": {
+        "organization_id": 165,
+        "name": "Renewed Community Initiatives",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "1100 Kings Rd, 43648, FL JACKSONVILLE",
+        "date_registered": "2017-08-28",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1100 KINGS RD, 43648, JACKSONVILLE, 32204",
+        "geocode_score": 98.33,
+        "geocode_match_address": "1100 Kings Rd, Jacksonville, Florida, 32203"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.706215,
+          30.396645
+        ]
+      },
+      "properties": {
+        "organization_id": 137,
+        "name": "Ribault Manor",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "3137 Montcalm Dr, Jacksonville, FL 32208",
+        "date_registered": "2017-06-21",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3137 MONTCALM DR, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "3137 Montcalm Dr, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.692278,
+          30.310588
+        ]
+      },
+      "properties": {
+        "organization_id": 144,
+        "name": "Riverside Avondale Preservation",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 5,
+        "address": "2623 Herschel St, Jacksonville, FL 32204",
+        "date_registered": "2017-07-05",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2623 HERSCHEL ST, JACKSONVILLE, 32204",
+        "geocode_score": 100,
+        "geocode_match_address": "2623 Herschel St, Jacksonville, Florida, 32204"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.690322,
+          30.40639
+        ]
+      },
+      "properties": {
+        "organization_id": 11,
+        "name": "Riverview Neighborhood Organization",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "9170 4th Ave, Jacksonville, FL 32208",
+        "date_registered": "2017-05-10",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "9170 4TH AVE, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "9170 4th Ave, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.703379,
+          30.336805
+        ]
+      },
+      "properties": {
+        "organization_id": 1534,
+        "name": "Robinson's Addition Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 9,
+        "planning_district": 5,
+        "address": "2363 Commonwealth Ave, Jacksonville, FL 32209",
+        "date_registered": "2023-03-29",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2363 COMMONWEALTH AVE, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "2363 Commonwealth Ave, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.779358,
+          30.304617
+        ]
+      },
+      "properties": {
+        "organization_id": 58,
+        "name": "Rolling Hills",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 12,
+        "planning_district": 5,
+        "address": "7882 Knoll Dr N, Jacksonville, FL 32221",
+        "date_registered": "2017-05-16",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "7882 KNOLL DR N, JACKSONVILLE, 32221",
+        "geocode_score": 100,
+        "geocode_match_address": "7882 Knoll Dr N, Jacksonville, Florida, 32221"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.635432,
+          30.254328
+        ]
+      },
+      "properties": {
+        "organization_id": 51,
+        "name": "San Jose Forest",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "2305 Segovia Ave, Jacksonville, FL 32217",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2305 SEGOVIA AVE, JACKSONVILLE, 32217",
+        "geocode_score": 100,
+        "geocode_match_address": "2305 Segovia Ave, Jacksonville, Florida, 32217"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.616969,
+          30.244559
+        ]
+      },
+      "properties": {
+        "organization_id": 1643,
+        "name": "San Jose Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "3877 Marianna Rd, Jacksonville, FL 32217",
+        "date_registered": "2024-11-21",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3877 MARIANNA RD, JACKSONVILLE, 32217",
+        "geocode_score": 100,
+        "geocode_match_address": "3877 Marianna Rd, Jacksonville, Florida, 32217"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.654961,
+          30.310723
+        ]
+      },
+      "properties": {
+        "organization_id": 320,
+        "name": "San Marco Preservation Society, Inc.",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "1468 Hendricks Ave, Jacksonville, FL 32207",
+        "date_registered": "2019-10-01",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1468 HENDRICKS AVE, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "1468 Hendricks Ave, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.633132,
+          30.443714
+        ]
+      },
+      "properties": {
+        "organization_id": 318,
+        "name": "San Mateo Neighborhood, Inc.",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 2,
+        "planning_district": 6,
+        "address": "11477 Elane Dr, Jacksonville, FL 32218",
+        "date_registered": "2019-09-20",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "11477 ELANE DR, JACKSONVILLE, 32218",
+        "geocode_score": 100,
+        "geocode_match_address": "11477 Elane Dr, Jacksonville, Florida, 32218"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.498088,
+          30.28387
+        ]
+      },
+      "properties": {
+        "organization_id": 1606,
+        "name": "SANS PAREIL NEIGHBORHOOD ASSOCIATION, LLC",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 3,
+        "planning_district": 3,
+        "address": "12126 Cap Ferrat St, Jacksonville, FL 32224",
+        "date_registered": "2024-03-19",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "12126 CAP FERRAT ST, JACKSONVILLE, 32224",
+        "geocode_score": 100,
+        "geocode_match_address": "12126 Cap Ferrat St, Jacksonville, Florida, 32224"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.596637,
+          30.276134
+        ]
+      },
+      "properties": {
+        "organization_id": 1726,
+        "name": "Sans Souci Community Watch",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 4,
+        "planning_district": 3,
+        "address": "2651 Elisa Dr E, Jacksonville, FL 32216",
+        "date_registered": "2026-06-13",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2651 ELISA DR E, JACKSONVILLE, 32216",
+        "geocode_score": 100,
+        "geocode_match_address": "2651 Elisa Dr E, Jacksonville, Florida, 32216"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.599498,
+          30.280539
+        ]
+      },
+      "properties": {
+        "organization_id": 1610,
+        "name": "Sans Souci Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 4,
+        "planning_district": 3,
+        "address": "6240 Bennett Rd, Jacksonville, FL 32216",
+        "date_registered": "2024-04-03",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "6240 BENNETT RD, Jacksonville, 32216",
+        "geocode_score": 100,
+        "geocode_match_address": "6240 Bennett Rd, Jacksonville, Florida, 32216"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.599475,
+          30.31808
+        ]
+      },
+      "properties": {
+        "organization_id": 103,
+        "name": "Saxony Woods Neighborhood",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 1,
+        "planning_district": 2,
+        "address": "5958 Saxony Woods Ln, Jacksonville, FL 32211",
+        "date_registered": "2017-06-06",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5958 SAXONY WOODS LN, JACKSONVILLE, 32211",
+        "geocode_score": 100,
+        "geocode_match_address": "5958 Saxony Woods Ln, Jacksonville, Florida, 32211"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.572225,
+          30.264845
+        ]
+      },
+      "properties": {
+        "organization_id": 139,
+        "name": "Secret Cove Civic Association",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 4,
+        "planning_district": 3,
+        "address": "3229 Hidden Lake Dr W, Jacksonville, FL 32216",
+        "date_registered": "2017-06-21",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3229 HIDDEN LAKE DR W, JACKSONVILLE, 32216",
+        "geocode_score": 100,
+        "geocode_match_address": "3229 Hidden Lake Dr W, Jacksonville, Florida, 32216"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.715093,
+          30.405966
+        ]
+      },
+      "properties": {
+        "organization_id": 5,
+        "name": "Sherwood Forest Paradise Park Community Association, Inc.",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "9121 Spottswood Rd, Jacksonville, FL 32208",
+        "date_registered": "2017-05-10",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "9121 SPOTTSWOOD RD, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "9121 Spottswood Rd, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.717701,
+          30.407964
+        ]
+      },
+      "properties": {
+        "organization_id": 1479,
+        "name": "Sherwood Forest/Paradise Park Association Inc.",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "4511 Portsmouth Ave, Jacksonville, FL 32208",
+        "date_registered": "2022-05-24",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4511 PORTSMOUTH AVE, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "4511 Portsmouth Ave, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.59667,
+          30.148288
+        ]
+      },
+      "properties": {
+        "organization_id": 237,
+        "name": "Shiloh Creek Neighborhood",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 6,
+        "planning_district": 3,
+        "address": "12297 Peach Orchard Dr, Jacksonville, FL 32223",
+        "date_registered": "2018-08-08",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "12297 PEACH ORCHARD DR, JACKSONVILLE, 32223",
+        "geocode_score": 100,
+        "geocode_match_address": "12297 Peach Orchard Dr, Jacksonville, Florida, 32223"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.645604,
+          30.288455
+        ]
+      },
+      "properties": {
+        "organization_id": 50,
+        "name": "South Riverside Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "1701 Sheridan St, Jacksonville, FL 32207",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1701 SHERIDAN ST, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "1701 Sheridan St, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.654408,
+          30.339683
+        ]
+      },
+      "properties": {
+        "organization_id": 347,
+        "name": "Springfield Area Merchants and Business Association (SAMBA)",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "1321 Main St N, Jacksonville, FL 32206",
+        "date_registered": "2019-12-06",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1321 MAIN ST N, JACKSONVILLE, 32206",
+        "geocode_score": 100,
+        "geocode_match_address": "1321 Main St N, Jacksonville, Florida, 32206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.657556,
+          30.344507
+        ]
+      },
+      "properties": {
+        "organization_id": 46,
+        "name": "Springfield Improvement Association Archives",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "210 7th St W, Jacksonville, FL 32206",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "210 7TH ST W, JACKSONVILLE, 32206",
+        "geocode_score": 100,
+        "geocode_match_address": "210 7th St W, Jacksonville, Florida, 32206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.654408,
+          30.339683
+        ]
+      },
+      "properties": {
+        "organization_id": 158,
+        "name": "Springfield Preservation and Revitalization",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "1321 Main St N, Jacksonville, FL 32206",
+        "date_registered": "2017-08-09",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1321 MAIN ST N, JACKSONVILLE, 32206",
+        "geocode_score": 100,
+        "geocode_match_address": "1321 Main St N, Jacksonville, Florida, 32206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.636579,
+          30.309606
+        ]
+      },
+      "properties": {
+        "organization_id": 274,
+        "name": "St. Nicholas Area Preservation",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "1221 Monticello Rd, Jacksonville, FL 32207",
+        "date_registered": "2018-11-30",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1221 MONTICELLO RD, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "1221 Monticello Rd, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.609651,
+          30.190906
+        ]
+      },
+      "properties": {
+        "organization_id": 1415,
+        "name": "Summer Lakes Neighborhood Assoc",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 6,
+        "planning_district": 3,
+        "address": "3973 Pine Breeze Rd S, Jacksonville, FL 32257",
+        "date_registered": "2021-09-08",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3973 PINE BREEZE RD S, JACKSONVILLE, 32257",
+        "geocode_score": 100,
+        "geocode_match_address": "3973 Pine Breeze Rd S, Jacksonville, Florida, 32257"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.458788,
+          30.280923
+        ]
+      },
+      "properties": {
+        "organization_id": 92,
+        "name": "The Arc Jacksonville Village",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 3,
+        "planning_district": 3,
+        "address": "3631 Hodges Blvd, Jacksonville, FL 32224",
+        "date_registered": "2017-05-24",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3631 HODGES BLVD, JACKSONVILLE, 32224",
+        "geocode_score": 100,
+        "geocode_match_address": "3631 Hodges Blvd, Jacksonville, Florida, 32224"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.67074,
+          30.344865
+        ]
+      },
+      "properties": {
+        "organization_id": 291,
+        "name": "The Fairfax Neighborhood Association, Inc.",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "1093 6th St W, Jacksonville, FL 32209",
+        "date_registered": "2019-03-22",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1093 6TH ST W, JACKSONVILLE, 32209",
+        "geocode_score": 99.89,
+        "geocode_match_address": "1093 W 6th St, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.643581,
+          30.265978
+        ]
+      },
+      "properties": {
+        "organization_id": 311,
+        "name": "The Lakewood Community",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "5320 Rollins Ave, Jacksonville, FL 32207",
+        "date_registered": "2019-07-31",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5320 ROLLINS AVE, JACKSONVILLE, 32207",
+        "geocode_score": 100,
+        "geocode_match_address": "5320 Rollins Ave, Jacksonville, Florida, 32207"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.668029,
+          30.327439
+        ]
+      },
+      "properties": {
+        "organization_id": 1612,
+        "name": "The Lofts at Jefferson Station",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "799 Water St, Jacksonville, FL 32204",
+        "date_registered": "2024-05-03",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "799 WATER ST, JACKSONVILLE, 32204",
+        "geocode_score": 100,
+        "geocode_match_address": "799 Water St, Jacksonville, Florida, 32204"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.619474,
+          30.227965
+        ]
+      },
+      "properties": {
+        "organization_id": 296,
+        "name": "The Montclair Neighborhood Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "3649 Montclair Dr, Jacksonville, FL 32217",
+        "date_registered": "2019-05-06",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "3649 MONTCLAIR DR, JACKSONVILLE, 32217",
+        "geocode_score": 100,
+        "geocode_match_address": "3649 Montclair Dr, Jacksonville, Florida, 32217"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.567606,
+          30.32034
+        ]
+      },
+      "properties": {
+        "organization_id": 1685,
+        "name": "The Woodland Acres Connection",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 1,
+        "planning_district": 2,
+        "address": "8530 Hare Ave, Jacksonville, FL 32211",
+        "date_registered": "2025-09-16",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "8530 HARE AVE, JACKSONVILLE, 32211",
+        "geocode_score": 100,
+        "geocode_match_address": "8530 Hare Ave, Jacksonville, Florida, 32211"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.660945,
+          30.373479
+        ]
+      },
+      "properties": {
+        "organization_id": 314,
+        "name": "Twin Towers Tenant Association",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "617 44th St W, 133, FL JACKSONVILLE",
+        "date_registered": "2019-08-19",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "617 44TH ST W, 133, JACKSONVILLE, 32208",
+        "geocode_score": 100,
+        "geocode_match_address": "617 44th St W, Apartment 133, Jacksonville, Florida, 32208"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.673699,
+          30.341378
+        ]
+      },
+      "properties": {
+        "organization_id": 1443,
+        "name": "Unified Community Investors",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 7,
+        "planning_district": 1,
+        "address": "1216 4th St W, Jacksonville, FL 32209",
+        "date_registered": "2022-01-19",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1216 4TH ST W, JACKSONVILLE, 32209",
+        "geocode_score": 99.89,
+        "geocode_match_address": "1216 W 4th St, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.612282,
+          30.222734
+        ]
+      },
+      "properties": {
+        "organization_id": 195,
+        "name": "Villa San Jose Civic Association",
+        "type": "Neighborhood",
+        "cpac": "Yes",
+        "council_district": 5,
+        "planning_district": 3,
+        "address": "4025 Villa San Jose Dr, Jacksonville, FL 32217",
+        "date_registered": "2017-12-18",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "4025 VILLA SAN JOSE DR, JACKSONVILLE, 32217",
+        "geocode_score": 100,
+        "geocode_match_address": "4025 Villa San Jose Dr, Jacksonville, Florida, 32217"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.707494,
+          30.36551
+        ]
+      },
+      "properties": {
+        "organization_id": 34,
+        "name": "Vista Landing Preservation",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 5,
+        "address": "5020 Cleveland Rd, Apt 138, FL JACKSONVILLE",
+        "date_registered": "2017-05-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5020 CLEVELAND RD, Apt 138, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "5020 Cleveland Rd, Apartment 138, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.703711,
+          30.335104
+        ]
+      },
+      "properties": {
+        "organization_id": 1729,
+        "name": "Westbrook Center & Park",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 9,
+        "planning_district": 5,
+        "address": "905 Garfield St, Jacksonville, FL 32209",
+        "date_registered": "2026-07-15",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "905 GARFIELD ST, JACKSONVILLE, 32209",
+        "geocode_score": 100,
+        "geocode_match_address": "905 Garfield St, Jacksonville, Florida, 32209"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.777822,
+          30.251025
+        ]
+      },
+      "properties": {
+        "organization_id": 99,
+        "name": "Westwood Manor Neighborhood Watch",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 10,
+        "planning_district": 4,
+        "address": "5050 Mc Manus Dr, Jacksonville, FL 32210",
+        "date_registered": "2017-06-02",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "5050 MC MANUS DR, JACKSONVILLE, 32210",
+        "geocode_score": 100,
+        "geocode_match_address": "5050 McManus Dr, Jacksonville, Florida, 32210"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.49698,
+          30.320354
+        ]
+      },
+      "properties": {
+        "organization_id": 1510,
+        "name": "Winnie\u2019s Project HOPE",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 3,
+        "planning_district": 2,
+        "address": "1618 Hawkins Cv Dr E, Jacksonville, FL 32246",
+        "date_registered": "2022-12-06",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "1618 HAWKINS COVE DR E, JACKSONVILLE, 32246",
+        "geocode_score": 100,
+        "geocode_match_address": "1618 Hawkins Cove Dr E, Jacksonville, Florida, 32246"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.71043,
+          30.334557
+        ]
+      },
+      "properties": {
+        "organization_id": 1575,
+        "name": "Woodstock Neighborhood Association II",
+        "type": "Neighborhood",
+        "cpac": "No",
+        "council_district": 9,
+        "planning_district": 5,
+        "address": "2654 Lowell Ave, Jacksonville, FL 32254",
+        "date_registered": "2023-10-19",
+        "source_url": "https://jaxnhorg.coj.net/#/orglist",
+        "source_address": "2654 LOWELL AVE, JACKSONVILLE, 32254",
+        "geocode_score": 100,
+        "geocode_match_address": "2654 Lowell Ave, Jacksonville, Florida, 32254"
+      }
+    }
+  ]
+}
