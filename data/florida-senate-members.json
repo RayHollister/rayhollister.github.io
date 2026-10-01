@@ -1,0 +1,47 @@
+[
+  {
+    "id": "s04",
+    "chamber": "Florida Senate",
+    "district": 4,
+    "name": "Clay Yarborough",
+    "party": "Republican",
+    "leadership_role": "",
+    "counties": "Consists of Nassau county and part of Duval county",
+    "email": "yarborough.clay.web@flsenate.gov",
+    "phone": "(904) 723-2035",
+    "capitol_phone": "(850) 487-5004",
+    "district_office": "1615 Huffingham Road Suite 1 Jacksonville, FL 32216 (904) 723-2035 Senate VOIP: 40400",
+    "photo_url": "https://www.flsenate.gov/PublishedContent/Senators/2024-2026/Photos/s04_5394.jpg",
+    "source_url": "https://www.flsenate.gov/Senators/2024-2026/S4"
+  },
+  {
+    "id": "s05",
+    "chamber": "Florida Senate",
+    "district": 5,
+    "name": "Tracie Davis",
+    "party": "Democrat",
+    "leadership_role": "",
+    "counties": "Consists of part of Duval county",
+    "email": "davis.tracie.web@flsenate.gov",
+    "phone": "(904) 359-2575",
+    "capitol_phone": "(850) 487-5005",
+    "district_office": "2933 North Myrtle Avenue Suite 201 Jacksonville, FL 32209 (904) 359-2575 Senate VOIP: 40500",
+    "photo_url": "https://www.flsenate.gov/PublishedContent/Senators/2024-2026/Photos/s05_5385.jpg",
+    "source_url": "https://www.flsenate.gov/Senators/2024-2026/S5"
+  },
+  {
+    "id": "s06",
+    "chamber": "Florida Senate",
+    "district": 6,
+    "name": "Jennifer Bradley",
+    "party": "Republican",
+    "leadership_role": "",
+    "counties": "Consists of Baker, Bradford, Clay, Columbia, Gilchrist, Union counties and part of Alachua county",
+    "email": "bradley.jennifer.web@flsenate.gov",
+    "phone": "(904) 278-2085",
+    "capitol_phone": "(850) 487-5006",
+    "district_office": "1845 East West Parkway, Unit #5 Fleming Island, FL 32003 (904) 278-2085 Senate VOIP: 40600",
+    "photo_url": "https://www.flsenate.gov/PublishedContent/Senators/2024-2026/Photos/s06_5476.jpg",
+    "source_url": "https://www.flsenate.gov/Senators/2024-2026/S6"
+  }
+]

@@ -44,6 +44,10 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - [Florida's 5th Congressional District](https://ballotpedia.org/Florida%27s_5th_Congressional_District)
 - [City of Jacksonville City Council Members](https://www.jacksonville.gov/city-council/city-council-members)
   - Current District Council Member and At Large Council Member names, roles, email addresses, phone numbers, assistants, photos, and profile links for City Council District and City Council District At Large popups.
+- [Florida House of Representatives](https://www.flhouse.gov/representatives)
+  - Current representative names, parties, district-office phone numbers, office addresses, photos, contact links, and profile links for Florida House popups.
+- [Florida Senate](https://www.flsenate.gov/Senators)
+  - Current senator names, parties, email addresses, phone numbers, district-office addresses, photos, and profile links for Florida Senate popups.
 - Neighborhood Overlays and Neighborhood Borders:
   - Source repository: [RayHollister/JacksonvilleNeighborhoods](https://github.com/RayHollister/JacksonvilleNeighborhoods)
   - Runtime data URL: [neighborhoods.geojson](https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson)

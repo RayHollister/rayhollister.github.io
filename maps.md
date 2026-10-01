@@ -1553,10 +1553,10 @@ image: /media/2026/09/maps-featured.png
         return properties.cpac_district ? `Planning District ${properties.planning_district || properties.PD_ID || properties.cpac_district}` : "Planning District";
       }
       if (layerType === "floridaHouse") {
-        return properties.HSE_NAME || properties.DELEGATES || "";
+        return properties.state_house_member_name || properties.HSE_NAME || properties.DELEGATES || "";
       }
       if (layerType === "floridaSenate") {
-        return properties.SEN_NAME || "";
+        return properties.state_senate_member_name || properties.SEN_NAME || "";
       }
       if (layerType === "zipCode") {
         return [properties.USPS_CITY, properties.USPS_STATE].filter(Boolean).join(", ");
@@ -1653,6 +1653,12 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "cpac") {
         return properties.cpac_url || "";
       }
+      if (layerType === "floridaHouse") {
+        return properties.state_house_member_source_url || "";
+      }
+      if (layerType === "floridaSenate") {
+        return properties.state_senate_member_source_url || "";
+      }
       return "";
     }
 
@@ -1685,7 +1691,78 @@ image: /media/2026/09/maps-featured.png
         appendCityCouncilMemberPopupDetails(popup, feature.properties || {});
       }
 
+      if (layerType === "floridaHouse") {
+        appendStateLegislatorPopupDetails(popup, feature.properties || {}, "state_house", "House member");
+      }
+
+      if (layerType === "floridaSenate") {
+        appendStateLegislatorPopupDetails(popup, feature.properties || {}, "state_senate", "Senator");
+      }
+
       return popup;
+    }
+
+    function appendStateLegislatorPopupDetails(popup, properties, prefix, fallbackLabel) {
+      const name = properties[`${prefix}_member_name`] || "";
+      const chamber = properties[`${prefix}_member_chamber`] || "";
+      const district = properties[`${prefix}_member_district`] || "";
+      const party = properties[`${prefix}_member_party`] || "";
+      const leadershipRole = properties[`${prefix}_member_leadership_role`] || "";
+      const phone = properties[`${prefix}_member_phone`] || "";
+      const capitolPhone = properties[`${prefix}_member_capitol_phone`] || "";
+      const email = properties[`${prefix}_member_email`] || "";
+      const contactUrl = properties[`${prefix}_member_contact_url`] || "";
+      const sourceUrl = properties[`${prefix}_member_source_url`] || "";
+      const photoUrl = properties[`${prefix}_member_photo_url`] || "";
+      const districtOffice = properties[`${prefix}_member_district_office`] || "";
+      const cityOfResidence = properties[`${prefix}_member_city_of_residence`] || "";
+
+      if (photoUrl) {
+        const image = document.createElement("img");
+        image.src = photoUrl;
+        image.alt = name || fallbackLabel;
+        image.loading = "lazy";
+        popup.insertBefore(image, popup.firstChild);
+      }
+
+      [
+        chamber && district ? `${chamber} District ${district}` : "",
+        party,
+        leadershipRole,
+        cityOfResidence ? `City of Residence: ${cityOfResidence}` : "",
+        phone ? `Phone: ${phone}` : "",
+        capitolPhone && capitolPhone !== phone ? `Capitol Phone: ${capitolPhone}` : "",
+        districtOffice ? `District Office: ${districtOffice}` : ""
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+
+      if (email) {
+        const emailLink = document.createElement("a");
+        emailLink.href = `mailto:${email}`;
+        emailLink.textContent = email;
+        popup.appendChild(emailLink);
+      }
+
+      if (contactUrl) {
+        const contactLink = document.createElement("a");
+        contactLink.href = contactUrl;
+        contactLink.target = "_blank";
+        contactLink.rel = "noopener";
+        contactLink.textContent = `Contact ${fallbackLabel}`;
+        popup.appendChild(contactLink);
+      }
+
+      if (sourceUrl) {
+        const sourceLink = document.createElement("a");
+        sourceLink.href = sourceUrl;
+        sourceLink.target = "_blank";
+        sourceLink.rel = "noopener";
+        sourceLink.textContent = `View ${fallbackLabel} page`;
+        popup.appendChild(sourceLink);
+      }
     }
 
     function appendCityCouncilMemberPopupDetails(popup, properties) {
