@@ -1313,6 +1313,11 @@ image: /media/2026/09/maps-featured.png
         ? getBoundaryTitle(feature, "district")
         : getBoundaryTitle(feature, layerType);
 
+      if (focusedBoundary && doesFeatureMatchFocus(feature, focusedBoundary)) {
+        clearMapFocus({ resetMode: true });
+        return;
+      }
+
       restoreFocusLayerStates();
       focusedBoundary = {
         feature,
