@@ -122,6 +122,8 @@ image: /media/2026/09/maps-featured.png
 
   .maps-layers-control.is-open .maps-control-panel__header {
     border-bottom: 1px solid #d0d7de;
+    gap: 0.35rem;
+    justify-content: flex-start;
     padding-right: 0.45rem;
   }
 
