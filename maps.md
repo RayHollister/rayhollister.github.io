@@ -86,6 +86,15 @@ image: /media/2026/09/maps-featured.png
     margin-top: 0.25rem;
   }
 
+  .maps-district-popup img {
+    border-radius: 4px;
+    display: block;
+    height: 72px;
+    margin-bottom: 0.4rem;
+    object-fit: cover;
+    width: 72px;
+  }
+
   .maps-control-panel,
   .maps-basemap-control {
     background: #fff;
@@ -1534,6 +1543,9 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "city") {
         return properties.ESN ? `ESN ${properties.ESN}` : "";
       }
+      if (layerType === "schoolBoard") {
+        return properties.member_name || "";
+      }
       if (layerType === "neighborhood") {
         return properties.NUM_NAME && properties.NUM_NAME !== properties.NAME ? properties.NUM_NAME : "";
       }
@@ -1559,6 +1571,41 @@ image: /media/2026/09/maps-featured.png
         return [properties.SECTOR ? `Sector ${properties.SECTOR}` : "", properties.DISTRICT ? `District ${properties.DISTRICT}` : ""].filter(Boolean).join(" / ");
       }
       return properties.MEMBER_NAM || "";
+    }
+
+    function appendSchoolBoardMemberPopupDetails(popup, properties) {
+      if (properties.member_image_url) {
+        const image = document.createElement("img");
+        image.src = properties.member_image_url;
+        image.alt = properties.member_name || "School Board member";
+        image.loading = "lazy";
+        popup.insertBefore(image, popup.firstChild);
+      }
+
+      [
+        properties.member_role,
+        properties.member_phone ? `Phone: ${properties.member_phone}` : ""
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+
+      if (properties.member_email) {
+        const emailLink = document.createElement("a");
+        emailLink.href = `mailto:${properties.member_email}`;
+        emailLink.textContent = properties.member_email;
+        popup.appendChild(emailLink);
+      }
+
+      if (properties.member_source_url) {
+        const sourceLink = document.createElement("a");
+        sourceLink.href = properties.member_source_url;
+        sourceLink.target = "_blank";
+        sourceLink.rel = "noopener";
+        sourceLink.textContent = "View School Board page";
+        popup.appendChild(sourceLink);
+      }
     }
 
     function getCityCouncilMemberUrl(properties) {
@@ -1624,6 +1671,10 @@ image: /media/2026/09/maps-featured.png
         const line = document.createElement("span");
         line.textContent = subtitle;
         popup.appendChild(line);
+      }
+
+      if (layerType === "schoolBoard") {
+        appendSchoolBoardMemberPopupDetails(popup, feature.properties || {});
       }
 
       return popup;

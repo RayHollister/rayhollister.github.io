@@ -1,0 +1,65 @@
+[
+  {
+    "district": 1,
+    "name": "Anthony Ricardo",
+    "role": "Board Member",
+    "email": "RicardoA@duvalschools.org",
+    "phone": "904-927-1700",
+    "image_url": "https://cmsv2-assets.apptegy.net/uploads/23734/file/3989971/6edb8acb-344d-4581-9810-9361f188ba7d.jpeg",
+    "source_url": "https://www.duvalschools.org/page/school-board/"
+  },
+  {
+    "district": 2,
+    "name": "April A. Carney",
+    "role": "Vice Chair",
+    "email": "CarneyA1@duvalschools.org",
+    "phone": "904-390-2386",
+    "image_url": "https://cmsv2-assets.apptegy.net/uploads/23734/file/3403857/9fe24411-7bb8-4b8e-8bca-13b0ddd7b0bb.png",
+    "source_url": "https://www.duvalschools.org/page/school-board/"
+  },
+  {
+    "district": 3,
+    "name": "Cindy Pearson",
+    "role": "Board Member",
+    "email": "PearsonC1@duvalschools.org",
+    "phone": "904-302-4403",
+    "image_url": "https://cmsv2-assets.apptegy.net/uploads/23734/file/3403865/a8929ee0-c9d8-4d18-a691-4f5ef7e70e5b.png",
+    "source_url": "https://www.duvalschools.org/page/school-board/"
+  },
+  {
+    "district": 4,
+    "name": "Darryl D. Willie",
+    "role": "Board Member",
+    "email": "WillieD@duvalschools.org",
+    "phone": "904-390-2374",
+    "image_url": "https://cmsv2-assets.apptegy.net/uploads/23734/file/3403894/f272f44b-8912-465d-a18b-54f9d524cca8.png",
+    "source_url": "https://www.duvalschools.org/page/school-board/"
+  },
+  {
+    "district": 5,
+    "name": "Reginald K. Blount",
+    "role": "Board Member",
+    "email": "BlountR@duvalschools.org",
+    "phone": "904-390-2372",
+    "image_url": "https://cmsv2-assets.apptegy.net/uploads/23734/file/3989984/cb5a6494-ded6-4e3e-81bf-8b07cf76a358.jpeg",
+    "source_url": "https://www.duvalschools.org/page/school-board/"
+  },
+  {
+    "district": 6,
+    "name": "Charlotte D. Joyce",
+    "role": "Chair",
+    "email": "joycec@duvalschools.org",
+    "phone": "904-390-2373",
+    "image_url": "https://cmsv2-assets.apptegy.net/uploads/23734/file/3403937/637ddefa-a1b2-48e5-b814-7097efc55b8b.png",
+    "source_url": "https://www.duvalschools.org/page/school-board/"
+  },
+  {
+    "district": 7,
+    "name": "Melody A. Bolduc",
+    "role": "Board Member",
+    "email": "BolducM@duvalschools.org",
+    "phone": "904-927-1699",
+    "image_url": "https://cmsv2-assets.apptegy.net/uploads/23734/file/3989995/bcaf124f-2d7c-4198-bd28-e5377e2aaf55.jpeg",
+    "source_url": "https://www.duvalschools.org/page/school-board/"
+  }
+]

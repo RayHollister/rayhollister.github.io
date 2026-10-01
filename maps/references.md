@@ -32,6 +32,8 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
   - School Board Districts Borders
   - Cities Overlays
   - Cities Borders
+- [Duval County Public Schools School Board](https://www.duvalschools.org/page/school-board/)
+  - Current School Board member names, roles, email addresses, phone numbers, and photos for School Board District popups.
   - Citizens Planning Advisory Committee (CPACs) Overlays
   - Citizens Planning Advisory Committee (CPACs) Borders
 - [119th Congressional Districts](https://www.arcgis.com/home/item.html?id=56f9d1c5628349c684245185a020d18a&sublayer=0)
