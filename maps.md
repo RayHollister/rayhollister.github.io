@@ -911,6 +911,8 @@ image: /media/2026/09/maps-featured.png
     const boundaryLayerControls = [];
     const geographyLayerControls = [];
     const queryLayerControls = new Map();
+    const queryLayerSlugsByLayer = new Map();
+    const explicitQueryLayerSlugs = new Set();
     let governmentLayerMode = "fill";
     let governmentLayerModeInput;
 
@@ -1024,14 +1026,20 @@ image: /media/2026/09/maps-featured.png
           boundaryLayerControls.forEach((otherControl) => {
             if (otherControl !== control && otherControl.group === control.group && map.hasLayer(otherControl.layer)) {
               map.removeLayer(otherControl.layer);
+              setExplicitQueryLayerState(otherControl, false);
             }
           });
         }
+        setExplicitQueryLayerState(control, true);
       } else if (map.hasLayer(control.layer)) {
         map.removeLayer(control.layer);
+        setExplicitQueryLayerState(control, false);
+      } else if (!enabled) {
+        setExplicitQueryLayerState(control, false);
       }
       orderMapLayers();
       syncDistrictLayerInputs();
+      updateLayerQueryUrl();
     }
 
     function normalizeLayerQueryToken(value) {
@@ -1040,12 +1048,43 @@ image: /media/2026/09/maps-featured.png
 
     function registerQueryLayer(aliases, layer, options) {
       const settings = options || {};
+      const querySlug = normalizeLayerQueryToken(settings.slug || aliases[0]);
+      queryLayerSlugsByLayer.set(layer, querySlug);
+      (settings.alternateLayers || []).forEach((alternateLayer) => {
+        queryLayerSlugsByLayer.set(alternateLayer, querySlug);
+      });
       aliases.forEach((alias) => {
         queryLayerControls.set(normalizeLayerQueryToken(alias), {
           layer,
-          group: settings.group || ""
+          group: settings.group || "",
+          querySlug
         });
       });
+    }
+
+    function setExplicitQueryLayerState(control, enabled) {
+      const querySlug = control.querySlug || queryLayerSlugsByLayer.get(control.layer);
+      if (!querySlug) return;
+      if (enabled) {
+        explicitQueryLayerSlugs.add(querySlug);
+      } else {
+        explicitQueryLayerSlugs.delete(querySlug);
+      }
+    }
+
+    function updateLayerQueryUrl() {
+      const url = new URL(window.location.href);
+      const layerSlugs = Array.from(explicitQueryLayerSlugs);
+
+      url.searchParams.delete("layer");
+      url.searchParams.delete("layers");
+      const searchParts = [
+        url.searchParams.toString(),
+        layerSlugs.length ? `layer=${layerSlugs.join(",")}` : ""
+      ].filter(Boolean);
+      const nextSearch = searchParts.length ? `?${searchParts.join("&")}` : "";
+
+      window.history.replaceState(window.history.state, "", `${url.pathname}${nextSearch}${url.hash}`);
     }
 
     function getQueryLayerTokens() {
@@ -1366,37 +1405,37 @@ image: /media/2026/09/maps-featured.png
     }
 
     function registerMapQueryLayers() {
-      registerQueryLayer(["councildistrict", "councildistricts", "citycouncildistrict", "citycouncildistricts"], councilDistrictFillLayer, { group: "boundaries" });
-      registerQueryLayer(["councilatlarge", "councildistrictatlarge", "citycouncilatlarge", "citycouncildistrictatlarge"], councilAtLargeFillLayer, { group: "boundaries" });
-      registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries" });
-      registerQueryLayer(["cities", "cityboundaries"], cityFillLayer, { group: "boundaries" });
-      registerQueryLayer(["floridahouse", "house", "statehouse"], floridaHouseFillLayer, { group: "boundaries" });
-      registerQueryLayer(["floridasenate", "senate", "statesenate"], floridaSenateFillLayer, { group: "boundaries" });
-      registerQueryLayer(["zip", "zips", "zipcode", "zipcodes", "zcta", "zctas"], zipCodeFillLayer, { group: "boundaries" });
-      registerQueryLayer(["congress", "congressional", "congressionaldistrict", "congressionaldistricts"], congressionalDistrictFillLayer, { group: "boundaries" });
-      registerQueryLayer(["neighborhood", "neighborhoods"], neighborhoodFillLayer, { group: "boundaries" });
-      registerQueryLayer(["cpac", "cpacs", "planningdistricts"], cpacFillLayer, { group: "boundaries" });
-      registerQueryLayer(["health", "healthzone", "healthzones"], healthZoneFillLayer, { group: "boundaries" });
-      registerQueryLayer(["jsodistrict", "jsodistricts", "sheriffdistricts"], jsoDistrictFillLayer, { group: "boundaries" });
-      registerQueryLayer(["jsosubsection", "jsosubsections", "jsosubsector", "jsosubsectors"], jsoSubsectionFillLayer, { group: "boundaries" });
-      registerQueryLayer(["neighborhoodorganizations", "neighborhoodorgs", "neighborhoodpoints"], neighborhoodOrganizationsLayer);
-      registerQueryLayer(["substations", "jsosubstations", "policestations"], jsoPoliceStationsLayer);
-      registerQueryLayer(["busroutes", "jtabusroutes", "routes"], busRoutesLayer);
-      registerQueryLayer(["busstops", "jtabusstops", "stops"], busStopsLayer);
-      registerQueryLayer(["traditionalpublicelementary", "publicelementary", "elementaryschools"], fldoeTraditionalElementarySchoolsLayer);
-      registerQueryLayer(["traditionalpublicmiddle", "publicmiddle", "middleschools"], fldoeTraditionalMiddleSchoolsLayer);
-      registerQueryLayer(["traditionalpublichigh", "publichigh", "highschools"], fldoeTraditionalHighSchoolsLayer);
-      registerQueryLayer(["traditionalpubliccombination", "publiccombination"], fldoeTraditionalCombinationSchoolsLayer);
-      registerQueryLayer(["traditionalpublicmagnet", "publicmagnet", "magnetschools"], fldoeTraditionalMagnetSchoolsLayer);
-      registerQueryLayer(["charterelementary", "charterpublicelementary"], fldoeCharterElementarySchoolsLayer);
-      registerQueryLayer(["chartermiddle", "charterpublicmiddle"], fldoeCharterMiddleSchoolsLayer);
-      registerQueryLayer(["charterhigh", "charterpublichigh"], fldoeCharterHighSchoolsLayer);
-      registerQueryLayer(["chartercombination", "charterpubliccombination"], fldoeCharterCombinationSchoolsLayer);
-      registerQueryLayer(["privateelementary", "privateschoolselementary"], privateElementarySchoolsLayer);
-      registerQueryLayer(["privatemiddle", "privateschoolsmiddle"], privateMiddleSchoolsLayer);
-      registerQueryLayer(["privatehigh", "privateschoolshigh"], privateHighSchoolsLayer);
-      registerQueryLayer(["privatecombination", "privateschoolscombination"], privateCombinationSchoolsLayer);
-      registerQueryLayer(["postsecondary", "postsecondaryschools", "colleges"], postSecondarySchoolsLayer);
+      registerQueryLayer(["councildistrict", "councildistricts", "citycouncildistrict", "citycouncildistricts"], councilDistrictFillLayer, { group: "boundaries", slug: "citycouncildistrict", alternateLayers: [councilDistrictBorderLayer] });
+      registerQueryLayer(["councilatlarge", "councildistrictatlarge", "citycouncilatlarge", "citycouncildistrictatlarge"], councilAtLargeFillLayer, { group: "boundaries", slug: "citycouncilatlarge", alternateLayers: [councilAtLargeBorderLayer] });
+      registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries", slug: "schoolboarddistricts", alternateLayers: [schoolBoardDistrictBorderLayer] });
+      registerQueryLayer(["cities", "cityboundaries"], cityFillLayer, { group: "boundaries", slug: "cities", alternateLayers: [cityBorderLayer] });
+      registerQueryLayer(["floridahouse", "house", "statehouse"], floridaHouseFillLayer, { group: "boundaries", slug: "floridahouse", alternateLayers: [floridaHouseBorderLayer] });
+      registerQueryLayer(["floridasenate", "senate", "statesenate"], floridaSenateFillLayer, { group: "boundaries", slug: "floridasenate", alternateLayers: [floridaSenateBorderLayer] });
+      registerQueryLayer(["zip", "zips", "zipcode", "zipcodes", "zcta", "zctas"], zipCodeFillLayer, { group: "boundaries", slug: "zipcodes", alternateLayers: [zipCodeBorderLayer] });
+      registerQueryLayer(["congress", "congressional", "congressionaldistrict", "congressionaldistricts"], congressionalDistrictFillLayer, { group: "boundaries", slug: "congressionaldistricts", alternateLayers: [congressionalDistrictBorderLayer] });
+      registerQueryLayer(["neighborhood", "neighborhoods"], neighborhoodFillLayer, { group: "boundaries", slug: "neighborhoods", alternateLayers: [neighborhoodBorderLayer] });
+      registerQueryLayer(["cpac", "cpacs", "planningdistricts"], cpacFillLayer, { group: "boundaries", slug: "cpacs", alternateLayers: [cpacBorderLayer] });
+      registerQueryLayer(["health", "healthzone", "healthzones"], healthZoneFillLayer, { group: "boundaries", slug: "healthzones", alternateLayers: [healthZoneBorderLayer] });
+      registerQueryLayer(["jsodistrict", "jsodistricts", "sheriffdistricts"], jsoDistrictFillLayer, { group: "boundaries", slug: "jsodistricts", alternateLayers: [jsoDistrictBorderLayer] });
+      registerQueryLayer(["jsosubsection", "jsosubsections", "jsosubsector", "jsosubsectors"], jsoSubsectionFillLayer, { group: "boundaries", slug: "jsosubsections", alternateLayers: [jsoSubsectionBorderLayer] });
+      registerQueryLayer(["neighborhoodorganizations", "neighborhoodorgs", "neighborhoodpoints"], neighborhoodOrganizationsLayer, { slug: "neighborhoodorganizations" });
+      registerQueryLayer(["substations", "jsosubstations", "policestations"], jsoPoliceStationsLayer, { slug: "substations" });
+      registerQueryLayer(["busroutes", "jtabusroutes", "routes"], busRoutesLayer, { slug: "busroutes" });
+      registerQueryLayer(["busstops", "jtabusstops", "stops"], busStopsLayer, { slug: "busstops" });
+      registerQueryLayer(["traditionalpublicelementary", "publicelementary", "elementaryschools"], fldoeTraditionalElementarySchoolsLayer, { slug: "traditionalpublicelementary" });
+      registerQueryLayer(["traditionalpublicmiddle", "publicmiddle", "middleschools"], fldoeTraditionalMiddleSchoolsLayer, { slug: "traditionalpublicmiddle" });
+      registerQueryLayer(["traditionalpublichigh", "publichigh", "highschools"], fldoeTraditionalHighSchoolsLayer, { slug: "traditionalpublichigh" });
+      registerQueryLayer(["traditionalpubliccombination", "publiccombination"], fldoeTraditionalCombinationSchoolsLayer, { slug: "traditionalpubliccombination" });
+      registerQueryLayer(["traditionalpublicmagnet", "publicmagnet", "magnetschools"], fldoeTraditionalMagnetSchoolsLayer, { slug: "traditionalpublicmagnet" });
+      registerQueryLayer(["charterelementary", "charterpublicelementary"], fldoeCharterElementarySchoolsLayer, { slug: "charterelementary" });
+      registerQueryLayer(["chartermiddle", "charterpublicmiddle"], fldoeCharterMiddleSchoolsLayer, { slug: "chartermiddle" });
+      registerQueryLayer(["charterhigh", "charterpublichigh"], fldoeCharterHighSchoolsLayer, { slug: "charterhigh" });
+      registerQueryLayer(["chartercombination", "charterpubliccombination"], fldoeCharterCombinationSchoolsLayer, { slug: "chartercombination" });
+      registerQueryLayer(["privateelementary", "privateschoolselementary"], privateElementarySchoolsLayer, { slug: "privateelementary" });
+      registerQueryLayer(["privatemiddle", "privateschoolsmiddle"], privateMiddleSchoolsLayer, { slug: "privatemiddle" });
+      registerQueryLayer(["privatehigh", "privateschoolshigh"], privateHighSchoolsLayer, { slug: "privatehigh" });
+      registerQueryLayer(["privatecombination", "privateschoolscombination"], privateCombinationSchoolsLayer, { slug: "privatecombination" });
+      registerQueryLayer(["postsecondary", "postsecondaryschools", "colleges"], postSecondarySchoolsLayer, { slug: "postsecondary" });
     }
 
     function normalizePlace(place) {
