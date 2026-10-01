@@ -352,6 +352,18 @@ image: /media/2026/09/maps-featured.png
     outline: 0;
   }
 
+  #ray-map,
+  #ray-map * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #ray-map .maplibregl-map,
+  #ray-map .maplibregl-canvas-container,
+  #ray-map .maplibregl-canvas,
+  #ray-map .maplibregl-control-container {
+    pointer-events: none;
+  }
+
   .leaflet-control-locate a {
     cursor: pointer;
   }
@@ -452,8 +464,6 @@ image: /media/2026/09/maps-featured.png
       scrollWheelZoom: true,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
-    let isolatedBoundaryLayer = null;
-    let skipNextBoundaryRestoreClick = false;
 
     const openFreeMapStyles = {
       positron: "https://tiles.openfreemap.org/styles/positron",
@@ -483,6 +493,9 @@ image: /media/2026/09/maps-featured.png
     let baseMapControlElement;
     let baseMapLayer;
     let baseMapRequestId = 0;
+    const supportsPointerHover = window.matchMedia
+      ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
+      : true;
 
     async function setBaseMap(baseMapKey, options) {
       const config = baseMapStyles[baseMapKey];
@@ -592,11 +605,11 @@ image: /media/2026/09/maps-featured.png
       });
       window.addEventListener("resize", fitOpenPanelToViewport);
       window.addEventListener("orientationchange", fitOpenPanelToViewport);
-      document.addEventListener("pointerdown", function (event) {
+      document.addEventListener("click", function (event) {
         if (container.classList.contains("is-open") && !container.contains(event.target)) {
           setOpen(false);
         }
-      }, true);
+      });
       setOpen(false);
       return { setOpen };
     }
@@ -727,18 +740,6 @@ image: /media/2026/09/maps-featured.png
       }
     });
 
-    map.on("click", function () {
-      if (skipNextBoundaryRestoreClick) {
-        skipNextBoundaryRestoreClick = false;
-        return;
-      }
-      if (!isolatedBoundaryLayer) return;
-      restoreBoundaryLayerFeatures(isolatedBoundaryLayer);
-      isolatedBoundaryLayer = null;
-      orderMapLayers();
-      syncDistrictLayerInputs();
-    });
-
     map.attributionControl.addAttribution(
       '<a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a>'
     );
@@ -841,6 +842,14 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "border", "congressional"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "congressional")
     });
+    const healthZoneFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "healthZone"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "healthZone")
+    });
+    const healthZoneBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "healthZone"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "healthZone")
+    });
     const jsoDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "jsoDistrict"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "jsoDistrict")
@@ -935,6 +944,8 @@ image: /media/2026/09/maps-featured.png
         zipCodeBorderLayer,
         congressionalDistrictFillLayer,
         congressionalDistrictBorderLayer,
+        healthZoneFillLayer,
+        healthZoneBorderLayer,
         jsoDistrictFillLayer,
         jsoDistrictBorderLayer,
         jsoSubsectionFillLayer,
@@ -1004,65 +1015,6 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
-    function hideBoundaryFeature(featureLayer) {
-      if (featureLayer.setStyle) {
-        featureLayer.setStyle({
-          fillOpacity: 0,
-          opacity: 0,
-          weight: 0
-        });
-      }
-      if (featureLayer.closeTooltip) featureLayer.closeTooltip();
-      if (featureLayer.closePopup) featureLayer.closePopup();
-      if (featureLayer._path) {
-        featureLayer._path.style.pointerEvents = "none";
-      }
-    }
-
-    function isolateBoundaryFeature(activeLayer, activeFeatureLayer) {
-      hideOtherBoundaryLayers(activeLayer);
-      restoreBoundaryLayerFeatures(activeLayer);
-      if (activeLayer.eachLayer) {
-        activeLayer.eachLayer((featureLayer) => {
-          if (featureLayer !== activeFeatureLayer) {
-            hideBoundaryFeature(featureLayer);
-          }
-        });
-      }
-      if (activeFeatureLayer._path) {
-        activeFeatureLayer._path.style.pointerEvents = "";
-      }
-      orderMapLayers();
-      if (activeFeatureLayer.bringToFront) {
-        activeFeatureLayer.bringToFront();
-      }
-    }
-
-    function zoomToBoundaryFeature(featureLayer) {
-      if (featureLayer.getBounds) {
-        const bounds = featureLayer.getBounds();
-        if (bounds.isValid()) {
-          map.fitBounds(bounds, {
-            animate: true,
-            maxZoom: 15,
-            padding: [32, 32]
-          });
-        }
-      }
-    }
-
-    function handleBoundaryFeatureClick(event, activeLayer, activeFeatureLayer) {
-      isolateBoundaryFeature(activeLayer, activeFeatureLayer);
-      isolatedBoundaryLayer = activeLayer;
-      skipNextBoundaryRestoreClick = true;
-      window.setTimeout(() => {
-        skipNextBoundaryRestoreClick = false;
-      }, 0);
-      if (event.originalEvent && event.originalEvent.shiftKey) {
-        zoomToBoundaryFeature(activeFeatureLayer);
-      }
-    }
-
     function setBoundaryLayer(control, enabled, allowMultiple) {
       if (enabled) {
         if (!map.hasLayer(control.layer)) map.addLayer(control.layer);
@@ -1076,9 +1028,6 @@ image: /media/2026/09/maps-featured.png
         }
       } else if (map.hasLayer(control.layer)) {
         map.removeLayer(control.layer);
-        if (isolatedBoundaryLayer === control.layer) {
-          isolatedBoundaryLayer = null;
-        }
       }
       orderMapLayers();
       syncDistrictLayerInputs();
@@ -1303,6 +1252,8 @@ image: /media/2026/09/maps-featured.png
           appendLayerControls(overlays, [
             createBoundaryLayerInput("Substations", jsoPoliceStationsLayer)
           ]);
+          overlays.appendChild(createLayerHeading("Health"));
+          appendGeographyLayerRow(overlays, "Health Zones", healthZoneFillLayer, healthZoneBorderLayer);
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer),
@@ -1414,6 +1365,9 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "congressional") {
         return Number.parseInt(properties.BASENAME || properties.GEOID, 10);
       }
+      if (layerType === "healthZone") {
+        return Number.parseInt(properties.health_zone, 10);
+      }
       if (layerType === "jsoDistrict") {
         return Number.parseInt(properties.DISTRICT, 10);
       }
@@ -1487,6 +1441,9 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "congressional") {
         return mode === "border" ? congressionalDistrictBorderLayer : congressionalDistrictFillLayer;
       }
+      if (layerType === "healthZone") {
+        return mode === "border" ? healthZoneBorderLayer : healthZoneFillLayer;
+      }
       if (layerType === "jsoDistrict") {
         return mode === "border" ? jsoDistrictBorderLayer : jsoDistrictFillLayer;
       }
@@ -1524,6 +1481,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "congressional") {
         return properties.BASENAME ? `Florida's ${properties.BASENAME}th Congressional District` : "Florida Congressional District";
+      }
+      if (layerType === "healthZone") {
+        return properties.label || (properties.health_zone ? `Health Zone ${properties.health_zone}` : "Health Zone");
       }
       if (layerType === "jsoDistrict") {
         return properties.DISTRICT ? `JSO District ${properties.DISTRICT}` : "JSO District";
@@ -1563,6 +1523,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "congressional") {
         return properties.CDSESSN ? `${properties.CDSESSN}th Congress` : "";
+      }
+      if (layerType === "healthZone") {
+        return properties.zip_codes_label ? `ZIP Codes: ${properties.zip_codes_label}` : "";
       }
       if (layerType === "jsoDistrict") {
         return "Jacksonville Sheriff's Office";
@@ -1699,7 +1662,23 @@ image: /media/2026/09/maps-featured.png
         appendStateLegislatorPopupDetails(popup, feature.properties || {}, "state_senate", "Senator");
       }
 
+      if (layerType === "healthZone") {
+        appendHealthZonePopupDetails(popup, feature.properties || {});
+      }
+
       return popup;
+    }
+
+    function appendHealthZonePopupDetails(popup, properties) {
+      [
+        properties.data_source,
+        properties.geometry_source ? `Geometry: ${properties.geometry_source}` : "",
+        properties.missing_geometry_note
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
     }
 
     function appendStateLegislatorPopupDetails(popup, properties, prefix, fallbackLabel) {
@@ -1835,48 +1814,48 @@ image: /media/2026/09/maps-featured.png
       layer.options.boundaryMode = mode;
       layer.options.boundaryType = "district";
       layer.bindPopup(createCouncilDistrictPopup(feature));
-      if (district) {
+      if (district && supportsPointerHover) {
         layer.bindTooltip(`City Council District ${district}`, {
           sticky: true
         });
       }
-      layer.on({
-        mouseover: function () {
-          layer.setStyle({
-            fillOpacity: mode === "border" ? 0 : 0.28,
-            weight: mode === "border" ? 1.75 : 1.25
-          });
-        },
-        mouseout: function () {
-          layer.setStyle(getCouncilDistrictStyle(feature, mode));
-        },
-        click: function (event) {
-          handleBoundaryFeatureClick(event, getBoundaryLayer("district", mode), layer);
-        }
-      });
+      if (supportsPointerHover) {
+        layer.on({
+          mouseover: function () {
+            layer.setStyle({
+              fillOpacity: mode === "border" ? 0 : 0.28,
+              weight: mode === "border" ? 1.75 : 1.25
+            });
+          },
+          mouseout: function () {
+            layer.setStyle(getCouncilDistrictStyle(feature, mode));
+          }
+        });
+      }
     }
 
     function addBoundaryInteractivity(feature, layer, mode, layerType) {
       layer.options.boundaryMode = mode;
       layer.options.boundaryType = layerType;
       layer.bindPopup(createBoundaryPopup(feature, layerType));
-      layer.bindTooltip(getBoundaryTitle(feature, layerType), {
-        sticky: true
-      });
-      layer.on({
-        mouseover: function () {
-          layer.setStyle({
-            fillOpacity: mode === "border" ? 0 : 0.28,
-            weight: mode === "border" ? 1.75 : 1.25
-          });
-        },
-        mouseout: function () {
-          layer.setStyle(getBoundaryStyle(feature, mode, layerType));
-        },
-        click: function (event) {
-          handleBoundaryFeatureClick(event, getBoundaryLayer(layerType, mode), layer);
-        }
-      });
+      if (supportsPointerHover) {
+        layer.bindTooltip(getBoundaryTitle(feature, layerType), {
+          sticky: true
+        });
+      }
+      if (supportsPointerHover) {
+        layer.on({
+          mouseover: function () {
+            layer.setStyle({
+              fillOpacity: mode === "border" ? 0 : 0.28,
+              weight: mode === "border" ? 1.75 : 1.25
+            });
+          },
+          mouseout: function () {
+            layer.setStyle(getBoundaryStyle(feature, mode, layerType));
+          }
+        });
+      }
     }
 
     function normalizeHexColor(value, fallback) {
@@ -2035,28 +2014,30 @@ image: /media/2026/09/maps-featured.png
       const properties = feature.properties || {};
       const name = [properties.route_short_name, properties.route_long_name].filter(Boolean).join(" - ");
       layer.bindPopup(createBusRoutePopup(feature));
-      if (name) {
+      if (name && supportsPointerHover) {
         layer.bindTooltip(name, {
           sticky: true
         });
       }
-      layer.on({
-        mouseover: function () {
-          layer.setStyle({
-            opacity: 1,
-            weight: 5
-          });
-        },
-        mouseout: function () {
-          layer.setStyle(getBusRouteStyle(feature));
-        }
-      });
+      if (supportsPointerHover) {
+        layer.on({
+          mouseover: function () {
+            layer.setStyle({
+              opacity: 1,
+              weight: 5
+            });
+          },
+          mouseout: function () {
+            layer.setStyle(getBusRouteStyle(feature));
+          }
+        });
+      }
     }
 
     function addBusStopInteractivity(feature, layer) {
       const properties = feature.properties || {};
       layer.bindPopup(createBusStopPopup(feature));
-      if (properties.stop_name) {
+      if (properties.stop_name && supportsPointerHover) {
         layer.bindTooltip(properties.stop_name, {
           sticky: true
         });
@@ -2066,17 +2047,21 @@ image: /media/2026/09/maps-featured.png
     function addPoliceStationInteractivity(feature, layer) {
       const properties = feature.properties || {};
       layer.bindPopup(createPoliceStationPopup(feature));
-      layer.bindTooltip(properties.name || "JSO Substation", {
-        sticky: true
-      });
+      if (supportsPointerHover) {
+        layer.bindTooltip(properties.name || "JSO Substation", {
+          sticky: true
+        });
+      }
     }
 
     function addNeighborhoodOrganizationInteractivity(feature, layer) {
       const properties = feature.properties || {};
       layer.bindPopup(createNeighborhoodOrganizationPopup(feature));
-      layer.bindTooltip(properties.name || "Neighborhood Organization", {
-        sticky: true
-      });
+      if (supportsPointerHover) {
+        layer.bindTooltip(properties.name || "Neighborhood Organization", {
+          sticky: true
+        });
+      }
     }
 
     function getSchoolStyle(type) {
@@ -2201,7 +2186,7 @@ image: /media/2026/09/maps-featured.png
     function addSchoolInteractivity(feature, layer) {
       const name = getSchoolName(feature);
       layer.bindPopup(createSchoolPopup(feature));
-      if (name) {
+      if (name && supportsPointerHover) {
         layer.bindTooltip(name, {
           sticky: true
         });
@@ -2299,7 +2284,7 @@ image: /media/2026/09/maps-featured.png
     function addFldoeSchoolInteractivity(feature, layer) {
       const name = getFldoeSchoolName(feature);
       layer.bindPopup(createFldoeSchoolPopup(feature));
-      if (name) {
+      if (name && supportsPointerHover) {
         layer.bindTooltip(name, {
           sticky: true
         });
@@ -2489,6 +2474,12 @@ image: /media/2026/09/maps-featured.png
       congressionalDistrictFillLayer,
       congressionalDistrictBorderLayer,
       "Congressional districts"
+    );
+    loadBoundaryLayers(
+      "/data/duval-health-zones.geojson",
+      healthZoneFillLayer,
+      healthZoneBorderLayer,
+      "Duval County health zones"
     );
     loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
     loadGeoJsonLayer("/data/jta-bus-stops.geojson", busStopsLayer, "JTA bus stops");

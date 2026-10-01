@@ -68,6 +68,20 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
 - [Jacksonville Sheriff's Office Your Neighborhood](https://www.jaxsheriff.org/Your-Neighborhood.aspx)
   - Substations
 
+## Health
+
+- Health Zones:
+  - Duval County is divided into six multi-ZIP-code health zones for regional health data tracking and community planning by the Florida Department of Health in Duval County.
+  - The [Health Planning Council of Northeast Florida Housing Health Impact Assessment](https://hpcnef.org/wp-content/uploads/2016/02/Housing-HIA-Report_Final-6-7-17.pdf) lists the six health-zone ZIP-code groupings and cites the Florida Department of Health in Duval County Community Health Assessment and Community Health Improvement Plan as the source for the health-zone map.
+  - The same report also identifies Florida Department of Health in Duval County as the data source for several health-zone indicators.
+  - Health Zone 1 (Urban Core): `32202`, `32204`, `32206`, `32208`, `32209`, `32254`.
+  - Health Zone 2 (Arlington / Greater Urban): `32207`, `32211`, `32216`, `32224`, `32225`, `32246`, `32277`.
+  - Health Zone 3 (Southside / Mandarin): `32217`, `32223`, `32256`, `32257`, `32258`.
+  - Health Zone 4 (Westside): `32205`, `32210`, `32212`, `32214`, `32215`, `32221`, `32222`, `32244`.
+  - Health Zone 5 (Northside / Outer Rim): `32218`, `32219`, `32220`, `32226`, `32234`.
+  - Health Zone 6 (Beaches): `32227`, `32228`, `32233`, `32250`, `32266`.
+  - Geometry is built from ZIP-code polygons using the [U.S. Census TIGERweb 2020 Census ZIP Code Tabulation Areas](https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_Current/MapServer/2), with existing map ZIP polygons from [City of Jacksonville My Neighborhood](https://maps.coj.net/myneighborhood/) available as a fallback. `32215` is listed in the health-zone ZIP breakdown, but no polygon geometry was available in the COJ ZIP layer or Census TIGERweb ZCTA service.
+
 ## Transportation
 
 - [JTA GTFS Archive](https://ride.jtafla.com/gtfs-archive/)
