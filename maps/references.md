@@ -44,7 +44,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Citizens Planning Advisory Committee (CPACs) Borders
 - County boundaries:
   - Geometry source: [U.S. Census Bureau TIGERweb State/County boundary service](https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1)
-  - County records: Baker, Clay, Duval, Nassau, and St. Johns counties, Florida.
+  - County records: Alachua, Baker, Bradford, Clay, Duval, Flagler, Nassau, Putnam, and St. Johns counties, Florida; and Camden County, Georgia.
   - Counties Overlays
   - Counties Borders
 - [119th Congressional Districts](https://www.arcgis.com/home/item.html?id=56f9d1c5628349c684245185a020d18a&sublayer=0)
