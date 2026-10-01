@@ -335,11 +335,6 @@ image: /media/2026/09/maps-featured.png
     padding: 0.45rem 0.6rem 0;
   }
 
-  .maps-focus-control__actions {
-    display: flex;
-    gap: 0.35rem;
-  }
-
   .maps-focus-control button {
     background: #fff;
     border: 1px solid #d0d7de;
@@ -355,11 +350,6 @@ image: /media/2026/09/maps-featured.png
     background: #0969da;
     border-color: #0969da;
     color: #fff;
-  }
-
-  .maps-focus-control button:disabled {
-    color: #8c959f;
-    cursor: not-allowed;
   }
 
   .maps-focus-control__status {
@@ -999,7 +989,6 @@ image: /media/2026/09/maps-featured.png
     let governmentLayerModeInput;
     let mapInteractionMode = "browse";
     let focusToggleButton;
-    let focusClearButton;
     let focusStatusElement;
     let focusedBoundary;
     const focusLayerStates = new Map();
@@ -1281,9 +1270,6 @@ image: /media/2026/09/maps-featured.png
     function updateFocusControl() {
       if (focusToggleButton) {
         focusToggleButton.setAttribute("aria-pressed", mapInteractionMode === "focus" ? "true" : "false");
-      }
-      if (focusClearButton) {
-        focusClearButton.disabled = !focusedBoundary;
       }
       if (focusStatusElement) {
         if (focusedBoundary) {
@@ -1581,10 +1567,8 @@ image: /media/2026/09/maps-featured.png
       if (!supportsPointerHover) return;
 
       const wrapper = document.createElement("div");
-      const actions = document.createElement("div");
 
       wrapper.className = "maps-focus-control";
-      actions.className = "maps-focus-control__actions";
 
       focusToggleButton = document.createElement("button");
       focusToggleButton.type = "button";
@@ -1599,20 +1583,10 @@ image: /media/2026/09/maps-featured.png
         }
       });
 
-      focusClearButton = document.createElement("button");
-      focusClearButton.type = "button";
-      focusClearButton.textContent = "Clear";
-      focusClearButton.disabled = true;
-      focusClearButton.addEventListener("click", function () {
-        clearMapFocus({ resetMode: true });
-      });
-
       focusStatusElement = document.createElement("span");
       focusStatusElement.className = "maps-focus-control__status";
 
-      actions.appendChild(focusToggleButton);
-      actions.appendChild(focusClearButton);
-      wrapper.appendChild(actions);
+      wrapper.appendChild(focusToggleButton);
       wrapper.appendChild(focusStatusElement);
       container.appendChild(wrapper);
       updateFocusControl();
