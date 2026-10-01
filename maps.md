@@ -764,6 +764,14 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "border", "atLarge"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "atLarge")
     });
+    const schoolBoardDistrictFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "schoolBoard"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "schoolBoard")
+    });
+    const schoolBoardDistrictBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "schoolBoard"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "schoolBoard")
+    });
     const cityFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "city"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "city")
@@ -902,6 +910,8 @@ image: /media/2026/09/maps-featured.png
         councilDistrictBorderLayer,
         councilAtLargeFillLayer,
         councilAtLargeBorderLayer,
+        schoolBoardDistrictFillLayer,
+        schoolBoardDistrictBorderLayer,
         cityFillLayer,
         cityBorderLayer,
         neighborhoodFillLayer,
@@ -1266,6 +1276,7 @@ image: /media/2026/09/maps-featured.png
           overlays.appendChild(createLayerHeading("Government"));
           appendGeographyLayerRow(overlays, "City Council District", councilDistrictFillLayer, councilDistrictBorderLayer);
           appendGeographyLayerRow(overlays, "City Council District At Large", councilAtLargeFillLayer, councilAtLargeBorderLayer);
+          appendGeographyLayerRow(overlays, "School Board Districts", schoolBoardDistrictFillLayer, schoolBoardDistrictBorderLayer);
           appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer);
           appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer);
           appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer);
@@ -1373,6 +1384,9 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "city") {
         return Number.parseInt(properties.city_code || properties.FPLACE90, 10);
       }
+      if (layerType === "schoolBoard") {
+        return Number.parseInt(properties.school_board_district || properties.SB, 10);
+      }
       if (layerType === "neighborhood") {
         return getStringColorNumber(properties.NAME || properties.NUM_NAME || "Neighborhoods");
       }
@@ -1443,6 +1457,9 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "city") {
         return mode === "border" ? cityBorderLayer : cityFillLayer;
       }
+      if (layerType === "schoolBoard") {
+        return mode === "border" ? schoolBoardDistrictBorderLayer : schoolBoardDistrictFillLayer;
+      }
       if (layerType === "neighborhood") {
         return mode === "border" ? neighborhoodBorderLayer : neighborhoodFillLayer;
       }
@@ -1477,6 +1494,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "city") {
         return properties.Name || "City";
+      }
+      if (layerType === "schoolBoard") {
+        return properties.label || (properties.school_board_district ? `Duval County School Board District ${properties.school_board_district}` : "Duval County School Board District");
       }
       if (layerType === "neighborhood") {
         return properties.NAME || properties.NUM_NAME || "Neighborhoods";
@@ -2260,6 +2280,12 @@ image: /media/2026/09/maps-featured.png
       councilAtLargeFillLayer,
       councilAtLargeBorderLayer,
       "city council at-large districts"
+    );
+    loadBoundaryLayers(
+      "/data/duval-county-school-board-districts.geojson",
+      schoolBoardDistrictFillLayer,
+      schoolBoardDistrictBorderLayer,
+      "Duval County School Board districts"
     );
     loadBoundaryLayers(
       "/data/city-boundaries.geojson",
