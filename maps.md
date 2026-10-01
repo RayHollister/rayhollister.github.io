@@ -1169,14 +1169,20 @@ image: /media/2026/09/maps-featured.png
     function restoreBoundaryLayerFeatures(layerGroup) {
       if (!layerGroup.eachLayer) return;
       layerGroup.eachLayer((featureLayer) => {
-        const options = featureLayer.options || {};
-        if (featureLayer.setStyle && featureLayer.feature && options.boundaryMode && options.boundaryType) {
-          featureLayer.setStyle(getBoundaryFeatureStyle(featureLayer.feature, options.boundaryMode, options.boundaryType));
+        const style = getLayerBoundaryStyle(featureLayer);
+        if (featureLayer.setStyle && style) {
+          featureLayer.setStyle(style);
         }
         if (featureLayer._path) {
           featureLayer._path.style.pointerEvents = "";
         }
       });
+    }
+
+    function getLayerBoundaryStyle(layer) {
+      const options = layer && layer.options ? layer.options : {};
+      if (!layer || !layer.feature || !options.boundaryMode || !options.boundaryType) return undefined;
+      return getBoundaryFeatureStyle(layer.feature, options.boundaryMode, options.boundaryType);
     }
 
     function rememberFocusLayerState(layer) {
@@ -1252,11 +1258,34 @@ image: /media/2026/09/maps-featured.png
       return parent;
     }
 
+    function restoreAllBoundaryFillLayerStyles() {
+      [
+        councilDistrictFillLayer,
+        councilAtLargeFillLayer,
+        schoolBoardDistrictFillLayer,
+        cityFillLayer,
+        countyFillLayer,
+        neighborhoodFillLayer,
+        cpacFillLayer,
+        floridaHouseFillLayer,
+        floridaSenateFillLayer,
+        zipCodeFillLayer,
+        congressionalDistrictFillLayer,
+        healthZoneFillLayer,
+        healthZoneByZipCodeLayer,
+        jsoDistrictFillLayer,
+        jsoSubsectionFillLayer
+      ].forEach(restoreBoundaryLayerFeatures);
+    }
+
     function restoreFocusLayerStates() {
       focusLayerStates.forEach((state) => {
         const layer = state.layer;
         if (!layer) return;
-        if (state.parent && state.parent.resetStyle && layer.feature) {
+        const boundaryStyle = getLayerBoundaryStyle(layer);
+        if (layer.setStyle && boundaryStyle) {
+          layer.setStyle(boundaryStyle);
+        } else if (state.parent && state.parent.resetStyle && layer.feature) {
           state.parent.resetStyle(layer);
         } else if (layer.setStyle) {
           layer.setStyle({
@@ -1279,10 +1308,15 @@ image: /media/2026/09/maps-featured.png
     function setLayerFocusVisibility(layer, visible) {
       rememberFocusLayerState(layer);
       if (layer.setStyle) {
-        layer.setStyle({
-          opacity: visible ? (layer.options.opacity === undefined ? 1 : layer.options.opacity) : 0,
-          fillOpacity: visible ? (layer.options.fillOpacity === undefined ? 0.9 : layer.options.fillOpacity) : 0
-        });
+        const boundaryStyle = getLayerBoundaryStyle(layer);
+        if (visible && boundaryStyle) {
+          layer.setStyle(boundaryStyle);
+        } else {
+          layer.setStyle({
+            opacity: visible ? (layer.options.opacity === undefined ? 1 : layer.options.opacity) : 0,
+            fillOpacity: visible ? (layer.options.fillOpacity === undefined ? 0.9 : layer.options.fillOpacity) : 0
+          });
+        }
       } else if (layer.setOpacity) {
         layer.setOpacity(visible ? 1 : 0);
       }
@@ -1866,7 +1900,6 @@ image: /media/2026/09/maps-featured.png
     function setGovernmentOverlayOpacity(value, options) {
       const settings = options || {};
       const nextOpacity = Math.max(0, Math.min(1, Number.isFinite(value) ? value : 1));
-      clearMapFocus();
       governmentOverlayOpacity = nextOpacity;
       governmentLayerMode = "fill";
       updateGovernmentLayerOpacityControl();
@@ -1881,10 +1914,14 @@ image: /media/2026/09/maps-featured.png
         if (!map.hasLayer(nextControl.layer)) {
           map.addLayer(nextControl.layer);
         }
-        restoreBoundaryLayerFeatures(nextControl.layer);
       });
-      if (map.hasLayer(healthZoneByZipCodeLayer)) {
-        restoreBoundaryLayerFeatures(healthZoneByZipCodeLayer);
+      restoreAllBoundaryFillLayerStyles();
+      if (focusedBoundary) {
+        focusedBoundary.mode = "fill";
+        focusedBoundary.sourceLayer = getFocusSourceLayer(focusedBoundary.layerType, focusedBoundary.mode);
+        applyFocusToBoundaryLayer(focusedBoundary.sourceLayer, focusedBoundary);
+        applyFocusToPointLayers(focusedBoundary.focusFeature);
+        updateFocusControl();
       }
       orderMapLayers();
       syncDistrictLayerInputs();
