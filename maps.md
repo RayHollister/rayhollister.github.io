@@ -1617,7 +1617,7 @@ image: /media/2026/09/maps-featured.png
       return button;
     }
 
-    function showMapContextMenu(event, boundaryContext) {
+    function showMapContextMenu(event, featureContext) {
       if (!event || !event.latlng) return;
       const originalEvent = event.originalEvent;
       if (originalEvent) {
@@ -1651,28 +1651,31 @@ image: /media/2026/09/maps-featured.png
         }
       ));
 
-      if (boundaryContext && boundaryContext.feature && boundaryContext.layer) {
-        mapContextMenuElement.appendChild(createContextMenuButton(
-          "Focus",
-          `Focus on ${getBoundaryTitle(boundaryContext.feature, boundaryContext.layerType)}`,
-          () => {
-            mapInteractionMode = "focus";
-            focusBoundaryFeature(
-              boundaryContext.feature,
-              boundaryContext.layer,
-              boundaryContext.mode,
-              boundaryContext.layerType,
-              { force: true }
-            );
-            hideMapContextMenu();
-          }
-        ));
+      if (featureContext && featureContext.feature && featureContext.layer) {
+        const contextTitle = getComparableFeatureTitle(featureContext.feature, featureContext.layerType);
+        if (featureContext.layerType !== "busRoute") {
+          mapContextMenuElement.appendChild(createContextMenuButton(
+            "Focus",
+            `Focus on ${contextTitle}`,
+            () => {
+              mapInteractionMode = "focus";
+              focusBoundaryFeature(
+                featureContext.feature,
+                featureContext.layer,
+                featureContext.mode,
+                featureContext.layerType,
+                { force: true }
+              );
+              hideMapContextMenu();
+            }
+          ));
+        }
         mapContextMenuElement.appendChild(createContextMenuButton(
           "Compare",
-          `Compare ${getBoundaryTitle(boundaryContext.feature, boundaryContext.layerType)}`,
+          `Compare ${contextTitle}`,
           () => {
             compareModeEnabled = true;
-            pinBoundaryFeature(boundaryContext.feature, boundaryContext.layerType);
+            pinComparableFeature(featureContext.feature, featureContext.layerType);
             updateCompareControl();
             hideMapContextMenu();
           }
@@ -1991,6 +1994,13 @@ image: /media/2026/09/maps-featured.png
 
     function getPinnedCardKey(feature, layerType) {
       const properties = feature.properties || {};
+      if (layerType === "busRoute") {
+        return [
+          layerType,
+          properties.route_id,
+          getBusRouteTitle(feature)
+        ].filter(Boolean).join("|");
+      }
       return [
         layerType,
         properties.GEOID,
@@ -2009,7 +2019,14 @@ image: /media/2026/09/maps-featured.png
       ].filter(Boolean).join("|");
     }
 
+    function getComparableFeatureTitle(feature, layerType) {
+      return layerType === "busRoute" ? getBusRouteTitle(feature) : getBoundaryTitle(feature, layerType);
+    }
+
     function createPinnedCardContent(card) {
+      if (card.layerType === "busRoute") {
+        return createBusRoutePopup(card.feature);
+      }
       if (card.layerType === "district") {
         return createCouncilDistrictPopup(card.feature);
       }
@@ -2064,12 +2081,10 @@ image: /media/2026/09/maps-featured.png
       renderPinnedCards();
     }
 
-    function pinBoundaryFeature(feature, layerType) {
+    function pinComparableFeature(feature, layerType) {
       const key = getPinnedCardKey(feature, layerType);
       const existingCard = pinnedBoundaryCards.find((card) => card.key === key);
-      const title = layerType === "district"
-        ? getBoundaryTitle(feature, "district")
-        : getBoundaryTitle(feature, layerType);
+      const title = getComparableFeatureTitle(feature, layerType);
 
       if (existingCard) {
         existingCard.feature = feature;
@@ -2084,6 +2099,10 @@ image: /media/2026/09/maps-featured.png
         title
       });
       renderPinnedCards();
+    }
+
+    function pinBoundaryFeature(feature, layerType) {
+      pinComparableFeature(feature, layerType);
     }
 
     function createCompareModeControl() {
@@ -3230,14 +3249,19 @@ image: /media/2026/09/maps-featured.png
       };
     }
 
+    function getBusRouteTitle(feature) {
+      const properties = feature.properties || {};
+      const name = [properties.route_short_name, properties.route_long_name].filter(Boolean).join(" - ");
+      return name || `Route ${properties.route_id || ""}`.trim() || "JTA Bus Route";
+    }
+
     function createBusRoutePopup(feature) {
       const properties = feature.properties || {};
       const popup = document.createElement("div");
       const title = document.createElement("strong");
-      const name = [properties.route_short_name, properties.route_long_name].filter(Boolean).join(" - ");
 
       popup.className = "maps-district-popup";
-      title.textContent = name || `Route ${properties.route_id || ""}`.trim() || "JTA Bus Route";
+      title.textContent = getBusRouteTitle(feature);
       popup.appendChild(title);
 
       if (properties.route_pdf_url) {
@@ -3345,14 +3369,21 @@ image: /media/2026/09/maps-featured.png
     }
 
     function addBusRouteInteractivity(feature, layer) {
-      const properties = feature.properties || {};
-      const name = [properties.route_short_name, properties.route_long_name].filter(Boolean).join(" - ");
+      const name = getBusRouteTitle(feature);
       layer.bindPopup(createBusRoutePopup(feature));
       if (name && supportsPointerHover) {
         layer.bindTooltip(name, {
           sticky: true
         });
       }
+      layer.on("click", function () {
+        if (compareModeEnabled) {
+          pinComparableFeature(feature, "busRoute");
+        }
+      });
+      layer.on("contextmenu", function (event) {
+        showMapContextMenu(event, { feature, layer, layerType: "busRoute" });
+      });
       if (supportsPointerHover) {
         layer.on({
           mouseover: function () {
