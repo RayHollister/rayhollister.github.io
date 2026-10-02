@@ -346,6 +346,23 @@ image: /media/2026/09/maps-featured.png
     padding: 0.35rem 0.45rem;
   }
 
+  .maps-route-filter__toggle {
+    background: #424242;
+    border: 0;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 0.68rem;
+    font-weight: 700;
+    height: 1.25rem;
+    line-height: 1;
+    padding: 0 0.35rem;
+  }
+
+  .maps-route-filter__toggle:disabled {
+    cursor: default;
+    opacity: 0.55;
+  }
+
   .maps-route-filter__list {
     border-top: 1px solid #d0d7de;
     display: grid;
@@ -1253,8 +1270,10 @@ image: /media/2026/09/maps-featured.png
     const busRouteMetadataByRouteId = new Map();
     const selectedBusRouteIds = new Set();
     const busRouteFilterInputs = new Map();
+    let busRouteFilterElement;
     let busRouteFilterListElement;
     let busRouteFilterSummaryElement;
+    let busRouteSelectionToggleButton;
 
     function moveLayerGroup(layer, direction) {
       if (!map.hasLayer(layer) || !layer.eachLayer) return;
@@ -1340,6 +1359,7 @@ image: /media/2026/09/maps-featured.png
           control.input.checked = map.hasLayer(control.layer);
         }
       });
+      updateBusRouteFilterVisibility();
     }
 
     function getBoundaryFeatureStyle(feature, mode, layerType) {
@@ -1981,6 +2001,17 @@ image: /media/2026/09/maps-featured.png
       busRouteFilterSummaryElement.textContent = totalCount
         ? `${selectedCount.toLocaleString()} of ${totalCount.toLocaleString()}`
         : "Loading";
+      if (busRouteSelectionToggleButton) {
+        busRouteSelectionToggleButton.disabled = totalCount === 0;
+        busRouteSelectionToggleButton.textContent = totalCount > 0 && selectedCount === totalCount
+          ? "Deselect All Routes"
+          : "Select All Routes";
+      }
+    }
+
+    function updateBusRouteFilterVisibility() {
+      if (!busRouteFilterElement) return;
+      busRouteFilterElement.hidden = !map.hasLayer(busRoutesLayer);
     }
 
     function syncBusRouteFilterInputs() {
@@ -2003,6 +2034,17 @@ image: /media/2026/09/maps-featured.png
       });
       orderMapLayers();
       syncBusRouteFilterInputs();
+    }
+
+    function toggleAllBusRoutes() {
+      const routeIds = Array.from(busRouteMetadataByRouteId.keys());
+      const shouldSelectAll = routeIds.some((routeId) => !selectedBusRouteIds.has(routeId));
+      if (shouldSelectAll) {
+        routeIds.forEach((routeId) => selectedBusRouteIds.add(routeId));
+      } else {
+        selectedBusRouteIds.clear();
+      }
+      applyBusRouteFilters();
     }
 
     function populateBusRouteFilterControls() {
@@ -2049,20 +2091,33 @@ image: /media/2026/09/maps-featured.png
       const summary = document.createElement("summary");
       const title = document.createElement("span");
       const count = document.createElement("span");
+      const toggleButton = document.createElement("button");
       const list = document.createElement("div");
 
       details.className = "maps-route-filter";
       title.textContent = "Routes";
       count.textContent = "Loading";
+      toggleButton.type = "button";
+      toggleButton.className = "maps-route-filter__toggle";
+      toggleButton.textContent = "Select All Routes";
+      toggleButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleAllBusRoutes();
+      });
       list.className = "maps-route-filter__list";
+      busRouteFilterElement = details;
       busRouteFilterSummaryElement = count;
+      busRouteSelectionToggleButton = toggleButton;
       busRouteFilterListElement = list;
 
       summary.appendChild(title);
+      summary.appendChild(toggleButton);
       summary.appendChild(count);
       details.appendChild(summary);
       details.appendChild(list);
       populateBusRouteFilterControls();
+      updateBusRouteFilterVisibility();
 
       return details;
     }
