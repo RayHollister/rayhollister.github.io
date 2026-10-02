@@ -685,6 +685,7 @@ image: /media/2026/09/maps-featured.png
 </section>
 
 <script src="/leaflet/leaflet.js"></script>
+<script src="/leaflet/smoothwheelzoom/SmoothWheelZoom.js"></script>
 <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.js"></script>
 <script src="/leaflet/extramarkers/js/leaflet.extra-markers.min.js"></script>
@@ -701,7 +702,10 @@ image: /media/2026/09/maps-featured.png
       maxBounds: [[-85.051129, -Infinity], [85.051129, Infinity]],
       maxBoundsViscosity: 1,
       zoomControl: false,
-      scrollWheelZoom: true,
+      scrollWheelZoom: false,
+      smoothWheelZoom: true,
+      smoothSensitivity: 1,
+      zoomSnap: 0,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
 
