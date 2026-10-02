@@ -1270,6 +1270,7 @@ image: /media/2026/09/maps-featured.png
     const busRouteMetadataByRouteId = new Map();
     const selectedBusRouteIds = new Set();
     const busRouteFilterInputs = new Map();
+    let focusedBusRouteSelectionSnapshot;
     let busRouteFilterElement;
     let busRouteFilterListElement;
     let busRouteFilterSummaryElement;
@@ -1588,6 +1589,38 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function restoreFocusedBusRouteSelection() {
+      if (!focusedBusRouteSelectionSnapshot) return;
+      selectedBusRouteIds.clear();
+      focusedBusRouteSelectionSnapshot.forEach((routeId) => selectedBusRouteIds.add(routeId));
+      focusedBusRouteSelectionSnapshot = undefined;
+      applyBusRouteFilters();
+    }
+
+    function applyFocusToBusRoutes(focusFeature) {
+      if (!map.hasLayer(busRoutesLayer)) return;
+      if (!focusedBusRouteSelectionSnapshot) {
+        focusedBusRouteSelectionSnapshot = new Set(selectedBusRouteIds);
+      }
+      const focusedRouteIds = getLayerRouteIdsInFeature(busStopsLayer, focusFeature, { selectedOnly: false });
+      selectedBusRouteIds.clear();
+      focusedRouteIds.forEach((routeId) => selectedBusRouteIds.add(routeId));
+      applyBusRouteFilters();
+    }
+
+    function refreshFocusedPopup(feature, layer, layerType) {
+      if (!layer || !layer.getPopup) return;
+      const popup = layer.getPopup();
+      if (!popup) return;
+      const content = layerType === "district"
+        ? createCouncilDistrictPopup(feature)
+        : createBoundaryPopup(feature, layerType);
+      popup.setContent(content);
+      if (!layer.isPopupOpen || !layer.isPopupOpen()) {
+        layer.openPopup();
+      }
+    }
+
     function updateFocusControl() {
       if (focusToggleButton) {
         focusToggleButton.setAttribute("aria-pressed", mapInteractionMode === "focus" ? "true" : "false");
@@ -1607,6 +1640,7 @@ image: /media/2026/09/maps-featured.png
     function clearMapFocus(options) {
       const settings = options || {};
       restoreFocusLayerStates();
+      restoreFocusedBusRouteSelection();
       focusedBoundary = undefined;
       if (settings.resetMode) {
         mapInteractionMode = "browse";
@@ -1624,6 +1658,7 @@ image: /media/2026/09/maps-featured.png
 
       if (!settings.force && focusedBoundary && doesFeatureMatchFocus(feature, focusedBoundary)) {
         clearMapFocus();
+        refreshFocusedPopup(feature, layer, layerType);
         return;
       }
 
@@ -1639,6 +1674,8 @@ image: /media/2026/09/maps-featured.png
       };
       applyFocusToBoundaryLayer(sourceLayer, focusedBoundary);
       applyFocusToPointLayers(focusFeature);
+      applyFocusToBusRoutes(focusFeature);
+      refreshFocusedPopup(feature, layer, layerType);
       orderMapLayers();
       updateFocusControl();
     }
@@ -3240,9 +3277,10 @@ image: /media/2026/09/maps-featured.png
         getPointToFeatureBoundaryDistanceMeters(point, geometry) <= busRouteBoundaryToleranceMeters;
     }
 
-    function countLayerRoutesInFeature(stopLayer, polygonFeature) {
+    function getLayerRouteIdsInFeature(stopLayer, polygonFeature, options) {
+      const settings = options || {};
       const routeIds = new Set();
-      if (!stopLayer.eachLayer || !polygonFeature || !polygonFeature.geometry) return 0;
+      if (!stopLayer.eachLayer || !polygonFeature || !polygonFeature.geometry) return routeIds;
 
       stopLayer.eachLayer((layer) => {
         if (!layer.getLatLng || !layer.feature) return;
@@ -3255,13 +3293,17 @@ image: /media/2026/09/maps-featured.png
 
         stopRouteIds.forEach((routeId) => {
           const normalizedRouteId = String(routeId);
-          if (selectedBusRouteIds.has(normalizedRouteId)) {
+          if (!settings.selectedOnly || selectedBusRouteIds.has(normalizedRouteId)) {
             routeIds.add(normalizedRouteId);
           }
         });
       });
 
-      return routeIds.size;
+      return routeIds;
+    }
+
+    function countLayerRoutesInFeature(stopLayer, polygonFeature) {
+      return getLayerRouteIdsInFeature(stopLayer, polygonFeature, { selectedOnly: true }).size;
     }
 
     function getActiveHealthZoneLayer() {
@@ -4213,6 +4255,7 @@ image: /media/2026/09/maps-featured.png
           if (focusedBoundary) {
             applyFocusToBoundaryLayer(focusedBoundary.sourceLayer, focusedBoundary);
             applyFocusToPointLayers(focusedBoundary.focusFeature);
+            applyFocusToBusRoutes(focusedBoundary.focusFeature);
           }
         })
         .catch((error) => {
@@ -4234,6 +4277,7 @@ image: /media/2026/09/maps-featured.png
           if (focusedBoundary) {
             applyFocusToBoundaryLayer(focusedBoundary.sourceLayer, focusedBoundary);
             applyFocusToPointLayers(focusedBoundary.focusFeature);
+            applyFocusToBusRoutes(focusedBoundary.focusFeature);
           }
         })
         .catch((error) => {
