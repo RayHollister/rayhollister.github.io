@@ -14,7 +14,13 @@ image: /media/2026/09/maps-featured.png
 <link rel="stylesheet" href="/leaflet/fullscreen/Control.FullScreen.css">
 
 <style>
+  .leaflet-top .leaflet-control {
+    margin-bottom: 10px;
+  }
   .maps-page {
+    --maps-control-panel-header-height: 2.05rem;
+    --maps-control-panel-max-height: calc(100vh - 6rem);
+    --maps-control-panel-max-height: calc(100dvh - 6rem);
     display: grid;
     height: calc(100vh - 56px);
     height: calc(100dvh - 56px);
@@ -213,8 +219,7 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-layers-control .maps-control-panel__body {
-    max-height: calc(100vh - 10rem);
-    max-height: calc(100dvh - 10rem);
+    max-height: calc(var(--maps-control-panel-max-height) - var(--maps-control-panel-header-height));
     overflow-y: auto;
   }
 
@@ -396,6 +401,11 @@ image: /media/2026/09/maps-featured.png
     position: relative;
   }
 
+  .maps-layers-control.is-open,
+  .maps-pinned-card-panel {
+    max-height: var(--maps-control-panel-max-height);
+  }
+
   .maps-layers-control .maps-layer-opacity-control {
     align-items: center;
     display: flex;
@@ -472,8 +482,6 @@ image: /media/2026/09/maps-featured.png
     border: 1px solid #d0d7de;
     box-shadow: 0 2px 8px rgb(27 31 36 / 12%);
     display: none;
-    max-height: calc(100vh - 7rem);
-    max-height: calc(100dvh - 7rem);
     overflow: hidden;
     width: min(22rem, calc(100vw - 5rem));
   }
@@ -499,6 +507,7 @@ image: /media/2026/09/maps-featured.png
   .maps-pinned-card-panel__body {
     display: grid;
     gap: 0.5rem;
+    min-height: 0;
     overflow: auto;
     padding: 0.6rem;
   }
@@ -729,12 +738,8 @@ image: /media/2026/09/maps-featured.png
       width: 30px;
     }
 
-    .maps-control-panel.is-open {
-      max-height: calc(100dvh - 0.75rem);
-    }
-
     .maps-control-panel__body {
-      max-height: calc(100dvh - 5rem);
+      max-height: calc(var(--maps-control-panel-max-height) - var(--maps-control-panel-header-height));
       overflow: auto;
     }
 
@@ -865,7 +870,6 @@ image: /media/2026/09/maps-featured.png
       const settings = options || {};
       const headerAction = settings.headerAction || null;
       let header = null;
-      const viewportPadding = 12;
 
       container.classList.add("maps-control-panel");
       body.classList.add("maps-control-panel__body");
@@ -896,37 +900,14 @@ image: /media/2026/09/maps-featured.png
         container.insertBefore(toggle, body);
       }
 
-      function fitOpenPanelToViewport() {
-        if (!container.classList.contains("is-open")) return;
-        const containerTop = container.getBoundingClientRect().top;
-        const availableHeight = Math.max(160, window.innerHeight - containerTop - viewportPadding);
-        const headerHeight = header ? header.offsetHeight : toggle.offsetHeight;
-        const bodyHeight = Math.max(120, availableHeight - headerHeight);
-        container.style.maxHeight = `${availableHeight}px`;
-        body.style.maxHeight = `${bodyHeight}px`;
-      }
-
-      function clearPanelViewportFit() {
-        container.style.maxHeight = "";
-        body.style.maxHeight = "";
-      }
-
       function setOpen(open) {
         container.classList.toggle("is-open", open);
         toggle.setAttribute("aria-expanded", String(open));
-        if (open) {
-          fitOpenPanelToViewport();
-          window.requestAnimationFrame(fitOpenPanelToViewport);
-        } else {
-          clearPanelViewportFit();
-        }
       }
 
       toggle.addEventListener("click", function () {
         setOpen(!container.classList.contains("is-open"));
       });
-      window.addEventListener("resize", fitOpenPanelToViewport);
-      window.addEventListener("orientationchange", fitOpenPanelToViewport);
       document.addEventListener("click", function (event) {
         if (container.classList.contains("is-open") && !container.contains(event.target)) {
           setOpen(false);
