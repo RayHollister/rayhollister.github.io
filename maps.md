@@ -86,6 +86,10 @@ image: /media/2026/09/maps-featured.png
     margin-top: 0.25rem;
   }
 
+  .maps-district-popup .maps-route-pdf-link {
+    margin-top: 0.25rem;
+  }
+
   .maps-district-popup strong {
     margin-top: 0.5rem;
   }
@@ -324,6 +328,51 @@ image: /media/2026/09/maps-featured.png
 
   .maps-layer-group-row label {
     white-space: nowrap;
+  }
+
+  .maps-route-filter {
+    border: 1px solid #d0d7de;
+    border-radius: 4px;
+    margin-top: 0.35rem;
+  }
+
+  .maps-route-filter summary {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    font-weight: 700;
+    gap: 0.35rem;
+    justify-content: space-between;
+    padding: 0.35rem 0.45rem;
+  }
+
+  .maps-route-filter__list {
+    border-top: 1px solid #d0d7de;
+    display: grid;
+    gap: 0.2rem;
+    max-height: 14rem;
+    overflow: auto;
+    padding: 0.35rem 0.45rem;
+  }
+
+  .maps-route-filter__list:empty {
+    display: none;
+  }
+
+  .maps-route-filter__row {
+    align-items: center;
+    display: flex;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .maps-route-filter__swatch {
+    border: 1px solid rgba(0, 0, 0, 0.28);
+    display: inline-block;
+    flex: 0 0 auto;
+    height: 0.65rem;
+    width: 0.65rem;
+    margin: 0 0.25rem; 
   }
 
   .maps-layers-control {
@@ -1189,6 +1238,7 @@ image: /media/2026/09/maps-featured.png
     let governmentOverlayOpacity = defaultGovernmentOverlayOpacity;
     let governmentLayerOpacityInput;
     let governmentLayerOpacityLabel;
+    const busRouteBoundaryToleranceMeters = 200;
     let mapInteractionMode = "browse";
     let focusToggleButton;
     let focusedBoundary;
@@ -1199,6 +1249,12 @@ image: /media/2026/09/maps-featured.png
     let pinnedCardBody;
     let mapContextMenuElement;
     const pinnedBoundaryCards = [];
+    const busRouteLayersByRouteId = new Map();
+    const busRouteMetadataByRouteId = new Map();
+    const selectedBusRouteIds = new Set();
+    const busRouteFilterInputs = new Map();
+    let busRouteFilterListElement;
+    let busRouteFilterSummaryElement;
 
     function moveLayerGroup(layer, direction) {
       if (!map.hasLayer(layer) || !layer.eachLayer) return;
@@ -1907,6 +1963,110 @@ image: /media/2026/09/maps-featured.png
       return { input, labelElement };
     }
 
+    function sortBusRouteIds(routeIds) {
+      return routeIds.sort((first, second) => {
+        const firstNumber = Number.parseInt(first, 10);
+        const secondNumber = Number.parseInt(second, 10);
+        if (Number.isFinite(firstNumber) && Number.isFinite(secondNumber) && firstNumber !== secondNumber) {
+          return firstNumber - secondNumber;
+        }
+        return String(first).localeCompare(String(second), undefined, { numeric: true });
+      });
+    }
+
+    function updateBusRouteFilterSummary() {
+      if (!busRouteFilterSummaryElement) return;
+      const selectedCount = Array.from(busRouteMetadataByRouteId.keys()).filter((routeId) => selectedBusRouteIds.has(routeId)).length;
+      const totalCount = busRouteMetadataByRouteId.size;
+      busRouteFilterSummaryElement.textContent = totalCount
+        ? `${selectedCount.toLocaleString()} of ${totalCount.toLocaleString()}`
+        : "Loading";
+    }
+
+    function syncBusRouteFilterInputs() {
+      busRouteFilterInputs.forEach((input, routeId) => {
+        input.checked = selectedBusRouteIds.has(routeId);
+      });
+      updateBusRouteFilterSummary();
+    }
+
+    function applyBusRouteFilters() {
+      busRouteLayersByRouteId.forEach((layers, routeId) => {
+        layers.forEach((layer) => {
+          const isSelected = selectedBusRouteIds.has(routeId);
+          if (isSelected && !busRoutesLayer.hasLayer(layer)) {
+            busRoutesLayer.addLayer(layer);
+          } else if (!isSelected && busRoutesLayer.hasLayer(layer)) {
+            busRoutesLayer.removeLayer(layer);
+          }
+        });
+      });
+      orderMapLayers();
+      syncBusRouteFilterInputs();
+    }
+
+    function populateBusRouteFilterControls() {
+      if (!busRouteFilterListElement || !busRouteMetadataByRouteId.size) return;
+      busRouteFilterListElement.textContent = "";
+      busRouteFilterInputs.clear();
+
+      sortBusRouteIds(Array.from(busRouteMetadataByRouteId.keys())).forEach((routeId) => {
+        const metadata = busRouteMetadataByRouteId.get(routeId);
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        const swatch = document.createElement("span");
+        const text = document.createElement("span");
+
+        label.className = "maps-route-filter__row";
+        input.type = "checkbox";
+        input.className = "leaflet-control-layers-selector";
+        input.checked = selectedBusRouteIds.has(routeId);
+        input.addEventListener("change", function () {
+          if (input.checked) {
+            selectedBusRouteIds.add(routeId);
+          } else {
+            selectedBusRouteIds.delete(routeId);
+          }
+          applyBusRouteFilters();
+        });
+
+        swatch.className = "maps-route-filter__swatch";
+        swatch.style.background = metadata.color;
+        text.textContent = metadata.title;
+
+        label.appendChild(input);
+        label.appendChild(swatch);
+        label.appendChild(text);
+        busRouteFilterInputs.set(routeId, input);
+        busRouteFilterListElement.appendChild(label);
+      });
+
+      updateBusRouteFilterSummary();
+    }
+
+    function createBusRouteFilterSection() {
+      const details = document.createElement("details");
+      const summary = document.createElement("summary");
+      const title = document.createElement("span");
+      const count = document.createElement("span");
+      const list = document.createElement("div");
+
+      details.className = "maps-route-filter";
+      title.textContent = "Routes";
+      count.textContent = "Loading";
+      list.className = "maps-route-filter__list";
+      busRouteFilterSummaryElement = count;
+      busRouteFilterListElement = list;
+
+      summary.appendChild(title);
+      summary.appendChild(count);
+      details.appendChild(summary);
+      details.appendChild(list);
+      populateBusRouteFilterControls();
+
+      return details;
+    }
+
     function createLayerHeading(label) {
       const heading = document.createElement("div");
       heading.className = "maps-layer-heading";
@@ -2301,7 +2461,10 @@ image: /media/2026/09/maps-featured.png
           appendGeographyLayerRow(overlays, "Health Zones", healthZoneFillLayer, healthZoneBorderLayer);
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
-            createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer, { geometryType: "line" }),
+            createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer, { geometryType: "line" })
+          ]);
+          overlays.appendChild(createBusRouteFilterSection());
+          appendLayerControls(overlays, [
             createBoundaryLayerInput("JTA Bus Stops", busStopsLayer, { countLabel: "JTA Bus Stops" })
           ]);
           const traditionalPublicSchoolControls = [
@@ -2841,6 +3004,211 @@ image: /media/2026/09/maps-featured.png
       return count;
     }
 
+    function getPolygonRingsFromFeatureGeometry(geometry) {
+      if (!geometry) return [];
+      if (geometry.type === "Polygon") {
+        return geometry.coordinates || [];
+      }
+      if (geometry.type === "MultiPolygon") {
+        return (geometry.coordinates || []).flat();
+      }
+      return [];
+    }
+
+    function isPointOnSegment(point, segmentStart, segmentEnd) {
+      const crossProduct = ((point[1] - segmentStart[1]) * (segmentEnd[0] - segmentStart[0])) -
+        ((point[0] - segmentStart[0]) * (segmentEnd[1] - segmentStart[1]));
+      if (Math.abs(crossProduct) > 1e-10) return false;
+
+      const dotProduct = ((point[0] - segmentStart[0]) * (segmentEnd[0] - segmentStart[0])) +
+        ((point[1] - segmentStart[1]) * (segmentEnd[1] - segmentStart[1]));
+      if (dotProduct < 0) return false;
+
+      const squaredLength = ((segmentEnd[0] - segmentStart[0]) ** 2) +
+        ((segmentEnd[1] - segmentStart[1]) ** 2);
+      return dotProduct <= squaredLength;
+    }
+
+    function getSegmentOrientation(pointA, pointB, pointC) {
+      const value = ((pointB[1] - pointA[1]) * (pointC[0] - pointB[0])) -
+        ((pointB[0] - pointA[0]) * (pointC[1] - pointB[1]));
+      if (Math.abs(value) < 1e-10) return 0;
+      return value > 0 ? 1 : 2;
+    }
+
+    function doLineSegmentsIntersect(segmentAStart, segmentAEnd, segmentBStart, segmentBEnd) {
+      const orientation1 = getSegmentOrientation(segmentAStart, segmentAEnd, segmentBStart);
+      const orientation2 = getSegmentOrientation(segmentAStart, segmentAEnd, segmentBEnd);
+      const orientation3 = getSegmentOrientation(segmentBStart, segmentBEnd, segmentAStart);
+      const orientation4 = getSegmentOrientation(segmentBStart, segmentBEnd, segmentAEnd);
+
+      if (orientation1 !== orientation2 && orientation3 !== orientation4) return true;
+      if (orientation1 === 0 && isPointOnSegment(segmentBStart, segmentAStart, segmentAEnd)) return true;
+      if (orientation2 === 0 && isPointOnSegment(segmentBEnd, segmentAStart, segmentAEnd)) return true;
+      if (orientation3 === 0 && isPointOnSegment(segmentAStart, segmentBStart, segmentBEnd)) return true;
+      if (orientation4 === 0 && isPointOnSegment(segmentAEnd, segmentBStart, segmentBEnd)) return true;
+      return false;
+    }
+
+    function doesLineCoordinateSequenceIntersectFeature(coordinates, polygonFeature) {
+      const geometry = polygonFeature.geometry || {};
+      const rings = getPolygonRingsFromFeatureGeometry(geometry);
+      if (!coordinates || coordinates.length < 2 || !rings.length) return false;
+      if (coordinates.some((point) => isPointInFeatureGeometry(point, geometry))) return true;
+
+      for (let lineIndex = 1; lineIndex < coordinates.length; lineIndex += 1) {
+        const lineStart = coordinates[lineIndex - 1];
+        const lineEnd = coordinates[lineIndex];
+        for (const ring of rings) {
+          for (let ringIndex = 1; ringIndex < ring.length; ringIndex += 1) {
+            if (doLineSegmentsIntersect(lineStart, lineEnd, ring[ringIndex - 1], ring[ringIndex])) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+
+    function doesLineGeometryIntersectFeature(lineGeometry, polygonFeature) {
+      if (!lineGeometry || !lineGeometry.coordinates) return false;
+      if (lineGeometry.type === "LineString") {
+        return doesLineCoordinateSequenceIntersectFeature(lineGeometry.coordinates, polygonFeature);
+      }
+      if (lineGeometry.type === "MultiLineString") {
+        return (lineGeometry.coordinates || []).some((coordinates) => {
+          return doesLineCoordinateSequenceIntersectFeature(coordinates, polygonFeature);
+        });
+      }
+      return false;
+    }
+
+    function getCoordinateDistanceMiles(start, end) {
+      const degreesToRadians = Math.PI / 180;
+      const earthRadiusMiles = 3958.8;
+      const startLatitude = start[1] * degreesToRadians;
+      const endLatitude = end[1] * degreesToRadians;
+      const latitudeDelta = (end[1] - start[1]) * degreesToRadians;
+      const longitudeDelta = (end[0] - start[0]) * degreesToRadians;
+      const haversine = Math.sin(latitudeDelta / 2) ** 2 +
+        Math.cos(startLatitude) * Math.cos(endLatitude) * Math.sin(longitudeDelta / 2) ** 2;
+      return earthRadiusMiles * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
+    }
+
+    function getRouteSegmentMilesInFeature(coordinates, polygonFeature) {
+      const geometry = polygonFeature.geometry || {};
+      const totals = { inside: 0, total: 0 };
+      if (!coordinates || coordinates.length < 2) return totals;
+
+      for (let index = 1; index < coordinates.length; index += 1) {
+        const start = coordinates[index - 1];
+        const end = coordinates[index];
+        const miles = getCoordinateDistanceMiles(start, end);
+        const midpoint = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2];
+        totals.total += miles;
+        if (isPointInFeatureGeometry(midpoint, geometry)) {
+          totals.inside += miles;
+        }
+      }
+
+      return totals;
+    }
+
+    function getRouteGeometryMilesInFeature(lineGeometry, polygonFeature) {
+      const totals = { inside: 0, total: 0 };
+      const sequences = lineGeometry && lineGeometry.type === "LineString"
+        ? [lineGeometry.coordinates]
+        : lineGeometry && lineGeometry.type === "MultiLineString"
+          ? lineGeometry.coordinates || []
+          : [];
+
+      sequences.forEach((coordinates) => {
+        const sequenceTotals = getRouteSegmentMilesInFeature(coordinates, polygonFeature);
+        totals.inside += sequenceTotals.inside;
+        totals.total += sequenceTotals.total;
+      });
+
+      return totals;
+    }
+
+    function getCoordinateDistanceMeters(start, end, referenceLatitude) {
+      const metersPerLatitudeDegree = 110540;
+      const metersPerLongitudeDegree = 111320 * Math.cos((referenceLatitude || 0) * Math.PI / 180);
+      const longitudeDelta = (end[0] - start[0]) * metersPerLongitudeDegree;
+      const latitudeDelta = (end[1] - start[1]) * metersPerLatitudeDegree;
+      return Math.sqrt((longitudeDelta ** 2) + (latitudeDelta ** 2));
+    }
+
+    function getPointToSegmentDistanceMeters(point, segmentStart, segmentEnd) {
+      const referenceLatitude = point[1];
+      const metersPerLatitudeDegree = 110540;
+      const metersPerLongitudeDegree = 111320 * Math.cos(referenceLatitude * Math.PI / 180);
+      const pointMeters = [point[0] * metersPerLongitudeDegree, point[1] * metersPerLatitudeDegree];
+      const startMeters = [segmentStart[0] * metersPerLongitudeDegree, segmentStart[1] * metersPerLatitudeDegree];
+      const endMeters = [segmentEnd[0] * metersPerLongitudeDegree, segmentEnd[1] * metersPerLatitudeDegree];
+      const segmentX = endMeters[0] - startMeters[0];
+      const segmentY = endMeters[1] - startMeters[1];
+      const segmentLengthSquared = (segmentX ** 2) + (segmentY ** 2);
+      if (!segmentLengthSquared) return getCoordinateDistanceMeters(point, segmentStart, referenceLatitude);
+
+      const projectedPosition = Math.max(0, Math.min(1, (
+        ((pointMeters[0] - startMeters[0]) * segmentX) +
+        ((pointMeters[1] - startMeters[1]) * segmentY)
+      ) / segmentLengthSquared));
+      const closestPoint = [
+        startMeters[0] + (projectedPosition * segmentX),
+        startMeters[1] + (projectedPosition * segmentY)
+      ];
+      const distanceX = pointMeters[0] - closestPoint[0];
+      const distanceY = pointMeters[1] - closestPoint[1];
+      return Math.sqrt((distanceX ** 2) + (distanceY ** 2));
+    }
+
+    function getPointToRingDistanceMeters(point, ring) {
+      if (!ring || ring.length < 2) return Number.POSITIVE_INFINITY;
+      let minimumDistance = Number.POSITIVE_INFINITY;
+      for (let index = 1; index < ring.length; index += 1) {
+        minimumDistance = Math.min(minimumDistance, getPointToSegmentDistanceMeters(point, ring[index - 1], ring[index]));
+      }
+      return minimumDistance;
+    }
+
+    function getPointToFeatureBoundaryDistanceMeters(point, geometry) {
+      return getPolygonRingsFromFeatureGeometry(geometry).reduce((minimumDistance, ring) => {
+        return Math.min(minimumDistance, getPointToRingDistanceMeters(point, ring));
+      }, Number.POSITIVE_INFINITY);
+    }
+
+    function isStopNearFeatureBoundary(point, polygonFeature) {
+      const geometry = polygonFeature.geometry || {};
+      return isPointInFeatureGeometry(point, geometry) ||
+        getPointToFeatureBoundaryDistanceMeters(point, geometry) <= busRouteBoundaryToleranceMeters;
+    }
+
+    function countLayerRoutesInFeature(stopLayer, polygonFeature) {
+      const routeIds = new Set();
+      if (!stopLayer.eachLayer || !polygonFeature || !polygonFeature.geometry) return 0;
+
+      stopLayer.eachLayer((layer) => {
+        if (!layer.getLatLng || !layer.feature) return;
+        const properties = layer.feature.properties || {};
+        const stopRouteIds = properties.route_ids || [];
+        if (!stopRouteIds.length) return;
+
+        const latLng = layer.getLatLng();
+        if (!isStopNearFeatureBoundary([latLng.lng, latLng.lat], polygonFeature)) return;
+
+        stopRouteIds.forEach((routeId) => {
+          const normalizedRouteId = String(routeId);
+          if (selectedBusRouteIds.has(normalizedRouteId)) {
+            routeIds.add(normalizedRouteId);
+          }
+        });
+      });
+
+      return routeIds.size;
+    }
+
     function getActiveHealthZoneLayer() {
       if (map.hasLayer(healthZoneByZipCodeLayer)) return healthZoneByZipCodeLayer;
       if (map.hasLayer(healthZoneFillLayer)) return healthZoneFillLayer;
@@ -2897,6 +3265,12 @@ image: /media/2026/09/maps-featured.png
           label: pointLayer.label,
           count: countLayerPointsInFeature(pointLayer.layer, feature)
         }));
+      if (map.hasLayer(busRoutesLayer)) {
+        activeCounts.push({
+          label: "JTA Bus Routes",
+          count: countLayerRoutesInFeature(busStopsLayer, feature)
+        });
+      }
 
       if (!activeCounts.length) return;
 
@@ -3255,6 +3629,25 @@ image: /media/2026/09/maps-featured.png
       return name || `Route ${properties.route_id || ""}`.trim() || "JTA Bus Route";
     }
 
+    function registerBusRouteFeature(feature, layer) {
+      const properties = feature.properties || {};
+      const routeId = properties.route_id ? String(properties.route_id) : "";
+      if (!routeId) return;
+
+      if (!busRouteLayersByRouteId.has(routeId)) {
+        busRouteLayersByRouteId.set(routeId, []);
+      }
+      busRouteLayersByRouteId.get(routeId).push(layer);
+      if (!busRouteMetadataByRouteId.has(routeId)) {
+        busRouteMetadataByRouteId.set(routeId, {
+          color: normalizeHexColor(properties.route_color, "#0f766e"),
+          title: getBusRouteTitle(feature)
+        });
+        selectedBusRouteIds.add(routeId);
+        populateBusRouteFilterControls();
+      }
+    }
+
     function createBusRoutePopup(feature) {
       const properties = feature.properties || {};
       const popup = document.createElement("div");
@@ -3266,6 +3659,7 @@ image: /media/2026/09/maps-featured.png
 
       if (properties.route_pdf_url) {
         const scheduleLink = document.createElement("a");
+        scheduleLink.className = "maps-route-pdf-link";
         scheduleLink.href = properties.route_pdf_url;
         scheduleLink.target = "_blank";
         scheduleLink.rel = "noopener";
@@ -3370,6 +3764,7 @@ image: /media/2026/09/maps-featured.png
 
     function addBusRouteInteractivity(feature, layer) {
       const name = getBusRouteTitle(feature);
+      registerBusRouteFeature(feature, layer);
       layer.bindPopup(createBusRoutePopup(feature));
       if (name && supportsPointerHover) {
         layer.bindTooltip(name, {
