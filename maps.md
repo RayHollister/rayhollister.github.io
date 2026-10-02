@@ -14,6 +14,9 @@ image: /media/2026/09/maps-featured.png
 <link rel="stylesheet" href="/leaflet/fullscreen/Control.FullScreen.css">
 
 <style>
+  .leaflet-container {
+    background: #ffffff;
+  }
   .leaflet-top .leaflet-control {
     margin-bottom: 10px;
   }
@@ -137,7 +140,18 @@ image: /media/2026/09/maps-featured.png
     padding-right: 0.45rem;
   }
 
+  .maps-basemap-control.is-open .maps-control-panel__header {
+    border-bottom: 1px solid #d0d7de;
+    gap: 0.35rem;
+    justify-content: flex-start;
+    padding-right: 0.45rem;
+  }
+
   .maps-layers-control:not(.is-open) .maps-control-panel__header {
+    display: block;
+  }
+
+  .maps-basemap-control:not(.is-open) .maps-control-panel__header {
     display: block;
   }
 
@@ -406,7 +420,8 @@ image: /media/2026/09/maps-featured.png
     max-height: var(--maps-control-panel-max-height);
   }
 
-  .maps-layers-control .maps-layer-opacity-control {
+  .maps-layers-control .maps-layer-opacity-control,
+  .maps-basemap-control .maps-layer-opacity-control {
     align-items: center;
     display: flex;
     flex: 1 1 7rem;
@@ -416,7 +431,8 @@ image: /media/2026/09/maps-featured.png
     position: relative;
   }
 
-  .maps-layers-control .maps-layer-opacity-control::after {
+  .maps-layers-control .maps-layer-opacity-control::after,
+  .maps-basemap-control .maps-layer-opacity-control::after {
     border: 1px solid #424242;
     box-sizing: border-box;
     content: "";
@@ -434,7 +450,12 @@ image: /media/2026/09/maps-featured.png
     display: none;
   }
 
-  .maps-layer-header-actions {
+  .maps-basemap-control:not(.is-open) .maps-basemap-header-actions {
+    display: none;
+  }
+
+  .maps-layer-header-actions,
+  .maps-basemap-header-actions {
     align-items: center;
     display: flex;
     flex: 1 1 auto;
@@ -807,6 +828,9 @@ image: /media/2026/09/maps-featured.png
     let activeBaseMapKey = "positron";
     let baseMapControlElement;
     let baseMapLayer;
+    let baseMapOpacityInput;
+    let baseMapOpacityLabel;
+    let baseMapTileOpacity = 1;
     let baseMapRequestId = 0;
     let zoomHomeControl;
     const supportsPointerHover = window.matchMedia
@@ -847,8 +871,28 @@ image: /media/2026/09/maps-featured.png
         }).addTo(map);
       }
       activeBaseMapKey = baseMapKey;
+      applyBaseMapTileOpacity();
       updateBaseMapControl();
       return true;
+    }
+
+    function getBaseMapLayerContainer() {
+      if (!baseMapLayer) return null;
+      if (baseMapLayer.getContainer) {
+        return baseMapLayer.getContainer();
+      }
+      return baseMapLayer._container || null;
+    }
+
+    function applyBaseMapTileOpacity() {
+      if (!baseMapLayer) return;
+      if (baseMapLayer.setOpacity) {
+        baseMapLayer.setOpacity(baseMapTileOpacity);
+      }
+      const container = getBaseMapLayerContainer();
+      if (container) {
+        container.style.opacity = String(baseMapTileOpacity);
+      }
     }
 
     function refreshActiveBaseMap() {
@@ -863,6 +907,35 @@ image: /media/2026/09/maps-featured.png
         const key = button.dataset.baseMap;
         button.setAttribute("aria-pressed", String(key === activeBaseMapKey));
       });
+    }
+
+    function setBaseMapTileOpacity(value) {
+      baseMapTileOpacity = Math.max(0, Math.min(1, Number.isFinite(value) ? value : 1));
+      applyBaseMapTileOpacity();
+      updateBaseMapTileOpacityControl();
+    }
+
+    function updateOpacityRangeVisual(input, label, opacity, labelText) {
+      const opacityPercent = Math.round(opacity * 100);
+      const thumbBorderChannel = Math.round(opacity * 255);
+      const opacityFillChannel = Math.round(255 - ((255 - 66) * opacity));
+      const title = `${labelText}: ${opacityPercent}%`;
+
+      if (input) {
+        input.value = String(opacityPercent);
+        input.title = title;
+        input.style.setProperty("--maps-layer-opacity-alpha", String(opacity));
+        input.style.setProperty("--maps-layer-opacity-fill-color", `rgb(${opacityFillChannel} ${opacityFillChannel} ${opacityFillChannel})`);
+        input.style.setProperty("--maps-layer-opacity-percent", `${opacityPercent}%`);
+        input.style.setProperty("--maps-layer-thumb-border-color", `rgb(${thumbBorderChannel} ${thumbBorderChannel} ${thumbBorderChannel})`);
+      }
+      if (label) {
+        label.title = title;
+      }
+    }
+
+    function updateBaseMapTileOpacityControl() {
+      updateOpacityRangeVisual(baseMapOpacityInput, baseMapOpacityLabel, baseMapTileOpacity, "Map tile opacity");
     }
 
     function setupCollapsibleMapControl(container, label, body, options) {
@@ -943,6 +1016,7 @@ image: /media/2026/09/maps-featured.png
             body.appendChild(button);
           });
           controlApi = setupCollapsibleMapControl(container, "Basemap", body, {
+            headerAction: createBaseMapHeaderActions(),
             iconPath: "M576 112C576 103.7 571.7 96 564.7 91.6C557.7 87.2 548.8 86.8 541.4 90.5L416.5 152.1L244 93.4C230.3 88.7 215.3 89.6 202.1 95.7L77.8 154.3C69.4 158.2 64 166.7 64 176L64 528C64 536.2 68.2 543.9 75.1 548.3C82 552.7 90.7 553.2 98.2 549.7L225.5 489.8L396.2 546.7C409.9 551.3 424.7 550.4 437.8 544.2L562.2 485.7C570.6 481.7 576 473.3 576 464L576 112zM208 146.1L208 445.1L112 490.3L112 191.3L208 146.1zM256 449.4L256 148.3L384 191.8L384 492.1L256 449.4zM432 198L528 150.6L528 448.8L432 494L432 198z"
           });
           L.DomEvent.disableClickPropagation(container);
@@ -954,6 +1028,29 @@ image: /media/2026/09/maps-featured.png
       });
 
       map.addControl(new BaseMapControl());
+    }
+
+    function createBaseMapHeaderActions() {
+      const wrapper = document.createElement("div");
+      const opacityLabel = document.createElement("label");
+      const opacityInput = document.createElement("input");
+
+      wrapper.className = "maps-basemap-header-actions";
+      opacityLabel.className = "maps-layer-opacity-control maps-basemap-opacity-control";
+      opacityInput.type = "range";
+      opacityInput.min = "0";
+      opacityInput.max = "100";
+      opacityInput.step = "1";
+      opacityInput.setAttribute("aria-label", "Map tile opacity");
+      opacityInput.addEventListener("input", function () {
+        setBaseMapTileOpacity(Number(opacityInput.value) / 100);
+      });
+      opacityLabel.appendChild(opacityInput);
+      wrapper.appendChild(opacityLabel);
+      baseMapOpacityInput = opacityInput;
+      baseMapOpacityLabel = opacityLabel;
+      updateBaseMapTileOpacityControl();
+      return wrapper;
     }
 
     let userAccuracyCircle;
@@ -1412,6 +1509,23 @@ image: /media/2026/09/maps-featured.png
       if (layer.getLatLng) {
         bounds.extend(layer.getLatLng());
       }
+    }
+
+    function getFeatureBounds(feature) {
+      if (!feature || !feature.geometry) return null;
+      try {
+        const layer = L.geoJSON(feature);
+        const bounds = layer.getBounds();
+        return bounds && bounds.isValid && bounds.isValid() ? bounds : null;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function fitFeatureInMapView(feature) {
+      const bounds = getFeatureBounds(feature);
+      if (!bounds) return;
+      map.fitBounds(bounds, { padding: [32, 32] });
     }
 
     function fitVisibleMapLayersOnLoad() {
@@ -2017,6 +2131,7 @@ image: /media/2026/09/maps-featured.png
             "Focus",
             `Focus on ${contextTitle}`,
             () => {
+              const focusFeature = getFocusGeometryFeature(featureContext.feature, featureContext.layerType);
               mapInteractionMode = "focus";
               focusBoundaryFeature(
                 featureContext.feature,
@@ -2025,6 +2140,7 @@ image: /media/2026/09/maps-featured.png
                 featureContext.layerType,
                 { force: true }
               );
+              fitFeatureInMapView(focusFeature);
               hideMapContextMenu();
             }
           ));
@@ -2056,6 +2172,7 @@ image: /media/2026/09/maps-featured.png
             "Trim Bus Routes",
             `Trim visible bus routes to ${contextTitle}`,
             () => {
+              const focusFeature = getFocusGeometryFeature(featureContext.feature, featureContext.layerType);
               focusBoundaryFeature(
                 featureContext.feature,
                 featureContext.layer,
@@ -2063,7 +2180,8 @@ image: /media/2026/09/maps-featured.png
                 featureContext.layerType,
                 { force: true }
               );
-              trimVisibleBusRoutesToFeature(getFocusGeometryFeature(featureContext.feature, featureContext.layerType));
+              trimVisibleBusRoutesToFeature(focusFeature);
+              fitFeatureInMapView(focusFeature);
               hideMapContextMenu();
             }
           ));
@@ -2767,20 +2885,7 @@ image: /media/2026/09/maps-featured.png
     }
 
     function updateGovernmentLayerOpacityControl() {
-      const opacityPercent = Math.round(governmentOverlayOpacity * 100);
-      if (governmentLayerOpacityInput) {
-        const thumbBorderChannel = Math.round(governmentOverlayOpacity * 255);
-        const opacityFillChannel = Math.round(255 - ((255 - 66) * governmentOverlayOpacity));
-        governmentLayerOpacityInput.value = String(opacityPercent);
-        governmentLayerOpacityInput.title = `Overlay opacity: ${opacityPercent}%`;
-        governmentLayerOpacityInput.style.setProperty("--maps-layer-opacity-alpha", String(governmentOverlayOpacity));
-        governmentLayerOpacityInput.style.setProperty("--maps-layer-opacity-fill-color", `rgb(${opacityFillChannel} ${opacityFillChannel} ${opacityFillChannel})`);
-        governmentLayerOpacityInput.style.setProperty("--maps-layer-opacity-percent", `${opacityPercent}%`);
-        governmentLayerOpacityInput.style.setProperty("--maps-layer-thumb-border-color", `rgb(${thumbBorderChannel} ${thumbBorderChannel} ${thumbBorderChannel})`);
-      }
-      if (governmentLayerOpacityLabel) {
-        governmentLayerOpacityLabel.title = `Overlay opacity: ${opacityPercent}%`;
-      }
+      updateOpacityRangeVisual(governmentLayerOpacityInput, governmentLayerOpacityLabel, governmentOverlayOpacity, "Overlay opacity");
     }
 
     function updateOpacityQueryUrl() {
