@@ -116,6 +116,20 @@ image: /media/2026/09/maps-featured.png
     width: 72px;
   }
 
+  .leaflet-popup.maps-draggable-popup .leaflet-popup-content-wrapper {
+    cursor: grab;
+  }
+
+  .leaflet-popup.maps-draggable-popup .leaflet-popup-content-wrapper a,
+  .leaflet-popup.maps-draggable-popup .leaflet-popup-content-wrapper button {
+    cursor: pointer;
+  }
+
+  .leaflet-popup.maps-popup-dragging .leaflet-popup-content-wrapper {
+    cursor: grabbing;
+    user-select: none;
+  }
+
   .maps-control-panel,
   .maps-basemap-control {
     background: #fff;
@@ -1969,6 +1983,65 @@ image: /media/2026/09/maps-featured.png
       mapContextMenuElement.classList.remove("is-open");
     }
 
+    function makePopupDraggable(popup) {
+      const container = popup && popup.getElement ? popup.getElement() : popup && popup._container;
+      if (!container || container.dataset.mapsDraggablePopup === "true") return;
+      const handle = container.querySelector(".leaflet-popup-content-wrapper");
+      if (!handle) return;
+      let startX = 0;
+      let startY = 0;
+      let startTranslateX = 0;
+      let startTranslateY = 0;
+      let dragging = false;
+      let mapDraggingWasEnabled = false;
+
+      function endDrag() {
+        if (!dragging) return;
+        dragging = false;
+        container.classList.remove("maps-popup-dragging");
+        window.removeEventListener("pointermove", onPointerMove);
+        window.removeEventListener("pointerup", endDrag);
+        window.removeEventListener("pointercancel", endDrag);
+        if (mapDraggingWasEnabled && map.dragging) {
+          map.dragging.enable();
+        }
+      }
+
+      function onPointerMove(event) {
+        if (!dragging) return;
+        event.preventDefault();
+        const nextX = startTranslateX + event.clientX - startX;
+        const nextY = startTranslateY + event.clientY - startY;
+        container.dataset.mapsPopupTranslateX = String(nextX);
+        container.dataset.mapsPopupTranslateY = String(nextY);
+        container.style.translate = `${nextX}px ${nextY}px`;
+      }
+
+      handle.addEventListener("pointerdown", function (event) {
+        if (event.button !== 0 || event.target.closest("a, button, input, label, select, textarea, .leaflet-popup-close-button")) {
+          return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        startX = event.clientX;
+        startY = event.clientY;
+        startTranslateX = Number(container.dataset.mapsPopupTranslateX || 0);
+        startTranslateY = Number(container.dataset.mapsPopupTranslateY || 0);
+        dragging = true;
+        mapDraggingWasEnabled = Boolean(map.dragging && map.dragging.enabled && map.dragging.enabled());
+        if (mapDraggingWasEnabled) {
+          map.dragging.disable();
+        }
+        container.classList.add("maps-popup-dragging");
+        window.addEventListener("pointermove", onPointerMove);
+        window.addEventListener("pointerup", endDrag);
+        window.addEventListener("pointercancel", endDrag);
+      });
+
+      container.classList.add("maps-draggable-popup");
+      container.dataset.mapsDraggablePopup = "true";
+    }
+
     function createContextMenuButton(label, title, onClick) {
       const button = document.createElement("button");
       button.type = "button";
@@ -3090,6 +3163,9 @@ image: /media/2026/09/maps-featured.png
         showMapContextMenu(event);
       });
       map.on("click movestart zoomstart popupopen", hideMapContextMenu);
+      map.on("popupopen", function (event) {
+        makePopupDraggable(event.popup);
+      });
       document.addEventListener("click", function (event) {
         if (!mapContextMenuElement || !mapContextMenuElement.classList.contains("is-open")) return;
         if (mapContextMenuElement.contains(event.target)) return;
