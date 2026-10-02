@@ -3240,11 +3240,20 @@ image: /media/2026/09/maps-featured.png
       title.textContent = name || `Route ${properties.route_id || ""}`.trim() || "JTA Bus Route";
       popup.appendChild(title);
 
-      if (properties.shape_id) {
-        const shapeLine = document.createElement("span");
-        shapeLine.textContent = `Shape ${properties.shape_id}`;
-        popup.appendChild(shapeLine);
+      if (properties.route_pdf_url) {
+        const scheduleLink = document.createElement("a");
+        scheduleLink.href = properties.route_pdf_url;
+        scheduleLink.target = "_blank";
+        scheduleLink.rel = "noopener";
+        scheduleLink.textContent = "JTA schedule PDF";
+        popup.appendChild(scheduleLink);
       }
+
+      (properties.route_schedule || []).forEach((value) => {
+        const scheduleLine = document.createElement("span");
+        scheduleLine.textContent = value;
+        popup.appendChild(scheduleLine);
+      });
 
       return popup;
     }
