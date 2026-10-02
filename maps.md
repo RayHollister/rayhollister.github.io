@@ -1255,7 +1255,7 @@ image: /media/2026/09/maps-featured.png
     let governmentOverlayOpacity = defaultGovernmentOverlayOpacity;
     let governmentLayerOpacityInput;
     let governmentLayerOpacityLabel;
-    const busRouteBoundaryToleranceMeters = 200;
+    const busRouteBoundaryToleranceMeters = 100;
     let mapInteractionMode = "browse";
     let focusToggleButton;
     let focusedBoundary;
