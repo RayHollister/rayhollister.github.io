@@ -109,6 +109,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 - [JTA GTFS Archive](https://ride.jtafla.com/gtfs-archive/)
   - JTA Bus Routes
   - JTA Bus Stops
+  - Route counts shown in polygon cards are calculated from GTFS stop-to-route data, not from route line geometry. A route is counted for a polygon when at least one bus stop served by that route is inside the polygon or within 100 meters of the polygon boundary. Routes are deduplicated by GTFS `route_id`, so multiple route shapes or trips for the same route count once.
 
 ## Educational Institutions
 

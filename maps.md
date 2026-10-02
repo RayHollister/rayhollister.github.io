@@ -803,6 +803,7 @@ image: /media/2026/09/maps-featured.png
     let baseMapControlElement;
     let baseMapLayer;
     let baseMapRequestId = 0;
+    let zoomHomeControl;
     const supportsPointerHover = window.matchMedia
       ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
       : true;
@@ -1438,6 +1439,18 @@ image: /media/2026/09/maps-featured.png
       if (!bounds.isValid()) return;
       initialVisibleLayerFitComplete = true;
       map.fitBounds(bounds, { padding: [24, 24] });
+    }
+
+    function updateZoomHomeDefaultBounds() {
+      if (!zoomHomeControl) return;
+      const bounds = L.latLngBounds([]);
+      extendBoundsWithLayer(bounds, councilDistrictFillLayer);
+      if (activePlaceLayer.getLayers && activePlaceLayer.getLayers().length) {
+        extendBoundsWithLayer(bounds, activePlaceLayer);
+      }
+      if (!bounds.isValid()) return;
+      zoomHomeControl.setHomeCoordinates(bounds.getCenter());
+      zoomHomeControl.setHomeZoom(map.getBoundsZoom(bounds, false, [24, 24]));
     }
 
     function scheduleInitialVisibleLayerFit() {
@@ -4544,6 +4557,7 @@ image: /media/2026/09/maps-featured.png
       } else if (visiblePlaces.length === 1) {
         map.setView([visiblePlaces[0].lat, visiblePlaces[0].lng], visiblePlaces[0].zoom || 14);
       }
+      updateZoomHomeDefaultBounds();
     }
 
     function loadCouncilDistricts() {
@@ -4559,6 +4573,7 @@ image: /media/2026/09/maps-featured.png
           councilDistrictFillLayer.addData(districts);
           councilDistrictBorderLayer.addData(districts);
           orderMapLayers();
+          updateZoomHomeDefaultBounds();
           if (!places.length && councilDistrictFillLayer.getLayers().length) {
             map.fitBounds(councilDistrictFillLayer.getBounds(), {
               padding: [24, 24]
@@ -4731,9 +4746,11 @@ image: /media/2026/09/maps-featured.png
     loadGeoJsonLayer("/data/duval-post-secondary-schools.geojson", postSecondarySchoolsLayer, "Duval post-secondary schools");
 
     addDistrictLayerControl();
-    L.Control.zoomHome({
+    zoomHomeControl = L.Control.zoomHome({
       position: "topleft"
-    }).addTo(map);
+    });
+    zoomHomeControl.addTo(map);
+    updateZoomHomeDefaultBounds();
     L.control.fullscreen({
       position: "topleft"
     }).addTo(map);
