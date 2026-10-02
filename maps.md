@@ -1266,6 +1266,9 @@ image: /media/2026/09/maps-featured.png
     let pinnedCardBody;
     let mapContextMenuElement;
     const pinnedBoundaryCards = [];
+    let pendingMapDataLoads = 0;
+    let initialVisibleLayerFitComplete = false;
+    let initialVisibleLayerFitTimeout;
     const busRouteLayersByRouteId = new Map();
     const busRouteMetadataByRouteId = new Map();
     const selectedBusRouteIds = new Set();
@@ -1350,6 +1353,106 @@ image: /media/2026/09/maps-featured.png
       lineLayers.forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       pointLayers.forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       moveLayerGroup(busStopsLayer, "bringToFront");
+    }
+
+    function getVisibleOverlayLayers() {
+      return [
+        councilDistrictFillLayer,
+        councilDistrictBorderLayer,
+        councilAtLargeFillLayer,
+        councilAtLargeBorderLayer,
+        schoolBoardDistrictFillLayer,
+        schoolBoardDistrictBorderLayer,
+        cityFillLayer,
+        cityBorderLayer,
+        countyFillLayer,
+        countyBorderLayer,
+        neighborhoodFillLayer,
+        neighborhoodBorderLayer,
+        cpacFillLayer,
+        cpacBorderLayer,
+        floridaHouseFillLayer,
+        floridaHouseBorderLayer,
+        floridaSenateFillLayer,
+        floridaSenateBorderLayer,
+        zipCodeFillLayer,
+        zipCodeBorderLayer,
+        congressionalDistrictFillLayer,
+        congressionalDistrictBorderLayer,
+        healthZoneFillLayer,
+        healthZoneBorderLayer,
+        healthZoneByZipCodeLayer,
+        jsoDistrictFillLayer,
+        jsoDistrictBorderLayer,
+        jsoSubsectionFillLayer,
+        jsoSubsectionBorderLayer,
+        neighborhoodOrganizationsLayer,
+        jsoPoliceStationsLayer,
+        busRoutesLayer,
+        busStopsLayer,
+        elementarySchoolsLayer,
+        middleSchoolsLayer,
+        highSchoolsLayer,
+        dedicatedMagnetSchoolsLayer,
+        fldoeTraditionalElementarySchoolsLayer,
+        fldoeTraditionalMiddleSchoolsLayer,
+        fldoeTraditionalHighSchoolsLayer,
+        fldoeTraditionalCombinationSchoolsLayer,
+        fldoeTraditionalMagnetSchoolsLayer,
+        fldoeCharterElementarySchoolsLayer,
+        fldoeCharterMiddleSchoolsLayer,
+        fldoeCharterHighSchoolsLayer,
+        fldoeCharterCombinationSchoolsLayer,
+        privateElementarySchoolsLayer,
+        privateMiddleSchoolsLayer,
+        privateHighSchoolsLayer,
+        privateCombinationSchoolsLayer,
+        postSecondarySchoolsLayer,
+        activePlaceLayer,
+        archivedPlaceLayer
+      ].filter((layer) => map.hasLayer(layer));
+    }
+
+    function extendBoundsWithLayer(bounds, layer) {
+      if (!layer) return;
+      if (layer.getBounds) {
+        try {
+          const layerBounds = layer.getBounds();
+          if (layerBounds && layerBounds.isValid && layerBounds.isValid()) {
+            bounds.extend(layerBounds);
+            return;
+          }
+        } catch (error) {
+          // Empty layer groups can throw while data is still loading.
+        }
+      }
+      if (layer.getLatLng) {
+        bounds.extend(layer.getLatLng());
+      }
+    }
+
+    function fitVisibleMapLayersOnLoad() {
+      if (initialVisibleLayerFitComplete || pendingMapDataLoads > 0) return;
+      const bounds = L.latLngBounds([]);
+      getVisibleOverlayLayers().forEach((layer) => extendBoundsWithLayer(bounds, layer));
+      if (!bounds.isValid()) return;
+      initialVisibleLayerFitComplete = true;
+      map.fitBounds(bounds, { padding: [24, 24] });
+    }
+
+    function scheduleInitialVisibleLayerFit() {
+      if (initialVisibleLayerFitComplete) return;
+      window.clearTimeout(initialVisibleLayerFitTimeout);
+      initialVisibleLayerFitTimeout = window.setTimeout(fitVisibleMapLayersOnLoad, 100);
+    }
+
+    function beginMapDataLoad() {
+      pendingMapDataLoads += 1;
+    }
+
+    function finishMapDataLoad() {
+      pendingMapDataLoads = Math.max(0, pendingMapDataLoads - 1);
+      scheduleInitialVisibleLayerFit();
     }
 
     function syncDistrictLayerInputs() {
@@ -1730,6 +1833,84 @@ image: /media/2026/09/maps-featured.png
       return button;
     }
 
+    function getComparablePointLayerDefinitions() {
+      return [
+        { layer: activePlaceLayer, layerType: "place" },
+        { layer: archivedPlaceLayer, layerType: "place" },
+        { layer: neighborhoodOrganizationsLayer, layerType: "neighborhoodOrganization" },
+        { layer: jsoPoliceStationsLayer, layerType: "policeStation" },
+        { layer: busStopsLayer, layerType: "busStop" },
+        { layer: elementarySchoolsLayer, layerType: "school" },
+        { layer: middleSchoolsLayer, layerType: "school" },
+        { layer: highSchoolsLayer, layerType: "school" },
+        { layer: dedicatedMagnetSchoolsLayer, layerType: "school" },
+        { layer: fldoeTraditionalElementarySchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeTraditionalMiddleSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeTraditionalHighSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeTraditionalCombinationSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeTraditionalMagnetSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeCharterElementarySchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeCharterMiddleSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeCharterHighSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeCharterCombinationSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: privateElementarySchoolsLayer, layerType: "fldoeSchool" },
+        { layer: privateMiddleSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: privateHighSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: privateCombinationSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: postSecondarySchoolsLayer, layerType: "fldoeSchool" }
+      ];
+    }
+
+    function isFeatureLayerVisible(layer) {
+      if (!layer) return false;
+      if (layer.options && layer.options.interactive === false) return false;
+      if (layer._path) {
+        const pathOpacity = Number.parseFloat(layer._path.style.opacity || layer._path.getAttribute("opacity") || "1");
+        if (layer._path.style.pointerEvents === "none" || pathOpacity === 0) return false;
+      }
+      return true;
+    }
+
+    function pinRouteCardsInFeature(polygonFeature) {
+      if (!map.hasLayer(busRoutesLayer)) return 0;
+      let pinnedCount = 0;
+      const routeIds = getLayerRouteIdsInFeature(busStopsLayer, polygonFeature, { selectedOnly: true });
+      routeIds.forEach((routeId) => {
+        const routeLayers = busRouteLayersByRouteId.get(routeId) || [];
+        const routeLayer = routeLayers.find((layer) => busRoutesLayer.hasLayer(layer)) || routeLayers[0];
+        if (!routeLayer || !routeLayer.feature) return;
+        pinComparableFeature(routeLayer.feature, "busRoute");
+        pinnedCount += 1;
+      });
+      return pinnedCount;
+    }
+
+    function pinPointCardsInFeature(polygonFeature) {
+      const geometry = polygonFeature.geometry || {};
+      if (!geometry.coordinates) return 0;
+      let pinnedCount = 0;
+      getComparablePointLayerDefinitions().forEach((definition) => {
+        if (!map.hasLayer(definition.layer) || !definition.layer.eachLayer) return;
+        definition.layer.eachLayer((layer) => {
+          if (!layer.getLatLng || !layer.feature || !isFeatureLayerVisible(layer)) return;
+          const latLng = layer.getLatLng();
+          if (!isPointInFeatureGeometry([latLng.lng, latLng.lat], geometry)) return;
+          pinComparableFeature(layer.feature, definition.layerType);
+          pinnedCount += 1;
+        });
+      });
+      return pinnedCount;
+    }
+
+    function compareAllCardsInBoundary(feature, layerType) {
+      const comparisonFeature = getPointCountFeature(feature, layerType);
+      pinComparableFeature(feature, layerType);
+      const routeCount = pinRouteCardsInFeature(comparisonFeature);
+      const pointCount = pinPointCardsInFeature(comparisonFeature);
+      renderPinnedCards();
+      return routeCount + pointCount + 1;
+    }
+
     function showMapContextMenu(event, featureContext) {
       if (!event || !event.latlng) return;
       const originalEvent = event.originalEvent;
@@ -1766,7 +1947,9 @@ image: /media/2026/09/maps-featured.png
 
       if (featureContext && featureContext.feature && featureContext.layer) {
         const contextTitle = getComparableFeatureTitle(featureContext.feature, featureContext.layerType);
-        if (featureContext.layerType !== "busRoute") {
+        const isPolygonContext = featureContext.feature.geometry &&
+          (featureContext.feature.geometry.type === "Polygon" || featureContext.feature.geometry.type === "MultiPolygon");
+        if (isPolygonContext && featureContext.layerType !== "busRoute") {
           mapContextMenuElement.appendChild(createContextMenuButton(
             "Focus",
             `Focus on ${contextTitle}`,
@@ -1793,6 +1976,18 @@ image: /media/2026/09/maps-featured.png
             hideMapContextMenu();
           }
         ));
+        if (isPolygonContext && featureContext.layerType !== "busRoute") {
+          mapContextMenuElement.appendChild(createContextMenuButton(
+            "Compare All",
+            `Compare all visible cards in ${contextTitle}`,
+            () => {
+              compareModeEnabled = true;
+              compareAllCardsInBoundary(featureContext.feature, featureContext.layerType);
+              updateCompareControl();
+              hideMapContextMenu();
+            }
+          ));
+        }
       }
 
       const container = map.getContainer();
@@ -2253,6 +2448,58 @@ image: /media/2026/09/maps-featured.png
           getBusRouteTitle(feature)
         ].filter(Boolean).join("|");
       }
+      if (layerType === "busStop") {
+        return [
+          layerType,
+          properties.stop_id,
+          properties.stop_code,
+          properties.stop_name
+        ].filter(Boolean).join("|");
+      }
+      if (layerType === "policeStation") {
+        return [
+          layerType,
+          properties.id,
+          properties.name,
+          properties.address
+        ].filter(Boolean).join("|");
+      }
+      if (layerType === "neighborhoodOrganization") {
+        return [
+          layerType,
+          properties.id,
+          properties.name,
+          properties.address
+        ].filter(Boolean).join("|");
+      }
+      if (layerType === "school") {
+        return [
+          layerType,
+          properties.USER_School_Number,
+          properties.SchoolNumber,
+          properties.OBJECTID,
+          getSchoolName(feature),
+          properties.IN_SingleLine || properties.Match_addr
+        ].filter(Boolean).join("|");
+      }
+      if (layerType === "fldoeSchool") {
+        return [
+          layerType,
+          properties.school_number,
+          properties.federal_id,
+          properties.school_name,
+          properties.address || properties.formatted_address
+        ].filter(Boolean).join("|");
+      }
+      if (layerType === "place") {
+        return [
+          layerType,
+          properties.name,
+          properties.address,
+          properties.lat,
+          properties.lng
+        ].filter(Boolean).join("|");
+      }
       return [
         layerType,
         properties.GEOID,
@@ -2272,12 +2519,38 @@ image: /media/2026/09/maps-featured.png
     }
 
     function getComparableFeatureTitle(feature, layerType) {
-      return layerType === "busRoute" ? getBusRouteTitle(feature) : getBoundaryTitle(feature, layerType);
+      const properties = feature.properties || {};
+      if (layerType === "busRoute") return getBusRouteTitle(feature);
+      if (layerType === "busStop") return properties.stop_name || "JTA Bus Stop";
+      if (layerType === "policeStation") return properties.name || "JSO Substation";
+      if (layerType === "neighborhoodOrganization") return properties.name || "Neighborhood Organization";
+      if (layerType === "school") return getSchoolName(feature);
+      if (layerType === "fldoeSchool") return getFldoeSchoolName(feature);
+      if (layerType === "place") return properties.name || "Map location";
+      return getBoundaryTitle(feature, layerType);
     }
 
     function createPinnedCardContent(card) {
       if (card.layerType === "busRoute") {
         return createBusRoutePopup(card.feature);
+      }
+      if (card.layerType === "busStop") {
+        return createBusStopPopup(card.feature);
+      }
+      if (card.layerType === "policeStation") {
+        return createPoliceStationPopup(card.feature);
+      }
+      if (card.layerType === "neighborhoodOrganization") {
+        return createNeighborhoodOrganizationPopup(card.feature);
+      }
+      if (card.layerType === "school") {
+        return createSchoolPopup(card.feature);
+      }
+      if (card.layerType === "fldoeSchool") {
+        return createFldoeSchoolPopup(card.feature);
+      }
+      if (card.layerType === "place") {
+        return createPlacePopup(card.feature.properties || {});
       }
       if (card.layerType === "district") {
         return createCouncilDistrictPopup(card.feature);
@@ -3894,6 +4167,14 @@ image: /media/2026/09/maps-featured.png
     function addBusStopInteractivity(feature, layer) {
       const properties = feature.properties || {};
       layer.bindPopup(createBusStopPopup(feature));
+      layer.on("click", function () {
+        if (compareModeEnabled) {
+          pinComparableFeature(feature, "busStop");
+        }
+      });
+      layer.on("contextmenu", function (event) {
+        showMapContextMenu(event, { feature, layer, layerType: "busStop" });
+      });
       if (properties.stop_name && supportsPointerHover) {
         layer.bindTooltip(properties.stop_name, {
           sticky: true
@@ -3904,6 +4185,14 @@ image: /media/2026/09/maps-featured.png
     function addPoliceStationInteractivity(feature, layer) {
       const properties = feature.properties || {};
       layer.bindPopup(createPoliceStationPopup(feature));
+      layer.on("click", function () {
+        if (compareModeEnabled) {
+          pinComparableFeature(feature, "policeStation");
+        }
+      });
+      layer.on("contextmenu", function (event) {
+        showMapContextMenu(event, { feature, layer, layerType: "policeStation" });
+      });
       if (supportsPointerHover) {
         layer.bindTooltip(properties.name || "JSO Substation", {
           sticky: true
@@ -3914,6 +4203,14 @@ image: /media/2026/09/maps-featured.png
     function addNeighborhoodOrganizationInteractivity(feature, layer) {
       const properties = feature.properties || {};
       layer.bindPopup(createNeighborhoodOrganizationPopup(feature));
+      layer.on("click", function () {
+        if (compareModeEnabled) {
+          pinComparableFeature(feature, "neighborhoodOrganization");
+        }
+      });
+      layer.on("contextmenu", function (event) {
+        showMapContextMenu(event, { feature, layer, layerType: "neighborhoodOrganization" });
+      });
       if (supportsPointerHover) {
         layer.bindTooltip(properties.name || "Neighborhood Organization", {
           sticky: true
@@ -4043,6 +4340,14 @@ image: /media/2026/09/maps-featured.png
     function addSchoolInteractivity(feature, layer) {
       const name = getSchoolName(feature);
       layer.bindPopup(createSchoolPopup(feature));
+      layer.on("click", function () {
+        if (compareModeEnabled) {
+          pinComparableFeature(feature, "school");
+        }
+      });
+      layer.on("contextmenu", function (event) {
+        showMapContextMenu(event, { feature, layer, layerType: "school" });
+      });
       if (name && supportsPointerHover) {
         layer.bindTooltip(name, {
           sticky: true
@@ -4141,6 +4446,14 @@ image: /media/2026/09/maps-featured.png
     function addFldoeSchoolInteractivity(feature, layer) {
       const name = getFldoeSchoolName(feature);
       layer.bindPopup(createFldoeSchoolPopup(feature));
+      layer.on("click", function () {
+        if (compareModeEnabled) {
+          pinComparableFeature(feature, "fldoeSchool");
+        }
+      });
+      layer.on("contextmenu", function (event) {
+        showMapContextMenu(event, { feature, layer, layerType: "fldoeSchool" });
+      });
       if (name && supportsPointerHover) {
         layer.bindTooltip(name, {
           sticky: true
@@ -4191,8 +4504,24 @@ image: /media/2026/09/maps-featured.png
       const marker = L.marker([place.lat, place.lng], Object.assign({
         title: place.name
       }, markerIcon ? { icon: markerIcon } : {}));
+      marker.feature = {
+        type: "Feature",
+        properties: place,
+        geometry: {
+          type: "Point",
+          coordinates: [place.lng, place.lat]
+        }
+      };
 
       marker.bindPopup(createPlacePopup(place)).addTo(targetLayer);
+      marker.on("click", function () {
+        if (compareModeEnabled) {
+          pinComparableFeature(marker.feature, "place");
+        }
+      });
+      marker.on("contextmenu", function (event) {
+        showMapContextMenu(event, { feature: marker.feature, layer: marker, layerType: "place" });
+      });
       return marker;
     }
 
@@ -4218,6 +4547,7 @@ image: /media/2026/09/maps-featured.png
     }
 
     function loadCouncilDistricts() {
+      beginMapDataLoad();
       fetch("/data/city-council-districts.geojson")
         .then((response) => {
           if (!response.ok) {
@@ -4237,10 +4567,14 @@ image: /media/2026/09/maps-featured.png
         })
         .catch((error) => {
           console.warn(error);
+        })
+        .finally(() => {
+          finishMapDataLoad();
         });
     }
 
     function loadBoundaryLayers(url, fillLayer, borderLayer, label) {
+      beginMapDataLoad();
       fetch(url)
         .then((response) => {
           if (!response.ok) {
@@ -4260,10 +4594,14 @@ image: /media/2026/09/maps-featured.png
         })
         .catch((error) => {
           console.warn(error);
+        })
+        .finally(() => {
+          finishMapDataLoad();
         });
     }
 
     function loadGeoJsonLayer(url, layer, label) {
+      beginMapDataLoad();
       fetch(url)
         .then((response) => {
           if (!response.ok) {
@@ -4282,6 +4620,9 @@ image: /media/2026/09/maps-featured.png
         })
         .catch((error) => {
           console.warn(error);
+        })
+        .finally(() => {
+          finishMapDataLoad();
         });
     }
 
