@@ -1274,6 +1274,7 @@ image: /media/2026/09/maps-featured.png
     const busRouteMetadataByRouteId = new Map();
     const selectedBusRouteIds = new Set();
     const busRouteFilterInputs = new Map();
+    const trimmedBusRouteLayerStates = new Map();
     let focusedBusRouteSelectionSnapshot;
     let busRouteFilterElement;
     let busRouteFilterListElement;
@@ -1713,6 +1714,44 @@ image: /media/2026/09/maps-featured.png
       applyBusRouteFilters();
     }
 
+    function cloneLayerLatLngs(latLngs) {
+      return (latLngs || []).map((item) => {
+        if (Array.isArray(item)) return cloneLayerLatLngs(item);
+        return [item.lat, item.lng];
+      });
+    }
+
+    function coordinatesToLatLngs(coordinates) {
+      return (coordinates || []).map((coordinate) => [coordinate[1], coordinate[0]]);
+    }
+
+    function clippedGeometryToLatLngs(geometry) {
+      if (!geometry || !geometry.coordinates) return [];
+      if (geometry.type === "LineString") {
+        return coordinatesToLatLngs(geometry.coordinates);
+      }
+      if (geometry.type === "MultiLineString") {
+        return (geometry.coordinates || []).map((coordinates) => coordinatesToLatLngs(coordinates));
+      }
+      return [];
+    }
+
+    function clearTrimmedBusRoutes() {
+      if (!trimmedBusRouteLayerStates.size) return;
+      trimmedBusRouteLayerStates.forEach((state, layer) => {
+        if (layer.setLatLngs) {
+          layer.setLatLngs(state.latLngs);
+        }
+        if (state.wasVisible && !busRoutesLayer.hasLayer(layer)) {
+          busRoutesLayer.addLayer(layer);
+        } else if (!state.wasVisible && busRoutesLayer.hasLayer(layer)) {
+          busRoutesLayer.removeLayer(layer);
+        }
+      });
+      trimmedBusRouteLayerStates.clear();
+      orderMapLayers();
+    }
+
     function applyFocusToBusRoutes(focusFeature) {
       if (!map.hasLayer(busRoutesLayer)) return;
       if (!focusedBusRouteSelectionSnapshot) {
@@ -1755,6 +1794,7 @@ image: /media/2026/09/maps-featured.png
 
     function clearMapFocus(options) {
       const settings = options || {};
+      clearTrimmedBusRoutes();
       restoreFocusLayerStates();
       restoreFocusedBusRouteSelection();
       focusedBoundary = undefined;
@@ -1778,6 +1818,7 @@ image: /media/2026/09/maps-featured.png
         return;
       }
 
+      clearTrimmedBusRoutes();
       restoreFocusLayerStates();
       focusedBoundary = {
         feature,
@@ -1924,6 +1965,34 @@ image: /media/2026/09/maps-featured.png
       return routeCount + pointCount + 1;
     }
 
+    function trimVisibleBusRoutesToFeature(polygonFeature) {
+      if (!map.hasLayer(busRoutesLayer) || !polygonFeature || !polygonFeature.geometry) return 0;
+      clearTrimmedBusRoutes();
+      let trimmedCount = 0;
+
+      busRouteLayersByRouteId.forEach((layers, routeId) => {
+        if (!selectedBusRouteIds.has(routeId)) return;
+        layers.forEach((layer) => {
+          if (!busRoutesLayer.hasLayer(layer) || !layer.setLatLngs || !layer.feature) return;
+          const clippedGeometry = clipLineGeometryToFeature(layer.feature.geometry, polygonFeature);
+          trimmedBusRouteLayerStates.set(layer, {
+            latLngs: cloneLayerLatLngs(layer.getLatLngs ? layer.getLatLngs() : []),
+            wasVisible: true
+          });
+
+          if (clippedGeometry) {
+            layer.setLatLngs(clippedGeometryToLatLngs(clippedGeometry));
+            trimmedCount += 1;
+          } else {
+            busRoutesLayer.removeLayer(layer);
+          }
+        });
+      });
+
+      orderMapLayers();
+      return trimmedCount;
+    }
+
     function showMapContextMenu(event, featureContext) {
       if (!event || !event.latlng) return;
       const originalEvent = event.originalEvent;
@@ -1997,6 +2066,23 @@ image: /media/2026/09/maps-featured.png
               compareModeEnabled = true;
               compareAllCardsInBoundary(featureContext.feature, featureContext.layerType);
               updateCompareControl();
+              hideMapContextMenu();
+            }
+          ));
+        }
+        if (isPolygonContext && featureContext.layerType !== "busRoute" && mapInteractionMode === "focus" && map.hasLayer(busRoutesLayer)) {
+          mapContextMenuElement.appendChild(createContextMenuButton(
+            "Trim Bus Routes",
+            `Trim visible bus routes to ${contextTitle}`,
+            () => {
+              focusBoundaryFeature(
+                featureContext.feature,
+                featureContext.layer,
+                featureContext.mode,
+                featureContext.layerType,
+                { force: true }
+              );
+              trimVisibleBusRoutesToFeature(getFocusGeometryFeature(featureContext.feature, featureContext.layerType));
               hideMapContextMenu();
             }
           ));
@@ -3426,6 +3512,117 @@ image: /media/2026/09/maps-featured.png
       if (orientation3 === 0 && isPointOnSegment(segmentAStart, segmentBStart, segmentBEnd)) return true;
       if (orientation4 === 0 && isPointOnSegment(segmentAEnd, segmentBStart, segmentBEnd)) return true;
       return false;
+    }
+
+    function getLineSegmentIntersection(segmentStart, segmentEnd, boundaryStart, boundaryEnd) {
+      const segmentX = segmentEnd[0] - segmentStart[0];
+      const segmentY = segmentEnd[1] - segmentStart[1];
+      const boundaryX = boundaryEnd[0] - boundaryStart[0];
+      const boundaryY = boundaryEnd[1] - boundaryStart[1];
+      const denominator = (segmentX * boundaryY) - (segmentY * boundaryX);
+      if (Math.abs(denominator) < 1e-12) return null;
+
+      const startX = boundaryStart[0] - segmentStart[0];
+      const startY = boundaryStart[1] - segmentStart[1];
+      const segmentPosition = ((startX * boundaryY) - (startY * boundaryX)) / denominator;
+      const boundaryPosition = ((startX * segmentY) - (startY * segmentX)) / denominator;
+      if (segmentPosition < -1e-10 || segmentPosition > 1 + 1e-10) return null;
+      if (boundaryPosition < -1e-10 || boundaryPosition > 1 + 1e-10) return null;
+
+      const clampedPosition = Math.max(0, Math.min(1, segmentPosition));
+      return {
+        position: clampedPosition,
+        point: [
+          segmentStart[0] + (segmentX * clampedPosition),
+          segmentStart[1] + (segmentY * clampedPosition)
+        ]
+      };
+    }
+
+    function areCoordinatesEqual(first, second) {
+      return first && second &&
+        Math.abs(first[0] - second[0]) < 1e-10 &&
+        Math.abs(first[1] - second[1]) < 1e-10;
+    }
+
+    function appendCoordinate(coordinates, coordinate) {
+      if (!coordinates.length || !areCoordinatesEqual(coordinates[coordinates.length - 1], coordinate)) {
+        coordinates.push(coordinate);
+      }
+    }
+
+    function getSegmentBoundaryIntersections(segmentStart, segmentEnd, rings) {
+      const intersections = [];
+      rings.forEach((ring) => {
+        for (let index = 1; index < ring.length; index += 1) {
+          const intersection = getLineSegmentIntersection(segmentStart, segmentEnd, ring[index - 1], ring[index]);
+          if (!intersection) continue;
+          if (intersections.some((item) => Math.abs(item.position - intersection.position) < 1e-10)) continue;
+          intersections.push(intersection);
+        }
+      });
+      return intersections.sort((first, second) => first.position - second.position);
+    }
+
+    function clipLineCoordinateSequenceToFeature(coordinates, polygonFeature) {
+      const geometry = polygonFeature.geometry || {};
+      const rings = getPolygonRingsFromFeatureGeometry(geometry);
+      const clippedSequences = [];
+      let currentSequence = [];
+      if (!coordinates || coordinates.length < 2 || !rings.length) return clippedSequences;
+
+      for (let index = 1; index < coordinates.length; index += 1) {
+        const segmentStart = coordinates[index - 1];
+        const segmentEnd = coordinates[index];
+        const splitPoints = [
+          { position: 0, point: segmentStart },
+          ...getSegmentBoundaryIntersections(segmentStart, segmentEnd, rings),
+          { position: 1, point: segmentEnd }
+        ];
+
+        for (let splitIndex = 1; splitIndex < splitPoints.length; splitIndex += 1) {
+          const start = splitPoints[splitIndex - 1].point;
+          const end = splitPoints[splitIndex].point;
+          if (areCoordinatesEqual(start, end)) continue;
+          const midpoint = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2];
+          const keepSegment = isPointInFeatureGeometry(midpoint, geometry) ||
+            isPointInFeatureGeometry(start, geometry) ||
+            isPointInFeatureGeometry(end, geometry);
+
+          if (keepSegment) {
+            appendCoordinate(currentSequence, start);
+            appendCoordinate(currentSequence, end);
+          } else if (currentSequence.length > 1) {
+            clippedSequences.push(currentSequence);
+            currentSequence = [];
+          } else {
+            currentSequence = [];
+          }
+        }
+      }
+
+      if (currentSequence.length > 1) {
+        clippedSequences.push(currentSequence);
+      }
+      return clippedSequences;
+    }
+
+    function clipLineGeometryToFeature(lineGeometry, polygonFeature) {
+      if (!lineGeometry || !lineGeometry.coordinates || !polygonFeature || !polygonFeature.geometry) return null;
+      const sourceSequences = lineGeometry.type === "LineString"
+        ? [lineGeometry.coordinates]
+        : lineGeometry.type === "MultiLineString"
+          ? lineGeometry.coordinates || []
+          : [];
+      const clippedSequences = sourceSequences.flatMap((coordinates) => {
+        return clipLineCoordinateSequenceToFeature(coordinates, polygonFeature);
+      });
+
+      if (!clippedSequences.length) return null;
+      if (clippedSequences.length === 1) {
+        return { type: "LineString", coordinates: clippedSequences[0] };
+      }
+      return { type: "MultiLineString", coordinates: clippedSequences };
     }
 
     function doesLineCoordinateSequenceIntersectFeature(coordinates, polygonFeature) {
