@@ -1343,6 +1343,7 @@ image: /media/2026/09/maps-featured.png
     const queryLayerControls = new Map();
     const queryLayerSlugsByLayer = new Map();
     const explicitQueryLayerSlugs = new Set();
+    const jsonDataPromises = new Map();
     const boundaryLayerStackItemsByLayer = new Map();
     const boundaryLayerStackOrder = [];
     const defaultGovernmentOverlayOpacity = 0.25;
@@ -4969,14 +4970,16 @@ image: /media/2026/09/maps-featured.png
 
     function loadCouncilDistricts() {
       beginMapDataLoad();
-      fetch("/data/city-council-districts.geojson")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Could not load council districts: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((districts) => {
+      Promise.all([
+        fetchJsonData("/data/city-council-districts.geojson", "council districts"),
+        fetchJsonData("/data/jacksonville-city-council-members.json", "Jacksonville City Council members")
+      ])
+        .then(([districts, members]) => {
+          joinFeatureMetadata(districts, members, {
+            featureKey: (properties) => properties.CC || properties.DISTRICT_N || properties.DISTRICT,
+            metadataKey: (member) => member.type === "district" ? member.number : "",
+            mapProperties: getCityCouncilMemberProperties
+          });
           councilDistrictFillLayer.addData(districts);
           councilDistrictBorderLayer.addData(districts);
           orderMapLayers();
@@ -4995,16 +4998,107 @@ image: /media/2026/09/maps-featured.png
         });
     }
 
-    function loadBoundaryLayers(url, fillLayer, borderLayer, label) {
-      beginMapDataLoad();
-      fetch(url)
+    function fetchJsonData(url, label) {
+      if (!jsonDataPromises.has(url)) {
+        jsonDataPromises.set(url, fetch(url)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Could not load ${label}: ${response.status}`);
+            }
+            return response.json();
+          }));
+      }
+      return jsonDataPromises.get(url)
         .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Could not load ${label}: ${response.status}`);
+          return response;
+        });
+    }
+
+    function getNormalizedMetadataKey(value) {
+      return String(value === undefined || value === null ? "" : value).trim().toLowerCase();
+    }
+
+    function joinFeatureMetadata(geojson, metadataRecords, options) {
+      const settings = options || {};
+      if (!geojson || !Array.isArray(geojson.features) || !Array.isArray(metadataRecords)) return geojson;
+
+      const metadataByKey = new Map();
+      metadataRecords.forEach((record) => {
+        const key = getNormalizedMetadataKey(settings.metadataKey ? settings.metadataKey(record) : record.district);
+        if (key) {
+          metadataByKey.set(key, record);
+        }
+      });
+
+      geojson.features.forEach((feature) => {
+        const properties = feature.properties || {};
+        const key = getNormalizedMetadataKey(settings.featureKey ? settings.featureKey(properties, feature) : properties.district);
+        const metadata = metadataByKey.get(key);
+        if (!metadata) return;
+        feature.properties = Object.assign(properties, settings.mapProperties ? settings.mapProperties(metadata) : metadata);
+      });
+      return geojson;
+    }
+
+    function getCityCouncilMemberProperties(member) {
+      return {
+        council_member_id: member.id || "",
+        council_member_name: member.name || "",
+        council_member_role: member.role || "",
+        council_member_leadership_role: member.leadership_role || "",
+        council_member_phone: member.phone || "",
+        council_member_email: member.email || "",
+        council_member_assistant: member.assistant || "",
+        council_member_photo_url: member.photo_url || "",
+        council_member_source_url: member.source_url || ""
+      };
+    }
+
+    function getSchoolBoardMemberProperties(member) {
+      return {
+        member_name: member.name || "",
+        member_role: member.role || "",
+        member_email: member.email || "",
+        member_phone: member.phone || "",
+        member_image_url: member.image_url || "",
+        member_source_url: member.source_url || ""
+      };
+    }
+
+    function getStateLegislatorProperties(member, prefix) {
+      return {
+        [`${prefix}_member_id`]: member.id || "",
+        [`${prefix}_member_name`]: member.name || "",
+        [`${prefix}_member_chamber`]: member.chamber || "",
+        [`${prefix}_member_district`]: member.district || "",
+        [`${prefix}_member_party`]: member.party || "",
+        [`${prefix}_member_leadership_role`]: member.leadership_role || "",
+        [`${prefix}_member_counties`]: member.counties || "",
+        [`${prefix}_member_email`]: member.email || "",
+        [`${prefix}_member_phone`]: member.phone || "",
+        [`${prefix}_member_capitol_phone`]: member.capitol_phone || "",
+        [`${prefix}_member_district_office`]: member.district_office || "",
+        [`${prefix}_member_photo_url`]: member.photo_url || "",
+        [`${prefix}_member_source_url`]: member.source_url || "",
+        [`${prefix}_member_contact_url`]: member.contact_url || "",
+        [`${prefix}_member_city_of_residence`]: member.city_of_residence || "",
+        [`${prefix}_member_service`]: member.service || ""
+      };
+    }
+
+    function loadBoundaryLayers(url, fillLayer, borderLayer, label, options) {
+      const settings = options || {};
+      beginMapDataLoad();
+      const requests = [fetchJsonData(url, label)];
+      if (settings.metadataUrl) {
+        requests.push(fetchJsonData(settings.metadataUrl, settings.metadataLabel || `${label} metadata`));
+      }
+
+      Promise.all(requests)
+        .then(([geojson, metadataRecords]) => {
+          if (metadataRecords) {
+            joinFeatureMetadata(geojson, metadataRecords, settings);
           }
-          return response.json();
-        })
-        .then((geojson) => {
           fillLayer.addData(geojson);
           borderLayer.addData(geojson);
           orderMapLayers();
@@ -5054,13 +5148,27 @@ image: /media/2026/09/maps-featured.png
       "/data/city-council-at-large-districts.geojson",
       councilAtLargeFillLayer,
       councilAtLargeBorderLayer,
-      "city council at-large districts"
+      "city council at-large districts",
+      {
+        metadataUrl: "/data/jacksonville-city-council-members.json",
+        metadataLabel: "Jacksonville City Council members",
+        featureKey: (properties) => properties.CCAL,
+        metadataKey: (member) => member.type === "at_large" ? member.number : "",
+        mapProperties: getCityCouncilMemberProperties
+      }
     );
     loadBoundaryLayers(
       "/data/duval-county-school-board-districts.geojson",
       schoolBoardDistrictFillLayer,
       schoolBoardDistrictBorderLayer,
-      "Duval County School Board districts"
+      "Duval County School Board districts",
+      {
+        metadataUrl: "/data/duval-school-board-members.json",
+        metadataLabel: "Duval County School Board members",
+        featureKey: (properties) => properties.school_board_district,
+        metadataKey: (member) => member.district,
+        mapProperties: getSchoolBoardMemberProperties
+      }
     );
     loadBoundaryLayers(
       "/data/city-boundaries.geojson",
@@ -5091,13 +5199,27 @@ image: /media/2026/09/maps-featured.png
       "/data/florida-house-districts.geojson",
       floridaHouseFillLayer,
       floridaHouseBorderLayer,
-      "Florida House districts"
+      "Florida House districts",
+      {
+        metadataUrl: "/data/florida-house-members.json",
+        metadataLabel: "Florida House members",
+        featureKey: (properties) => properties.HSE,
+        metadataKey: (member) => member.district,
+        mapProperties: (member) => getStateLegislatorProperties(member, "state_house")
+      }
     );
     loadBoundaryLayers(
       "/data/florida-senate-districts.geojson",
       floridaSenateFillLayer,
       floridaSenateBorderLayer,
-      "Florida Senate districts"
+      "Florida Senate districts",
+      {
+        metadataUrl: "/data/florida-senate-members.json",
+        metadataLabel: "Florida Senate members",
+        featureKey: (properties) => properties.SEN,
+        metadataKey: (member) => member.district,
+        mapProperties: (member) => getStateLegislatorProperties(member, "state_senate")
+      }
     );
     loadBoundaryLayers(
       "/data/zip-codes.geojson",
