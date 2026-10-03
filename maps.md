@@ -1343,6 +1343,8 @@ image: /media/2026/09/maps-featured.png
     const queryLayerControls = new Map();
     const queryLayerSlugsByLayer = new Map();
     const explicitQueryLayerSlugs = new Set();
+    const boundaryLayerStackItemsByLayer = new Map();
+    const boundaryLayerStackOrder = [];
     const defaultGovernmentOverlayOpacity = 0.25;
     let governmentLayerMode = "fill";
     let governmentOverlayOpacity = defaultGovernmentOverlayOpacity;
@@ -1382,8 +1384,39 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function registerBoundaryLayerStack(layers) {
+      const stackItem = {
+        layers: layers.filter(Boolean)
+      };
+      stackItem.layers.forEach((layer) => {
+        boundaryLayerStackItemsByLayer.set(layer, stackItem);
+      });
+      return stackItem;
+    }
+
+    function isBoundaryLayerStackItemActive(stackItem) {
+      return stackItem && stackItem.layers.some((layer) => map.hasLayer(layer));
+    }
+
+    function pruneBoundaryLayerStackOrder() {
+      for (let index = boundaryLayerStackOrder.length - 1; index >= 0; index -= 1) {
+        if (!isBoundaryLayerStackItemActive(boundaryLayerStackOrder[index])) {
+          boundaryLayerStackOrder.splice(index, 1);
+        }
+      }
+    }
+
+    function trackBoundaryLayerStackSelection(layer) {
+      const stackItem = boundaryLayerStackItemsByLayer.get(layer);
+      if (!stackItem) return;
+      pruneBoundaryLayerStackOrder();
+      if (!boundaryLayerStackOrder.includes(stackItem)) {
+        boundaryLayerStackOrder.push(stackItem);
+      }
+    }
+
     function orderMapLayers() {
-      const polygonLayers = [
+      const defaultPolygonLayers = [
         councilDistrictFillLayer,
         councilDistrictBorderLayer,
         councilAtLargeFillLayer,
@@ -1414,6 +1447,13 @@ image: /media/2026/09/maps-featured.png
         jsoSubsectionFillLayer,
         jsoSubsectionBorderLayer
       ];
+      pruneBoundaryLayerStackOrder();
+      const stackedPolygonLayers = boundaryLayerStackOrder
+        .flatMap((stackItem) => stackItem.layers)
+        .filter((layer, index, layers) => map.hasLayer(layer) && layers.indexOf(layer) === index);
+      const unstackedPolygonLayers = defaultPolygonLayers
+        .filter((layer) => map.hasLayer(layer) && !stackedPolygonLayers.includes(layer));
+      const polygonLayers = stackedPolygonLayers.concat(unstackedPolygonLayers);
       const lineLayers = [
         busRoutesLayer
       ];
@@ -2279,6 +2319,7 @@ image: /media/2026/09/maps-featured.png
       if (enabled) {
         if (!map.hasLayer(control.layer)) map.addLayer(control.layer);
         restoreBoundaryLayerFeatures(control.layer);
+        trackBoundaryLayerStackSelection(control.layer);
         if (control.group && !allowMultiple) {
           boundaryLayerControls.forEach((otherControl) => {
             if (otherControl !== control && otherControl.group === control.group && map.hasLayer(otherControl.layer)) {
@@ -2310,6 +2351,9 @@ image: /media/2026/09/maps-featured.png
       (settings.alternateLayers || []).forEach((alternateLayer) => {
         queryLayerSlugsByLayer.set(alternateLayer, querySlug);
       });
+      if (settings.group === "boundaries" && !boundaryLayerStackItemsByLayer.has(layer)) {
+        registerBoundaryLayerStack([layer].concat(settings.alternateLayers || []));
+      }
       aliases.forEach((alias) => {
         queryLayerControls.set(normalizeLayerQueryToken(alias), {
           layer,
@@ -3008,6 +3052,7 @@ image: /media/2026/09/maps-featured.png
       const overlayControl = { layer: overlayLayer, group: "boundaries" };
       const borderControl = { layer: borderLayer, group: "boundaries" };
       const geographyControl = { overlayControl, borderControl };
+      registerBoundaryLayerStack([overlayLayer, borderLayer]);
       let allowMultipleOnNextChange = false;
 
       row.className = "maps-layer-group-row";
@@ -3045,6 +3090,9 @@ image: /media/2026/09/maps-featured.png
 
       geographyLayerControls.push(geographyControl);
       boundaryLayerControls.push(overlayControl, borderControl);
+      if (map.hasLayer(overlayLayer) || map.hasLayer(borderLayer)) {
+        trackBoundaryLayerStackSelection(overlayLayer);
+      }
       row.appendChild(layerLabel);
       parent.appendChild(row);
     }
