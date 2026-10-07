@@ -1191,7 +1191,14 @@ image: /media/2026/09/maps-featured.png
     let layersControlApi;
     let layersControlElement;
     const locationInfoControls = [];
-    const selectedLocationInfoLayerTypes = new Set(["district", "atLarge"]);
+    const selectedLocationInfoLayerTypes = new Set([
+      "district",
+      "atLarge",
+      "schoolBoard",
+      "floridaHouse",
+      "floridaSenate",
+      "congressional"
+    ]);
 
     function addLocateControl() {
       const LocateControl = L.Control.extend({
