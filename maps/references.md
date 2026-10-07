@@ -26,8 +26,6 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 ## Boundaries And Area Layers
 
 - [City of Jacksonville My Neighborhood](https://maps.coj.net/myneighborhood/)
-  - Florida House Overlays
-  - Florida House Borders
   - Florida Senate Overlays
   - Florida Senate Borders
   - City Council District Overlays
@@ -63,7 +61,10 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Current District Council Member and At Large Council Member names, roles, email addresses, phone numbers, assistants, photos, and profile links for City Council District and City Council District At Large popups.
   - City Council party affiliations: [Jacksonville City Council party affiliation table](https://en.wikipedia.org/wiki/Jacksonville_City_Council#Party_affiliation)
 - [Florida House of Representatives](https://www.flhouse.gov/representatives)
-  - Current representative names, parties, district-office phone numbers, office addresses, photos, contact links, and profile links for Florida House popups.
+  - Current representative names, parties, email addresses, district-office phone numbers, office addresses, photos, contact links, and profile links for Florida House popups.
+- [Florida House Districts 2022 (H000H8013)](https://www.arcgis.com/home/item.html?id=118f1508d0744bc0b8daa09411833dc1)
+  - Florida House Overlays
+  - Florida House Borders
 - [Florida Senate](https://www.flsenate.gov/Senators)
   - Current senator names, parties, email addresses, phone numbers, district-office addresses, photos, and profile links for Florida Senate popups.
 - ZIP Code / ZCTA boundaries:

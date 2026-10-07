@@ -14,7 +14,8 @@
     "source_url": "https://www.flhouse.gov/Sections/Representatives/details.aspx?MemberId=4767&LegislativeTermId=91",
     "contact_url": "https://www.flhouse.gov/Sections/Representatives/contactmember.aspx?MemberId=4767",
     "sponsored_bills_url": "https://www.flhouse.gov/Sections/Representatives/sponsoredbills.aspx?MemberId=4767",
-    "member_id": "4767"
+    "member_id": "4767",
+    "email": "Sam.Garrison@myfloridahouse.gov"
   },
   {
     "id": "h12",
@@ -31,7 +32,8 @@
     "source_url": "https://www.flhouse.gov/Sections/Representatives/details.aspx?MemberId=4712&LegislativeTermId=91",
     "contact_url": "https://www.flhouse.gov/Sections/Representatives/contactmember.aspx?MemberId=4712",
     "sponsored_bills_url": "https://www.flhouse.gov/Sections/Representatives/sponsoredbills.aspx?MemberId=4712",
-    "member_id": "4712"
+    "member_id": "4712",
+    "email": "Wyman.Duggan@myfloridahouse.gov"
   },
   {
     "id": "h13",
@@ -48,7 +50,8 @@
     "source_url": "https://www.flhouse.gov/Sections/Representatives/details.aspx?MemberId=4766&LegislativeTermId=91",
     "contact_url": "https://www.flhouse.gov/Sections/Representatives/contactmember.aspx?MemberId=4766",
     "sponsored_bills_url": "https://www.flhouse.gov/Sections/Representatives/sponsoredbills.aspx?MemberId=4766",
-    "member_id": "4766"
+    "member_id": "4766",
+    "email": "Angie.Nixon@myfloridahouse.gov"
   },
   {
     "id": "h14",
@@ -65,7 +68,8 @@
     "source_url": "https://www.flhouse.gov/Sections/Representatives/details.aspx?MemberId=4652&LegislativeTermId=91",
     "contact_url": "https://www.flhouse.gov/Sections/Representatives/contactmember.aspx?MemberId=4652",
     "sponsored_bills_url": "https://www.flhouse.gov/Sections/Representatives/sponsoredbills.aspx?MemberId=4652",
-    "member_id": "4652"
+    "member_id": "4652",
+    "email": "Kimberly.Daniels@myfloridahouse.gov"
   },
   {
     "id": "h15",
@@ -82,7 +86,8 @@
     "source_url": "https://www.flhouse.gov/Sections/Representatives/details.aspx?MemberId=4865&LegislativeTermId=91",
     "contact_url": "https://www.flhouse.gov/Sections/Representatives/contactmember.aspx?MemberId=4865",
     "sponsored_bills_url": "https://www.flhouse.gov/Sections/Representatives/sponsoredbills.aspx?MemberId=4865",
-    "member_id": "4865"
+    "member_id": "4865",
+    "email": "Dean.Black@myfloridahouse.gov"
   },
   {
     "id": "h16",
@@ -99,7 +104,8 @@
     "source_url": "https://www.flhouse.gov/Sections/Representatives/details.aspx?MemberId=4869&LegislativeTermId=91",
     "contact_url": "https://www.flhouse.gov/Sections/Representatives/contactmember.aspx?MemberId=4869",
     "sponsored_bills_url": "https://www.flhouse.gov/Sections/Representatives/sponsoredbills.aspx?MemberId=4869",
-    "member_id": "4869"
+    "member_id": "4869",
+    "email": "Kiyan.Michael@myfloridahouse.gov"
   },
   {
     "id": "h17",
@@ -116,6 +122,7 @@
     "source_url": "https://www.flhouse.gov/Sections/Representatives/details.aspx?MemberId=4866&LegislativeTermId=91",
     "contact_url": "https://www.flhouse.gov/Sections/Representatives/contactmember.aspx?MemberId=4866",
     "sponsored_bills_url": "https://www.flhouse.gov/Sections/Representatives/sponsoredbills.aspx?MemberId=4866",
-    "member_id": "4866"
+    "member_id": "4866",
+    "email": "Jessica.Baker@myfloridahouse.gov"
   }
 ]
