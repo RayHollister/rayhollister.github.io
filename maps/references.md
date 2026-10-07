@@ -26,10 +26,6 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 ## Boundaries And Area Layers
 
 - [City of Jacksonville My Neighborhood](https://maps.coj.net/myneighborhood/)
-  - Florida House Overlays
-  - Florida House Borders
-  - Florida Senate Overlays
-  - Florida Senate Borders
   - City Council District Overlays
   - City Council District Borders
   - City Council District At Large Overlays
@@ -49,18 +45,34 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Counties Overlays
   - Counties Borders
 - [119th Congressional Districts](https://www.arcgis.com/home/item.html?id=56f9d1c5628349c684245185a020d18a&sublayer=0)
-  - Congressional Districts Overlays
-  - Congressional Districts Borders
-- Congressional District reference links:
+  - U.S. House Overlays
+  - U.S. House Borders
+- U.S. House reference links:
   - [Florida's 4th Congressional District](https://www.house.gov/htbin/findrep?ZIP=32202)
   - [Florida's 5th Congressional District](https://www.house.gov/htbin/findrep?ZIP=32207)
   - Congressional district popup phone numbers and contact-form links are sourced from the official member websites linked from the House lookup pages.
+- U.S. Senators:
+  - Senator names, party abbreviations, classes, phone numbers, websites, and contact-form links: [United States Senate contact information XML](https://www.senate.gov/general/contact_information/senators_cfm.xml)
+  - Senator photos: [United States Senate Florida senators page](https://www.senate.gov/states/FL/intro.htm)
+  - Florida state polygon geometry: [U.S. Census Bureau TIGERweb State boundary service](https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/0)
 - [City of Jacksonville City Council Members](https://www.jacksonville.gov/city-council/city-council-members)
   - Current District Council Member and At Large Council Member names, roles, email addresses, phone numbers, assistants, photos, and profile links for City Council District and City Council District At Large popups.
+  - City Council party affiliations: [Jacksonville City Council party affiliation table](https://en.wikipedia.org/wiki/Jacksonville_City_Council#Party_affiliation)
 - [Florida House of Representatives](https://www.flhouse.gov/representatives)
-  - Current representative names, parties, district-office phone numbers, office addresses, photos, contact links, and profile links for Florida House popups.
+  - Current representative names, parties, email addresses, district-office phone numbers, office addresses, photos, contact links, and profile links for Florida House popups.
+- Florida House Districts 2022, enacted February 3, 2022 as plan H000H8013:
+  - Geometry source: [Florida Legislature Office of Economic & Demographic Research 2020 Redistricting shapefile](https://edr.state.fl.us/Content/redistricting/2020redistricting/H000H8013.zip)
+  - Reference page: [Florida Legislature Office of Economic & Demographic Research 2020 Redistricting](https://edr.state.fl.us/Content/redistricting/2020redistricting/index.cfm)
+  - Florida House Overlays
+  - Florida House Borders
 - [Florida Senate](https://www.flsenate.gov/Senators)
   - Current senator names, parties, email addresses, phone numbers, district-office addresses, photos, and profile links for Florida Senate popups.
+- Florida Senate Districts 2022, enacted February 3, 2022 as plan S027S8058:
+  - Geometry source: [Florida Legislature Office of Economic & Demographic Research 2020 Redistricting shapefile](https://edr.state.fl.us/Content/redistricting/2020redistricting/S027S8058.zip)
+  - Reference page: [Florida Legislature Office of Economic & Demographic Research 2020 Redistricting](https://edr.state.fl.us/Content/redistricting/2020redistricting/index.cfm)
+  - Senate plan reference: [Florida Senate Maps & Statistics - State Senate Plans](https://www.flsenate.gov/Session/Redistricting/MapsAndStats)
+  - Florida Senate Overlays
+  - Florida Senate Borders
 - ZIP Code / ZCTA boundaries:
   - Geometry source: [U.S. Census Bureau TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
   - Population, square mileage, and people per square mile in ZIP Code popups: [Census Reporter API](https://api.censusreporter.org/1.0/geo/latest/86000US32208), using ZCTA land area for square mileage and density.

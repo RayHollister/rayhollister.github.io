@@ -10,7 +10,8 @@
     "email": "mholder@coj.net",
     "assistant": "Courtney Booker",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/b3a0bbd3-18ed-48aa-90a4-da2f920c33d5/bd714d09-ccf8-4e86-a041-57e2011ebfe4/MoneHolder.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/al1"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/al1",
+    "party": "Democratic"
   },
   {
     "id": "al2",
@@ -23,7 +24,8 @@
     "email": "RSalem@coj.net",
     "assistant": "Nikki Evans",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/f75687b3-3aec-4489-b460-f9fcf836f647/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Salem2023.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/al2"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/al2",
+    "party": "Republican"
   },
   {
     "id": "al3",
@@ -36,7 +38,8 @@
     "email": "NHowland@coj.net",
     "assistant": "Amber Lehman",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/f130284c-5522-45bd-bc39-430dfb188e2f/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Howland.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/al3"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/al3",
+    "party": "Republican"
   },
   {
     "id": "al4",
@@ -49,7 +52,8 @@
     "email": "MCarlucci@coj.net",
     "assistant": "Cory Armstrong",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/5714f571-8c7a-4bd9-b7ea-4e4e3e998df9/bd714d09-ccf8-4e86-a041-57e2011ebfe4/AL04-CM-Carlucci-SMALL.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/al4"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/al4",
+    "party": "Republican"
   },
   {
     "id": "al5",
@@ -62,7 +66,8 @@
     "email": "ChrisMiller@coj.net",
     "assistant": "Carol Register",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/c839f3b8-a1c5-4031-ae8f-ffc8d4bbae68/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Miller,-Chris.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/al5"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/al5",
+    "party": "Republican"
   },
   {
     "id": "d01",
@@ -75,7 +80,8 @@
     "email": "KAmaro@coj.net",
     "assistant": "Joe Johnson",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/a0e11def-68c0-4cdf-8d33-3da180018165/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Amaro,-Ken.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d01"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d01",
+    "party": "Republican"
   },
   {
     "id": "d02",
@@ -88,7 +94,8 @@
     "email": "MGay@coj.net",
     "assistant": "Bethany Bryan",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/1dca301e-735d-4400-a0f9-6cb0f7b5d3ef/bd714d09-ccf8-4e86-a041-57e2011ebfe4/MikeGay.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d02"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d02",
+    "party": "Republican"
   },
   {
     "id": "d03",
@@ -101,7 +108,8 @@
     "email": "WLahnen@coj.net",
     "assistant": "Jamey Crozier",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/9ae8f0c8-ea24-43ac-8378-6591160233c3/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Will-Lahnen.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d03"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d03",
+    "party": "Republican"
   },
   {
     "id": "d04",
@@ -114,7 +122,8 @@
     "email": "KCarrico@coj.net",
     "assistant": "Jackie Lee",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/91a96439-3f34-410a-8993-0c48e8875d2e/bd714d09-ccf8-4e86-a041-57e2011ebfe4/carrico.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d04"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d04",
+    "party": "Republican"
   },
   {
     "id": "d05",
@@ -127,7 +136,8 @@
     "email": "JoeCarlucci@coj.net",
     "assistant": "George Foote",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/844ed360-7caf-429c-9831-54b46f69edcd/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Carlucci,-Joe.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d05"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d05",
+    "party": "Republican"
   },
   {
     "id": "d06",
@@ -140,7 +150,8 @@
     "email": "MBoylan@coj.net",
     "assistant": "Sonia Johnson",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/95de9526-caa5-458f-a4b3-a2aa6f8d17fe/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Boylan.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d06"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d06",
+    "party": "Republican"
   },
   {
     "id": "d07",
@@ -153,7 +164,8 @@
     "email": "JPeluso@coj.net",
     "assistant": "Brooks Dame",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/4c84b2c6-97f7-4b08-93ab-132b6d54a9ba/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Peluso,-Jimmy.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d07"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d07",
+    "party": "Democratic"
   },
   {
     "id": "d08",
@@ -166,7 +178,8 @@
     "email": "RGaffneyJr@coj.net",
     "assistant": "Roshanda Jackson",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/a0f5a640-4622-4b6d-bc6c-ca19d3237b96/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Gaffney-Jr.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d08"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d08",
+    "party": "Democratic"
   },
   {
     "id": "d09",
@@ -179,7 +192,8 @@
     "email": "TClarkMurray@coj.net",
     "assistant": "Breyuanna White",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/68f6c575-2006-4dc2-a3bc-aab3cd5222ed/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Tyrona-C-M.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d09"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d09",
+    "party": "Democratic"
   },
   {
     "id": "d10",
@@ -192,7 +206,8 @@
     "email": "JPittman@coj.net",
     "assistant": "Celestine Mills",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/930d3544-4f97-41fb-8ba1-7932e6ef1c9a/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Pittman2026.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d10"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d10",
+    "party": "Democratic"
   },
   {
     "id": "d11",
@@ -205,7 +220,8 @@
     "email": "AriasR@coj.net",
     "assistant": "Evin Herzberg",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/726dfc75-61fa-46ba-a9d8-6bb7c20e4e8d/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Arias,-Raul.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d11"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d11",
+    "party": "Republican"
   },
   {
     "id": "d12",
@@ -218,7 +234,8 @@
     "email": "RandyWhite@coj.net",
     "assistant": "Rebekah Hagan",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/cbd050f5-482d-4077-936a-e44a4d43cb09/bd714d09-ccf8-4e86-a041-57e2011ebfe4/RandyWhite2026.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d12"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d12",
+    "party": "Republican"
   },
   {
     "id": "d13",
@@ -231,7 +248,8 @@
     "email": "RDiamond@coj.net",
     "assistant": "Makenzi Conner",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/0dee2461-6b48-440f-9723-a5515858a2b5/bd714d09-ccf8-4e86-a041-57e2011ebfe4/RoryDiamond.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d13"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d13",
+    "party": "Republican"
   },
   {
     "id": "d14",
@@ -244,6 +262,7 @@
     "email": "Rahman@coj.net",
     "assistant": "Andrew Powers",
     "photo_url": "https://www.jacksonville.gov/getContentAsset/77ce7d20-7053-4123-adf8-1758bac5c3a1/bd714d09-ccf8-4e86-a041-57e2011ebfe4/Rahman.jpg?language=en",
-    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d14"
+    "source_url": "https://www.jacksonville.gov/city-council/city-council-members/d14",
+    "party": "Democratic"
   }
 ]
