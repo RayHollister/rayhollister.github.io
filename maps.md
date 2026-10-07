@@ -3757,7 +3757,7 @@ image: /media/2026/09/maps-featured.png
         return properties.boundary_type || [properties.USPS_CITY, properties.USPS_STATE].filter(Boolean).join(", ");
       }
       if (layerType === "congressional") {
-        return properties.CDSESSN ? `${properties.CDSESSN}th Congress` : "";
+        return properties.congressional_member_name || "";
       }
       if (layerType === "healthZone") {
         if (properties.excluded_health_zone) {
@@ -3832,7 +3832,7 @@ image: /media/2026/09/maps-featured.png
         return getCityCouncilMemberUrl(properties);
       }
       if (layerType === "congressional") {
-        return properties.ballotpedia_url || "";
+        return properties.congressional_member_website_url || "";
       }
       if (layerType === "cpac") {
         return properties.cpac_url || "";
@@ -4337,6 +4337,10 @@ image: /media/2026/09/maps-featured.png
         appendStateLegislatorPopupDetails(popup, feature.properties || {}, "state_senate", "Senator");
       }
 
+      if (layerType === "congressional") {
+        appendCongressionalPopupDetails(popup, feature.properties || {});
+      }
+
       if (layerType === "healthZone") {
         appendHealthZonePopupDetails(popup, feature.properties || {});
       }
@@ -4382,13 +4386,29 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function appendCongressionalPopupDetails(popup, properties) {
+      if (properties.congressional_member_photo_url) {
+        const image = document.createElement("img");
+        image.src = properties.congressional_member_photo_url;
+        image.alt = properties.congressional_member_name || "Congressional representative";
+        image.loading = "lazy";
+        popup.insertBefore(image, popup.firstChild);
+      }
+
+      [
+        properties.congressional_member_party
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+    }
+
     function appendStateLegislatorPopupDetails(popup, properties, prefix, fallbackLabel) {
       const name = properties[`${prefix}_member_name`] || "";
       const party = properties[`${prefix}_member_party`] || "";
       const leadershipRole = properties[`${prefix}_member_leadership_role`] || "";
       const photoUrl = properties[`${prefix}_member_photo_url`] || "";
-      const districtOffice = properties[`${prefix}_member_district_office`] || "";
-      const cityOfResidence = properties[`${prefix}_member_city_of_residence`] || "";
 
       if (photoUrl) {
         const image = document.createElement("img");
@@ -4400,9 +4420,7 @@ image: /media/2026/09/maps-featured.png
 
       [
         party,
-        leadershipRole,
-        cityOfResidence ? `City of Residence: ${cityOfResidence}` : "",
-        districtOffice ? `District Office: ${districtOffice}` : ""
+        leadershipRole
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
         line.textContent = value;
