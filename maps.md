@@ -3833,7 +3833,10 @@ image: /media/2026/09/maps-featured.png
     function getBoundarySubtitle(feature, layerType) {
       const properties = feature.properties || {};
       if (layerType === "atLarge") {
-        return properties.council_member_name || properties.C_NAME || "";
+        return formatNameWithParty(
+          properties.council_member_name || properties.C_NAME || "",
+          properties.council_member_party
+        );
       }
       if (layerType === "city") {
         return properties.ESN ? `ESN ${properties.ESN}` : "";
@@ -3872,7 +3875,7 @@ image: /media/2026/09/maps-featured.png
         );
       }
       if (layerType === "usSenate") {
-        return properties.state_name || "Florida";
+        return "";
       }
       if (layerType === "healthZone") {
         if (properties.excluded_health_zone) {
@@ -4751,7 +4754,7 @@ image: /media/2026/09/maps-featured.png
 
       if (member) {
         const memberLine = document.createElement("span");
-        memberLine.textContent = member;
+        memberLine.textContent = formatNameWithParty(member, properties.council_member_party);
         popup.appendChild(memberLine);
       }
 
@@ -5507,6 +5510,7 @@ image: /media/2026/09/maps-featured.png
         council_member_phone: member.phone || "",
         council_member_email: member.email || "",
         council_member_assistant: member.assistant || "",
+        council_member_party: member.party || "",
         council_member_photo_url: member.photo_url || "",
         council_member_source_url: member.source_url || ""
       };

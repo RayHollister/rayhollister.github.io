@@ -61,6 +61,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Florida state polygon geometry: [U.S. Census Bureau TIGERweb State boundary service](https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/0)
 - [City of Jacksonville City Council Members](https://www.jacksonville.gov/city-council/city-council-members)
   - Current District Council Member and At Large Council Member names, roles, email addresses, phone numbers, assistants, photos, and profile links for City Council District and City Council District At Large popups.
+  - City Council party affiliations: [Jacksonville City Council party affiliation table](https://en.wikipedia.org/wiki/Jacksonville_City_Council#Party_affiliation)
 - [Florida House of Representatives](https://www.flhouse.gov/representatives)
   - Current representative names, parties, district-office phone numbers, office addresses, photos, contact links, and profile links for Florida House popups.
 - [Florida Senate](https://www.flsenate.gov/Senators)
