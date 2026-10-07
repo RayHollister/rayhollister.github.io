@@ -3790,16 +3790,25 @@ image: /media/2026/09/maps-featured.png
         return properties.cpac_district ? `Planning District ${properties.planning_district || properties.PD_ID || properties.cpac_district}` : "Planning District";
       }
       if (layerType === "floridaHouse") {
-        return properties.state_house_member_name || properties.HSE_NAME || properties.DELEGATES || "";
+        return formatNameWithParty(
+          properties.state_house_member_name || properties.HSE_NAME || properties.DELEGATES || "",
+          properties.state_house_member_party
+        );
       }
       if (layerType === "floridaSenate") {
-        return properties.state_senate_member_name || properties.SEN_NAME || "";
+        return formatNameWithParty(
+          properties.state_senate_member_name || properties.SEN_NAME || "",
+          properties.state_senate_member_party
+        );
       }
       if (layerType === "zipCode") {
-        return properties.boundary_type || [properties.USPS_CITY, properties.USPS_STATE].filter(Boolean).join(", ");
+        return "";
       }
       if (layerType === "congressional") {
-        return properties.congressional_member_name || "";
+        return formatNameWithParty(
+          properties.congressional_member_name || "",
+          properties.congressional_member_party
+        );
       }
       if (layerType === "healthZone") {
         if (properties.excluded_health_zone) {
@@ -3816,6 +3825,18 @@ image: /media/2026/09/maps-featured.png
       return properties.MEMBER_NAM || "";
     }
 
+    function formatNameWithParty(name, party) {
+      return [name, party].filter(Boolean).join(", ");
+    }
+
+    function appendContactLine(popup, phone, email) {
+      [phone, email].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+    }
+
     function appendSchoolBoardMemberPopupDetails(popup, properties) {
       if (properties.member_image_url) {
         const image = document.createElement("img");
@@ -3825,6 +3846,8 @@ image: /media/2026/09/maps-featured.png
         image.loading = "lazy";
         popup.insertBefore(image, popup.firstChild);
       }
+
+      appendContactLine(popup, properties.member_phone, properties.member_email);
 
       [
         properties.member_role
@@ -4392,29 +4415,22 @@ image: /media/2026/09/maps-featured.png
         appendZipCodePopupDetails(popup, feature.properties || {});
       }
 
-      appendActivePointCounts(popup, pointCountFeature, boundaryTitle);
+      if (layerType !== "zipCode") {
+        appendActivePointCounts(popup, pointCountFeature, boundaryTitle);
+      }
 
       return popup;
     }
 
     function appendZipCodePopupDetails(popup, properties) {
-      [
-        properties.source,
-        properties.caveat
-      ].filter(Boolean).forEach((value) => {
-        const line = document.createElement("span");
-        line.textContent = value;
-        popup.appendChild(line);
-      });
-
-      if (properties.source_url) {
-        const sourceLink = document.createElement("a");
-        sourceLink.href = properties.source_url;
-        sourceLink.target = "_blank";
-        sourceLink.rel = "noopener";
-        sourceLink.textContent = "View Census TIGER/Line source";
-        popup.appendChild(sourceLink);
-      }
+      const zipCode = properties.ZIPCODE || properties.ZCTA5CE20 || properties.GEOID20 || "";
+      if (!zipCode) return;
+      const censusReporterLink = document.createElement("a");
+      censusReporterLink.href = `https://censusreporter.org/profiles/86000US${zipCode}-${zipCode}/`;
+      censusReporterLink.target = "_blank";
+      censusReporterLink.rel = "noopener";
+      censusReporterLink.textContent = "View Census Reporter profile";
+      popup.appendChild(censusReporterLink);
     }
 
     function appendHealthZonePopupDetails(popup, properties) {
@@ -4439,18 +4455,11 @@ image: /media/2026/09/maps-featured.png
         popup.insertBefore(image, popup.firstChild);
       }
 
-      [
-        properties.congressional_member_party
-      ].filter(Boolean).forEach((value) => {
-        const line = document.createElement("span");
-        line.textContent = value;
-        popup.appendChild(line);
-      });
+      appendContactLine(popup, properties.congressional_member_phone, properties.congressional_member_email);
     }
 
     function appendStateLegislatorPopupDetails(popup, properties, prefix, fallbackLabel) {
       const name = properties[`${prefix}_member_name`] || "";
-      const party = properties[`${prefix}_member_party`] || "";
       const leadershipRole = properties[`${prefix}_member_leadership_role`] || "";
       const photoUrl = properties[`${prefix}_member_photo_url`] || "";
 
@@ -4463,8 +4472,9 @@ image: /media/2026/09/maps-featured.png
         popup.insertBefore(image, popup.firstChild);
       }
 
+      appendContactLine(popup, properties[`${prefix}_member_phone`], properties[`${prefix}_member_email`]);
+
       [
-        party,
         leadershipRole
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
@@ -4482,6 +4492,8 @@ image: /media/2026/09/maps-featured.png
         image.loading = "lazy";
         popup.insertBefore(image, popup.firstChild);
       }
+
+      appendContactLine(popup, properties.council_member_phone, properties.council_member_email);
 
       [
         properties.council_member_leadership_role
