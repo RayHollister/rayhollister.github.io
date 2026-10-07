@@ -124,10 +124,10 @@ image: /media/2026/09/maps-featured.png
     align-items: start;
     column-gap: 0.6rem;
     display: grid;
-    grid-template-columns: 72px minmax(9rem, 1fr);
-    max-width: calc(100vw - 7rem);
+    grid-template-columns: 72px minmax(9rem, max-content);
+    max-width: min(42rem, calc(100vw - 7rem));
     min-width: 15.75rem;
-    width: max-content;
+    width: fit-content;
   }
 
   .maps-district-popup.maps-district-popup--with-photo img {
@@ -138,13 +138,14 @@ image: /media/2026/09/maps-featured.png
 
   .maps-district-popup.maps-district-popup--with-photo > :not(img) {
     grid-column: 2;
+    max-width: calc(100vw - 12rem);
     min-width: 0;
     overflow-wrap: normal;
   }
 
   .maps-district-popup.maps-district-popup--with-photo a {
-    overflow-wrap: anywhere;
-    word-break: break-word;
+    overflow-wrap: break-word;
+    word-break: normal;
   }
 
   .maps-district-popup.maps-district-popup--with-photo .maps-popup-title {
@@ -152,8 +153,8 @@ image: /media/2026/09/maps-featured.png
   }
 
   #ray-map .leaflet-popup-content:has(.maps-district-popup--with-photo) {
-    max-width: calc(100vw - 7rem);
-    width: max-content !important;
+    max-width: min(42rem, calc(100vw - 7rem));
+    width: fit-content !important;
   }
 
   .maps-district-popup > .maps-senator-card {
@@ -4791,7 +4792,7 @@ image: /media/2026/09/maps-featured.png
       const district = (feature.properties || {}).CC || getDistrictNumber(feature);
       layer.options.boundaryMode = mode;
       layer.options.boundaryType = "district";
-      layer.bindPopup(() => createCouncilDistrictPopup(feature));
+      layer.bindPopup(() => createCouncilDistrictPopup(feature), { maxWidth: 720 });
       layer.on("click", function () {
         if (mapInteractionMode === "focus") {
           focusBoundaryFeature(feature, layer, mode, "district");
@@ -4830,7 +4831,7 @@ image: /media/2026/09/maps-featured.png
     function addBoundaryInteractivity(feature, layer, mode, layerType) {
       layer.options.boundaryMode = mode;
       layer.options.boundaryType = layerType;
-      layer.bindPopup(() => createBoundaryPopup(feature, layerType));
+      layer.bindPopup(() => createBoundaryPopup(feature, layerType), { maxWidth: 720 });
       layer.on("click", function () {
         if (mapInteractionMode === "focus") {
           focusBoundaryFeature(feature, layer, mode, layerType);
