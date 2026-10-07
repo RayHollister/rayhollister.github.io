@@ -158,8 +158,8 @@ image: /media/2026/09/maps-featured.png
   }
 
   #ray-map .leaflet-popup-content.maps-popup-content--contact-width:has(.maps-district-popup--with-photo) {
-    max-width: min(31rem, calc(100vw - 7rem));
-    width: min(31rem, calc(100vw - 7rem)) !important;
+    max-width: min(20rem, calc(100vw - 7rem));
+    width: min(20rem, calc(100vw - 7rem)) !important;
   }
 
   #ray-map .leaflet-popup-content.maps-popup-content--contact-width .maps-district-popup.maps-district-popup--with-photo {
