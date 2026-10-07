@@ -8978,7 +8978,9 @@
         "congressional_member_party": "Republican",
         "congressional_member_photo_url": "https://ziplook.house.gov/zip/pictures/fl05_rutherford.jpg",
         "congressional_member_source_url": "https://www.house.gov/htbin/findrep?ZIP=32207",
-        "congressional_member_website_url": "https://rutherford.house.gov"
+        "congressional_member_website_url": "https://rutherford.house.gov",
+        "congressional_member_phone": "(904) 831-5205",
+        "congressional_member_contact_url": "https://rutherford.house.gov/contact"
       }
     },
     {
@@ -37248,7 +37250,9 @@
         "congressional_member_party": "Republican",
         "congressional_member_photo_url": "https://ziplook.house.gov/zip/pictures/fl04_bean.jpg",
         "congressional_member_source_url": "https://www.house.gov/htbin/findrep?ZIP=32202",
-        "congressional_member_website_url": "https://bean.house.gov"
+        "congressional_member_website_url": "https://bean.house.gov",
+        "congressional_member_phone": "(904) 319-9433",
+        "congressional_member_contact_url": "https://bean.house.gov/contact"
       }
     }
   ]
