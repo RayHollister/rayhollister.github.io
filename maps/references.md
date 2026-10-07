@@ -26,8 +26,6 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 ## Boundaries And Area Layers
 
 - [City of Jacksonville My Neighborhood](https://maps.coj.net/myneighborhood/)
-  - Florida Senate Overlays
-  - Florida Senate Borders
   - City Council District Overlays
   - City Council District Borders
   - City Council District At Large Overlays
@@ -62,11 +60,19 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - City Council party affiliations: [Jacksonville City Council party affiliation table](https://en.wikipedia.org/wiki/Jacksonville_City_Council#Party_affiliation)
 - [Florida House of Representatives](https://www.flhouse.gov/representatives)
   - Current representative names, parties, email addresses, district-office phone numbers, office addresses, photos, contact links, and profile links for Florida House popups.
-- [Florida House Districts 2022 (H000H8013)](https://www.arcgis.com/home/item.html?id=118f1508d0744bc0b8daa09411833dc1)
+- Florida House Districts 2022, enacted February 3, 2022 as plan H000H8013:
+  - Geometry source: [Florida Legislature Office of Economic & Demographic Research 2020 Redistricting shapefile](https://edr.state.fl.us/Content/redistricting/2020redistricting/H000H8013.zip)
+  - Reference page: [Florida Legislature Office of Economic & Demographic Research 2020 Redistricting](https://edr.state.fl.us/Content/redistricting/2020redistricting/index.cfm)
   - Florida House Overlays
   - Florida House Borders
 - [Florida Senate](https://www.flsenate.gov/Senators)
   - Current senator names, parties, email addresses, phone numbers, district-office addresses, photos, and profile links for Florida Senate popups.
+- Florida Senate Districts 2022, enacted February 3, 2022 as plan S027S8058:
+  - Geometry source: [Florida Legislature Office of Economic & Demographic Research 2020 Redistricting shapefile](https://edr.state.fl.us/Content/redistricting/2020redistricting/S027S8058.zip)
+  - Reference page: [Florida Legislature Office of Economic & Demographic Research 2020 Redistricting](https://edr.state.fl.us/Content/redistricting/2020redistricting/index.cfm)
+  - Senate plan reference: [Florida Senate Maps & Statistics - State Senate Plans](https://www.flsenate.gov/Session/Redistricting/MapsAndStats)
+  - Florida Senate Overlays
+  - Florida Senate Borders
 - ZIP Code / ZCTA boundaries:
   - Geometry source: [U.S. Census Bureau TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
   - Population, square mileage, and people per square mile in ZIP Code popups: [Census Reporter API](https://api.censusreporter.org/1.0/geo/latest/86000US32208), using ZCTA land area for square mileage and density.

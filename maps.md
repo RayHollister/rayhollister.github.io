@@ -141,6 +141,11 @@ image: /media/2026/09/maps-featured.png
     overflow-wrap: normal;
   }
 
+  .maps-district-popup.maps-district-popup--with-photo a {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
   .maps-district-popup.maps-district-popup--with-photo .maps-popup-title {
     margin-top: 0;
   }
