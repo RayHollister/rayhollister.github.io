@@ -3838,12 +3838,25 @@ image: /media/2026/09/maps-featured.png
       return [name, party].filter(Boolean).join(", ");
     }
 
+    function getPhoneHref(phone) {
+      const digits = String(phone || "").replace(/\D/g, "");
+      if (!digits) return "";
+      if (digits.length === 10) return `tel:+1${digits}`;
+      if (digits.length === 11 && digits.startsWith("1")) return `tel:+${digits}`;
+      return `tel:${digits}`;
+    }
+
+    function appendContactLink(popup, text, href) {
+      if (!text || !href) return;
+      const link = document.createElement("a");
+      link.href = href;
+      link.textContent = text;
+      popup.appendChild(link);
+    }
+
     function appendContactLine(popup, phone, email) {
-      [phone, email].filter(Boolean).forEach((value) => {
-        const line = document.createElement("span");
-        line.textContent = value;
-        popup.appendChild(line);
-      });
+      appendContactLink(popup, phone, getPhoneHref(phone));
+      appendContactLink(popup, email, email ? `mailto:${email}` : "");
     }
 
     function formatOneDecimal(value) {
@@ -3905,7 +3918,7 @@ image: /media/2026/09/maps-featured.png
       appendContactLine(popup, properties.member_phone, properties.member_email);
 
       [
-        properties.member_role
+        properties.member_role === "Board Member" ? "" : properties.member_role
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
         line.textContent = value;

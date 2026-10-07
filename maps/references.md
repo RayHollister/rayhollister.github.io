@@ -11,7 +11,7 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
 
 This map is provided as is, with no guarantee of accuracy, completeness, or currentness. It is a personal passion project and should not be considered canonical information.
 
-The information shown on the map is based on the sources listed below, using data available as of October 1, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
+The information shown on the map is based on the sources listed below, using data available as of October 7, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
 
 If you appreciate this project, you can [buy me a coffee! ☕️](https://buymeacoffee.com/rayhollister).
 
