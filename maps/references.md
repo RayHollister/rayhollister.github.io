@@ -44,6 +44,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Citizens Planning Advisory Committee (CPACs) Borders
 - County boundaries:
   - Geometry source: [U.S. Census Bureau TIGERweb State/County boundary service](https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1)
+  - Population, square mileage, and people per square mile in county popups: [Census Reporter API](https://api.censusreporter.org/1.0/geo/latest/05000US12031), using land area for square mileage and density.
   - County records: Alachua, Baker, Bradford, Clay, Duval, Flagler, Nassau, Putnam, and St. Johns counties, Florida; and Camden and Charlton counties, Georgia.
   - Counties Overlays
   - Counties Borders
@@ -61,6 +62,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Current senator names, parties, email addresses, phone numbers, district-office addresses, photos, and profile links for Florida Senate popups.
 - ZIP Code / ZCTA boundaries:
   - Geometry source: [U.S. Census Bureau TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
+  - Population, square mileage, and people per square mile in ZIP Code popups: [Census Reporter API](https://api.censusreporter.org/1.0/geo/latest/86000US32208), using ZCTA land area for square mileage and density.
   - ZIP Code Tabulation Area geometry: 2024 TIGER/Line `ZCTA520`.
   - Duval County clip boundary: 2024 TIGER/Line County, Duval County, Florida (`STATEFP=12`, `COUNTYFP=031`).
   - Note: USPS is authoritative for ZIP Codes as mail-routing data, but USPS does not publish official ZIP Code polygon boundaries. The map uses Census ZIP Code Tabulation Areas (ZCTAs), which are public statistical approximations of USPS ZIP Code service areas, clipped to Duval County.
