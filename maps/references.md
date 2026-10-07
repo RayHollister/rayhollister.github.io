@@ -86,24 +86,6 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 - [Jacksonville Sheriff's Office Your Neighborhood](https://www.jaxsheriff.org/Your-Neighborhood.aspx)
   - Substations
 
-## Health
-
-- Health Zones:
-  - Source framework: Florida Department of Health in Duval County health-zone framework; ZIP breakdown from Health Planning Council of Northeast Florida Housing HIA report citing DOH-Duval community health planning materials.
-  - Duval County is divided into six multi-ZIP-code health zones for regional health data tracking and community planning by the Florida Department of Health in Duval County.
-  - The [Health Planning Council of Northeast Florida Housing Health Impact Assessment](https://hpcnef.org/wp-content/uploads/2016/02/Housing-HIA-Report_Final-6-7-17.pdf) lists the six health-zone ZIP-code groupings and cites the Florida Department of Health in Duval County Community Health Assessment and Community Health Improvement Plan as the source for the health-zone map.
-  - The same report also identifies Florida Department of Health in Duval County as the data source for several health-zone indicators.
-  - Health Zone 1 (Urban Core): 32202, 32204, 32206, 32208, 32209, 32254.
-  - Health Zone 2 (Arlington / Greater Urban): 32207, 32211, 32216, 32224, 32225, 32246, 32277.
-  - Health Zone 3 (Southside / Mandarin): 32217, 32223, 32256, 32257, 32258, 32259, 32081.
-  - Health Zone 4 (Westside): 32205, 32210, 32212, 32214, 32215, 32221, 32222, 32244.
-  - Health Zone 5 (Northside / Outer Rim): 32218, 32219, 32220, 32226, 32234.
-  - Health Zone 6 (Beaches): 32227, 32228, 32233, 32250, 32266.
-  - Current working assumption pending confirmation from Florida Department of Health in Duval County: health zones clip at the Duval County line, and 32259 and 32081 belong with Health Zone 3.
-  - Geometry is built from the map's Census-based ZIP/ZCTA layer: [U.S. Census Bureau TIGER/Line 2024 ZCTA520](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html), clipped to the U.S. Census Bureau TIGER/Line 2024 Duval County boundary. 32215 is listed in the health-zone ZIP breakdown, but no polygon geometry is available in the Census-clipped ZIP/ZCTA layer.
-  - ZCTAs are Census statistical approximations of USPS ZIP Code service areas; USPS does not publish official ZIP Code polygon boundaries.
-  - Query-only alternate layer: `?layer=healthzones-byzipcodes` uses the listed Health Zone ZIP-code groups without adding 32081 or 32259 to Health Zone 3, and uses full Census ZCTA geometry, including the full 32234 ZCTA.
-
 ## Transportation
 
 - [JTA GTFS Archive](https://ride.jtafla.com/gtfs-archive/)
@@ -141,3 +123,22 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - High Schools
   - Dedicated Magnet Schools
   - Used for DCPS school websites on matching Florida Department of Education school points.
+
+## Health
+
+- Health Zones:
+  - There is no official map and no official ZIP-code list defining the Duval County Health Zones. Florida Department of Health in Duval County confirmed this directly in October 2026.
+  - The Health Zone map was developed in 2008. Based on the geographic boundaries, Florida Department of Health in Duval County said it would be reasonable to consider Duval County residents within ZIP codes 32259 and 32081 as part of Health Zone 3, but those areas may not have been represented within Duval County at that time and their inclusion cannot be definitively confirmed.
+  - Because there is no official definition and 32259 and 32081 cannot be confirmed, this map shows them in black as an excluded group rather than assigning them to Health Zone 3.
+  - Source framework: Florida Department of Health in Duval County health-zone framework; ZIP breakdown from Health Planning Council of Northeast Florida Housing HIA report citing DOH-Duval community health planning materials.
+  - The [Health Planning Council of Northeast Florida Housing Health Impact Assessment](https://hpcnef.org/wp-content/uploads/2016/02/Housing-HIA-Report_Final-6-7-17.pdf) lists six health-zone ZIP-code groupings and cites the Florida Department of Health in Duval County Community Health Assessment and Community Health Improvement Plan as the source for the health-zone map.
+  - Health Zone 1 (Urban Core): 32202, 32204, 32206, 32208, 32209, 32254.
+  - Health Zone 2 (Arlington / Greater Urban): 32207, 32211, 32216, 32224, 32225, 32246, 32277.
+  - Health Zone 3 (Southside / Mandarin): 32217, 32223, 32256, 32257, 32258.
+  - Excluded / unconfirmed ZIPs shown in black: 32259, 32081.
+  - Health Zone 4 (Westside): 32205, 32210, 32212, 32214, 32215, 32221, 32222, 32244.
+  - Health Zone 5 (Northside / Outer Rim): 32218, 32219, 32220, 32226, 32234.
+  - Health Zone 6 (Beaches): 32227, 32228, 32233, 32250, 32266.
+  - Geometry is built from the map's Census-based ZIP/ZCTA layer: [U.S. Census Bureau TIGER/Line 2024 ZCTA520](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html), clipped to the U.S. Census Bureau TIGER/Line 2024 Duval County boundary. 32215 is listed in the health-zone ZIP breakdown, but no polygon geometry is available in the Census-clipped ZIP/ZCTA layer.
+  - ZCTAs are Census statistical approximations of USPS ZIP Code service areas; USPS does not publish official ZIP Code polygon boundaries.
+  - Query-only alternate layer: `?layer=healthzones-byzipcodes` uses the listed Health Zone ZIP-code groups and full Census ZCTA geometry, including the full 32234 ZCTA.
