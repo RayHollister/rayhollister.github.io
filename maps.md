@@ -124,7 +124,9 @@ image: /media/2026/09/maps-featured.png
     align-items: start;
     column-gap: 0.6rem;
     display: grid;
-    grid-template-columns: 72px minmax(0, 1fr);
+    grid-template-columns: 72px minmax(9rem, 1fr);
+    max-width: calc(100vw - 7rem);
+    width: 15.75rem;
   }
 
   .maps-district-popup.maps-district-popup--with-photo img {
@@ -136,10 +138,28 @@ image: /media/2026/09/maps-featured.png
   .maps-district-popup.maps-district-popup--with-photo > :not(img) {
     grid-column: 2;
     min-width: 0;
+    overflow-wrap: normal;
   }
 
   .maps-district-popup.maps-district-popup--with-photo .maps-popup-title {
     margin-top: 0;
+  }
+
+  @media (max-width: 360px) {
+    .maps-district-popup.maps-district-popup--with-photo {
+      grid-template-columns: 1fr;
+      width: min(13rem, calc(100vw - 7rem));
+    }
+
+    .maps-district-popup.maps-district-popup--with-photo img,
+    .maps-district-popup.maps-district-popup--with-photo > :not(img) {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .maps-district-popup.maps-district-popup--with-photo img {
+      margin-bottom: 0.4rem;
+    }
   }
 
   .leaflet-popup.maps-draggable-popup .leaflet-popup-content-wrapper {
