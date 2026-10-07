@@ -961,6 +961,8 @@ image: /media/2026/09/maps-featured.png
     let baseMapTileOpacity = 1;
     let baseMapRequestId = 0;
     let zoomHomeControl;
+    const censusReporterGeographyPromises = new Map();
+    const squareMetersPerSquareMile = 2589988.110336;
     const supportsPointerHover = window.matchMedia
       ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
       : true;
@@ -3837,6 +3839,52 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function formatOneDecimal(value) {
+      return value.toLocaleString(undefined, {
+        maximumFractionDigits: 1,
+        minimumFractionDigits: 1
+      });
+    }
+
+    function appendCensusReporterLine(popup, label, value) {
+      const line = document.createElement("span");
+      line.textContent = `${label}: ${value}`;
+      popup.appendChild(line);
+    }
+
+    function getCensusReporterGeography(geoid) {
+      if (!geoid) return Promise.resolve(null);
+      if (!censusReporterGeographyPromises.has(geoid)) {
+        censusReporterGeographyPromises.set(
+          geoid,
+          fetchJsonData(`https://api.censusreporter.org/1.0/geo/latest/${geoid}`, `Census Reporter ${geoid}`)
+        );
+      }
+      return censusReporterGeographyPromises.get(geoid);
+    }
+
+    function appendCensusReporterStats(popup, geoid) {
+      getCensusReporterGeography(geoid)
+        .then((geography) => {
+          const properties = (geography && geography.properties) || {};
+          const population = Number(properties.population);
+          const landArea = Number(properties.aland);
+          const squareMiles = landArea / squareMetersPerSquareMile;
+          if (Number.isFinite(population)) {
+            appendCensusReporterLine(popup, "Population", population.toLocaleString());
+          }
+          if (Number.isFinite(squareMiles) && squareMiles > 0) {
+            appendCensusReporterLine(popup, "Square mileage", formatOneDecimal(squareMiles));
+            if (Number.isFinite(population)) {
+              appendCensusReporterLine(popup, "People per square mile", Math.round(population / squareMiles).toLocaleString());
+            }
+          }
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
+
     function appendSchoolBoardMemberPopupDetails(popup, properties) {
       if (properties.member_image_url) {
         const image = document.createElement("img");
@@ -4411,6 +4459,10 @@ image: /media/2026/09/maps-featured.png
         appendHealthZonePopupDetails(popup, feature.properties || {});
       }
 
+      if (layerType === "county") {
+        appendCountyCensusReporterDetails(popup, feature.properties || {});
+      }
+
       if (layerType === "zipCode") {
         appendZipCodePopupDetails(popup, feature.properties || {});
       }
@@ -4422,15 +4474,29 @@ image: /media/2026/09/maps-featured.png
       return popup;
     }
 
-    function appendZipCodePopupDetails(popup, properties) {
-      const zipCode = properties.ZIPCODE || properties.ZCTA5CE20 || properties.GEOID20 || "";
-      if (!zipCode) return;
+    function appendCensusReporterProfileLink(popup, href) {
       const censusReporterLink = document.createElement("a");
-      censusReporterLink.href = `https://censusreporter.org/profiles/86000US${zipCode}-${zipCode}/`;
+      censusReporterLink.href = href;
       censusReporterLink.target = "_blank";
       censusReporterLink.rel = "noopener";
       censusReporterLink.textContent = "View Census Reporter profile";
       popup.appendChild(censusReporterLink);
+    }
+
+    function appendCountyCensusReporterDetails(popup, properties) {
+      const countyGeoid = properties.geoid || properties.GEOID || "";
+      if (!countyGeoid) return;
+      const censusReporterGeoid = `05000US${countyGeoid}`;
+      appendCensusReporterProfileLink(popup, `https://censusreporter.org/profiles/${censusReporterGeoid}/`);
+      appendCensusReporterStats(popup, censusReporterGeoid);
+    }
+
+    function appendZipCodePopupDetails(popup, properties) {
+      const zipCode = properties.ZIPCODE || properties.ZCTA5CE20 || properties.GEOID20 || "";
+      if (!zipCode) return;
+      const censusReporterGeoid = `86000US${zipCode}`;
+      appendCensusReporterProfileLink(popup, `https://censusreporter.org/profiles/${censusReporterGeoid}-${zipCode}/`);
+      appendCensusReporterStats(popup, censusReporterGeoid);
     }
 
     function appendHealthZonePopupDetails(popup, properties) {
