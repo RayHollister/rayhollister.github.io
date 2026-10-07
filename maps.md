@@ -120,6 +120,48 @@ image: /media/2026/09/maps-featured.png
     width: 72px;
   }
 
+  .maps-district-popup.maps-district-popup--with-photo {
+    align-items: start;
+    column-gap: 0.6rem;
+    display: grid;
+    grid-template-columns: 72px minmax(9rem, 1fr);
+    max-width: calc(100vw - 7rem);
+    width: 15.75rem;
+  }
+
+  .maps-district-popup.maps-district-popup--with-photo img {
+    grid-column: 1;
+    grid-row: 1 / span 20;
+    margin-bottom: 0;
+  }
+
+  .maps-district-popup.maps-district-popup--with-photo > :not(img) {
+    grid-column: 2;
+    min-width: 0;
+    overflow-wrap: normal;
+  }
+
+  .maps-district-popup.maps-district-popup--with-photo .maps-popup-title {
+    margin-top: 0;
+  }
+
+  @media (max-width: 360px) {
+    .maps-district-popup.maps-district-popup--with-photo {
+      grid-template-columns: 1fr;
+      width: min(13rem, calc(100vw - 7rem));
+    }
+
+    .maps-district-popup.maps-district-popup--with-photo img,
+    .maps-district-popup.maps-district-popup--with-photo > :not(img) {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .maps-district-popup.maps-district-popup--with-photo img {
+      margin-bottom: 0.4rem;
+    }
+  }
+
   .leaflet-popup.maps-draggable-popup .leaflet-popup-content-wrapper {
     cursor: grab;
   }
@@ -3777,6 +3819,7 @@ image: /media/2026/09/maps-featured.png
     function appendSchoolBoardMemberPopupDetails(popup, properties) {
       if (properties.member_image_url) {
         const image = document.createElement("img");
+        popup.classList.add("maps-district-popup--with-photo");
         image.src = properties.member_image_url;
         image.alt = properties.member_name || "School Board member";
         image.loading = "lazy";
@@ -4389,6 +4432,7 @@ image: /media/2026/09/maps-featured.png
     function appendCongressionalPopupDetails(popup, properties) {
       if (properties.congressional_member_photo_url) {
         const image = document.createElement("img");
+        popup.classList.add("maps-district-popup--with-photo");
         image.src = properties.congressional_member_photo_url;
         image.alt = properties.congressional_member_name || "Congressional representative";
         image.loading = "lazy";
@@ -4412,6 +4456,7 @@ image: /media/2026/09/maps-featured.png
 
       if (photoUrl) {
         const image = document.createElement("img");
+        popup.classList.add("maps-district-popup--with-photo");
         image.src = photoUrl;
         image.alt = name || fallbackLabel;
         image.loading = "lazy";
@@ -4431,6 +4476,7 @@ image: /media/2026/09/maps-featured.png
     function appendCityCouncilMemberPopupDetails(popup, properties) {
       if (properties.council_member_photo_url) {
         const image = document.createElement("img");
+        popup.classList.add("maps-district-popup--with-photo");
         image.src = properties.council_member_photo_url;
         image.alt = properties.council_member_name || "City Council member";
         image.loading = "lazy";
