@@ -3333,12 +3333,12 @@ image: /media/2026/09/maps-featured.png
           appendGeographyLayerRow(overlays, "City Council District", councilDistrictFillLayer, councilDistrictBorderLayer, { locationLayerType: "district" });
           appendGeographyLayerRow(overlays, "City Council District At Large", councilAtLargeFillLayer, councilAtLargeBorderLayer, { locationLayerType: "atLarge" });
           appendGeographyLayerRow(overlays, "School Board Districts", schoolBoardDistrictFillLayer, schoolBoardDistrictBorderLayer, { locationLayerType: "schoolBoard" });
-          appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer, { locationLayerType: "city" });
-          appendGeographyLayerRow(overlays, "Counties", countyFillLayer, countyBorderLayer, { locationLayerType: "county" });
           appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer, { locationLayerType: "floridaHouse" });
           appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer, { locationLayerType: "floridaSenate" });
-          appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer, { locationLayerType: "zipCode" });
           appendGeographyLayerRow(overlays, "Congressional Districts", congressionalDistrictFillLayer, congressionalDistrictBorderLayer, { locationLayerType: "congressional" });
+          appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer, { locationLayerType: "city" });
+          appendGeographyLayerRow(overlays, "Counties", countyFillLayer, countyBorderLayer, { locationLayerType: "county" });
+          appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer, { locationLayerType: "zipCode" });
           overlays.appendChild(createLayerHeading("Neighborhood"));
           appendGeographyLayerRow(overlays, "Neighborhoods", neighborhoodFillLayer, neighborhoodBorderLayer, { locationLayerType: "neighborhood" });
           appendLayerControls(overlays, [
