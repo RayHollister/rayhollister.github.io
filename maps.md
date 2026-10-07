@@ -145,6 +145,18 @@ image: /media/2026/09/maps-featured.png
     margin-top: 0;
   }
 
+  .maps-district-popup > .maps-senator-card {
+    border-top: 1px solid #d0d7de;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .maps-district-popup > .maps-senator-card:first-of-type {
+    border-top: 0;
+    margin-top: 0.35rem;
+    padding-top: 0;
+  }
+
   @media (max-width: 360px) {
     .maps-district-popup.maps-district-popup--with-photo {
       grid-template-columns: 1fr;
@@ -1293,19 +1305,22 @@ image: /media/2026/09/maps-featured.png
 
       selectedControls.forEach((control) => {
         const feature = findContainingFeature(control.layer, userLocationLatLng);
-        const section = document.createElement("section");
-        const content = feature
-          ? (control.layerType === "district" ? createCouncilDistrictPopup(feature) : createBoundaryPopup(feature, control.layerType))
-          : document.createElement("div");
-        section.className = "maps-you-are-here-section";
-        if (feature) {
-          section.appendChild(content);
-        } else {
-          const missingLine = document.createElement("span");
-          missingLine.textContent = `${control.label}: not found for this location`;
-          section.appendChild(missingLine);
-        }
-        popup.appendChild(section);
+        const contents = feature
+          ? getLocationInfoCardContents(control, feature)
+          : [document.createElement("div")];
+
+        contents.forEach((content) => {
+          const section = document.createElement("section");
+          section.className = "maps-you-are-here-section";
+          if (feature) {
+            section.appendChild(content);
+          } else {
+            const missingLine = document.createElement("span");
+            missingLine.textContent = `${control.label}: not found for this location`;
+            section.appendChild(missingLine);
+          }
+          popup.appendChild(section);
+        });
       });
 
       const actions = document.createElement("div");
@@ -1322,6 +1337,16 @@ image: /media/2026/09/maps-featured.png
       popup.appendChild(actions);
 
       return popup;
+    }
+
+    function getLocationInfoCardContents(control, feature) {
+      if (control.layerType === "district") {
+        return [createCouncilDistrictPopup(feature)];
+      }
+      if (control.layerType === "usSenate") {
+        return createUsSenatorCards(feature.properties || {});
+      }
+      return [createBoundaryPopup(feature, control.layerType)];
     }
 
     function updateYouAreHereCard() {
@@ -3402,7 +3427,7 @@ image: /media/2026/09/maps-featured.png
           appendGeographyLayerRow(overlays, "School Board Districts", schoolBoardDistrictFillLayer, schoolBoardDistrictBorderLayer, { locationLayerType: "schoolBoard" });
           appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer, { locationLayerType: "floridaHouse" });
           appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer, { locationLayerType: "floridaSenate" });
-          appendGeographyLayerRow(overlays, "Congressional Districts", congressionalDistrictFillLayer, congressionalDistrictBorderLayer, { locationLayerType: "congressional" });
+          appendGeographyLayerRow(overlays, "U.S. House", congressionalDistrictFillLayer, congressionalDistrictBorderLayer, { locationLayerType: "congressional" });
           appendGeographyLayerRow(overlays, "U.S. Senators", usSenateFillLayer, usSenateBorderLayer, { locationLayerType: "usSenate" });
           appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer, { locationLayerType: "city" });
           appendGeographyLayerRow(overlays, "Counties", countyFillLayer, countyBorderLayer, { locationLayerType: "county" });
@@ -3529,7 +3554,7 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["floridahouse", "house", "statehouse"], floridaHouseFillLayer, { group: "boundaries", slug: "floridahouse", alternateLayers: [floridaHouseBorderLayer] });
       registerQueryLayer(["floridasenate", "senate", "statesenate"], floridaSenateFillLayer, { group: "boundaries", slug: "floridasenate", alternateLayers: [floridaSenateBorderLayer] });
       registerQueryLayer(["zip", "zips", "zipcode", "zipcodes", "zcta", "zctas"], zipCodeFillLayer, { group: "boundaries", slug: "zipcodes", alternateLayers: [zipCodeBorderLayer] });
-      registerQueryLayer(["congress", "congressional", "congressionaldistrict", "congressionaldistricts"], congressionalDistrictFillLayer, { group: "boundaries", slug: "congressionaldistricts", alternateLayers: [congressionalDistrictBorderLayer] });
+      registerQueryLayer(["ushouse", "congress", "congressional", "congressionaldistrict", "congressionaldistricts"], congressionalDistrictFillLayer, { group: "boundaries", slug: "ushouse", alternateLayers: [congressionalDistrictBorderLayer] });
       registerQueryLayer(["ussenate", "ussenators", "floridaussenators", "floridasenators"], usSenateFillLayer, { group: "boundaries", slug: "ussenators", alternateLayers: [usSenateBorderLayer] });
       registerQueryLayer(["neighborhood", "neighborhoods"], neighborhoodFillLayer, { group: "boundaries", slug: "neighborhoods", alternateLayers: [neighborhoodBorderLayer] });
       registerQueryLayer(["cpac", "cpacs", "planningdistricts"], cpacFillLayer, { group: "boundaries", slug: "cpacs", alternateLayers: [cpacBorderLayer] });
@@ -4604,22 +4629,60 @@ image: /media/2026/09/maps-featured.png
     }
 
     function appendUsSenatorsPopupDetails(popup, properties) {
+      createUsSenatorCards(properties).forEach((card) => popup.appendChild(card));
+    }
+
+    function createUsSenatorCards(properties) {
       const senators = Array.isArray(properties.senators) ? properties.senators : [];
-      senators.forEach((senator) => {
-        const senatorLine = document.createElement(senator.website_url ? "a" : "strong");
-        const name = formatNameWithParty(senator.name, senator.party);
-        senatorLine.textContent = [name, senator.class].filter(Boolean).join(", ");
-        if (senator.website_url) {
-          senatorLine.href = senator.website_url;
-          senatorLine.target = "_blank";
-          senatorLine.rel = "noopener";
-        }
-        popup.appendChild(senatorLine);
-        appendContactLine(popup, senator.phone, senator.email);
-        if (senator.contact_url && !senator.email) {
-          appendContactLink(popup, "Contact form", senator.contact_url);
-        }
-      });
+      if (!senators.length) {
+        const card = document.createElement("div");
+        const line = document.createElement("span");
+        card.className = "maps-district-popup";
+        line.textContent = "U.S. Senator information unavailable";
+        card.appendChild(line);
+        return [card];
+      }
+      return senators.map(createUsSenatorCard);
+    }
+
+    function createUsSenatorCard(senator) {
+      const card = document.createElement("div");
+      const title = document.createElement(senator.website_url ? "a" : "strong");
+      const name = formatNameWithParty(senator.name, senator.party);
+
+      card.className = "maps-district-popup maps-district-popup--with-photo maps-senator-card";
+
+      if (senator.photo_url) {
+        const image = document.createElement("img");
+        image.src = senator.photo_url;
+        image.alt = senator.name ? `Photo of Senator ${senator.name}` : "U.S. Senator";
+        image.loading = "lazy";
+        card.appendChild(image);
+      } else {
+        card.classList.remove("maps-district-popup--with-photo");
+      }
+
+      title.className = "maps-popup-title";
+      title.textContent = name || "U.S. Senator";
+      if (senator.website_url) {
+        title.href = senator.website_url;
+        title.target = "_blank";
+        title.rel = "noopener";
+      }
+      card.appendChild(title);
+
+      if (senator.class) {
+        const classLine = document.createElement("span");
+        classLine.textContent = senator.class;
+        card.appendChild(classLine);
+      }
+
+      appendContactLine(card, senator.phone, senator.email);
+      if (senator.contact_url && !senator.email) {
+        appendContactLink(card, "Contact form", senator.contact_url);
+      }
+
+      return card;
     }
 
     function appendStateLegislatorPopupDetails(popup, properties, prefix, fallbackLabel) {

@@ -49,14 +49,15 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Counties Overlays
   - Counties Borders
 - [119th Congressional Districts](https://www.arcgis.com/home/item.html?id=56f9d1c5628349c684245185a020d18a&sublayer=0)
-  - Congressional Districts Overlays
-  - Congressional Districts Borders
-- Congressional District reference links:
+  - U.S. House Overlays
+  - U.S. House Borders
+- U.S. House reference links:
   - [Florida's 4th Congressional District](https://www.house.gov/htbin/findrep?ZIP=32202)
   - [Florida's 5th Congressional District](https://www.house.gov/htbin/findrep?ZIP=32207)
   - Congressional district popup phone numbers and contact-form links are sourced from the official member websites linked from the House lookup pages.
 - U.S. Senators:
   - Senator names, party abbreviations, classes, phone numbers, websites, and contact-form links: [United States Senate contact information XML](https://www.senate.gov/general/contact_information/senators_cfm.xml)
+  - Senator photos: [United States Senate Florida senators page](https://www.senate.gov/states/FL/intro.htm)
   - Florida state polygon geometry: [U.S. Census Bureau TIGERweb State boundary service](https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/0)
 - [City of Jacksonville City Council Members](https://www.jacksonville.gov/city-council/city-council-members)
   - Current District Council Member and At Large Council Member names, roles, email addresses, phone numbers, assistants, photos, and profile links for City Council District and City Council District At Large popups.
