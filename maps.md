@@ -3802,7 +3802,7 @@ image: /media/2026/09/maps-featured.png
         );
       }
       if (layerType === "zipCode") {
-        return properties.boundary_type || [properties.USPS_CITY, properties.USPS_STATE].filter(Boolean).join(", ");
+        return "";
       }
       if (layerType === "congressional") {
         return formatNameWithParty(
@@ -3830,11 +3830,11 @@ image: /media/2026/09/maps-featured.png
     }
 
     function appendContactLine(popup, phone, email) {
-      const contact = [phone, email].filter(Boolean).join(" | ");
-      if (!contact) return;
-      const line = document.createElement("span");
-      line.textContent = contact;
-      popup.appendChild(line);
+      [phone, email].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
     }
 
     function appendSchoolBoardMemberPopupDetails(popup, properties) {
@@ -4415,29 +4415,22 @@ image: /media/2026/09/maps-featured.png
         appendZipCodePopupDetails(popup, feature.properties || {});
       }
 
-      appendActivePointCounts(popup, pointCountFeature, boundaryTitle);
+      if (layerType !== "zipCode") {
+        appendActivePointCounts(popup, pointCountFeature, boundaryTitle);
+      }
 
       return popup;
     }
 
     function appendZipCodePopupDetails(popup, properties) {
-      [
-        properties.source,
-        properties.caveat
-      ].filter(Boolean).forEach((value) => {
-        const line = document.createElement("span");
-        line.textContent = value;
-        popup.appendChild(line);
-      });
-
-      if (properties.source_url) {
-        const sourceLink = document.createElement("a");
-        sourceLink.href = properties.source_url;
-        sourceLink.target = "_blank";
-        sourceLink.rel = "noopener";
-        sourceLink.textContent = "View Census TIGER/Line source";
-        popup.appendChild(sourceLink);
-      }
+      const zipCode = properties.ZIPCODE || properties.ZCTA5CE20 || properties.GEOID20 || "";
+      if (!zipCode) return;
+      const censusReporterLink = document.createElement("a");
+      censusReporterLink.href = `https://censusreporter.org/profiles/86000US${zipCode}-${zipCode}/`;
+      censusReporterLink.target = "_blank";
+      censusReporterLink.rel = "noopener";
+      censusReporterLink.textContent = "View Census Reporter profile";
+      popup.appendChild(censusReporterLink);
     }
 
     function appendHealthZonePopupDetails(popup, properties) {
