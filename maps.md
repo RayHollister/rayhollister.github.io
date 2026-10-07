@@ -2475,6 +2475,8 @@ image: /media/2026/09/maps-featured.png
       if (settings.href) {
         text.href = settings.href;
         text.className = "maps-layer-reference-link";
+        text.target = "_blank";
+        text.rel = "noopener";
         text.addEventListener("click", function (event) {
           event.stopPropagation();
         });
