@@ -308,6 +308,12 @@ image: /media/2026/09/maps-featured.png
     padding-top: 0;
   }
 
+  .leaflet-control-layers-overlays > .maps-location-info-header + .maps-layer-heading {
+    border-top: 0;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
   .maps-layer-subheading {
     color: #57606a;
     font-size: 0.78rem;
@@ -318,7 +324,7 @@ image: /media/2026/09/maps-featured.png
   .maps-layer-group-row {
     display: grid;
     gap: 0.3rem;
-    grid-template-columns: minmax(9rem, 1fr);
+    grid-template-columns: minmax(9rem, 1fr) auto;
     align-items: center;
   }
 
@@ -361,6 +367,63 @@ image: /media/2026/09/maps-featured.png
 
   .maps-layer-group-row label {
     white-space: nowrap;
+  }
+
+  .maps-location-info-header {
+    align-items: center;
+    color: #57606a;
+    display: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    gap: 0.3rem;
+    grid-template-columns: minmax(9rem, 1fr) auto;
+    margin-top: 0.35rem;
+  }
+
+  .maps-layers-control.has-user-location .maps-location-info-header {
+    display: grid;
+  }
+
+  .maps-location-info-column {
+    display: none;
+    justify-self: end;
+  }
+
+  .maps-layers-control.has-user-location .maps-location-info-column {
+    display: inline-flex;
+  }
+
+  .maps-location-info-icon {
+    align-items: center;
+    display: inline-flex;
+    height: 14px;
+    justify-content: center;
+    width: 14px;
+  }
+
+  .maps-location-info-icon svg {
+    display: block;
+    fill: currentColor;
+    height: 14px;
+    width: 14px;
+  }
+
+  .maps-you-are-here-section {
+    border-top: 1px solid #d0d7de;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .maps-you-are-here-section:first-of-type {
+    border-top: 0;
+    margin-top: 0.35rem;
+    padding-top: 0;
+  }
+
+  .maps-you-are-here-actions {
+    border-top: 1px solid #d0d7de;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
   }
 
   .maps-layer-reference-link {
@@ -1074,8 +1137,13 @@ image: /media/2026/09/maps-featured.png
 
     let userAccuracyCircle;
     let userLocationMarker;
+    let userLocationLatLng;
     let locateControlContainer;
     let locateControlIcon;
+    let layersControlApi;
+    let layersControlElement;
+    const locationInfoControls = [];
+    const selectedLocationInfoLayerTypes = new Set(["district", "atLarge"]);
 
     function addLocateControl() {
       const LocateControl = L.Control.extend({
@@ -1126,8 +1194,90 @@ image: /media/2026/09/maps-featured.png
       }
     }
 
+    function findContainingFeature(layerGroup, latLng) {
+      let containingFeature;
+      if (!layerGroup || !layerGroup.eachLayer || !latLng) return containingFeature;
+      const point = [latLng.lng, latLng.lat];
+
+      layerGroup.eachLayer((featureLayer) => {
+        if (containingFeature || !featureLayer.feature) return;
+        if (isPointInFeatureGeometry(point, featureLayer.feature.geometry)) {
+          containingFeature = featureLayer.feature;
+        }
+      });
+
+      return containingFeature;
+    }
+
+    function updateLocationInfoControlVisibility() {
+      if (layersControlElement) {
+        layersControlElement.classList.toggle("has-user-location", Boolean(userLocationLatLng));
+      }
+      locationInfoControls.forEach((control) => {
+        control.input.checked = selectedLocationInfoLayerTypes.has(control.layerType);
+      });
+    }
+
+    function openLayersMenuForLocationInfo() {
+      if (layersControlApi) {
+        layersControlApi.setOpen(true);
+      }
+    }
+
+    function createYouAreHereCard() {
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+      const selectedControls = locationInfoControls.filter((control) => {
+        return selectedLocationInfoLayerTypes.has(control.layerType);
+      });
+
+      popup.className = "maps-district-popup maps-you-are-here-card";
+      title.textContent = "You are here";
+      popup.appendChild(title);
+
+      selectedControls.forEach((control) => {
+        const feature = findContainingFeature(control.layer, userLocationLatLng);
+        const section = document.createElement("section");
+        const content = feature
+          ? (control.layerType === "district" ? createCouncilDistrictPopup(feature) : createBoundaryPopup(feature, control.layerType))
+          : document.createElement("div");
+        section.className = "maps-you-are-here-section";
+        if (feature) {
+          section.appendChild(content);
+        } else {
+          const missingLine = document.createElement("span");
+          missingLine.textContent = `${control.label}: not found for this location`;
+          section.appendChild(missingLine);
+        }
+        popup.appendChild(section);
+      });
+
+      const actions = document.createElement("div");
+      const link = document.createElement("a");
+      actions.className = "maps-you-are-here-actions";
+      link.href = "#";
+      link.textContent = "Show other information";
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        openLayersMenuForLocationInfo();
+      });
+      actions.appendChild(link);
+      popup.appendChild(actions);
+
+      return popup;
+    }
+
+    function updateYouAreHereCard() {
+      updateLocationInfoControlVisibility();
+      if (!userLocationMarker || !userLocationLatLng) return;
+      userLocationMarker.setPopupContent(createYouAreHereCard());
+    }
+
     map.on("locationfound", function (event) {
       setLocateControlState("following");
+      userLocationLatLng = event.latlng;
+      updateLocationInfoControlVisibility();
 
       if (userLocationMarker) {
         map.removeLayer(userLocationMarker);
@@ -1138,7 +1288,7 @@ image: /media/2026/09/maps-featured.png
 
       userLocationMarker = L.marker(event.latlng, {
         title: "Your location"
-      }).addTo(map).bindPopup("You are here");
+      }).addTo(map).bindPopup(createYouAreHereCard()).openPopup();
       userAccuracyCircle = L.circle(event.latlng, {
         color: "#0969da",
         fillColor: "#0969da",
@@ -1622,6 +1772,7 @@ image: /media/2026/09/maps-featured.png
     function finishMapDataLoad() {
       pendingMapDataLoads = Math.max(0, pendingMapDataLoads - 1);
       scheduleInitialVisibleLayerFit();
+      updateYouAreHereCard();
     }
 
     function syncDistrictLayerInputs() {
@@ -2692,6 +2843,25 @@ image: /media/2026/09/maps-featured.png
       return heading;
     }
 
+    function createLocationInfoIcon() {
+      const icon = document.createElement("span");
+      icon.className = "maps-location-info-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.innerHTML = '<svg viewBox="0 0 16 16" focusable="false"><path d="M8 1.5a4.5 4.5 0 0 0-4.5 4.5c0 3.2 4.5 8.5 4.5 8.5s4.5-5.3 4.5-8.5A4.5 4.5 0 0 0 8 1.5Zm0 6.4A1.9 1.9 0 1 1 8 4.1a1.9 1.9 0 0 1 0 3.8Z"/></svg>';
+      return icon;
+    }
+
+    function createLocationInfoHeader() {
+      const header = document.createElement("div");
+      const spacer = document.createElement("span");
+      const icon = createLocationInfoIcon();
+      header.className = "maps-location-info-header";
+      icon.title = "Show on You are here card";
+      header.appendChild(spacer);
+      header.appendChild(icon);
+      return header;
+    }
+
     function createLayerSubheading(label) {
       const heading = document.createElement("div");
       heading.className = "maps-layer-subheading";
@@ -3065,6 +3235,8 @@ image: /media/2026/09/maps-featured.png
       const row = document.createElement("div");
       const layerLabel = document.createElement("label");
       const layerInput = document.createElement("input");
+      const locationLabel = document.createElement("label");
+      const locationInput = document.createElement("input");
       const settings = options || {};
       const overlayControl = { layer: overlayLayer, group: "boundaries" };
       const borderControl = { layer: borderLayer, group: "boundaries" };
@@ -3079,6 +3251,29 @@ image: /media/2026/09/maps-featured.png
       appendLayerLabelContents(layerLabel, layerInput, name, "polygon", {
         href: settings.href
       });
+
+      if (settings.locationLayerType) {
+        locationLabel.className = "maps-location-info-column";
+        locationInput.type = "checkbox";
+        locationInput.className = "leaflet-control-layers-selector";
+        locationInput.setAttribute("aria-label", `Show ${name} on You are here card`);
+        locationInput.checked = selectedLocationInfoLayerTypes.has(settings.locationLayerType);
+        locationInput.addEventListener("change", function () {
+          if (locationInput.checked) {
+            selectedLocationInfoLayerTypes.add(settings.locationLayerType);
+          } else {
+            selectedLocationInfoLayerTypes.delete(settings.locationLayerType);
+          }
+          updateYouAreHereCard();
+        });
+        locationLabel.appendChild(locationInput);
+        locationInfoControls.push({
+          input: locationInput,
+          label: name.replace(/\*$/, ""),
+          layer: overlayLayer,
+          layerType: settings.locationLayerType
+        });
+      }
 
       function getSelectedControl() {
         return getSelectedGeographyControl(geographyControl);
@@ -3113,6 +3308,9 @@ image: /media/2026/09/maps-featured.png
         trackBoundaryLayerStackSelection(overlayLayer);
       }
       row.appendChild(layerLabel);
+      if (settings.locationLayerType) {
+        row.appendChild(locationLabel);
+      }
       parent.appendChild(row);
     }
 
@@ -3125,25 +3323,27 @@ image: /media/2026/09/maps-featured.png
           const container = L.DomUtil.create("div", "leaflet-control-layers leaflet-bar leaflet-control maps-layers-control");
           const list = L.DomUtil.create("section", "leaflet-control-layers-list", container);
           const overlays = L.DomUtil.create("div", "leaflet-control-layers-overlays", list);
+          layersControlElement = container;
+          overlays.appendChild(createLocationInfoHeader());
           overlays.appendChild(createLayerHeading("Government"));
-          appendGeographyLayerRow(overlays, "City Council District", councilDistrictFillLayer, councilDistrictBorderLayer);
-          appendGeographyLayerRow(overlays, "City Council District At Large", councilAtLargeFillLayer, councilAtLargeBorderLayer);
-          appendGeographyLayerRow(overlays, "School Board Districts", schoolBoardDistrictFillLayer, schoolBoardDistrictBorderLayer);
-          appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer);
-          appendGeographyLayerRow(overlays, "Counties", countyFillLayer, countyBorderLayer);
-          appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer);
-          appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer);
-          appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer);
-          appendGeographyLayerRow(overlays, "Congressional Districts", congressionalDistrictFillLayer, congressionalDistrictBorderLayer);
+          appendGeographyLayerRow(overlays, "City Council District", councilDistrictFillLayer, councilDistrictBorderLayer, { locationLayerType: "district" });
+          appendGeographyLayerRow(overlays, "City Council District At Large", councilAtLargeFillLayer, councilAtLargeBorderLayer, { locationLayerType: "atLarge" });
+          appendGeographyLayerRow(overlays, "School Board Districts", schoolBoardDistrictFillLayer, schoolBoardDistrictBorderLayer, { locationLayerType: "schoolBoard" });
+          appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer, { locationLayerType: "city" });
+          appendGeographyLayerRow(overlays, "Counties", countyFillLayer, countyBorderLayer, { locationLayerType: "county" });
+          appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer, { locationLayerType: "floridaHouse" });
+          appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer, { locationLayerType: "floridaSenate" });
+          appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer, { locationLayerType: "zipCode" });
+          appendGeographyLayerRow(overlays, "Congressional Districts", congressionalDistrictFillLayer, congressionalDistrictBorderLayer, { locationLayerType: "congressional" });
           overlays.appendChild(createLayerHeading("Neighborhood"));
-          appendGeographyLayerRow(overlays, "Neighborhoods", neighborhoodFillLayer, neighborhoodBorderLayer);
+          appendGeographyLayerRow(overlays, "Neighborhoods", neighborhoodFillLayer, neighborhoodBorderLayer, { locationLayerType: "neighborhood" });
           appendLayerControls(overlays, [
             createBoundaryLayerInput("Neighborhood Organizations", neighborhoodOrganizationsLayer)
           ]);
-          appendGeographyLayerRow(overlays, "Citizens Planning Advisory Committee (CPACs)", cpacFillLayer, cpacBorderLayer);
+          appendGeographyLayerRow(overlays, "Citizens Planning Advisory Committee (CPACs)", cpacFillLayer, cpacBorderLayer, { locationLayerType: "cpac" });
           overlays.appendChild(createLayerHeading("Jacksonville Sheriff's Office"));
-          appendGeographyLayerRow(overlays, "JSO Districts", jsoDistrictFillLayer, jsoDistrictBorderLayer);
-          appendGeographyLayerRow(overlays, "JSO Subsections", jsoSubsectionFillLayer, jsoSubsectionBorderLayer);
+          appendGeographyLayerRow(overlays, "JSO Districts", jsoDistrictFillLayer, jsoDistrictBorderLayer, { locationLayerType: "jsoDistrict" });
+          appendGeographyLayerRow(overlays, "JSO Subsections", jsoSubsectionFillLayer, jsoSubsectionBorderLayer, { locationLayerType: "jsoSubsector" });
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JSO Substations", jsoPoliceStationsLayer)
           ]);
@@ -3201,10 +3401,11 @@ image: /media/2026/09/maps-featured.png
           appendLayerControls(overlays, privateSchoolControls);
           overlays.appendChild(createLayerHeading("Health"));
           appendGeographyLayerRow(overlays, "Health Zones*", healthZoneFillLayer, healthZoneBorderLayer, {
-            href: "/maps/references/#health"
+            href: "/maps/references/#health",
+            locationLayerType: "healthZone"
           });
           const layerHeaderActions = createLayerHeaderActions();
-          setupCollapsibleMapControl(container, "Layers", list, {
+          layersControlApi = setupCollapsibleMapControl(container, "Layers", list, {
             iconPath: "M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z",
             headerAction: layerHeaderActions
           });
