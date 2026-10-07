@@ -363,6 +363,11 @@ image: /media/2026/09/maps-featured.png
     white-space: nowrap;
   }
 
+  .maps-layer-reference-link {
+    color: inherit;
+    text-decoration-color: currentColor;
+  }
+
   .maps-route-filter {
     border: 1px solid #d0d7de;
     border-radius: 4px;
@@ -2463,9 +2468,19 @@ image: /media/2026/09/maps-featured.png
       return icon;
     }
 
-    function appendLayerLabelContents(labelElement, input, label, geometryType) {
-      const text = document.createElement("span");
+    function appendLayerLabelContents(labelElement, input, label, geometryType, options) {
+      const settings = options || {};
+      const text = settings.href ? document.createElement("a") : document.createElement("span");
       text.textContent = label;
+      if (settings.href) {
+        text.href = settings.href;
+        text.className = "maps-layer-reference-link";
+        text.target = "_blank";
+        text.rel = "noopener";
+        text.addEventListener("click", function (event) {
+          event.stopPropagation();
+        });
+      }
       labelElement.appendChild(input);
       labelElement.appendChild(createLayerGeometryIcon(geometryType));
       labelElement.appendChild(text);
@@ -3046,10 +3061,11 @@ image: /media/2026/09/maps-featured.png
       }
     }
 
-    function appendGeographyLayerRow(parent, name, overlayLayer, borderLayer) {
+    function appendGeographyLayerRow(parent, name, overlayLayer, borderLayer, options) {
       const row = document.createElement("div");
       const layerLabel = document.createElement("label");
       const layerInput = document.createElement("input");
+      const settings = options || {};
       const overlayControl = { layer: overlayLayer, group: "boundaries" };
       const borderControl = { layer: borderLayer, group: "boundaries" };
       const geographyControl = { overlayControl, borderControl };
@@ -3060,7 +3076,9 @@ image: /media/2026/09/maps-featured.png
       layerLabel.className = "maps-layer-group-row__name";
       layerInput.type = "checkbox";
       layerInput.className = "leaflet-control-layers-selector";
-      appendLayerLabelContents(layerLabel, layerInput, name, "polygon");
+      appendLayerLabelContents(layerLabel, layerInput, name, "polygon", {
+        href: settings.href
+      });
 
       function getSelectedControl() {
         return getSelectedGeographyControl(geographyControl);
@@ -3129,8 +3147,6 @@ image: /media/2026/09/maps-featured.png
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JSO Substations", jsoPoliceStationsLayer)
           ]);
-          overlays.appendChild(createLayerHeading("Health"));
-          appendGeographyLayerRow(overlays, "Health Zones", healthZoneFillLayer, healthZoneBorderLayer);
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer, { geometryType: "line" })
@@ -3183,6 +3199,10 @@ image: /media/2026/09/maps-featured.png
             createLayerGroupToggle("Toggle all", privateSchoolControls)
           ]);
           appendLayerControls(overlays, privateSchoolControls);
+          overlays.appendChild(createLayerHeading("Health"));
+          appendGeographyLayerRow(overlays, "Health Zones*", healthZoneFillLayer, healthZoneBorderLayer, {
+            href: "/maps/references/#health"
+          });
           const layerHeaderActions = createLayerHeaderActions();
           setupCollapsibleMapControl(container, "Layers", list, {
             iconPath: "M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z",
@@ -3367,6 +3387,10 @@ image: /media/2026/09/maps-featured.png
     }
 
     function getBoundaryColor(feature, layerType) {
+      const properties = feature.properties || {};
+      if (layerType === "healthZone" && properties.excluded_health_zone) {
+        return "#000000";
+      }
       if (layerType === "city") {
         return getCityBoundaryColor(feature);
       }
@@ -3475,6 +3499,9 @@ image: /media/2026/09/maps-featured.png
         return properties.BASENAME ? `Florida's ${properties.BASENAME}th Congressional District` : "Florida Congressional District";
       }
       if (layerType === "healthZone") {
+        if (properties.excluded_health_zone) {
+          return properties.label || "Excluded from Health Zones";
+        }
         return properties.label || (properties.health_zone ? `Health Zone ${properties.health_zone}` : "Health Zone");
       }
       if (layerType === "jsoDistrict") {
@@ -3528,6 +3555,9 @@ image: /media/2026/09/maps-featured.png
         return properties.CDSESSN ? `${properties.CDSESSN}th Congress` : "";
       }
       if (layerType === "healthZone") {
+        if (properties.excluded_health_zone) {
+          return properties.excluded_group_label || "Excluded from Health Zones";
+        }
         return properties.zip_codes_label ? `ZIP Codes: ${properties.zip_codes_label}` : "";
       }
       if (layerType === "jsoDistrict") {
@@ -4150,6 +4180,7 @@ image: /media/2026/09/maps-featured.png
 
     function appendHealthZonePopupDetails(popup, properties) {
       [
+        properties.exclusion_note,
         properties.assumption_note,
         properties.missing_geometry_note
       ].filter(Boolean).forEach((value) => {
