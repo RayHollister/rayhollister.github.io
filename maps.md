@@ -4438,8 +4438,7 @@ image: /media/2026/09/maps-featured.png
       }
 
       [
-        properties.council_member_leadership_role,
-        properties.council_member_role
+        properties.council_member_leadership_role
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
         line.textContent = value;
