@@ -1,23 +1,5 @@
 [
   {
-    "id": "h11",
-    "chamber": "Florida House",
-    "district": 11,
-    "name": "Sam Garrison",
-    "party": "Republican",
-    "counties": "Part of ClayPart of Clay",
-    "city_of_residence": "Fleming Island",
-    "service": "Elected to the Florida House of Representatives in 2020, reelected subsequently",
-    "phone": "(904) 375-3300",
-    "district_office": "Suite 18 1835 East West Parkway Fleming Island, FL 32003-5311",
-    "photo_url": "https://www.flhouse.gov/FileStores/Web/Imaging/Member/4767.jpg",
-    "source_url": "https://www.flhouse.gov/Sections/Representatives/details.aspx?MemberId=4767&LegislativeTermId=91",
-    "contact_url": "https://www.flhouse.gov/Sections/Representatives/contactmember.aspx?MemberId=4767",
-    "sponsored_bills_url": "https://www.flhouse.gov/Sections/Representatives/sponsoredbills.aspx?MemberId=4767",
-    "member_id": "4767",
-    "email": "Sam.Garrison@myfloridahouse.gov"
-  },
-  {
     "id": "h12",
     "chamber": "Florida House",
     "district": 12,
