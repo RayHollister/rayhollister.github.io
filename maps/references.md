@@ -54,6 +54,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 - Congressional District reference links:
   - [Florida's 4th Congressional District](https://www.house.gov/htbin/findrep?ZIP=32202)
   - [Florida's 5th Congressional District](https://www.house.gov/htbin/findrep?ZIP=32207)
+  - Congressional district popup phone numbers and contact-form links are sourced from the official member websites linked from the House lookup pages.
 - [City of Jacksonville City Council Members](https://www.jacksonville.gov/city-council/city-council-members)
   - Current District Council Member and At Large Council Member names, roles, email addresses, phone numbers, assistants, photos, and profile links for City Council District and City Council District At Large popups.
 - [Florida House of Representatives](https://www.flhouse.gov/representatives)

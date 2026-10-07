@@ -3851,6 +3851,10 @@ image: /media/2026/09/maps-featured.png
       const link = document.createElement("a");
       link.href = href;
       link.textContent = text;
+      if (/^https?:\/\//.test(href)) {
+        link.target = "_blank";
+        link.rel = "noopener";
+      }
       popup.appendChild(link);
     }
 
@@ -4542,6 +4546,9 @@ image: /media/2026/09/maps-featured.png
       }
 
       appendContactLine(popup, properties.congressional_member_phone, properties.congressional_member_email);
+      if (properties.congressional_member_contact_url && !properties.congressional_member_email) {
+        appendContactLink(popup, "Contact form", properties.congressional_member_contact_url);
+      }
     }
 
     function appendStateLegislatorPopupDetails(popup, properties, prefix, fallbackLabel) {
