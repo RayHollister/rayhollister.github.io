@@ -124,10 +124,10 @@ image: /media/2026/09/maps-featured.png
     align-items: start;
     column-gap: 0.6rem;
     display: grid;
-    grid-template-columns: 72px minmax(9rem, 1fr);
-    max-width: calc(100vw - 7rem);
+    grid-template-columns: 72px minmax(9rem, max-content);
+    max-width: min(42rem, calc(100vw - 7rem));
     min-width: 15.75rem;
-    width: max-content;
+    width: fit-content;
   }
 
   .maps-district-popup.maps-district-popup--with-photo img {
@@ -138,13 +138,14 @@ image: /media/2026/09/maps-featured.png
 
   .maps-district-popup.maps-district-popup--with-photo > :not(img) {
     grid-column: 2;
+    max-width: calc(100vw - 12rem);
     min-width: 0;
     overflow-wrap: normal;
   }
 
   .maps-district-popup.maps-district-popup--with-photo a {
-    overflow-wrap: anywhere;
-    word-break: break-word;
+    overflow-wrap: break-word;
+    word-break: normal;
   }
 
   .maps-district-popup.maps-district-popup--with-photo .maps-popup-title {
@@ -152,8 +153,23 @@ image: /media/2026/09/maps-featured.png
   }
 
   #ray-map .leaflet-popup-content:has(.maps-district-popup--with-photo) {
+    max-width: min(42rem, calc(100vw - 7rem));
+    width: fit-content !important;
+  }
+
+  #ray-map .leaflet-popup-content.maps-popup-content--full-width:has(.maps-district-popup--with-photo) {
     max-width: calc(100vw - 7rem);
-    width: max-content !important;
+    width: calc(100vw - 7rem) !important;
+  }
+
+  #ray-map .leaflet-popup-content.maps-popup-content--full-width .maps-district-popup.maps-district-popup--with-photo {
+    grid-template-columns: 72px minmax(0, 1fr);
+    max-width: none;
+    width: 100%;
+  }
+
+  #ray-map .leaflet-popup-content.maps-popup-content--full-width .maps-district-popup.maps-district-popup--with-photo > :not(img) {
+    max-width: none;
   }
 
   .maps-district-popup > .maps-senator-card {
@@ -169,6 +185,15 @@ image: /media/2026/09/maps-featured.png
   }
 
   @media (max-width: 360px) {
+    #ray-map .leaflet-popup-content.maps-popup-content--full-width:has(.maps-district-popup--with-photo) {
+      width: calc(100vw - 7rem) !important;
+    }
+
+    #ray-map .leaflet-popup-content.maps-popup-content--full-width .maps-district-popup.maps-district-popup--with-photo {
+      grid-template-columns: 1fr;
+      min-width: 0;
+    }
+
     .maps-district-popup.maps-district-popup--with-photo {
       grid-template-columns: 1fr;
       min-width: 0;
@@ -1356,7 +1381,7 @@ image: /media/2026/09/maps-featured.png
         return [createCouncilDistrictPopup(feature)];
       }
       if (control.layerType === "usSenate") {
-        return createUsSenatorCards(feature.properties || {});
+        return createUsSenatorCards(feature.properties || {}, { prefixTitle: "Senator" });
       }
       return [createBoundaryPopup(feature, control.layerType)];
     }
@@ -2286,6 +2311,34 @@ image: /media/2026/09/maps-featured.png
     function hideMapContextMenu() {
       if (!mapContextMenuElement) return;
       mapContextMenuElement.classList.remove("is-open");
+    }
+
+    function getTextLineCount(element) {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      const lineCount = Array.from(range.getClientRects()).filter((rect) => {
+        return rect.width > 0 && rect.height > 0;
+      }).length;
+      range.detach();
+      return lineCount;
+    }
+
+    function expandPhotoPopupIfTextWraps(popup) {
+      const container = popup && popup.getElement ? popup.getElement() : popup && popup._container;
+      const content = container && container.querySelector(".leaflet-popup-content");
+      if (!content || !content.querySelector(".maps-district-popup--with-photo")) return;
+
+      content.classList.remove("maps-popup-content--full-width");
+      requestAnimationFrame(() => {
+        const textElements = content.querySelectorAll(".maps-district-popup--with-photo a, .maps-district-popup--with-photo strong, .maps-district-popup--with-photo span");
+        const hasWrappedText = Array.from(textElements).some((element) => getTextLineCount(element) > 1);
+        if (!hasWrappedText) return;
+
+        content.classList.add("maps-popup-content--full-width");
+        if (popup && popup.update) {
+          requestAnimationFrame(() => popup.update());
+        }
+      });
     }
 
     function makePopupDraggable(popup) {
@@ -3543,6 +3596,7 @@ image: /media/2026/09/maps-featured.png
       });
       map.on("click movestart zoomstart popupopen", hideMapContextMenu);
       map.on("popupopen", function (event) {
+        expandPhotoPopupIfTextWraps(event.popup);
         makePopupDraggable(event.popup);
       });
       document.addEventListener("click", function (event) {
@@ -4658,7 +4712,7 @@ image: /media/2026/09/maps-featured.png
       createUsSenatorCards(properties).forEach((card) => popup.appendChild(card));
     }
 
-    function createUsSenatorCards(properties) {
+    function createUsSenatorCards(properties, options) {
       const senators = Array.isArray(properties.senators) ? properties.senators : [];
       if (!senators.length) {
         const card = document.createElement("div");
@@ -4668,13 +4722,14 @@ image: /media/2026/09/maps-featured.png
         card.appendChild(line);
         return [card];
       }
-      return senators.map(createUsSenatorCard);
+      return senators.map((senator) => createUsSenatorCard(senator, options));
     }
 
-    function createUsSenatorCard(senator) {
+    function createUsSenatorCard(senator, options) {
       const card = document.createElement("div");
       const title = document.createElement(senator.website_url ? "a" : "strong");
       const name = formatNameWithParty(senator.name, senator.party);
+      const displayName = name && options && options.prefixTitle ? `${options.prefixTitle} ${name}` : name;
 
       card.className = "maps-district-popup maps-district-popup--with-photo maps-senator-card";
 
@@ -4689,7 +4744,7 @@ image: /media/2026/09/maps-featured.png
       }
 
       title.className = "maps-popup-title";
-      title.textContent = name || "U.S. Senator";
+      title.textContent = displayName || "U.S. Senator";
       if (senator.website_url) {
         title.href = senator.website_url;
         title.target = "_blank";
@@ -4791,7 +4846,7 @@ image: /media/2026/09/maps-featured.png
       const district = (feature.properties || {}).CC || getDistrictNumber(feature);
       layer.options.boundaryMode = mode;
       layer.options.boundaryType = "district";
-      layer.bindPopup(() => createCouncilDistrictPopup(feature));
+      layer.bindPopup(() => createCouncilDistrictPopup(feature), { maxWidth: 10000 });
       layer.on("click", function () {
         if (mapInteractionMode === "focus") {
           focusBoundaryFeature(feature, layer, mode, "district");
@@ -4830,7 +4885,7 @@ image: /media/2026/09/maps-featured.png
     function addBoundaryInteractivity(feature, layer, mode, layerType) {
       layer.options.boundaryMode = mode;
       layer.options.boundaryType = layerType;
-      layer.bindPopup(() => createBoundaryPopup(feature, layerType));
+      layer.bindPopup(() => createBoundaryPopup(feature, layerType), { maxWidth: 10000 });
       layer.on("click", function () {
         if (mapInteractionMode === "focus") {
           focusBoundaryFeature(feature, layer, mode, layerType);
