@@ -1197,7 +1197,8 @@ image: /media/2026/09/maps-featured.png
       "schoolBoard",
       "floridaHouse",
       "floridaSenate",
-      "congressional"
+      "congressional",
+      "usSenate"
     ]);
 
     function addLocateControl() {
@@ -1461,6 +1462,14 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "border", "floridaSenate"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "floridaSenate")
     });
+    const usSenateFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "usSenate"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "usSenate")
+    });
+    const usSenateBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "usSenate"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "usSenate")
+    });
     const zipCodeFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "zipCode"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "zipCode")
@@ -1646,6 +1655,8 @@ image: /media/2026/09/maps-featured.png
         floridaHouseBorderLayer,
         floridaSenateFillLayer,
         floridaSenateBorderLayer,
+        usSenateFillLayer,
+        usSenateBorderLayer,
         zipCodeFillLayer,
         zipCodeBorderLayer,
         congressionalDistrictFillLayer,
@@ -1720,6 +1731,8 @@ image: /media/2026/09/maps-featured.png
         floridaHouseBorderLayer,
         floridaSenateFillLayer,
         floridaSenateBorderLayer,
+        usSenateFillLayer,
+        usSenateBorderLayer,
         zipCodeFillLayer,
         zipCodeBorderLayer,
         congressionalDistrictFillLayer,
@@ -1903,6 +1916,8 @@ image: /media/2026/09/maps-featured.png
         floridaHouseBorderLayer,
         floridaSenateFillLayer,
         floridaSenateBorderLayer,
+        usSenateFillLayer,
+        usSenateBorderLayer,
         zipCodeFillLayer,
         zipCodeBorderLayer,
         congressionalDistrictFillLayer,
@@ -1954,6 +1969,7 @@ image: /media/2026/09/maps-featured.png
         cpacFillLayer,
         floridaHouseFillLayer,
         floridaSenateFillLayer,
+        usSenateFillLayer,
         zipCodeFillLayer,
         congressionalDistrictFillLayer,
         healthZoneFillLayer,
@@ -3387,6 +3403,7 @@ image: /media/2026/09/maps-featured.png
           appendGeographyLayerRow(overlays, "Florida House", floridaHouseFillLayer, floridaHouseBorderLayer, { locationLayerType: "floridaHouse" });
           appendGeographyLayerRow(overlays, "Florida Senate", floridaSenateFillLayer, floridaSenateBorderLayer, { locationLayerType: "floridaSenate" });
           appendGeographyLayerRow(overlays, "Congressional Districts", congressionalDistrictFillLayer, congressionalDistrictBorderLayer, { locationLayerType: "congressional" });
+          appendGeographyLayerRow(overlays, "U.S. Senators", usSenateFillLayer, usSenateBorderLayer, { locationLayerType: "usSenate" });
           appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer, { locationLayerType: "city" });
           appendGeographyLayerRow(overlays, "Counties", countyFillLayer, countyBorderLayer, { locationLayerType: "county" });
           appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer, { locationLayerType: "zipCode" });
@@ -3513,6 +3530,7 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["floridasenate", "senate", "statesenate"], floridaSenateFillLayer, { group: "boundaries", slug: "floridasenate", alternateLayers: [floridaSenateBorderLayer] });
       registerQueryLayer(["zip", "zips", "zipcode", "zipcodes", "zcta", "zctas"], zipCodeFillLayer, { group: "boundaries", slug: "zipcodes", alternateLayers: [zipCodeBorderLayer] });
       registerQueryLayer(["congress", "congressional", "congressionaldistrict", "congressionaldistricts"], congressionalDistrictFillLayer, { group: "boundaries", slug: "congressionaldistricts", alternateLayers: [congressionalDistrictBorderLayer] });
+      registerQueryLayer(["ussenate", "ussenators", "floridaussenators", "floridasenators"], usSenateFillLayer, { group: "boundaries", slug: "ussenators", alternateLayers: [usSenateBorderLayer] });
       registerQueryLayer(["neighborhood", "neighborhoods"], neighborhoodFillLayer, { group: "boundaries", slug: "neighborhoods", alternateLayers: [neighborhoodBorderLayer] });
       registerQueryLayer(["cpac", "cpacs", "planningdistricts"], cpacFillLayer, { group: "boundaries", slug: "cpacs", alternateLayers: [cpacBorderLayer] });
       registerQueryLayer(["health", "healthzone", "healthzones"], healthZoneFillLayer, { group: "boundaries", slug: "healthzones", alternateLayers: [healthZoneBorderLayer] });
@@ -3589,6 +3607,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "congressional") {
         return Number.parseInt(properties.BASENAME || properties.GEOID, 10);
+      }
+      if (layerType === "usSenate") {
+        return getStringColorNumber(properties.state_geoid || properties.state_abbr || properties.label || "U.S. Senators");
       }
       if (layerType === "healthZone") {
         return Number.parseInt(properties.health_zone, 10);
@@ -3710,6 +3731,9 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "congressional") {
         return mode === "border" ? congressionalDistrictBorderLayer : congressionalDistrictFillLayer;
       }
+      if (layerType === "usSenate") {
+        return mode === "border" ? usSenateBorderLayer : usSenateFillLayer;
+      }
       if (layerType === "healthZone") {
         return mode === "border" ? healthZoneBorderLayer : healthZoneFillLayer;
       }
@@ -3753,6 +3777,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "congressional") {
         return properties.BASENAME ? `Florida's ${properties.BASENAME}th Congressional District` : "Florida Congressional District";
+      }
+      if (layerType === "usSenate") {
+        return properties.label || "Florida U.S. Senators";
       }
       if (layerType === "healthZone") {
         if (properties.excluded_health_zone) {
@@ -3819,6 +3846,9 @@ image: /media/2026/09/maps-featured.png
           properties.congressional_member_party
         );
       }
+      if (layerType === "usSenate") {
+        return properties.state_name || "Florida";
+      }
       if (layerType === "healthZone") {
         if (properties.excluded_health_zone) {
           return properties.excluded_group_label || "Excluded from Health Zones";
@@ -3834,8 +3864,26 @@ image: /media/2026/09/maps-featured.png
       return properties.MEMBER_NAM || "";
     }
 
+    function getPartyAbbreviation(party) {
+      const value = String(party || "").trim();
+      const normalized = value.toLowerCase();
+      const abbreviations = {
+        democratic: "D",
+        democrat: "D",
+        republican: "R",
+        independent: "I",
+        nonpartisan: "NP"
+      };
+      if (!value) return "";
+      if (value.length <= 3) return value.toUpperCase();
+      return abbreviations[normalized] || value;
+    }
+
     function formatNameWithParty(name, party) {
-      return [name, party].filter(Boolean).join(", ");
+      const displayName = String(name || "").trim();
+      const abbreviation = getPartyAbbreviation(party);
+      if (!displayName) return abbreviation ? `(${abbreviation})` : "";
+      return abbreviation ? `${displayName} (${abbreviation})` : displayName;
     }
 
     function getPhoneHref(phone) {
@@ -4479,6 +4527,10 @@ image: /media/2026/09/maps-featured.png
         appendCongressionalPopupDetails(popup, feature.properties || {});
       }
 
+      if (layerType === "usSenate") {
+        appendUsSenatorsPopupDetails(popup, feature.properties || {});
+      }
+
       if (layerType === "healthZone") {
         appendHealthZonePopupDetails(popup, feature.properties || {});
       }
@@ -4549,6 +4601,25 @@ image: /media/2026/09/maps-featured.png
       if (properties.congressional_member_contact_url && !properties.congressional_member_email) {
         appendContactLink(popup, "Contact form", properties.congressional_member_contact_url);
       }
+    }
+
+    function appendUsSenatorsPopupDetails(popup, properties) {
+      const senators = Array.isArray(properties.senators) ? properties.senators : [];
+      senators.forEach((senator) => {
+        const senatorLine = document.createElement(senator.website_url ? "a" : "strong");
+        const name = formatNameWithParty(senator.name, senator.party);
+        senatorLine.textContent = [name, senator.class].filter(Boolean).join(", ");
+        if (senator.website_url) {
+          senatorLine.href = senator.website_url;
+          senatorLine.target = "_blank";
+          senatorLine.rel = "noopener";
+        }
+        popup.appendChild(senatorLine);
+        appendContactLine(popup, senator.phone, senator.email);
+        if (senator.contact_url && !senator.email) {
+          appendContactLink(popup, "Contact form", senator.contact_url);
+        }
+      });
     }
 
     function appendStateLegislatorPopupDetails(popup, properties, prefix, fallbackLabel) {
@@ -5556,6 +5627,12 @@ image: /media/2026/09/maps-featured.png
       congressionalDistrictFillLayer,
       congressionalDistrictBorderLayer,
       "Congressional districts"
+    );
+    loadBoundaryLayers(
+      "/data/florida-us-senators.geojson",
+      usSenateFillLayer,
+      usSenateBorderLayer,
+      "Florida U.S. Senators"
     );
     loadBoundaryLayers(
       "/data/duval-health-zones.geojson",
