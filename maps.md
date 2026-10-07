@@ -99,6 +99,10 @@ image: /media/2026/09/maps-featured.png
     margin-top: 0.25rem;
   }
 
+  .maps-district-popup .maps-popup-title {
+    font-weight: 700;
+  }
+
   .maps-district-popup strong {
     margin-top: 0.5rem;
   }
@@ -3753,7 +3757,7 @@ image: /media/2026/09/maps-featured.png
         return properties.boundary_type || [properties.USPS_CITY, properties.USPS_STATE].filter(Boolean).join(", ");
       }
       if (layerType === "congressional") {
-        return properties.CDSESSN ? `${properties.CDSESSN}th Congress` : "";
+        return properties.congressional_member_name || "";
       }
       if (layerType === "healthZone") {
         if (properties.excluded_health_zone) {
@@ -3780,29 +3784,12 @@ image: /media/2026/09/maps-featured.png
       }
 
       [
-        properties.member_role,
-        properties.member_phone ? `Phone: ${properties.member_phone}` : ""
+        properties.member_role
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
         line.textContent = value;
         popup.appendChild(line);
       });
-
-      if (properties.member_email) {
-        const emailLink = document.createElement("a");
-        emailLink.href = `mailto:${properties.member_email}`;
-        emailLink.textContent = properties.member_email;
-        popup.appendChild(emailLink);
-      }
-
-      if (properties.member_source_url) {
-        const sourceLink = document.createElement("a");
-        sourceLink.href = properties.member_source_url;
-        sourceLink.target = "_blank";
-        sourceLink.rel = "noopener";
-        sourceLink.textContent = "View School Board page";
-        popup.appendChild(sourceLink);
-      }
     }
 
     function getCityCouncilMemberUrl(properties) {
@@ -3845,7 +3832,7 @@ image: /media/2026/09/maps-featured.png
         return getCityCouncilMemberUrl(properties);
       }
       if (layerType === "congressional") {
-        return properties.ballotpedia_url || "";
+        return properties.congressional_member_website_url || "";
       }
       if (layerType === "cpac") {
         return properties.cpac_url || "";
@@ -3855,6 +3842,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "floridaSenate") {
         return properties.state_senate_member_source_url || "";
+      }
+      if (layerType === "schoolBoard") {
+        return properties.member_source_url || "";
       }
       return "";
     }
@@ -4316,6 +4306,7 @@ image: /media/2026/09/maps-featured.png
       const boundaryTitle = getBoundaryTitle(feature, layerType);
 
       popup.className = "maps-district-popup";
+      title.className = "maps-popup-title";
       title.textContent = boundaryTitle;
       if (titleUrl) {
         title.href = titleUrl;
@@ -4344,6 +4335,10 @@ image: /media/2026/09/maps-featured.png
 
       if (layerType === "floridaSenate") {
         appendStateLegislatorPopupDetails(popup, feature.properties || {}, "state_senate", "Senator");
+      }
+
+      if (layerType === "congressional") {
+        appendCongressionalPopupDetails(popup, feature.properties || {});
       }
 
       if (layerType === "healthZone") {
@@ -4391,20 +4386,29 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function appendCongressionalPopupDetails(popup, properties) {
+      if (properties.congressional_member_photo_url) {
+        const image = document.createElement("img");
+        image.src = properties.congressional_member_photo_url;
+        image.alt = properties.congressional_member_name || "Congressional representative";
+        image.loading = "lazy";
+        popup.insertBefore(image, popup.firstChild);
+      }
+
+      [
+        properties.congressional_member_party
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+    }
+
     function appendStateLegislatorPopupDetails(popup, properties, prefix, fallbackLabel) {
       const name = properties[`${prefix}_member_name`] || "";
-      const chamber = properties[`${prefix}_member_chamber`] || "";
-      const district = properties[`${prefix}_member_district`] || "";
       const party = properties[`${prefix}_member_party`] || "";
       const leadershipRole = properties[`${prefix}_member_leadership_role`] || "";
-      const phone = properties[`${prefix}_member_phone`] || "";
-      const capitolPhone = properties[`${prefix}_member_capitol_phone`] || "";
-      const email = properties[`${prefix}_member_email`] || "";
-      const contactUrl = properties[`${prefix}_member_contact_url`] || "";
-      const sourceUrl = properties[`${prefix}_member_source_url`] || "";
       const photoUrl = properties[`${prefix}_member_photo_url`] || "";
-      const districtOffice = properties[`${prefix}_member_district_office`] || "";
-      const cityOfResidence = properties[`${prefix}_member_city_of_residence`] || "";
 
       if (photoUrl) {
         const image = document.createElement("img");
@@ -4415,43 +4419,13 @@ image: /media/2026/09/maps-featured.png
       }
 
       [
-        chamber && district ? `${chamber} District ${district}` : "",
         party,
-        leadershipRole,
-        cityOfResidence ? `City of Residence: ${cityOfResidence}` : "",
-        phone ? `Phone: ${phone}` : "",
-        capitolPhone && capitolPhone !== phone ? `Capitol Phone: ${capitolPhone}` : "",
-        districtOffice ? `District Office: ${districtOffice}` : ""
+        leadershipRole
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
         line.textContent = value;
         popup.appendChild(line);
       });
-
-      if (email) {
-        const emailLink = document.createElement("a");
-        emailLink.href = `mailto:${email}`;
-        emailLink.textContent = email;
-        popup.appendChild(emailLink);
-      }
-
-      if (contactUrl) {
-        const contactLink = document.createElement("a");
-        contactLink.href = contactUrl;
-        contactLink.target = "_blank";
-        contactLink.rel = "noopener";
-        contactLink.textContent = `Contact ${fallbackLabel}`;
-        popup.appendChild(contactLink);
-      }
-
-      if (sourceUrl) {
-        const sourceLink = document.createElement("a");
-        sourceLink.href = sourceUrl;
-        sourceLink.target = "_blank";
-        sourceLink.rel = "noopener";
-        sourceLink.textContent = `View ${fallbackLabel} page`;
-        popup.appendChild(sourceLink);
-      }
     }
 
     function appendCityCouncilMemberPopupDetails(popup, properties) {
@@ -4464,31 +4438,12 @@ image: /media/2026/09/maps-featured.png
       }
 
       [
-        properties.council_member_leadership_role,
-        properties.council_member_role,
-        properties.council_member_phone ? `Phone: ${properties.council_member_phone}` : "",
-        properties.council_member_assistant ? `Assistant: ${properties.council_member_assistant}` : ""
+        properties.council_member_leadership_role
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
         line.textContent = value;
         popup.appendChild(line);
       });
-
-      if (properties.council_member_email) {
-        const emailLink = document.createElement("a");
-        emailLink.href = `mailto:${properties.council_member_email}`;
-        emailLink.textContent = properties.council_member_email;
-        popup.appendChild(emailLink);
-      }
-
-      if (properties.council_member_source_url) {
-        const sourceLink = document.createElement("a");
-        sourceLink.href = properties.council_member_source_url;
-        sourceLink.target = "_blank";
-        sourceLink.rel = "noopener";
-        sourceLink.textContent = "View City Council member page";
-        popup.appendChild(sourceLink);
-      }
     }
 
     function createCouncilDistrictPopup(feature) {
@@ -4500,6 +4455,7 @@ image: /media/2026/09/maps-featured.png
 
       const memberUrl = getCityCouncilMemberUrl(properties);
       const title = memberUrl ? document.createElement("a") : document.createElement("strong");
+      title.className = "maps-popup-title";
       title.textContent = district ? `City Council District ${district}` : "City Council District";
       if (memberUrl) {
         title.href = memberUrl;
@@ -4724,6 +4680,7 @@ image: /media/2026/09/maps-featured.png
       const directionsUrl = properties.directions_url || "";
 
       popup.className = "maps-district-popup";
+      title.className = "maps-popup-title";
       title.textContent = properties.name || "JSO Substation";
       popup.appendChild(title);
 
@@ -4732,21 +4689,12 @@ image: /media/2026/09/maps-featured.png
         properties.commander ? `District Commander ${properties.commander}` : "",
         properties.address,
         properties.located && properties.located_label ? `${properties.located_label}: ${properties.located}` : properties.located,
-        properties.hours ? `Hours: ${properties.hours}` : "",
-        properties.phone ? `Phone: ${properties.phone}` : "",
-        properties.fax ? `Fax: ${properties.fax}` : ""
+        properties.hours ? `Hours: ${properties.hours}` : ""
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
         line.textContent = value;
         popup.appendChild(line);
       });
-
-      if (properties.email) {
-        const emailLink = document.createElement("a");
-        emailLink.href = `mailto:${properties.email}`;
-        emailLink.textContent = properties.email;
-        popup.appendChild(emailLink);
-      }
 
       if (directionsUrl) {
         const directionsLink = document.createElement("a");
@@ -4965,27 +4913,22 @@ image: /media/2026/09/maps-featured.png
     function createSchoolPopup(feature) {
       const properties = feature.properties || {};
       const popup = document.createElement("div");
-      const title = document.createElement("strong");
+      const title = properties.USER_URL ? document.createElement("a") : document.createElement("strong");
       const gradeLevel = properties.USER_School_Grade_Level || properties.USER_Grade_Level || "";
       const address = properties.USER_School_Address || properties.IN_SingleLine || properties.Match_addr || "";
-      const phone = properties.USER_School_Phone_Number || "";
 
       popup.className = "maps-district-popup";
+      title.className = "maps-popup-title";
       title.textContent = getSchoolName(feature);
+      if (properties.USER_URL) {
+        title.href = properties.USER_URL;
+        title.target = "_blank";
+        title.rel = "noopener";
+      }
       popup.appendChild(title);
 
       appendSchoolPopupLine(popup, gradeLevel);
       appendSchoolPopupLine(popup, address);
-      appendSchoolPopupLine(popup, phone);
-
-      if (properties.USER_URL) {
-        const link = document.createElement("a");
-        link.href = properties.USER_URL;
-        link.target = "_blank";
-        link.rel = "noopener";
-        link.textContent = "View school";
-        popup.appendChild(link);
-      }
 
       return popup;
     }
@@ -5035,6 +4978,7 @@ image: /media/2026/09/maps-featured.png
       const title = properties.report_card_url ? document.createElement("a") : document.createElement("strong");
 
       popup.className = "maps-district-popup";
+      title.className = "maps-popup-title";
       title.textContent = getFldoeSchoolName(feature);
       if (properties.report_card_url) {
         title.href = properties.report_card_url;
@@ -5046,7 +4990,6 @@ image: /media/2026/09/maps-featured.png
       appendFldoePopupLine(popup, "", properties.public_school_type || properties.category);
       appendFldoePopupLine(popup, "School type", properties.school_type);
       appendFldoePopupLine(popup, "Address", formatFldoeAddress(properties));
-      appendFldoePopupLine(popup, "Phone", properties.phone_number);
       appendFldoePopupLine(popup, "Grade levels", properties.grade_levels);
       appendFldoePopupLine(popup, "Students", properties.total_students || properties.enrollment);
       appendFldoePopupLine(popup, "Teachers", properties.teacher_count);
@@ -5060,9 +5003,7 @@ image: /media/2026/09/maps-featured.png
       appendFldoePopupLine(popup, "Owner", properties.owner);
       appendFldoePopupLine(popup, "Programs", properties.programs);
       appendFldoePopupLine(popup, "Director", properties.director);
-      appendFldoePopupLine(popup, "Director email", properties.director_email);
       appendFldoePopupLine(popup, "Contact", properties.contact);
-      appendFldoePopupLine(popup, "Contact email", properties.contact_email);
       appendFldoePopupLine(popup, "Religious", properties.religious);
       appendFldoePopupLine(popup, "Denomination", properties.denomination);
       appendFldoePopupLine(popup, "Non-profit", properties.non_profit);

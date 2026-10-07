@@ -51,8 +51,8 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Congressional Districts Overlays
   - Congressional Districts Borders
 - Congressional District reference links:
-  - [Florida's 4th Congressional District](https://ballotpedia.org/Florida%27s_4th_Congressional_District)
-  - [Florida's 5th Congressional District](https://ballotpedia.org/Florida%27s_5th_Congressional_District)
+  - [Florida's 4th Congressional District](https://www.house.gov/htbin/findrep?ZIP=32202)
+  - [Florida's 5th Congressional District](https://www.house.gov/htbin/findrep?ZIP=32207)
 - [City of Jacksonville City Council Members](https://www.jacksonville.gov/city-council/city-council-members)
   - Current District Council Member and At Large Council Member names, roles, email addresses, phone numbers, assistants, photos, and profile links for City Council District and City Council District At Large popups.
 - [Florida House of Representatives](https://www.flhouse.gov/representatives)

@@ -8974,7 +8974,11 @@
         "STATE": "12",
         "Shape__Area": 2878448407.763672,
         "Shape__Length": 262630.62575656106,
-        "ballotpedia_url": "https://ballotpedia.org/Florida%27s_5th_Congressional_District"
+        "congressional_member_name": "John H. Rutherford",
+        "congressional_member_party": "Republican",
+        "congressional_member_photo_url": "https://ziplook.house.gov/zip/pictures/fl05_rutherford.jpg",
+        "congressional_member_source_url": "https://www.house.gov/htbin/findrep?ZIP=32207",
+        "congressional_member_website_url": "https://rutherford.house.gov"
       }
     },
     {
@@ -37240,7 +37244,11 @@
         "STATE": "12",
         "Shape__Area": 6908979359.927734,
         "Shape__Length": 523180.2070940329,
-        "ballotpedia_url": "https://ballotpedia.org/Florida%27s_4th_Congressional_District"
+        "congressional_member_name": "Aaron Bean",
+        "congressional_member_party": "Republican",
+        "congressional_member_photo_url": "https://ziplook.house.gov/zip/pictures/fl04_bean.jpg",
+        "congressional_member_source_url": "https://www.house.gov/htbin/findrep?ZIP=32202",
+        "congressional_member_website_url": "https://bean.house.gov"
       }
     }
   ]
