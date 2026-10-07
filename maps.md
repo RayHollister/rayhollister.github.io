@@ -126,7 +126,8 @@ image: /media/2026/09/maps-featured.png
     display: grid;
     grid-template-columns: 72px minmax(9rem, 1fr);
     max-width: calc(100vw - 7rem);
-    width: 15.75rem;
+    min-width: 15.75rem;
+    width: max-content;
   }
 
   .maps-district-popup.maps-district-popup--with-photo img {
@@ -150,6 +151,11 @@ image: /media/2026/09/maps-featured.png
     margin-top: 0;
   }
 
+  #ray-map .leaflet-popup-content:has(.maps-district-popup--with-photo) {
+    max-width: calc(100vw - 7rem);
+    width: max-content !important;
+  }
+
   .maps-district-popup > .maps-senator-card {
     border-top: 1px solid #d0d7de;
     margin-top: 0.5rem;
@@ -165,6 +171,7 @@ image: /media/2026/09/maps-featured.png
   @media (max-width: 360px) {
     .maps-district-popup.maps-district-popup--with-photo {
       grid-template-columns: 1fr;
+      min-width: 0;
       width: min(13rem, calc(100vw - 7rem));
     }
 
