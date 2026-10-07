@@ -157,18 +157,18 @@ image: /media/2026/09/maps-featured.png
     width: fit-content !important;
   }
 
-  #ray-map .leaflet-popup-content.maps-popup-content--full-width:has(.maps-district-popup--with-photo) {
-    max-width: calc(100vw - 7rem);
-    width: calc(100vw - 7rem) !important;
+  #ray-map .leaflet-popup-content.maps-popup-content--contact-width:has(.maps-district-popup--with-photo) {
+    max-width: min(20rem, calc(100vw - 7rem));
+    width: min(20rem, calc(100vw - 7rem)) !important;
   }
 
-  #ray-map .leaflet-popup-content.maps-popup-content--full-width .maps-district-popup.maps-district-popup--with-photo {
+  #ray-map .leaflet-popup-content.maps-popup-content--contact-width .maps-district-popup.maps-district-popup--with-photo {
     grid-template-columns: 72px minmax(0, 1fr);
     max-width: none;
     width: 100%;
   }
 
-  #ray-map .leaflet-popup-content.maps-popup-content--full-width .maps-district-popup.maps-district-popup--with-photo > :not(img) {
+  #ray-map .leaflet-popup-content.maps-popup-content--contact-width .maps-district-popup.maps-district-popup--with-photo > :not(img) {
     max-width: none;
   }
 
@@ -185,11 +185,11 @@ image: /media/2026/09/maps-featured.png
   }
 
   @media (max-width: 360px) {
-    #ray-map .leaflet-popup-content.maps-popup-content--full-width:has(.maps-district-popup--with-photo) {
+    #ray-map .leaflet-popup-content.maps-popup-content--contact-width:has(.maps-district-popup--with-photo) {
       width: calc(100vw - 7rem) !important;
     }
 
-    #ray-map .leaflet-popup-content.maps-popup-content--full-width .maps-district-popup.maps-district-popup--with-photo {
+    #ray-map .leaflet-popup-content.maps-popup-content--contact-width .maps-district-popup.maps-district-popup--with-photo {
       grid-template-columns: 1fr;
       min-width: 0;
     }
@@ -2323,18 +2323,18 @@ image: /media/2026/09/maps-featured.png
       return lineCount;
     }
 
-    function expandPhotoPopupIfTextWraps(popup) {
+    function expandPhotoPopupIfContactWraps(popup) {
       const container = popup && popup.getElement ? popup.getElement() : popup && popup._container;
       const content = container && container.querySelector(".leaflet-popup-content");
       if (!content || !content.querySelector(".maps-district-popup--with-photo")) return;
 
-      content.classList.remove("maps-popup-content--full-width");
+      content.classList.remove("maps-popup-content--contact-width");
       requestAnimationFrame(() => {
-        const textElements = content.querySelectorAll(".maps-district-popup--with-photo a, .maps-district-popup--with-photo strong, .maps-district-popup--with-photo span");
-        const hasWrappedText = Array.from(textElements).some((element) => getTextLineCount(element) > 1);
-        if (!hasWrappedText) return;
+        const contactLinks = content.querySelectorAll(".maps-district-popup--with-photo .maps-contact-link");
+        const hasWrappedContact = Array.from(contactLinks).some((element) => getTextLineCount(element) > 1);
+        if (!hasWrappedContact) return;
 
-        content.classList.add("maps-popup-content--full-width");
+        content.classList.add("maps-popup-content--contact-width");
         if (popup && popup.update) {
           requestAnimationFrame(() => popup.update());
         }
@@ -3596,7 +3596,7 @@ image: /media/2026/09/maps-featured.png
       });
       map.on("click movestart zoomstart popupopen", hideMapContextMenu);
       map.on("popupopen", function (event) {
-        expandPhotoPopupIfTextWraps(event.popup);
+        expandPhotoPopupIfContactWraps(event.popup);
         makePopupDraggable(event.popup);
       });
       document.addEventListener("click", function (event) {
@@ -4004,6 +4004,9 @@ image: /media/2026/09/maps-featured.png
       const link = document.createElement("a");
       link.href = href;
       link.textContent = text;
+      if (/^(mailto|tel):/.test(href)) {
+        link.classList.add("maps-contact-link");
+      }
       if (/^https?:\/\//.test(href)) {
         link.target = "_blank";
         link.rel = "noopener";
