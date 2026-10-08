@@ -81,6 +81,18 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Note: USPS is authoritative for ZIP Codes as mail-routing data, but USPS does not publish official ZIP Code polygon boundaries. The map uses Census ZIP Code Tabulation Areas (ZCTAs), which are public statistical approximations of USPS ZIP Code service areas, clipped to Duval County.
   - Zip Codes Overlays
   - Zip Codes Borders
+- Census & Demographics:
+  - Census tract and block-group geometry: [U.S. Census Bureau TIGERweb ACS 2024 service](https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2024/MapServer), Census Tracts layer 8 and Census Block Groups layer 10, filtered to Duval County, Florida (`STATE=12`, `COUNTY=031`).
+  - Demographic estimates: [Census Reporter API](https://api.censusreporter.org/1.0/data/show/latest) using ACS 2024 5-year estimates (`acs2024_5yr`, 2020-2024).
+  - Generated assets: `/data/census-tracts.geojson`, `/data/census-block-groups.geojson`, and `/data/census-demographic-metrics.json`.
+  - Regeneration script: `script/generate-census-demographics`.
+  - Validation script: `script/validate-census-demographics`.
+  - Initial supported measurements include total population, population density, median age, age 65 and older, median household income, poverty rate, unemployment rate, total housing units, homeownership rate, renter-occupied household rate, vacancy rate, median home value, median gross rent, bachelor's degree or higher rate, public transportation commute rate, long commute rate, households without vehicles, broadband subscription rate, no Internet subscription rate, no Internet access rate, and computer ownership rate.
+  - ACS values are estimates and may have substantial margins of error at small geographies. Direct-estimate margins of error are retained where published; derived-rate margins of error are not calculated in this first implementation, so rate popups identify those as derived values rather than exact counts.
+  - Census Tracts Overlays
+  - Census Tracts Borders
+  - Census Block Groups Overlays
+  - Census Block Groups Borders
 - Neighborhood Overlays and Neighborhood Borders:
   - Source repository: [RayHollister/JacksonvilleNeighborhoods](https://github.com/RayHollister/JacksonvilleNeighborhoods)
   - Runtime data URL: [neighborhoods.geojson](https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson)

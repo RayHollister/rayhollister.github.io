@@ -1,0 +1,589 @@
+#!/usr/bin/env node
+
+const fs = require("node:fs/promises");
+const path = require("node:path");
+
+const dataDirectory = path.join(process.cwd(), "data");
+const squareMetersPerSquareMile = 2589988.110336;
+const countyGeoId = "05000US12031";
+const tigerwebBaseUrl = "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2024/MapServer";
+const censusReporterBaseUrl = "https://api.censusreporter.org/1.0/data/show/latest";
+const sourceDate = new Date().toISOString().slice(0, 10);
+
+const geographyLevels = {
+  tract: {
+    censusReporterPrefix: "14000US",
+    censusReporterChildren: `140|${countyGeoId}`,
+    filename: "census-tracts.geojson",
+    layerId: 8,
+    label: "Census Tracts",
+    tigerwebLayer: "TIGERweb ACS 2024 MapServer Census Tracts layer 8"
+  },
+  blockGroup: {
+    censusReporterPrefix: "15000US",
+    censusReporterChildren: `150|${countyGeoId}`,
+    filename: "census-block-groups.geojson",
+    layerId: 10,
+    label: "Census Block Groups",
+    tigerwebLayer: "TIGERweb ACS 2024 MapServer Census Block Groups layer 10"
+  }
+};
+
+const metricCategories = [
+  {
+    id: "population",
+    label: "Population",
+    metrics: [
+      {
+        id: "total_population",
+        label: "Total population",
+        description: "Total resident population.",
+        unit: "count",
+        format: "integer",
+        sourceTables: ["B01003"],
+        variables: ["B01003001"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => estimate("B01003", "B01003001"),
+        moe: ({ error }) => error("B01003", "B01003001")
+      },
+      {
+        id: "population_density",
+        label: "Population density",
+        description: "Residents per square mile of land area.",
+        unit: "people_per_sq_mi",
+        format: "integer",
+        sourceTables: ["B01003", "TIGERweb AREALAND"],
+        variables: ["B01003001", "AREALAND"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate, landSquareMiles }) => divide(estimate("B01003", "B01003001"), landSquareMiles)
+      },
+      {
+        id: "median_age",
+        label: "Median age",
+        description: "Median age in years.",
+        unit: "years",
+        format: "decimal1",
+        sourceTables: ["B01002"],
+        variables: ["B01002001"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => estimate("B01002", "B01002001"),
+        moe: ({ error }) => error("B01002", "B01002001")
+      },
+      {
+        id: "age_65_plus_rate",
+        label: "Age 65 and older",
+        description: "Residents age 65 and older as a share of total population.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B01001"],
+        variables: ["B01001001", "B01001020", "B01001021", "B01001022", "B01001023", "B01001024", "B01001025", "B01001044", "B01001045", "B01001046", "B01001047", "B01001048", "B01001049"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(
+          sumVariables(estimate, "B01001", ["B01001020", "B01001021", "B01001022", "B01001023", "B01001024", "B01001025", "B01001044", "B01001045", "B01001046", "B01001047", "B01001048", "B01001049"]),
+          estimate("B01001", "B01001001")
+        ),
+        numerator: ({ estimate }) => sumVariables(estimate, "B01001", ["B01001020", "B01001021", "B01001022", "B01001023", "B01001024", "B01001025", "B01001044", "B01001045", "B01001046", "B01001047", "B01001048", "B01001049"]),
+        denominator: ({ estimate }) => estimate("B01001", "B01001001")
+      }
+    ]
+  },
+  {
+    id: "income",
+    label: "Income and Economic Conditions",
+    metrics: [
+      {
+        id: "median_household_income",
+        label: "Median household income",
+        description: "Median household income in 2024 inflation-adjusted dollars.",
+        unit: "dollars",
+        format: "currency",
+        sourceTables: ["B19013"],
+        variables: ["B19013001"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => estimate("B19013", "B19013001"),
+        moe: ({ error }) => error("B19013", "B19013001")
+      },
+      {
+        id: "poverty_rate",
+        label: "Poverty rate",
+        description: "Share of people for whom poverty status is determined whose income was below the poverty level.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B17021"],
+        variables: ["B17021001", "B17021002"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(estimate("B17021", "B17021002"), estimate("B17021", "B17021001")),
+        numerator: ({ estimate }) => estimate("B17021", "B17021002"),
+        denominator: ({ estimate }) => estimate("B17021", "B17021001")
+      },
+      {
+        id: "unemployment_rate",
+        label: "Unemployment rate",
+        description: "Unemployed civilians as a share of the civilian labor force.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B23025"],
+        variables: ["B23025003", "B23025005"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(estimate("B23025", "B23025005"), estimate("B23025", "B23025003")),
+        numerator: ({ estimate }) => estimate("B23025", "B23025005"),
+        denominator: ({ estimate }) => estimate("B23025", "B23025003")
+      }
+    ]
+  },
+  {
+    id: "housing",
+    label: "Housing",
+    metrics: [
+      {
+        id: "total_housing_units",
+        label: "Total housing units",
+        description: "Total housing units.",
+        unit: "count",
+        format: "integer",
+        sourceTables: ["B25001"],
+        variables: ["B25001001"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => estimate("B25001", "B25001001"),
+        moe: ({ error }) => error("B25001", "B25001001")
+      },
+      {
+        id: "homeownership_rate",
+        label: "Homeownership rate",
+        description: "Owner-occupied households as a share of occupied housing units.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B25003"],
+        variables: ["B25003001", "B25003002"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(estimate("B25003", "B25003002"), estimate("B25003", "B25003001")),
+        numerator: ({ estimate }) => estimate("B25003", "B25003002"),
+        denominator: ({ estimate }) => estimate("B25003", "B25003001")
+      },
+      {
+        id: "renter_occupied_rate",
+        label: "Renter-occupied households",
+        description: "Renter-occupied households as a share of occupied housing units.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B25003"],
+        variables: ["B25003001", "B25003003"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(estimate("B25003", "B25003003"), estimate("B25003", "B25003001")),
+        numerator: ({ estimate }) => estimate("B25003", "B25003003"),
+        denominator: ({ estimate }) => estimate("B25003", "B25003001")
+      },
+      {
+        id: "vacancy_rate",
+        label: "Vacant housing units",
+        description: "Vacant housing units as a share of all housing units.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B25002"],
+        variables: ["B25002001", "B25002003"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(estimate("B25002", "B25002003"), estimate("B25002", "B25002001")),
+        numerator: ({ estimate }) => estimate("B25002", "B25002003"),
+        denominator: ({ estimate }) => estimate("B25002", "B25002001")
+      },
+      {
+        id: "median_home_value",
+        label: "Median home value",
+        description: "Median value of owner-occupied housing units.",
+        unit: "dollars",
+        format: "currency",
+        sourceTables: ["B25077"],
+        variables: ["B25077001"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => estimate("B25077", "B25077001"),
+        moe: ({ error }) => error("B25077", "B25077001")
+      },
+      {
+        id: "median_gross_rent",
+        label: "Median gross rent",
+        description: "Median gross rent in dollars.",
+        unit: "dollars",
+        format: "currency",
+        sourceTables: ["B25064"],
+        variables: ["B25064001"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => estimate("B25064", "B25064001"),
+        moe: ({ error }) => error("B25064", "B25064001")
+      }
+    ]
+  },
+  {
+    id: "education",
+    label: "Education",
+    metrics: [
+      {
+        id: "bachelors_or_higher_rate",
+        label: "Bachelor's degree or higher",
+        description: "Share of population age 25 and older with a bachelor's degree or higher.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B15003"],
+        variables: ["B15003001", "B15003022", "B15003023", "B15003024", "B15003025"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(
+          sumVariables(estimate, "B15003", ["B15003022", "B15003023", "B15003024", "B15003025"]),
+          estimate("B15003", "B15003001")
+        ),
+        numerator: ({ estimate }) => sumVariables(estimate, "B15003", ["B15003022", "B15003023", "B15003024", "B15003025"]),
+        denominator: ({ estimate }) => estimate("B15003", "B15003001")
+      }
+    ]
+  },
+  {
+    id: "transportation",
+    label: "Employment and Transportation",
+    metrics: [
+      {
+        id: "public_transit_commute_rate",
+        label: "Commute by public transportation",
+        description: "Workers age 16 and older commuting by public transportation.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B08301"],
+        variables: ["B08301001", "B08301010"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(estimate("B08301", "B08301010"), estimate("B08301", "B08301001")),
+        numerator: ({ estimate }) => estimate("B08301", "B08301010"),
+        denominator: ({ estimate }) => estimate("B08301", "B08301001")
+      },
+      {
+        id: "long_commute_rate",
+        label: "Commute 45 minutes or longer",
+        description: "Workers age 16 and older with commute times of 45 minutes or longer.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B08303"],
+        variables: ["B08303001", "B08303011", "B08303012", "B08303013"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(
+          sumVariables(estimate, "B08303", ["B08303011", "B08303012", "B08303013"]),
+          estimate("B08303", "B08303001")
+        ),
+        numerator: ({ estimate }) => sumVariables(estimate, "B08303", ["B08303011", "B08303012", "B08303013"]),
+        denominator: ({ estimate }) => estimate("B08303", "B08303001")
+      },
+      {
+        id: "no_vehicle_rate",
+        label: "Households without vehicles",
+        description: "Occupied housing units with no vehicle available.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B25044"],
+        variables: ["B25044001", "B25044003", "B25044010"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(
+          sumVariables(estimate, "B25044", ["B25044003", "B25044010"]),
+          estimate("B25044", "B25044001")
+        ),
+        numerator: ({ estimate }) => sumVariables(estimate, "B25044", ["B25044003", "B25044010"]),
+        denominator: ({ estimate }) => estimate("B25044", "B25044001")
+      }
+    ]
+  },
+  {
+    id: "technology",
+    label: "Technology",
+    metrics: [
+      {
+        id: "broadband_subscription_rate",
+        label: "Broadband subscription",
+        description: "Households with a broadband Internet subscription of any type.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B28002"],
+        variables: ["B28002001", "B28002004"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(estimate("B28002", "B28002004"), estimate("B28002", "B28002001")),
+        numerator: ({ estimate }) => estimate("B28002", "B28002004"),
+        denominator: ({ estimate }) => estimate("B28002", "B28002001")
+      },
+      {
+        id: "no_internet_subscription_rate",
+        label: "No Internet subscription",
+        description: "Households with Internet access without a subscription or no Internet access.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B28002"],
+        variables: ["B28002001", "B28002012", "B28002013"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(
+          sumVariables(estimate, "B28002", ["B28002012", "B28002013"]),
+          estimate("B28002", "B28002001")
+        ),
+        numerator: ({ estimate }) => sumVariables(estimate, "B28002", ["B28002012", "B28002013"]),
+        denominator: ({ estimate }) => estimate("B28002", "B28002001")
+      },
+      {
+        id: "no_internet_access_rate",
+        label: "No Internet access",
+        description: "Households with no Internet access.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B28002"],
+        variables: ["B28002001", "B28002013"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(estimate("B28002", "B28002013"), estimate("B28002", "B28002001")),
+        numerator: ({ estimate }) => estimate("B28002", "B28002013"),
+        denominator: ({ estimate }) => estimate("B28002", "B28002001")
+      },
+      {
+        id: "computer_ownership_rate",
+        label: "Computer ownership",
+        description: "Households with one or more computers.",
+        unit: "percent",
+        format: "percent",
+        sourceTables: ["B28003"],
+        variables: ["B28003001", "B28003002"],
+        supportedGeographies: ["tract", "blockGroup"],
+        value: ({ estimate }) => ratioPercent(estimate("B28003", "B28003002"), estimate("B28003", "B28003001")),
+        numerator: ({ estimate }) => estimate("B28003", "B28003002"),
+        denominator: ({ estimate }) => estimate("B28003", "B28003001")
+      }
+    ]
+  }
+];
+
+function divide(numerator, denominator) {
+  if (!Number.isFinite(numerator) || !Number.isFinite(denominator) || denominator === 0) return null;
+  return numerator / denominator;
+}
+
+function ratioPercent(numerator, denominator) {
+  const ratio = divide(numerator, denominator);
+  return ratio === null ? null : ratio * 100;
+}
+
+function sumVariables(estimate, tableId, variableIds) {
+  let total = 0;
+  for (const variableId of variableIds) {
+    const value = estimate(tableId, variableId);
+    if (!Number.isFinite(value)) return null;
+    total += value;
+  }
+  return total;
+}
+
+function roundValue(value, digits = 2) {
+  if (!Number.isFinite(value)) return null;
+  const multiplier = 10 ** digits;
+  return Math.round(value * multiplier) / multiplier;
+}
+
+function getTableValue(record, kind, tableId, variableId) {
+  const value = record && record[tableId] && record[tableId][kind] && record[tableId][kind][variableId];
+  return Number.isFinite(value) ? value : null;
+}
+
+function buildMetricConfig(release) {
+  return {
+    generated_at: new Date().toISOString(),
+    source_date: sourceDate,
+    source_county: countyGeoId,
+    release,
+    geographies: Object.fromEntries(Object.entries(geographyLevels).map(([id, level]) => [id, {
+      label: level.label,
+      filename: level.filename,
+      census_reporter_children: level.censusReporterChildren,
+      tigerweb_layer: level.tigerwebLayer
+    }])),
+    categories: metricCategories.map((category) => ({
+      id: category.id,
+      label: category.label,
+      metrics: category.metrics.map((metric) => ({
+        id: metric.id,
+        label: metric.label,
+        description: metric.description,
+        unit: metric.unit,
+        format: metric.format,
+        source_tables: metric.sourceTables,
+        variables: metric.variables,
+        supported_geographies: metric.supportedGeographies
+      }))
+    })),
+    notes: [
+      "ACS figures are estimates, not exact counts.",
+      "Derived rates use Census table denominators listed in the metric configuration.",
+      "Margins of error are included for direct estimates where published. Derived-rate margins of error are not calculated in this first implementation; numerator and denominator values are preserved for review.",
+      "Block-group estimates can have high uncertainty. Treat small-area values as directional, especially when denominators are small."
+    ]
+  };
+}
+
+async function fetchJson(url, label) {
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/json",
+      "User-Agent": "rayhollister.com census demographic data generator"
+    }
+  });
+  if (!response.ok) {
+    throw new Error(`Could not fetch ${label}: ${response.status} ${response.statusText}`);
+  }
+  return response.json();
+}
+
+async function fetchTigerwebGeometry(level) {
+  const fields = [
+    "GEOID",
+    "BASENAME",
+    "NAME",
+    "STATE",
+    "COUNTY",
+    "TRACT",
+    level.id === "blockGroup" ? "BLKGRP" : "",
+    "AREALAND",
+    "AREAWATER",
+    "INTPTLAT",
+    "INTPTLON"
+  ].filter(Boolean).join(",");
+  const params = new URLSearchParams({
+    where: "STATE='12' AND COUNTY='031'",
+    outFields: fields,
+    returnGeometry: "true",
+    f: "geojson"
+  });
+  return fetchJson(`${tigerwebBaseUrl}/${level.layerId}/query?${params}`, level.label);
+}
+
+async function fetchCensusReporterData(level) {
+  const sourceTables = getSourceTablesForGeography(level.id);
+  const params = new URLSearchParams({
+    table_ids: sourceTables.join(",")
+  });
+  return fetchJson(`${censusReporterBaseUrl}?${params}&geo_ids=${level.censusReporterChildren}`, `Census Reporter ${level.label}`);
+}
+
+function getSourceTablesForGeography(levelId) {
+  const tableIds = new Set();
+  metricCategories.forEach((category) => {
+    category.metrics.forEach((metric) => {
+      if (!metric.supportedGeographies.includes(levelId)) return;
+      metric.sourceTables.forEach((tableId) => {
+        if (/^B\d/.test(tableId)) {
+          tableIds.add(tableId);
+        }
+      });
+    });
+  });
+  return Array.from(tableIds).sort();
+}
+
+function buildMetricValues(featureProperties, censusData, release, levelId) {
+  const landSquareMiles = Number(featureProperties.AREALAND) / squareMetersPerSquareMile;
+  const context = {
+    estimate: (tableId, variableId) => getTableValue(censusData, "estimate", tableId, variableId),
+    error: (tableId, variableId) => getTableValue(censusData, "error", tableId, variableId),
+    landSquareMiles
+  };
+  const metrics = {};
+
+  for (const category of metricCategories) {
+    for (const metric of category.metrics) {
+      if (!metric.supportedGeographies.includes(levelId)) continue;
+      const value = roundValue(metric.value(context));
+      const numerator = metric.numerator ? metric.numerator(context) : null;
+      const denominator = metric.denominator ? metric.denominator(context) : null;
+      const moe = metric.moe ? metric.moe(context) : null;
+      metrics[metric.id] = {
+        value,
+        moe: Number.isFinite(moe) ? roundValue(moe) : null,
+        numerator: Number.isFinite(numerator) ? roundValue(numerator) : null,
+        denominator: Number.isFinite(denominator) ? roundValue(denominator) : null,
+        release: release && release.id ? release.id : "",
+        vintage: release && release.years ? release.years : ""
+      };
+    }
+  }
+
+  return metrics;
+}
+
+function normalizeFeature(feature, levelId, level, censusReporterData) {
+  const properties = feature.properties || {};
+  const geoid = String(properties.GEOID || "");
+  const censusReporterGeoid = `${level.censusReporterPrefix}${geoid}`;
+  const censusData = censusReporterData.data && censusReporterData.data[censusReporterGeoid];
+  const label = levelId === "blockGroup"
+    ? `Block Group ${properties.BLKGRP}, Census Tract ${properties.TRACT}`
+    : properties.NAME || `Census Tract ${properties.BASENAME || properties.TRACT}`;
+
+  if (!censusData) {
+    throw new Error(`Missing Census Reporter data for ${censusReporterGeoid}`);
+  }
+
+  return {
+    type: "Feature",
+    geometry: feature.geometry,
+    properties: {
+      geoid,
+      census_reporter_geoid: censusReporterGeoid,
+      geography_level: levelId,
+      label,
+      name: properties.NAME || label,
+      basename: properties.BASENAME || "",
+      state: properties.STATE || "12",
+      county: properties.COUNTY || "031",
+      tract: properties.TRACT || "",
+      block_group: properties.BLKGRP || "",
+      land_area_sq_mi: roundValue(Number(properties.AREALAND) / squareMetersPerSquareMile, 4),
+      water_area_sq_mi: roundValue(Number(properties.AREAWATER) / squareMetersPerSquareMile, 4),
+      source: "U.S. Census Bureau TIGERweb geometry joined to Census Reporter ACS estimates",
+      source_url: tigerwebBaseUrl,
+      census_reporter_url: `https://censusreporter.org/profiles/${censusReporterGeoid}/`,
+      acs_release: censusReporterData.release && censusReporterData.release.id,
+      acs_years: censusReporterData.release && censusReporterData.release.years,
+      metrics: buildMetricValues(properties, censusData, censusReporterData.release, levelId)
+    }
+  };
+}
+
+async function writeJson(filename, data) {
+  const outputPath = path.join(dataDirectory, filename);
+  await fs.writeFile(outputPath, `${JSON.stringify(data)}\n`);
+  console.log(`Wrote ${outputPath}`);
+}
+
+async function main() {
+  let release;
+  const outputs = {};
+
+  await fs.mkdir(dataDirectory, { recursive: true });
+
+  for (const [levelId, level] of Object.entries(geographyLevels)) {
+    console.log(`Fetching ${level.label} geometry and ACS data...`);
+    const levelWithId = Object.assign({ id: levelId }, level);
+    const [geometry, censusReporterData] = await Promise.all([
+      fetchTigerwebGeometry(levelWithId),
+      fetchCensusReporterData(levelWithId)
+    ]);
+    release = release || censusReporterData.release;
+    const features = (geometry.features || []).map((feature) => normalizeFeature(feature, levelId, level, censusReporterData));
+    outputs[levelId] = {
+      type: "FeatureCollection",
+      name: level.label,
+      generated_at: new Date().toISOString(),
+      source_date: sourceDate,
+      source_county: countyGeoId,
+      acs_release: censusReporterData.release,
+      features
+    };
+    await writeJson(level.filename, outputs[levelId]);
+  }
+
+  await writeJson("census-demographic-metrics.json", buildMetricConfig(release));
+
+  console.log("Census demographic assets generated.");
+  for (const [levelId, output] of Object.entries(outputs)) {
+    console.log(`${levelId}: ${output.features.length.toLocaleString()} features`);
+  }
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

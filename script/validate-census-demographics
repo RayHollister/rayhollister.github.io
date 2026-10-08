@@ -1,0 +1,89 @@
+#!/usr/bin/env node
+
+const fs = require("node:fs");
+const path = require("node:path");
+
+const dataDirectory = path.join(process.cwd(), "data");
+const expectedFeatureCounts = {
+  tract: 219,
+  blockGroup: 582
+};
+
+function readJson(filename) {
+  return JSON.parse(fs.readFileSync(path.join(dataDirectory, filename), "utf8"));
+}
+
+function fail(message) {
+  throw new Error(message);
+}
+
+function getMetricDefinitions(config, levelId) {
+  const metrics = new Map();
+  for (const category of config.categories || []) {
+    for (const metric of category.metrics || []) {
+      if ((metric.supported_geographies || []).includes(levelId)) {
+        metrics.set(metric.id, metric);
+      }
+    }
+  }
+  return metrics;
+}
+
+function validateFeatureCollection(config, levelId, filename) {
+  const featureCollection = readJson(filename);
+  const expectedMetrics = getMetricDefinitions(config, levelId);
+  const expectedCount = expectedFeatureCounts[levelId];
+
+  if (featureCollection.type !== "FeatureCollection") {
+    fail(`${filename} is not a FeatureCollection`);
+  }
+  if (!Array.isArray(featureCollection.features)) {
+    fail(`${filename} does not contain a features array`);
+  }
+  if (featureCollection.features.length !== expectedCount) {
+    fail(`${filename} contains ${featureCollection.features.length} features; expected ${expectedCount}`);
+  }
+
+  const seenGeoids = new Set();
+  for (const [index, feature] of featureCollection.features.entries()) {
+    const properties = feature.properties || {};
+    const prefix = `${filename} feature ${index + 1}`;
+
+    if (!feature.geometry) fail(`${prefix} is missing geometry`);
+    if (!properties.geoid) fail(`${prefix} is missing geoid`);
+    if (seenGeoids.has(properties.geoid)) fail(`${prefix} duplicates GEOID ${properties.geoid}`);
+    seenGeoids.add(properties.geoid);
+    if (properties.geography_level !== levelId) fail(`${prefix} has geography_level ${properties.geography_level}`);
+    if (properties.acs_release !== config.release.id) fail(`${prefix} has release ${properties.acs_release}`);
+    if (properties.acs_years !== config.release.years) fail(`${prefix} has ACS years ${properties.acs_years}`);
+    if (!Number.isFinite(properties.land_area_sq_mi) || properties.land_area_sq_mi < 0) {
+      fail(`${prefix} has invalid land area`);
+    }
+
+    const metrics = properties.metrics || {};
+    for (const metricId of expectedMetrics.keys()) {
+      const metric = metrics[metricId];
+      if (!metric) fail(`${prefix} is missing metric ${metricId}`);
+      if (metric.release !== config.release.id) fail(`${prefix} metric ${metricId} has release ${metric.release}`);
+      if (metric.vintage !== config.release.years) fail(`${prefix} metric ${metricId} has vintage ${metric.vintage}`);
+      if (metric.value !== null && !Number.isFinite(metric.value)) {
+        fail(`${prefix} metric ${metricId} has a non-numeric value`);
+      }
+    }
+  }
+
+  console.log(`${filename}: ${featureCollection.features.length} ${levelId} features validated`);
+}
+
+function main() {
+  const config = readJson("census-demographic-metrics.json");
+  if (config.release.id !== "acs2024_5yr") fail(`Unexpected ACS release ${config.release.id}`);
+  if (config.release.years !== "2020-2024") fail(`Unexpected ACS vintage ${config.release.years}`);
+
+  validateFeatureCollection(config, "tract", config.geographies.tract.filename);
+  validateFeatureCollection(config, "blockGroup", config.geographies.blockGroup.filename);
+
+  console.log("Census demographic assets validated");
+}
+
+main();

@@ -579,6 +579,91 @@ image: /media/2026/09/maps-featured.png
     min-width: 0;
   }
 
+  .maps-demographics-control {
+    border: 1px solid #d0d7de;
+    border-radius: 4px;
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 0.35rem;
+    padding: 0.45rem;
+  }
+
+  .maps-demographics-control label {
+    display: grid;
+    gap: 0.15rem;
+    margin: 0;
+    white-space: normal;
+  }
+
+  .maps-demographics-control span {
+    color: #57606a;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .maps-demographics-control select {
+    background: #fff;
+    border: 1px solid #d0d7de;
+    border-radius: 4px;
+    color: #24292f;
+    font: inherit;
+    max-width: 100%;
+    min-width: 0;
+    padding: 0.25rem 0.3rem;
+  }
+
+  .maps-demographics-control__toggle {
+    align-items: center;
+    display: flex;
+    gap: 0.35rem;
+    margin-top: 0.1rem;
+  }
+
+  .maps-demographics-control__note {
+    color: #57606a;
+    font-size: 0.78rem;
+    line-height: 1.25;
+  }
+
+  .maps-demographics-legend {
+    background: #fff;
+    border: 1px solid #d0d7de;
+    box-shadow: 0 2px 8px rgb(27 31 36 / 12%);
+    display: none;
+    max-width: min(18rem, calc(100vw - 5rem));
+    padding: 0.55rem;
+  }
+
+  .maps-demographics-legend.is-open {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .maps-demographics-legend strong,
+  .maps-demographics-legend span {
+    display: block;
+  }
+
+  .maps-demographics-legend__swatches {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .maps-demographics-legend__row {
+    align-items: center;
+    display: grid;
+    gap: 0.35rem;
+    grid-template-columns: 1rem 1fr;
+  }
+
+  .maps-demographics-legend__swatch {
+    border: 1px solid rgba(0, 0, 0, 0.22);
+    display: inline-block;
+    height: 0.75rem;
+    width: 1rem;
+  }
+
   .maps-route-filter__swatch {
     border: 1px solid rgba(0, 0, 0, 0.28);
     display: inline-block;
@@ -1012,6 +1097,11 @@ image: /media/2026/09/maps-featured.png
     let zoomHomeControl;
     const censusReporterGeographyPromises = new Map();
     const squareMetersPerSquareMile = 2589988.110336;
+    let censusMetricConfig;
+    let activeDemographicOverlay = null;
+    let demographicsControlElements;
+    let demographicsLegendElement;
+    const demographicColorScale = ["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#3182bd", "#08519c"];
     const supportsPointerHover = window.matchMedia
       ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
       : true;
@@ -1488,6 +1578,22 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "border", "county"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "county")
     });
+    const censusTractFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "censusTract"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "censusTract")
+    });
+    const censusTractBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "censusTract"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "censusTract")
+    });
+    const censusBlockGroupFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "censusBlockGroup"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "censusBlockGroup")
+    });
+    const censusBlockGroupBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "censusBlockGroup"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "censusBlockGroup")
+    });
     const neighborhoodFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "neighborhood"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "neighborhood")
@@ -1709,6 +1815,10 @@ image: /media/2026/09/maps-featured.png
         cityBorderLayer,
         countyFillLayer,
         countyBorderLayer,
+        censusTractFillLayer,
+        censusTractBorderLayer,
+        censusBlockGroupFillLayer,
+        censusBlockGroupBorderLayer,
         neighborhoodFillLayer,
         neighborhoodBorderLayer,
         cpacFillLayer,
@@ -1785,6 +1895,10 @@ image: /media/2026/09/maps-featured.png
         cityBorderLayer,
         countyFillLayer,
         countyBorderLayer,
+        censusTractFillLayer,
+        censusTractBorderLayer,
+        censusBlockGroupFillLayer,
+        censusBlockGroupBorderLayer,
         neighborhoodFillLayer,
         neighborhoodBorderLayer,
         cpacFillLayer,
@@ -1970,6 +2084,10 @@ image: /media/2026/09/maps-featured.png
         cityBorderLayer,
         countyFillLayer,
         countyBorderLayer,
+        censusTractFillLayer,
+        censusTractBorderLayer,
+        censusBlockGroupFillLayer,
+        censusBlockGroupBorderLayer,
         neighborhoodFillLayer,
         neighborhoodBorderLayer,
         cpacFillLayer,
@@ -2027,6 +2145,8 @@ image: /media/2026/09/maps-featured.png
         schoolBoardDistrictFillLayer,
         cityFillLayer,
         countyFillLayer,
+        censusTractFillLayer,
+        censusBlockGroupFillLayer,
         neighborhoodFillLayer,
         cpacFillLayer,
         floridaHouseFillLayer,
@@ -3030,6 +3150,193 @@ image: /media/2026/09/maps-featured.png
       return heading;
     }
 
+    function createDemographicsControl() {
+      const wrapper = document.createElement("div");
+      const geographyLabel = createDemographicsSelect("Geography");
+      const categoryLabel = createDemographicsSelect("Category");
+      const metricLabel = createDemographicsSelect("Measurement");
+      const toggleLabel = document.createElement("label");
+      const toggleInput = document.createElement("input");
+      const toggleText = document.createElement("span");
+      const note = document.createElement("div");
+
+      wrapper.className = "maps-demographics-control";
+      toggleLabel.className = "maps-demographics-control__toggle";
+      toggleInput.type = "checkbox";
+      toggleInput.className = "leaflet-control-layers-selector";
+      toggleText.textContent = "Show demographic overlay";
+      note.className = "maps-demographics-control__note";
+      note.textContent = "ACS estimates; block-group values may be less reliable.";
+
+      toggleLabel.appendChild(toggleInput);
+      toggleLabel.appendChild(toggleText);
+      wrapper.appendChild(geographyLabel.label);
+      wrapper.appendChild(categoryLabel.label);
+      wrapper.appendChild(metricLabel.label);
+      wrapper.appendChild(toggleLabel);
+      wrapper.appendChild(note);
+
+      demographicsControlElements = {
+        wrapper,
+        geographySelect: geographyLabel.select,
+        categorySelect: categoryLabel.select,
+        metricSelect: metricLabel.select,
+        toggleInput
+      };
+
+      geographyLabel.select.addEventListener("change", updateDemographicsMetricControls);
+      categoryLabel.select.addEventListener("change", updateDemographicsMetricControls);
+      metricLabel.select.addEventListener("change", updateDemographicOverlay);
+      toggleInput.addEventListener("change", updateDemographicOverlay);
+      updateDemographicsMetricControls();
+      return wrapper;
+    }
+
+    function createDemographicsSelect(labelText) {
+      const label = document.createElement("label");
+      const text = document.createElement("span");
+      const select = document.createElement("select");
+      text.textContent = labelText;
+      label.appendChild(text);
+      label.appendChild(select);
+      return { label, select };
+    }
+
+    function updateDemographicsMetricControls() {
+      if (!demographicsControlElements) return;
+      const { geographySelect, categorySelect, metricSelect } = demographicsControlElements;
+      const previousCategory = categorySelect.value;
+      const previousMetric = metricSelect.value;
+      const level = geographySelect.value || "tract";
+
+      geographySelect.replaceChildren();
+      Object.entries((censusMetricConfig && censusMetricConfig.geographies) || {}).forEach(([key, geography]) => {
+        const option = document.createElement("option");
+        option.value = key;
+        option.textContent = geography.label;
+        geographySelect.appendChild(option);
+      });
+      geographySelect.value = level;
+
+      categorySelect.replaceChildren();
+      (censusMetricConfig ? censusMetricConfig.categories : []).forEach((category) => {
+        const hasSupportedMetric = (category.metrics || []).some((metric) => (metric.supported_geographies || []).includes(level));
+        if (!hasSupportedMetric) return;
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.label;
+        categorySelect.appendChild(option);
+      });
+      if (previousCategory && Array.from(categorySelect.options).some((option) => option.value === previousCategory)) {
+        categorySelect.value = previousCategory;
+      }
+
+      metricSelect.replaceChildren();
+      getCensusMetricDefinitionsForLevel(level, categorySelect.value).forEach((metric) => {
+        const option = document.createElement("option");
+        option.value = metric.id;
+        option.textContent = metric.label;
+        metricSelect.appendChild(option);
+      });
+      if (previousMetric && Array.from(metricSelect.options).some((option) => option.value === previousMetric)) {
+        metricSelect.value = previousMetric;
+      }
+
+      updateDemographicOverlay();
+    }
+
+    function setCensusLayerActiveForDemographics(level) {
+      const layerType = getCensusLayerTypeForLevel(level);
+      const layer = getBoundaryLayer(layerType, "fill");
+      [
+        censusTractFillLayer,
+        censusTractBorderLayer,
+        censusBlockGroupFillLayer,
+        censusBlockGroupBorderLayer
+      ].forEach((censusLayer) => {
+        if (censusLayer !== layer && map.hasLayer(censusLayer)) {
+          map.removeLayer(censusLayer);
+        }
+      });
+      if (activeDemographicOverlay && demographicsControlElements.toggleInput.checked && layer && !map.hasLayer(layer)) {
+        map.addLayer(layer);
+      }
+      if (layer) {
+        trackBoundaryLayerStackSelection(layer);
+      }
+    }
+
+    function updateDemographicOverlay() {
+      if (!demographicsControlElements || !censusMetricConfig) return;
+      const { geographySelect, metricSelect, toggleInput } = demographicsControlElements;
+      if (!toggleInput.checked || !metricSelect.value) {
+        activeDemographicOverlay = null;
+      } else {
+        const layerType = getCensusLayerTypeForLevel(geographySelect.value);
+        activeDemographicOverlay = {
+          level: geographySelect.value,
+          layerType,
+          metricId: metricSelect.value,
+          breaks: getDemographicBreaks(layerType, metricSelect.value)
+        };
+        setCensusLayerActiveForDemographics(geographySelect.value);
+      }
+      refreshCensusLayerStyles();
+      renderDemographicLegend();
+      orderMapLayers();
+      syncDistrictLayerInputs();
+    }
+
+    function refreshCensusLayerStyles() {
+      [censusTractFillLayer, censusTractBorderLayer, censusBlockGroupFillLayer, censusBlockGroupBorderLayer].forEach(restoreBoundaryLayerFeatures);
+    }
+
+    function addDemographicsLegend() {
+      const LegendControl = L.Control.extend({
+        options: {
+          position: "bottomright"
+        },
+        onAdd: function () {
+          demographicsLegendElement = L.DomUtil.create("aside", "maps-demographics-legend");
+          L.DomEvent.disableClickPropagation(demographicsLegendElement);
+          L.DomEvent.disableScrollPropagation(demographicsLegendElement);
+          renderDemographicLegend();
+          return demographicsLegendElement;
+        }
+      });
+
+      map.addControl(new LegendControl());
+    }
+
+    function renderDemographicLegend() {
+      if (!demographicsLegendElement) return;
+      demographicsLegendElement.replaceChildren();
+      demographicsLegendElement.classList.toggle("is-open", Boolean(activeDemographicOverlay));
+      if (!activeDemographicOverlay) return;
+      const metric = getActiveDemographicMetric();
+      const title = document.createElement("strong");
+      const subtitle = document.createElement("span");
+      const swatches = document.createElement("div");
+      title.textContent = metric ? metric.label : "Demographic overlay";
+      subtitle.textContent = metric && metric.description ? metric.description : "ACS estimate";
+      swatches.className = "maps-demographics-legend__swatches";
+      (activeDemographicOverlay.breaks || []).forEach((item) => {
+        const row = document.createElement("span");
+        const swatch = document.createElement("span");
+        const label = document.createElement("span");
+        row.className = "maps-demographics-legend__row";
+        swatch.className = "maps-demographics-legend__swatch";
+        swatch.style.background = item.color;
+        label.textContent = `${formatCensusMetricValue(item.min, metric)} - ${formatCensusMetricValue(item.max, metric)}`;
+        row.appendChild(swatch);
+        row.appendChild(label);
+        swatches.appendChild(row);
+      });
+      demographicsLegendElement.appendChild(title);
+      demographicsLegendElement.appendChild(subtitle);
+      demographicsLegendElement.appendChild(swatches);
+    }
+
     function appendLayerControls(parent, controls) {
       controls.forEach((control) => {
         parent.appendChild(control.labelElement);
@@ -3497,6 +3804,10 @@ image: /media/2026/09/maps-featured.png
           appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer, { locationLayerType: "city" });
           appendGeographyLayerRow(overlays, "Counties", countyFillLayer, countyBorderLayer, { locationLayerType: "county" });
           appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer, { locationLayerType: "zipCode" });
+          overlays.appendChild(createLayerHeading("Census & Demographics"));
+          appendGeographyLayerRow(overlays, "Census Tracts", censusTractFillLayer, censusTractBorderLayer, { locationLayerType: "censusTract" });
+          appendGeographyLayerRow(overlays, "Census Block Groups", censusBlockGroupFillLayer, censusBlockGroupBorderLayer, { locationLayerType: "censusBlockGroup" });
+          overlays.appendChild(createDemographicsControl());
           overlays.appendChild(createLayerHeading("Neighborhood"));
           appendGeographyLayerRow(overlays, "Neighborhoods", neighborhoodFillLayer, neighborhoodBorderLayer, { locationLayerType: "neighborhood" });
           appendLayerControls(overlays, [
@@ -3617,6 +3928,8 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries", slug: "schoolboarddistricts", alternateLayers: [schoolBoardDistrictBorderLayer] });
       registerQueryLayer(["cities", "cityboundaries"], cityFillLayer, { group: "boundaries", slug: "cities", alternateLayers: [cityBorderLayer] });
       registerQueryLayer(["county", "counties", "countyboundaries", "duvalcounty", "duvalcountyboundary", "countyboundary"], countyFillLayer, { group: "boundaries", slug: "counties", alternateLayers: [countyBorderLayer] });
+      registerQueryLayer(["censustract", "censustracts", "tract", "tracts"], censusTractFillLayer, { group: "boundaries", slug: "censustracts", alternateLayers: [censusTractBorderLayer] });
+      registerQueryLayer(["censusblockgroup", "censusblockgroups", "blockgroup", "blockgroups"], censusBlockGroupFillLayer, { group: "boundaries", slug: "censusblockgroups", alternateLayers: [censusBlockGroupBorderLayer] });
       registerQueryLayer(["floridahouse", "house", "statehouse"], floridaHouseFillLayer, { group: "boundaries", slug: "floridahouse", alternateLayers: [floridaHouseBorderLayer] });
       registerQueryLayer(["floridasenate", "senate", "statesenate"], floridaSenateFillLayer, { group: "boundaries", slug: "floridasenate", alternateLayers: [floridaSenateBorderLayer] });
       registerQueryLayer(["zip", "zips", "zipcode", "zipcodes", "zcta", "zctas"], zipCodeFillLayer, { group: "boundaries", slug: "zipcodes", alternateLayers: [zipCodeBorderLayer] });
@@ -3677,6 +3990,12 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "county") {
         return getStringColorNumber(properties.geoid || properties.GEOID || properties.name || "County");
+      }
+      if (layerType === "censusTract") {
+        return getStringColorNumber(properties.geoid || properties.GEOID || properties.tract || properties.label || "Census Tract");
+      }
+      if (layerType === "censusBlockGroup") {
+        return getStringColorNumber(properties.geoid || properties.GEOID || properties.block_group || properties.label || "Census Block Group");
       }
       if (layerType === "schoolBoard") {
         return Number.parseInt(properties.school_board_district || properties.SB, 10);
@@ -3775,7 +4094,118 @@ image: /media/2026/09/maps-featured.png
       return colors[((Number.isFinite(boundaryNumber) ? boundaryNumber : 1) - 1) % colors.length];
     }
 
+    function isCensusLayerType(layerType) {
+      return layerType === "censusTract" || layerType === "censusBlockGroup";
+    }
+
+    function getCensusLevelForLayerType(layerType) {
+      if (layerType === "censusTract") return "tract";
+      if (layerType === "censusBlockGroup") return "blockGroup";
+      return "";
+    }
+
+    function getCensusLayerTypeForLevel(level) {
+      return level === "blockGroup" ? "censusBlockGroup" : "censusTract";
+    }
+
+    function getCensusMetricValue(feature, metricId) {
+      const metrics = ((feature || {}).properties || {}).metrics || {};
+      const metric = metrics[metricId] || {};
+      const value = Number(metric.value);
+      return Number.isFinite(value) ? value : null;
+    }
+
+    function getActiveDemographicMetric() {
+      if (!activeDemographicOverlay || !censusMetricConfig) return null;
+      return getCensusMetricDefinition(activeDemographicOverlay.metricId);
+    }
+
+    function getCensusMetricDefinition(metricId) {
+      if (!censusMetricConfig) return null;
+      for (const category of censusMetricConfig.categories || []) {
+        for (const metric of category.metrics || []) {
+          if (metric.id === metricId) {
+            return Object.assign({ category_id: category.id, category_label: category.label }, metric);
+          }
+        }
+      }
+      return null;
+    }
+
+    function getCensusMetricDefinitionsForLevel(level, categoryId) {
+      if (!censusMetricConfig) return [];
+      return (censusMetricConfig.categories || [])
+        .filter((category) => !categoryId || category.id === categoryId)
+        .flatMap((category) => (category.metrics || []).map((metric) => Object.assign({
+          category_id: category.id,
+          category_label: category.label
+        }, metric)))
+        .filter((metric) => (metric.supported_geographies || []).includes(level));
+    }
+
+    function formatCensusMetricValue(value, metric) {
+      if (!Number.isFinite(value)) return "Not available";
+      const format = metric && metric.format;
+      if (format === "currency") {
+        return value.toLocaleString(undefined, {
+          maximumFractionDigits: 0,
+          style: "currency",
+          currency: "USD"
+        });
+      }
+      if (format === "percent") {
+        return `${value.toLocaleString(undefined, { maximumFractionDigits: 1 })}%`;
+      }
+      if (format === "decimal1") {
+        return value.toLocaleString(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+      }
+      return Math.round(value).toLocaleString();
+    }
+
+    function getDemographicBreaks(layerType, metricId) {
+      const layer = getBoundaryLayer(layerType, "fill");
+      const values = [];
+      if (!layer || !layer.eachLayer) return [];
+      layer.eachLayer((featureLayer) => {
+        const value = getCensusMetricValue(featureLayer.feature, metricId);
+        if (Number.isFinite(value)) values.push(value);
+      });
+      values.sort((first, second) => first - second);
+      if (!values.length) return [];
+      return demographicColorScale.map((color, index) => {
+        const startIndex = Math.floor((index / demographicColorScale.length) * values.length);
+        const endIndex = Math.floor(((index + 1) / demographicColorScale.length) * values.length) - 1;
+        return {
+          color,
+          min: values[Math.max(0, startIndex)],
+          max: values[Math.max(0, Math.min(values.length - 1, endIndex))]
+        };
+      });
+    }
+
+    function getDemographicColor(value, breaks) {
+      if (!Number.isFinite(value) || !breaks.length) return "#d0d7de";
+      const match = breaks.find((item) => value <= item.max);
+      return (match || breaks[breaks.length - 1]).color;
+    }
+
+    function getDemographicBoundaryStyle(feature, mode, layerType) {
+      if (mode === "border" || !activeDemographicOverlay || !isCensusLayerType(layerType)) return null;
+      if (getCensusLevelForLayerType(layerType) !== activeDemographicOverlay.level) return null;
+      const value = getCensusMetricValue(feature, activeDemographicOverlay.metricId);
+      const color = getDemographicColor(value, activeDemographicOverlay.breaks || []);
+      return {
+        color: "#4b5563",
+        fillColor: color,
+        fillOpacity: Number.isFinite(value) ? 0.78 : 0.22,
+        opacity: 0.95,
+        weight: 0.75
+      };
+    }
+
     function getBoundaryStyle(feature, mode, layerType) {
+      const demographicStyle = getDemographicBoundaryStyle(feature, mode, layerType);
+      if (demographicStyle) return demographicStyle;
       const color = getBoundaryColor(feature, layerType);
 
       return {
@@ -3800,6 +4230,12 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "county") {
         return mode === "border" ? countyBorderLayer : countyFillLayer;
+      }
+      if (layerType === "censusTract") {
+        return mode === "border" ? censusTractBorderLayer : censusTractFillLayer;
+      }
+      if (layerType === "censusBlockGroup") {
+        return mode === "border" ? censusBlockGroupBorderLayer : censusBlockGroupFillLayer;
       }
       if (layerType === "schoolBoard") {
         return mode === "border" ? schoolBoardDistrictBorderLayer : schoolBoardDistrictFillLayer;
@@ -3847,6 +4283,12 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "county") {
         return properties.label || properties.name || properties.NAME || "County";
+      }
+      if (layerType === "censusTract") {
+        return properties.label || properties.name || "Census Tract";
+      }
+      if (layerType === "censusBlockGroup") {
+        return properties.label || properties.name || "Census Block Group";
       }
       if (layerType === "schoolBoard") {
         return properties.label || (properties.school_board_district ? `Duval County School Board District ${properties.school_board_district}` : "Duval County School Board District");
@@ -3909,6 +4351,12 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "county") {
         return properties.boundary_type || "County boundary";
+      }
+      if (layerType === "censusTract") {
+        return properties.acs_years ? `ACS ${properties.acs_years}` : "Census tract";
+      }
+      if (layerType === "censusBlockGroup") {
+        return properties.acs_years ? `ACS ${properties.acs_years}` : "Census block group";
       }
       if (layerType === "schoolBoard") {
         return properties.member_name || "";
@@ -4651,7 +5099,11 @@ image: /media/2026/09/maps-featured.png
         appendZipCodePopupDetails(popup, feature.properties || {});
       }
 
-      if (layerType !== "zipCode") {
+      if (isCensusLayerType(layerType)) {
+        appendCensusDemographicPopupDetails(popup, feature, layerType);
+      }
+
+      if (layerType !== "zipCode" && !isCensusLayerType(layerType)) {
         appendActivePointCounts(popup, pointCountFeature, boundaryTitle);
       }
 
@@ -4681,6 +5133,46 @@ image: /media/2026/09/maps-featured.png
       const censusReporterGeoid = `86000US${zipCode}`;
       appendCensusReporterProfileLink(popup, `https://censusreporter.org/profiles/${censusReporterGeoid}-${zipCode}/`);
       appendCensusReporterStats(popup, censusReporterGeoid);
+    }
+
+    function appendCensusDemographicPopupDetails(popup, feature, layerType) {
+      const properties = feature.properties || {};
+      const metrics = properties.metrics || {};
+      const activeMetric = getActiveDemographicMetric();
+      const populationMetric = getCensusMetricDefinition("total_population");
+      const densityMetric = getCensusMetricDefinition("population_density");
+      const selectedMetric = activeMetric && getCensusLevelForLayerType(layerType) === activeDemographicOverlay.level
+        ? activeMetric
+        : null;
+      const metricIds = [
+        selectedMetric && selectedMetric.id,
+        "total_population",
+        "population_density"
+      ].filter((id, index, ids) => id && ids.indexOf(id) === index && metrics[id]);
+
+      metricIds.forEach((metricId) => {
+        const metric = metricId === "total_population" ? populationMetric
+          : metricId === "population_density" ? densityMetric
+            : getCensusMetricDefinition(metricId);
+        if (!metric) return;
+        const metricRecord = metrics[metricId] || {};
+        appendCensusReporterLine(popup, metric.label, formatCensusMetricValue(Number(metricRecord.value), metric));
+        if (Number.isFinite(Number(metricRecord.moe))) {
+          appendCensusReporterLine(popup, `${metric.label} MOE`, formatCensusMetricValue(Number(metricRecord.moe), metric));
+        } else if (metricRecord.numerator !== null && metricRecord.denominator !== null) {
+          appendCensusReporterLine(popup, `${metric.label} uncertainty`, "derived rate; numerator/denominator retained");
+        }
+      });
+
+      if (properties.land_area_sq_mi) {
+        appendCensusReporterLine(popup, "Land area", `${formatOneDecimal(Number(properties.land_area_sq_mi))} sq mi`);
+      }
+      if (properties.acs_years) {
+        appendCensusReporterLine(popup, "Source", `ACS ${properties.acs_years}`);
+      }
+      if (properties.census_reporter_url) {
+        appendCensusReporterProfileLink(popup, properties.census_reporter_url);
+      }
     }
 
     function appendHealthZonePopupDetails(popup, properties) {
@@ -5644,6 +6136,7 @@ image: /media/2026/09/maps-featured.png
           }
           fillLayer.addData(geojson);
           borderLayer.addData(geojson);
+          updateDemographicOverlay();
           orderMapLayers();
           if (focusedBoundary) {
             applyFocusToBoundaryLayer(focusedBoundary.sourceLayer, focusedBoundary);
@@ -5685,7 +6178,19 @@ image: /media/2026/09/maps-featured.png
         });
     }
 
+    function loadCensusMetricConfig() {
+      fetchJsonData("/data/census-demographic-metrics.json", "Census demographic metric configuration")
+        .then((config) => {
+          censusMetricConfig = config;
+          updateDemographicsMetricControls();
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
+
     renderPlaces();
+    loadCensusMetricConfig();
     loadCouncilDistricts();
     loadBoundaryLayers(
       "/data/city-council-at-large-districts.geojson",
@@ -5724,6 +6229,18 @@ image: /media/2026/09/maps-featured.png
       countyFillLayer,
       countyBorderLayer,
       "county boundaries"
+    );
+    loadBoundaryLayers(
+      "/data/census-tracts.geojson",
+      censusTractFillLayer,
+      censusTractBorderLayer,
+      "Census tracts"
+    );
+    loadBoundaryLayers(
+      "/data/census-block-groups.geojson",
+      censusBlockGroupFillLayer,
+      censusBlockGroupBorderLayer,
+      "Census block groups"
     );
     loadBoundaryLayers(
       "https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson",
@@ -5833,6 +6350,7 @@ image: /media/2026/09/maps-featured.png
       position: "topleft"
     }).addTo(map);
     addPinnedCardPanel();
+    addDemographicsLegend();
     addFocusKeyboardShortcut();
     addCompareKeyboardShortcut();
     addMapContextMenuHandlers();
