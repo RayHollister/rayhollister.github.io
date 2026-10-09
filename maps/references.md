@@ -11,7 +11,7 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
 
 This map is provided as is, with no guarantee of accuracy, completeness, or currentness. It is a personal passion project and should not be considered canonical information.
 
-The information shown on the map is based on the sources listed below, using data available as of October 7, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
+The information shown on the map is based on the sources listed below, using data available as of October 8, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
 
 If you appreciate this project, you can [buy me a coffee! ☕️](https://buymeacoffee.com/rayhollister).
 
@@ -103,9 +103,19 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 
 ## Transportation
 
+- Train Tracks:
+  - Geometry source: [U.S. Census Bureau TIGERweb Transportation service, Railroads layer](https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Transportation/MapServer/9), queried as GeoJSON and clipped to the counties listed in the map's County Boundaries layer.
+  - Train Tracks
+- Train Stations:
+  - Point source: [OpenStreetMap](https://www.openstreetmap.org/), queried from Overpass for named rail station nodes, filtered to the counties listed in the map's County Boundaries layer, and separated from JTA Skyway stations.
+  - Train Stations
 - [JTA GTFS Archive](https://ride.jtafla.com/gtfs-archive/)
   - JTA Bus Routes
   - JTA Bus Stops
+  - JTA Skyway Routes
+  - JTA Skyway Stations
+  - St. Johns River Ferry
+  - Ferry Landings
   - Route counts shown in polygon cards are calculated from GTFS stop-to-route data, not from route line geometry. A route is counted for a polygon when at least one bus stop served by that route is inside the polygon or within 100 meters of the polygon boundary. Routes are deduplicated by GTFS `route_id`, so multiple route shapes or trips for the same route count once.
 
 ## Educational Institutions
