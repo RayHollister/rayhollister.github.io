@@ -11,7 +11,7 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
 
 This map is provided as is, with no guarantee of accuracy, completeness, or currentness. It is a personal passion project and should not be considered canonical information.
 
-The information shown on the map is based on the sources listed below, using data available as of October 7, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
+The information shown on the map is based on the sources listed below, using data available as of October 8, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
 
 If you appreciate this project, you can [buy me a coffee! ☕️](https://buymeacoffee.com/rayhollister).
 
@@ -115,6 +115,9 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 
 ## Transportation
 
+- Train Tracks:
+  - Geometry source: [U.S. Census Bureau TIGERweb Transportation service, Railroads layer](https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Transportation/MapServer/9), queried as GeoJSON for the current map county extent.
+  - Train Tracks
 - [JTA GTFS Archive](https://ride.jtafla.com/gtfs-archive/)
   - JTA Bus Routes
   - JTA Bus Stops

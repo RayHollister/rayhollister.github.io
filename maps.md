@@ -1690,6 +1690,10 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBusRouteStyle(feature),
       onEachFeature: (feature, layer) => addBusRouteInteractivity(feature, layer)
     });
+    const trainTracksLayer = L.geoJSON(null, {
+      style: () => getTrainTrackStyle(),
+      onEachFeature: (feature, layer) => addTrainTrackInteractivity(feature, layer)
+    });
     const busStopsLayer = L.geoJSON(null, {
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, getBusStopStyle()),
       onEachFeature: (feature, layer) => addBusStopInteractivity(feature, layer)
@@ -1849,6 +1853,7 @@ image: /media/2026/09/maps-featured.png
         .filter((layer) => map.hasLayer(layer) && !stackedPolygonLayers.includes(layer));
       const polygonLayers = stackedPolygonLayers.concat(unstackedPolygonLayers);
       const lineLayers = [
+        trainTracksLayer,
         busRoutesLayer
       ];
       const pointLayers = [
@@ -1923,6 +1928,7 @@ image: /media/2026/09/maps-featured.png
         neighborhoodOrganizationsLayer,
         jsoPoliceStationsLayer,
         busRoutesLayer,
+        trainTracksLayer,
         busStopsLayer,
         elementarySchoolsLayer,
         middleSchoolsLayer,
@@ -2111,6 +2117,7 @@ image: /media/2026/09/maps-featured.png
         jsoSubsectionBorderLayer,
         neighborhoodOrganizationsLayer,
         jsoPoliceStationsLayer,
+        trainTracksLayer,
         busStopsLayer,
         elementarySchoolsLayer,
         middleSchoolsLayer,
@@ -3417,6 +3424,14 @@ image: /media/2026/09/maps-featured.png
           getBusRouteTitle(feature)
         ].filter(Boolean).join("|");
       }
+      if (layerType === "trainTrack") {
+        return [
+          layerType,
+          properties.id,
+          properties.name,
+          properties.mtfcc
+        ].filter(Boolean).join("|");
+      }
       if (layerType === "busStop") {
         return [
           layerType,
@@ -3490,6 +3505,7 @@ image: /media/2026/09/maps-featured.png
     function getComparableFeatureTitle(feature, layerType) {
       const properties = feature.properties || {};
       if (layerType === "busRoute") return getBusRouteTitle(feature);
+      if (layerType === "trainTrack") return getTrainTrackTitle(feature);
       if (layerType === "busStop") return properties.stop_name || "JTA Bus Stop";
       if (layerType === "policeStation") return properties.name || "JSO Substation";
       if (layerType === "neighborhoodOrganization") return properties.name || "Neighborhood Organization";
@@ -3502,6 +3518,9 @@ image: /media/2026/09/maps-featured.png
     function createPinnedCardContent(card) {
       if (card.layerType === "busRoute") {
         return createBusRoutePopup(card.feature);
+      }
+      if (card.layerType === "trainTrack") {
+        return createTrainTrackPopup(card.feature);
       }
       if (card.layerType === "busStop") {
         return createBusStopPopup(card.feature);
@@ -3822,6 +3841,7 @@ image: /media/2026/09/maps-featured.png
           ]);
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
+            createBoundaryLayerInput("Train Tracks", trainTracksLayer, { geometryType: "line" }),
             createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer, { geometryType: "line" })
           ]);
           overlays.appendChild(createBusRouteFilterSection());
@@ -3943,6 +3963,7 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["jsosubsection", "jsosubsections", "jsosubsector", "jsosubsectors"], jsoSubsectionFillLayer, { group: "boundaries", slug: "jsosubsections", alternateLayers: [jsoSubsectionBorderLayer] });
       registerQueryLayer(["neighborhoodorganizations", "neighborhoodorgs", "neighborhoodpoints"], neighborhoodOrganizationsLayer, { slug: "neighborhoodorganizations" });
       registerQueryLayer(["substations", "jsosubstations", "policestations"], jsoPoliceStationsLayer, { slug: "substations" });
+      registerQueryLayer(["traintracks", "railroads", "railroad", "rails"], trainTracksLayer, { slug: "traintracks" });
       registerQueryLayer(["busroutes", "jtabusroutes", "routes"], busRoutesLayer, { slug: "busroutes" });
       registerQueryLayer(["busstops", "jtabusstops", "stops"], busStopsLayer, { slug: "busstops" });
       registerQueryLayer(["traditionalpublicelementary", "publicelementary", "elementaryschools"], fldoeTraditionalElementarySchoolsLayer, { slug: "traditionalpublicelementary" });
@@ -5430,6 +5451,14 @@ image: /media/2026/09/maps-featured.png
       };
     }
 
+    function getTrainTrackStyle() {
+      return {
+        color: "#525252",
+        opacity: 0.9,
+        weight: 2.25
+      };
+    }
+
     function getBusStopStyle() {
       return {
         color: "#ffffff",
@@ -5467,6 +5496,11 @@ image: /media/2026/09/maps-featured.png
       const properties = feature.properties || {};
       const name = [properties.route_short_name, properties.route_long_name].filter(Boolean).join(" - ");
       return name || `Route ${properties.route_id || ""}`.trim() || "JTA Bus Route";
+    }
+
+    function getTrainTrackTitle(feature) {
+      const properties = feature.properties || {};
+      return properties.name || "Train Tracks";
     }
 
     function registerBusRouteFeature(feature, layer) {
@@ -5512,6 +5546,24 @@ image: /media/2026/09/maps-featured.png
         scheduleLine.textContent = value;
         popup.appendChild(scheduleLine);
       });
+
+      return popup;
+    }
+
+    function createTrainTrackPopup(feature) {
+      const properties = feature.properties || {};
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+
+      popup.className = "maps-district-popup";
+      title.textContent = getTrainTrackTitle(feature);
+      popup.appendChild(title);
+
+      if (properties.mtfcc) {
+        const classLine = document.createElement("span");
+        classLine.textContent = `Census feature class ${properties.mtfcc}`;
+        popup.appendChild(classLine);
+      }
 
       return popup;
     }
@@ -5621,6 +5673,37 @@ image: /media/2026/09/maps-featured.png
           },
           mouseout: function () {
             layer.setStyle(getBusRouteStyle(feature));
+          }
+        });
+      }
+    }
+
+    function addTrainTrackInteractivity(feature, layer) {
+      const name = getTrainTrackTitle(feature);
+      layer.bindPopup(createTrainTrackPopup(feature));
+      if (name && supportsPointerHover) {
+        layer.bindTooltip(name, {
+          sticky: true
+        });
+      }
+      layer.on("click", function () {
+        if (compareModeEnabled) {
+          pinComparableFeature(feature, "trainTrack");
+        }
+      });
+      layer.on("contextmenu", function (event) {
+        showMapContextMenu(event, { feature, layer, layerType: "trainTrack" });
+      });
+      if (supportsPointerHover) {
+        layer.on({
+          mouseover: function () {
+            layer.setStyle({
+              opacity: 1,
+              weight: 4
+            });
+          },
+          mouseout: function () {
+            layer.setStyle(getTrainTrackStyle());
           }
         });
       }
@@ -6306,6 +6389,7 @@ image: /media/2026/09/maps-featured.png
       "Duval County health zones"
     );
     loadGeoJsonLayer("/data/duval-health-zones-by-zipcodes.geojson", healthZoneByZipCodeLayer, "Duval County health zones by listed ZIP codes");
+    loadGeoJsonLayer("/data/train-tracks.geojson", trainTracksLayer, "train tracks");
     loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
     loadGeoJsonLayer("/data/jta-bus-stops.geojson", busStopsLayer, "JTA bus stops");
     loadBoundaryLayers(
