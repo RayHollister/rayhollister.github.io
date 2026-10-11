@@ -1,0 +1,51 @@
+#!/bin/sh
+
+set -eu
+
+hostname="${JEKYLL_LOCAL_HOSTNAME:-local.rayhollister.com}"
+host="${JEKYLL_HOST:-0.0.0.0}"
+port="${JEKYLL_PORT:-4000}"
+cert_dir="${JEKYLL_SSL_DIR:-.jekyll-local}"
+cert_path="$cert_dir/$hostname.crt"
+key_path="$cert_dir/$hostname.key"
+
+brew_ruby="/opt/homebrew/opt/ruby/bin"
+brew_gem_bin="/opt/homebrew/lib/ruby/gems/4.0.0/bin"
+brew_gem_path="/Users/rayhollister/.gem/ruby/4.0.0:/opt/homebrew/lib/ruby/gems/4.0.0:/opt/homebrew/Cellar/ruby/4.0.2/lib/ruby/gems/4.0.0"
+
+mkdir -p "$cert_dir"
+
+if [ ! -f "$cert_path" ] || [ ! -f "$key_path" ]; then
+  openssl req \
+    -x509 \
+    -nodes \
+    -newkey rsa:2048 \
+    -days 825 \
+    -keyout "$key_path" \
+    -out "$cert_path" \
+    -subj "/CN=$hostname" \
+    -addext "subjectAltName=DNS:$hostname,DNS:localhost,IP:127.0.0.1"
+fi
+
+if command -v jekyll >/dev/null 2>&1; then
+  jekyll_cmd="jekyll"
+elif [ -x "$brew_gem_bin/jekyll" ]; then
+  export PATH="$brew_gem_bin:$brew_ruby:$PATH"
+  export GEM_HOME="/opt/homebrew/lib/ruby/gems/4.0.0"
+  export GEM_PATH="$brew_gem_path"
+  jekyll_cmd="$brew_gem_bin/jekyll"
+else
+  echo "Could not find Jekyll. Run script/bootstrap or install the Jekyll gem." >&2
+  exit 1
+fi
+
+echo "Serving https://$hostname:$port"
+echo "Certificate: $cert_path"
+echo "Key: $key_path"
+
+exec "$jekyll_cmd" serve \
+  --host "$host" \
+  --port "$port" \
+  --ssl-cert "$cert_path" \
+  --ssl-key "$key_path" \
+  "$@"
