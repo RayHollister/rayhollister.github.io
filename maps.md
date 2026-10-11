@@ -5206,10 +5206,15 @@ image: /media/2026/09/maps-featured.png
     function createTrainStationPopup(feature) {
       const properties = feature.properties || {};
       const popup = document.createElement("div");
-      const title = document.createElement("strong");
+      const title = document.createElement(properties.station_url ? "a" : "strong");
 
       popup.className = "maps-district-popup";
       title.textContent = getTrainStationTitle(feature);
+      if (properties.station_url) {
+        title.href = properties.station_url;
+        title.target = "_blank";
+        title.rel = "noopener";
+      }
       popup.appendChild(title);
 
       [
