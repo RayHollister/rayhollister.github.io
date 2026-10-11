@@ -109,6 +109,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Train Tracks
 - Train Stations:
   - Point source: [OpenStreetMap](https://www.openstreetmap.org/), queried from Overpass for named rail station nodes, filtered to the counties listed in the map's County Boundaries layer, and separated from JTA Skyway stations.
+  - Station detail pages: [Jacksonville Station](https://www.amtrak.com/stations/jax), [Palatka Station](https://www.amtrak.com/stations/pak)
   - Train Stations
 - [JTA GTFS Archive](https://ride.jtafla.com/gtfs-archive/)
   - JTA Bus Routes

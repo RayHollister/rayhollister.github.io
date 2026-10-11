@@ -5208,7 +5208,8 @@ image: /media/2026/09/maps-featured.png
       const popup = document.createElement("div");
       const title = document.createElement(properties.station_url ? "a" : "strong");
 
-      popup.className = "maps-district-popup";
+      popup.className = "maps-district-popup maps-train-station-card";
+      title.className = "maps-popup-title";
       title.textContent = getTrainStationTitle(feature);
       if (properties.station_url) {
         title.href = properties.station_url;
@@ -5219,8 +5220,8 @@ image: /media/2026/09/maps-featured.png
 
       [
         properties.operator,
-        properties.public_transport ? `Public transport: ${properties.public_transport}` : "",
-        properties.railway ? `Railway: ${properties.railway}` : ""
+        properties.station_type,
+        ...(Array.isArray(properties.address_lines) ? properties.address_lines : [])
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
         line.textContent = value;
