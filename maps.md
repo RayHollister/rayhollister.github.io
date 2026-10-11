@@ -1629,7 +1629,7 @@ image: /media/2026/09/maps-featured.png
       onEachFeature: (feature, layer) => addTrainStationInteractivity(feature, layer)
     });
     const brightlineStationsLayer = L.geoJSON(null, {
-      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getTrainStationStyle("#f2e205")),
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getTrainStationStyle("#5F6A73")),
       onEachFeature: (feature, layer) => addTrainStationInteractivity(feature, layer)
     });
     const sunrailStationsLayer = L.geoJSON(null, {
@@ -5192,7 +5192,7 @@ image: /media/2026/09/maps-featured.png
     function getTrainStationStyle(fillColor) {
       return {
         color: "#ffffff",
-        fillColor: fillColor || "#7c2d12",
+        fillColor: fillColor || "#00263A",
         fillOpacity: 0.95,
         opacity: 1,
         radius: 5,
