@@ -3739,7 +3739,7 @@ image: /media/2026/09/maps-featured.png
             createBoundaryLayerInput("Ferry Landings", ferryLandingsLayer, { countLabel: "Ferry Landings" })
           ]);
           overlays.appendChild(createLayerSubheading("Trains"));
-          appendLayerControls(overlays, [
+          const trainControls = [
             createBoundaryLayerInput("Train Tracks", trainTracksLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Amtrak Routes", amtrakRoutesLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Amtrak Stations", trainStationsLayer, { countLabel: "Amtrak Stations" }),
@@ -3749,7 +3749,11 @@ image: /media/2026/09/maps-featured.png
             createBoundaryLayerInput("SunRail Stations", sunrailStationsLayer, { countLabel: "SunRail Stations" }),
             createBoundaryLayerInput("Tri-Rail Routes", triRailRoutesLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Tri-Rail Stations", triRailStationsLayer, { countLabel: "Tri-Rail Stations" })
+          ];
+          appendLayerControls(overlays, [
+            createLayerGroupToggle("All Trains", trainControls)
           ]);
+          appendLayerControls(overlays, trainControls);
           const traditionalPublicSchoolControls = [
             createBoundaryLayerInput("Elementary", fldoeTraditionalElementarySchoolsLayer, { countLabel: "Traditional Public Elementary" }),
             createBoundaryLayerInput("Middle", fldoeTraditionalMiddleSchoolsLayer, { countLabel: "Traditional Public Middle" }),
