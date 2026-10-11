@@ -104,13 +104,23 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 ## Transportation
 
 - Train Tracks:
-  - Geometry source: [USDOT Bureau of Transportation Statistics / Federal Railroad Administration North American Rail Network Lines](https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_North_American_Rail_Network_Lines/FeatureServer/0), queried as GeoJSON and filtered to the counties listed in the map's County Boundaries layer.
+  - Geometry source: [USDOT Bureau of Transportation Statistics / Federal Railroad Administration North American Rail Network Lines](https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_North_American_Rail_Network_Lines/FeatureServer/0), queried as GeoJSON and filtered to Florida.
   - Note: This layer shows active rail network records from NARN; abandoned and disused rail corridors are not included.
   - Train Tracks
-- Train Stations:
-  - Point source: [OpenStreetMap](https://www.openstreetmap.org/), queried from Overpass for named rail station nodes, filtered to the counties listed in the map's County Boundaries layer, and separated from JTA Skyway stations.
+- Passenger Rail:
+  - Amtrak routes and stations: [Amtrak GTFS](https://content.amtrak.com/content/gtfs/GTFS.zip), filtered to Florida rail routes and stations.
   - Station detail pages: [Jacksonville Station](https://www.amtrak.com/stations/jax), [Palatka Station](https://www.amtrak.com/stations/pak)
-  - Train Stations
+  - Brightline routes and stations: [Brightline GTFS](https://feed.gobrightline.com/bl_gtfs.zip)
+  - SunRail routes and stations: [SunRail GTFS](https://corporate.sunrail.com/gtfs/google_transit.zip)
+  - Tri-Rail routes and stations: [Tri-Rail GTFS](https://gtfs.tri-rail.com/gtfs.zip)
+  - Amtrak Routes
+  - Amtrak Stations
+  - Brightline Routes
+  - Brightline Stations
+  - SunRail Routes
+  - SunRail Stations
+  - Tri-Rail Routes
+  - Tri-Rail Stations
 - [JTA GTFS Archive](https://ride.jtafla.com/gtfs-archive/)
   - JTA Bus Routes
   - JTA Bus Stops

@@ -1596,6 +1596,22 @@ image: /media/2026/09/maps-featured.png
       style: () => getTrainTrackStyle(),
       onEachFeature: (feature, layer) => addTrainTrackInteractivity(feature, layer)
     });
+    const amtrakRoutesLayer = L.geoJSON(null, {
+      style: (feature) => getBusRouteStyle(feature),
+      onEachFeature: (feature, layer) => addRailRouteInteractivity(feature, layer, "amtrakRoute")
+    });
+    const brightlineRoutesLayer = L.geoJSON(null, {
+      style: (feature) => getBusRouteStyle(feature),
+      onEachFeature: (feature, layer) => addRailRouteInteractivity(feature, layer, "brightlineRoute")
+    });
+    const sunrailRoutesLayer = L.geoJSON(null, {
+      style: (feature) => getBusRouteStyle(feature),
+      onEachFeature: (feature, layer) => addRailRouteInteractivity(feature, layer, "sunrailRoute")
+    });
+    const triRailRoutesLayer = L.geoJSON(null, {
+      style: (feature) => getBusRouteStyle(feature),
+      onEachFeature: (feature, layer) => addRailRouteInteractivity(feature, layer, "triRailRoute")
+    });
     const busStopsLayer = L.geoJSON(null, {
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, getBusStopStyle()),
       onEachFeature: (feature, layer) => addBusStopInteractivity(feature, layer)
@@ -1610,6 +1626,18 @@ image: /media/2026/09/maps-featured.png
     });
     const trainStationsLayer = L.geoJSON(null, {
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, getTrainStationStyle()),
+      onEachFeature: (feature, layer) => addTrainStationInteractivity(feature, layer)
+    });
+    const brightlineStationsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getTrainStationStyle("#f2e205")),
+      onEachFeature: (feature, layer) => addTrainStationInteractivity(feature, layer)
+    });
+    const sunrailStationsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getTrainStationStyle("#ed1c24")),
+      onEachFeature: (feature, layer) => addTrainStationInteractivity(feature, layer)
+    });
+    const triRailStationsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getTrainStationStyle("#009bdb")),
       onEachFeature: (feature, layer) => addTrainStationInteractivity(feature, layer)
     });
     const elementarySchoolsLayer = L.geoJSON(null, {
@@ -1675,6 +1703,7 @@ image: /media/2026/09/maps-featured.png
     const selectedBusRouteIds = new Set();
     const busRouteFilterInputs = new Map();
     const trimmedBusRouteLayerStates = new Map();
+    const trimmedTrainTrackLayerStates = new Map();
     let focusedBusRouteSelectionSnapshot;
     let busRouteFilterElement;
     let busRouteFilterListElement;
@@ -1766,7 +1795,11 @@ image: /media/2026/09/maps-featured.png
         busRoutesLayer,
         skywayRoutesLayer,
         ferryRouteLayer,
-        trainTracksLayer
+        trainTracksLayer,
+        amtrakRoutesLayer,
+        brightlineRoutesLayer,
+        sunrailRoutesLayer,
+        triRailRoutesLayer
       ];
       const pointLayers = [
         activePlaceLayer,
@@ -1777,6 +1810,9 @@ image: /media/2026/09/maps-featured.png
         skywayStationsLayer,
         ferryLandingsLayer,
         trainStationsLayer,
+        brightlineStationsLayer,
+        sunrailStationsLayer,
+        triRailStationsLayer,
         elementarySchoolsLayer,
         middleSchoolsLayer,
         highSchoolsLayer,
@@ -1845,7 +1881,14 @@ image: /media/2026/09/maps-featured.png
         ferryRouteLayer,
         ferryLandingsLayer,
         trainTracksLayer,
+        amtrakRoutesLayer,
+        brightlineRoutesLayer,
+        sunrailRoutesLayer,
+        triRailRoutesLayer,
         trainStationsLayer,
+        brightlineStationsLayer,
+        sunrailStationsLayer,
+        triRailStationsLayer,
         elementarySchoolsLayer,
         middleSchoolsLayer,
         highSchoolsLayer,
@@ -2035,7 +2078,14 @@ image: /media/2026/09/maps-featured.png
         skywayStationsLayer,
         ferryRouteLayer,
         ferryLandingsLayer,
+        amtrakRoutesLayer,
+        brightlineRoutesLayer,
+        sunrailRoutesLayer,
+        triRailRoutesLayer,
         trainStationsLayer,
+        brightlineStationsLayer,
+        sunrailStationsLayer,
+        triRailStationsLayer,
         elementarySchoolsLayer,
         middleSchoolsLayer,
         highSchoolsLayer,
@@ -2233,6 +2283,22 @@ image: /media/2026/09/maps-featured.png
       orderMapLayers();
     }
 
+    function clearTrimmedTrainTracks() {
+      if (!trimmedTrainTrackLayerStates.size) return;
+      trimmedTrainTrackLayerStates.forEach((state, layer) => {
+        if (layer.setLatLngs) {
+          layer.setLatLngs(state.latLngs);
+        }
+        if (state.wasVisible && !trainTracksLayer.hasLayer(layer)) {
+          trainTracksLayer.addLayer(layer);
+        } else if (!state.wasVisible && trainTracksLayer.hasLayer(layer)) {
+          trainTracksLayer.removeLayer(layer);
+        }
+      });
+      trimmedTrainTrackLayerStates.clear();
+      orderMapLayers();
+    }
+
     function applyFocusToBusRoutes(focusFeature) {
       if (!map.hasLayer(busRoutesLayer)) return;
       if (!focusedBusRouteSelectionSnapshot) {
@@ -2276,6 +2342,7 @@ image: /media/2026/09/maps-featured.png
     function clearMapFocus(options) {
       const settings = options || {};
       clearTrimmedBusRoutes();
+      clearTrimmedTrainTracks();
       restoreFocusLayerStates();
       restoreFocusedBusRouteSelection();
       focusedBoundary = undefined;
@@ -2300,6 +2367,7 @@ image: /media/2026/09/maps-featured.png
       }
 
       clearTrimmedBusRoutes();
+      clearTrimmedTrainTracks();
       restoreFocusLayerStates();
       focusedBoundary = {
         feature,
@@ -2561,6 +2629,31 @@ image: /media/2026/09/maps-featured.png
       return trimmedCount;
     }
 
+    function trimVisibleTrainTracksToFeature(polygonFeature) {
+      if (!map.hasLayer(trainTracksLayer) || !polygonFeature || !polygonFeature.geometry) return 0;
+      clearTrimmedTrainTracks();
+      let trimmedCount = 0;
+
+      trainTracksLayer.eachLayer((layer) => {
+        if (!trainTracksLayer.hasLayer(layer) || !layer.setLatLngs || !layer.feature) return;
+        const clippedGeometry = clipLineGeometryToFeature(layer.feature.geometry, polygonFeature);
+        trimmedTrainTrackLayerStates.set(layer, {
+          latLngs: cloneLayerLatLngs(layer.getLatLngs ? layer.getLatLngs() : []),
+          wasVisible: true
+        });
+
+        if (clippedGeometry) {
+          layer.setLatLngs(clippedGeometryToLatLngs(clippedGeometry));
+          trimmedCount += 1;
+        } else {
+          trainTracksLayer.removeLayer(layer);
+        }
+      });
+
+      orderMapLayers();
+      return trimmedCount;
+    }
+
     function showMapContextMenu(event, featureContext) {
       if (!event || !event.latlng) return;
       const originalEvent = event.originalEvent;
@@ -2654,6 +2747,25 @@ image: /media/2026/09/maps-featured.png
                 { force: true }
               );
               trimVisibleBusRoutesToFeature(focusFeature);
+              fitFeatureInMapView(focusFeature);
+              hideMapContextMenu();
+            }
+          ));
+        }
+        if (isPolygonContext && featureContext.layerType !== "trainTrack" && mapInteractionMode === "focus" && map.hasLayer(trainTracksLayer)) {
+          mapContextMenuElement.appendChild(createContextMenuButton(
+            "Trim Train Tracks",
+            `Trim visible train tracks to ${contextTitle}`,
+            () => {
+              const focusFeature = getFocusGeometryFeature(featureContext.feature, featureContext.layerType);
+              focusBoundaryFeature(
+                featureContext.feature,
+                featureContext.layer,
+                featureContext.mode,
+                featureContext.layerType,
+                { force: true }
+              );
+              trimVisibleTrainTracksToFeature(focusFeature);
               fitFeatureInMapView(focusFeature);
               hideMapContextMenu();
             }
@@ -3160,6 +3272,15 @@ image: /media/2026/09/maps-featured.png
           getBusRouteTitle(feature)
         ].filter(Boolean).join("|");
       }
+      if (layerType === "amtrakRoute" || layerType === "brightlineRoute" || layerType === "sunrailRoute" || layerType === "triRailRoute") {
+        return [
+          layerType,
+          properties.route_id,
+          properties.shape_id,
+          properties.segment_index,
+          getRailRouteTitle(feature)
+        ].filter(Boolean).join("|");
+      }
       if (layerType === "trainTrack") {
         return [
           layerType,
@@ -3256,6 +3377,7 @@ image: /media/2026/09/maps-featured.png
       const properties = feature.properties || {};
       if (layerType === "busRoute") return getBusRouteTitle(feature);
       if (layerType === "skywayRoute" || layerType === "ferryRoute") return getBusRouteTitle(feature);
+      if (layerType === "amtrakRoute" || layerType === "brightlineRoute" || layerType === "sunrailRoute" || layerType === "triRailRoute") return getRailRouteTitle(feature);
       if (layerType === "trainTrack") return getTrainTrackTitle(feature);
       if (layerType === "trainStation") return getTrainStationTitle(feature);
       if (layerType === "busStop") return properties.stop_name || "JTA Bus Stop";
@@ -3275,6 +3397,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (card.layerType === "skywayRoute" || card.layerType === "ferryRoute") {
         return createBusRoutePopup(card.feature);
+      }
+      if (card.layerType === "amtrakRoute" || card.layerType === "brightlineRoute" || card.layerType === "sunrailRoute" || card.layerType === "triRailRoute") {
+        return createRailRoutePopup(card.feature);
       }
       if (card.layerType === "trainTrack") {
         return createTrainTrackPopup(card.feature);
@@ -3613,7 +3738,14 @@ image: /media/2026/09/maps-featured.png
             createBoundaryLayerInput("St. Johns River Ferry", ferryRouteLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Ferry Landings", ferryLandingsLayer, { countLabel: "Ferry Landings" }),
             createBoundaryLayerInput("Train Tracks", trainTracksLayer, { geometryType: "line" }),
-            createBoundaryLayerInput("Train Stations", trainStationsLayer, { countLabel: "Train Stations" })
+            createBoundaryLayerInput("Amtrak Routes", amtrakRoutesLayer, { geometryType: "line" }),
+            createBoundaryLayerInput("Amtrak Stations", trainStationsLayer, { countLabel: "Amtrak Stations" }),
+            createBoundaryLayerInput("Brightline Routes", brightlineRoutesLayer, { geometryType: "line" }),
+            createBoundaryLayerInput("Brightline Stations", brightlineStationsLayer, { countLabel: "Brightline Stations" }),
+            createBoundaryLayerInput("SunRail Routes", sunrailRoutesLayer, { geometryType: "line" }),
+            createBoundaryLayerInput("SunRail Stations", sunrailStationsLayer, { countLabel: "SunRail Stations" }),
+            createBoundaryLayerInput("Tri-Rail Routes", triRailRoutesLayer, { geometryType: "line" }),
+            createBoundaryLayerInput("Tri-Rail Stations", triRailStationsLayer, { countLabel: "Tri-Rail Stations" })
           ]);
           const traditionalPublicSchoolControls = [
             createBoundaryLayerInput("Elementary", fldoeTraditionalElementarySchoolsLayer, { countLabel: "Traditional Public Elementary" }),
@@ -3729,7 +3861,14 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["neighborhoodorganizations", "neighborhoodorgs", "neighborhoodpoints"], neighborhoodOrganizationsLayer, { slug: "neighborhoodorganizations" });
       registerQueryLayer(["substations", "jsosubstations", "policestations"], jsoPoliceStationsLayer, { slug: "substations" });
       registerQueryLayer(["traintracks", "railroads", "railroad", "rails"], trainTracksLayer, { slug: "traintracks" });
-      registerQueryLayer(["trainstations", "railroadstations", "railstations", "stations"], trainStationsLayer, { slug: "trainstations" });
+      registerQueryLayer(["amtrakstations", "trainstations", "railroadstations", "railstations", "stations"], trainStationsLayer, { slug: "amtrakstations" });
+      registerQueryLayer(["amtrakroutes", "amtrak"], amtrakRoutesLayer, { slug: "amtrakroutes" });
+      registerQueryLayer(["brightlineroutes", "brightline"], brightlineRoutesLayer, { slug: "brightlineroutes" });
+      registerQueryLayer(["brightlinestations"], brightlineStationsLayer, { slug: "brightlinestations" });
+      registerQueryLayer(["sunrailroutes", "sunrail"], sunrailRoutesLayer, { slug: "sunrailroutes" });
+      registerQueryLayer(["sunrailstations"], sunrailStationsLayer, { slug: "sunrailstations" });
+      registerQueryLayer(["trirailroutes", "tri-railroutes", "trirail", "tri-rail"], triRailRoutesLayer, { slug: "trirailroutes" });
+      registerQueryLayer(["trirailstations", "tri-railstations"], triRailStationsLayer, { slug: "trirailstations" });
       registerQueryLayer(["busroutes", "jtabusroutes", "routes"], busRoutesLayer, { slug: "busroutes" });
       registerQueryLayer(["busstops", "jtabusstops", "stops"], busStopsLayer, { slug: "busstops" });
       registerQueryLayer(["skywayroutes", "jtaskywayroutes", "skyway"], skywayRoutesLayer, { slug: "skywayroutes" });
@@ -5050,10 +5189,10 @@ image: /media/2026/09/maps-featured.png
       };
     }
 
-    function getTrainStationStyle() {
+    function getTrainStationStyle(fillColor) {
       return {
         color: "#ffffff",
-        fillColor: "#7c2d12",
+        fillColor: fillColor || "#7c2d12",
         fillOpacity: 0.95,
         opacity: 1,
         radius: 5,
@@ -5120,6 +5259,12 @@ image: /media/2026/09/maps-featured.png
       const properties = feature.properties || {};
       const name = [properties.route_short_name, properties.route_long_name].filter(Boolean).join(" - ");
       return name || `Route ${properties.route_id || ""}`.trim() || "JTA Bus Route";
+    }
+
+    function getRailRouteTitle(feature) {
+      const properties = feature.properties || {};
+      const name = [properties.route_short_name, properties.route_long_name].filter(Boolean).join(" - ");
+      return name || properties.name || `${properties.agency || "Rail"} Route`;
     }
 
     function getTrainTrackTitle(feature) {
@@ -5194,6 +5339,34 @@ image: /media/2026/09/maps-featured.png
         properties.trackage_rights ? `Trackage rights: ${properties.trackage_rights}` : "",
         properties.county ? `County: ${properties.county}` : "",
         properties.tracks ? `Tracks: ${properties.tracks}` : ""
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+
+      return popup;
+    }
+
+    function createRailRoutePopup(feature) {
+      const properties = feature.properties || {};
+      const popup = document.createElement("div");
+      const title = document.createElement(properties.route_url ? "a" : "strong");
+
+      popup.className = "maps-district-popup";
+      title.className = "maps-popup-title";
+      title.textContent = getRailRouteTitle(feature);
+      if (properties.route_url) {
+        title.href = properties.route_url;
+        title.target = "_blank";
+        title.rel = "noopener";
+      }
+      popup.appendChild(title);
+
+      [
+        properties.agency,
+        properties.route_id ? `Route ${properties.route_id}` : "",
+        properties.source ? `Source: ${properties.source}` : ""
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
         line.textContent = value;
@@ -5362,6 +5535,37 @@ image: /media/2026/09/maps-featured.png
     function addTransitRouteInteractivity(feature, layer, layerType) {
       const name = getBusRouteTitle(feature);
       layer.bindPopup(createBusRoutePopup(feature));
+      if (name && supportsPointerHover) {
+        layer.bindTooltip(name, {
+          sticky: true
+        });
+      }
+      layer.on("click", function () {
+        if (compareModeEnabled) {
+          pinComparableFeature(feature, layerType);
+        }
+      });
+      layer.on("contextmenu", function (event) {
+        showMapContextMenu(event, { feature, layer, layerType });
+      });
+      if (supportsPointerHover) {
+        layer.on({
+          mouseover: function () {
+            layer.setStyle({
+              opacity: 1,
+              weight: 5
+            });
+          },
+          mouseout: function () {
+            layer.setStyle(getBusRouteStyle(feature));
+          }
+        });
+      }
+    }
+
+    function addRailRouteInteractivity(feature, layer, layerType) {
+      const name = getRailRouteTitle(feature);
+      layer.bindPopup(createRailRoutePopup(feature));
       if (name && supportsPointerHover) {
         layer.bindTooltip(name, {
           sticky: true
@@ -6120,7 +6324,14 @@ image: /media/2026/09/maps-featured.png
     loadGeoJsonLayer("/data/jta-skyway-stations.geojson", skywayStationsLayer, "JTA Skyway stations");
     loadGeoJsonLayer("/data/st-johns-river-ferry.geojson", ferryRouteLayer, "St. Johns River Ferry");
     loadGeoJsonLayer("/data/st-johns-river-ferry-landings.geojson", ferryLandingsLayer, "St. Johns River Ferry landings");
-    loadGeoJsonLayer("/data/train-stations.geojson", trainStationsLayer, "train stations");
+    loadGeoJsonLayer("/data/amtrak-routes.geojson", amtrakRoutesLayer, "Amtrak routes");
+    loadGeoJsonLayer("/data/amtrak-stations.geojson", trainStationsLayer, "Amtrak stations");
+    loadGeoJsonLayer("/data/brightline-routes.geojson", brightlineRoutesLayer, "Brightline routes");
+    loadGeoJsonLayer("/data/brightline-stations.geojson", brightlineStationsLayer, "Brightline stations");
+    loadGeoJsonLayer("/data/sunrail-routes.geojson", sunrailRoutesLayer, "SunRail routes");
+    loadGeoJsonLayer("/data/sunrail-stations.geojson", sunrailStationsLayer, "SunRail stations");
+    loadGeoJsonLayer("/data/tri-rail-routes.geojson", triRailRoutesLayer, "Tri-Rail routes");
+    loadGeoJsonLayer("/data/tri-rail-stations.geojson", triRailStationsLayer, "Tri-Rail stations");
     loadBoundaryLayers(
       "/data/jso-districts.geojson",
       jsoDistrictFillLayer,
