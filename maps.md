@@ -3736,7 +3736,10 @@ image: /media/2026/09/maps-featured.png
             createBoundaryLayerInput("JTA Skyway Routes", skywayRoutesLayer, { geometryType: "line" }),
             createBoundaryLayerInput("JTA Skyway Stations", skywayStationsLayer, { countLabel: "JTA Skyway Stations" }),
             createBoundaryLayerInput("St. Johns River Ferry", ferryRouteLayer, { geometryType: "line" }),
-            createBoundaryLayerInput("Ferry Landings", ferryLandingsLayer, { countLabel: "Ferry Landings" }),
+            createBoundaryLayerInput("Ferry Landings", ferryLandingsLayer, { countLabel: "Ferry Landings" })
+          ]);
+          overlays.appendChild(createLayerSubheading("Trains"));
+          appendLayerControls(overlays, [
             createBoundaryLayerInput("Train Tracks", trainTracksLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Amtrak Routes", amtrakRoutesLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Amtrak Stations", trainStationsLayer, { countLabel: "Amtrak Stations" }),
