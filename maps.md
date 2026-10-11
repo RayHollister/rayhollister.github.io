@@ -416,6 +416,21 @@ image: /media/2026/09/maps-featured.png
     margin-top: 0.35rem;
   }
 
+  .maps-layer-accordion {
+    margin: 0.35rem 0 0;
+  }
+
+  .maps-layer-accordion > summary {
+    color: #57606a;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .maps-layer-accordion__body {
+    margin: 0.2rem 0 0;
+  }
+
   .maps-layer-group-row {
     display: grid;
     gap: 0.3rem;
@@ -3190,6 +3205,21 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function createLayerAccordion(label, controls, open) {
+      const details = document.createElement("details");
+      const summary = document.createElement("summary");
+      const body = document.createElement("div");
+
+      details.className = "maps-layer-accordion";
+      details.open = Boolean(open);
+      summary.textContent = label;
+      body.className = "maps-layer-accordion__body";
+      appendLayerControls(body, controls);
+      details.appendChild(summary);
+      details.appendChild(body);
+      return details;
+    }
+
     function createGovernmentLayerOpacityControl() {
       const opacityLabel = document.createElement("label");
       const opacityInput = document.createElement("input");
@@ -3738,7 +3768,6 @@ image: /media/2026/09/maps-featured.png
             createBoundaryLayerInput("St. Johns River Ferry", ferryRouteLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Ferry Landings", ferryLandingsLayer, { countLabel: "Ferry Landings" })
           ]);
-          overlays.appendChild(createLayerSubheading("Trains"));
           const trainControls = [
             createBoundaryLayerInput("Train Tracks", trainTracksLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Amtrak Routes", amtrakRoutesLayer, { geometryType: "line" }),
@@ -3750,10 +3779,7 @@ image: /media/2026/09/maps-featured.png
             createBoundaryLayerInput("Tri-Rail Routes", triRailRoutesLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Tri-Rail Stations", triRailStationsLayer, { countLabel: "Tri-Rail Stations" })
           ];
-          appendLayerControls(overlays, [
-            createLayerGroupToggle("All Trains", trainControls)
-          ]);
-          appendLayerControls(overlays, trainControls);
+          overlays.appendChild(createLayerAccordion("Trains", trainControls, false));
           const traditionalPublicSchoolControls = [
             createBoundaryLayerInput("Elementary", fldoeTraditionalElementarySchoolsLayer, { countLabel: "Traditional Public Elementary" }),
             createBoundaryLayerInput("Middle", fldoeTraditionalMiddleSchoolsLayer, { countLabel: "Traditional Public Middle" }),
