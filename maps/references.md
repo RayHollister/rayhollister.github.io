@@ -111,6 +111,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Amtrak routes and stations: [Amtrak GTFS](https://content.amtrak.com/content/gtfs/GTFS.zip), filtered to Florida rail routes and stations.
   - Station detail pages: [Jacksonville Station](https://www.amtrak.com/stations/jax), [Palatka Station](https://www.amtrak.com/stations/pak)
   - Brightline routes and stations: [Brightline GTFS](https://feed.gobrightline.com/bl_gtfs.zip)
+  - Brightline pages: [Train Schedules](https://www.gobrightline.com/train-schedules), [Miami](https://www.gobrightline.com/miami), [Aventura](https://www.gobrightline.com/aventura), [Fort Lauderdale](https://www.gobrightline.com/fort-lauderdale), [Boca Raton](https://www.gobrightline.com/boca-raton), [West Palm Beach](https://www.gobrightline.com/west-palm-beach), [Orlando](https://www.gobrightline.com/orlando)
   - SunRail routes and stations: [SunRail GTFS](https://corporate.sunrail.com/gtfs/google_transit.zip)
   - Tri-Rail routes and stations: [Tri-Rail GTFS](https://gtfs.tri-rail.com/gtfs.zip)
   - Amtrak Routes
