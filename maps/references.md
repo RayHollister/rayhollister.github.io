@@ -104,7 +104,8 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 ## Transportation
 
 - Train Tracks:
-  - Geometry source: [U.S. Census Bureau TIGERweb Transportation service, Railroads layer](https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Transportation/MapServer/9), queried as GeoJSON and clipped to the counties listed in the map's County Boundaries layer.
+  - Geometry source: [USDOT Bureau of Transportation Statistics / Federal Railroad Administration North American Rail Network Lines](https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_North_American_Rail_Network_Lines/FeatureServer/0), queried as GeoJSON and filtered to the counties listed in the map's County Boundaries layer.
+  - Note: This layer shows active rail network records from NARN; abandoned and disused rail corridors are not included.
   - Train Tracks
 - Train Stations:
   - Point source: [OpenStreetMap](https://www.openstreetmap.org/), queried from Overpass for named rail station nodes, filtered to the counties listed in the map's County Boundaries layer, and separated from JTA Skyway stations.

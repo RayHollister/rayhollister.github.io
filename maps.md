@@ -5188,11 +5188,17 @@ image: /media/2026/09/maps-featured.png
       title.textContent = getTrainTrackTitle(feature);
       popup.appendChild(title);
 
-      if (properties.mtfcc) {
-        const classLine = document.createElement("span");
-        classLine.textContent = `Census feature class ${properties.mtfcc}`;
-        popup.appendChild(classLine);
-      }
+      [
+        properties.operator ? `Operator/owner: ${properties.operator}` : "",
+        properties.subdivision ? `Subdivision: ${properties.subdivision}` : "",
+        properties.trackage_rights ? `Trackage rights: ${properties.trackage_rights}` : "",
+        properties.county ? `County: ${properties.county}` : "",
+        properties.tracks ? `Tracks: ${properties.tracks}` : ""
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
 
       return popup;
     }
