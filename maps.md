@@ -1314,6 +1314,11 @@ image: /media/2026/09/maps-featured.png
       }
     }
 
+    function isLocalGeolocationBlocked(error) {
+      const message = error && error.message ? error.message : "";
+      return !window.isSecureContext && /secure origins/i.test(message);
+    }
+
     function findContainingFeature(layerGroup, latLng) {
       let containingFeature;
       if (!layerGroup || !layerGroup.eachLayer || !latLng) return containingFeature;
@@ -1433,6 +1438,10 @@ image: /media/2026/09/maps-featured.png
 
     map.on("locationerror", function (error) {
       setLocateControlState();
+      if (isLocalGeolocationBlocked(error)) {
+        console.warn(error.message || "Geolocation requires HTTPS or localhost.");
+        return;
+      }
       window.alert(error.message || "Could not determine your location.");
     });
 
