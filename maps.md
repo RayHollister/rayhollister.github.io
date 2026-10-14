@@ -226,7 +226,8 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-control-panel,
-  .maps-basemap-control {
+  .maps-basemap-control,
+  .maps-leadership-locations-control {
     background: #fff;
     overflow: hidden;
   }
@@ -256,11 +257,19 @@ image: /media/2026/09/maps-featured.png
     padding-right: 0.45rem;
   }
 
+  .maps-leadership-locations-control.is-open .maps-control-panel__header {
+    border-bottom: 1px solid #d0d7de;
+  }
+
   .maps-layers-control:not(.is-open) .maps-control-panel__header {
     display: block;
   }
 
   .maps-basemap-control:not(.is-open) .maps-control-panel__header {
+    display: block;
+  }
+
+  .maps-leadership-locations-control:not(.is-open) .maps-control-panel__header {
     display: block;
   }
 
@@ -377,6 +386,47 @@ image: /media/2026/09/maps-featured.png
   .maps-basemap-control button[data-base-map]:disabled {
     color: #8c959f;
     cursor: not-allowed;
+  }
+
+  .maps-leadership-locations-control .maps-control-panel__body {
+    display: flex;
+    flex-direction: column;
+    width: min(19rem, calc(100vw - 5rem));
+  }
+
+  .maps-leadership-locations-control__title {
+    color: #57606a;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.45rem 0.6rem 0.2rem;
+    text-transform: uppercase;
+  }
+
+  .maps-leadership-locations-control button[data-leadership-location] {
+    background: #fff;
+    border: 0;
+    border-bottom: 1px solid #d0d7de;
+    cursor: pointer;
+    font: inherit;
+    padding: 0.45rem 0.6rem;
+    text-align: left;
+  }
+
+  .maps-leadership-locations-control button[data-leadership-location]:last-child {
+    border-bottom: 0;
+  }
+
+  .maps-leadership-location-popup address {
+    font-style: normal;
+    margin: 0.35rem 0 0;
+  }
+
+  .maps-leadership-location-popup .maps-leadership-location-popup__date {
+    margin-top: 0;
+  }
+
+  .maps-leadership-location-popup .maps-leadership-location-popup__directions {
+    margin-top: 0.65rem;
   }
 
   .maps-layers-control .leaflet-control-layers-list {
@@ -1224,6 +1274,91 @@ image: /media/2026/09/maps-featured.png
       map.addControl(new BaseMapControl());
     }
 
+    function createDirectionsLink(label, href) {
+      const link = document.createElement("a");
+      link.href = href;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = label;
+      return link;
+    }
+
+    function createLeadershipLocationPopup(location) {
+      const popup = document.createElement("div");
+      const date = document.createElement("span");
+      const title = document.createElement("strong");
+      const address = document.createElement("address");
+      const directionsLabel = document.createElement("strong");
+      const destination = `${location.lat},${location.lng}`;
+
+      popup.className = "maps-district-popup maps-leadership-location-popup";
+      date.className = "maps-leadership-location-popup__date";
+      date.textContent = location.displayDate;
+      title.textContent = location.name;
+      location.addressLines.forEach((line, index) => {
+        if (index) address.appendChild(document.createElement("br"));
+        address.appendChild(document.createTextNode(line));
+      });
+      directionsLabel.className = "maps-leadership-location-popup__directions";
+      directionsLabel.textContent = "Get Directions:";
+
+      popup.appendChild(date);
+      popup.appendChild(title);
+      popup.appendChild(address);
+      popup.appendChild(directionsLabel);
+      popup.appendChild(createDirectionsLink("Google Maps", `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`));
+      popup.appendChild(createDirectionsLink("Apple Maps", `https://maps.apple.com/?daddr=${encodeURIComponent(destination)}&dirflg=d`));
+      popup.appendChild(createDirectionsLink("Waze Maps", `https://www.waze.com/ul?ll=${encodeURIComponent(destination)}&navigate=yes`));
+      return popup;
+    }
+
+    function addLeadershipJaxLocationsControl() {
+      const markers = leadershipJaxLocations.map((location) => {
+        const marker = L.marker([location.lat, location.lng], Object.assign({
+          title: `${location.displayDate} - ${location.name}`
+        }, markerIcon ? { icon: markerIcon } : {}));
+        marker.bindPopup(createLeadershipLocationPopup(location)).addTo(leadershipJaxLocationsLayer);
+        return { location, marker };
+      });
+
+      const LeadershipLocationsControl = L.Control.extend({
+        options: {
+          position: "topleft"
+        },
+        onAdd: function () {
+          const container = L.DomUtil.create("div", "maps-leadership-locations-control leaflet-bar leaflet-control");
+          const body = document.createElement("div");
+          const title = document.createElement("div");
+          let controlApi;
+
+          title.className = "maps-leadership-locations-control__title";
+          title.textContent = "Leadership Jax Locations";
+          body.appendChild(title);
+          markers.forEach(({ location, marker }, index) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.dataset.leadershipLocation = String(index);
+            button.textContent = location.menuLabel;
+            button.addEventListener("click", function () {
+              map.setView(marker.getLatLng(), 15);
+              marker.openPopup();
+              controlApi.setOpen(false);
+            });
+            body.appendChild(button);
+          });
+          container.appendChild(body);
+          controlApi = setupCollapsibleMapControl(container, "Leadership Jax Locations", body, {
+            iconPath: "M160 64C124.7 64 96 92.7 96 128L96 512C96 547.3 124.7 576 160 576L480 576C515.3 576 544 547.3 544 512L544 128C544 92.7 515.3 64 480 64L416 64C416 28.7 387.3 0 352 0L288 0C252.7 0 224 28.7 224 64L160 64zM288 48L352 48C360.8 48 368 55.2 368 64L368 96L272 96L272 64C272 55.2 279.2 48 288 48zM208 192L432 192C445.3 192 456 202.7 456 216C456 229.3 445.3 240 432 240L208 240C194.7 240 184 229.3 184 216C184 202.7 194.7 192 208 192zM208 288L432 288C445.3 288 456 298.7 456 312C456 325.3 445.3 336 432 336L208 336C194.7 336 184 325.3 184 312C184 298.7 194.7 288 208 288zM208 384L336 384C349.3 384 360 394.7 360 408C360 421.3 349.3 432 336 432L208 432C194.7 432 184 421.3 184 408C184 394.7 194.7 384 208 384z"
+          });
+          L.DomEvent.disableClickPropagation(container);
+          L.DomEvent.disableScrollPropagation(container);
+          return container;
+        }
+      });
+
+      map.addControl(new LeadershipLocationsControl());
+    }
+
     function createBaseMapHeaderActions() {
       const wrapper = document.createElement("div");
       const opacityLabel = document.createElement("label");
@@ -1470,8 +1605,27 @@ image: /media/2026/09/maps-featured.png
       shape: "circle",
       prefix: "fas"
     }) : undefined;
+    const leadershipJaxLocations = [
+      {
+        displayDate: "Thursday, 10/15/2026",
+        menuLabel: "10/15/26 - Feeding Northeast Florida",
+        name: "Feeding Northeast Florida",
+        addressLines: ["5245 Old Kings Road", "Jacksonville, FL 32254"],
+        lat: 30.364164280472675,
+        lng: -81.73475699989007
+      },
+      {
+        displayDate: "Thursday, 9/17/2026",
+        menuLabel: "9/17/26 - Ritz Theatre and Museum",
+        name: "Ritz Theatre and Museum",
+        addressLines: ["829 N. Davis Street", "Jacksonville, FL 32202"],
+        lat: 30.335230069603266,
+        lng: -81.66702419790622
+      }
+    ];
     const activePlaceLayer = L.layerGroup().addTo(map);
     const archivedPlaceLayer = L.layerGroup();
+    const leadershipJaxLocationsLayer = L.layerGroup().addTo(map);
     const councilDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getCouncilDistrictStyle(feature, "fill"),
       onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "fill")
@@ -1826,6 +1980,7 @@ image: /media/2026/09/maps-featured.png
         triRailRoutesLayer
       ];
       const pointLayers = [
+        leadershipJaxLocationsLayer,
         activePlaceLayer,
         archivedPlaceLayer,
         jsoPoliceStationsLayer,
@@ -6407,6 +6562,7 @@ image: /media/2026/09/maps-featured.png
     loadGeoJsonLayer("/data/duval-post-secondary-schools.geojson", postSecondarySchoolsLayer, "Duval post-secondary schools");
 
     addDistrictLayerControl();
+    addLeadershipJaxLocationsControl();
     zoomHomeControl = L.Control.zoomHome({
       position: "topleft"
     });
