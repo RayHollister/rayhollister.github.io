@@ -1335,12 +1335,14 @@ image: /media/2026/09/maps-featured.png
 
     function activateLeadershipLocationQuery(markers) {
       const queryIds = getLeadershipLocationQueryIds();
-      const activeMarkers = markers.filter(({ location, marker, input }) => {
-        if (!queryIds.includes(location.queryId)) return false;
-        input.checked = true;
-        leadershipJaxLocationsLayer.addLayer(marker);
-        return true;
-      });
+      const activeMarkers = markers
+        .filter(({ location, marker, input }) => {
+          if (!queryIds.includes(location.queryId)) return false;
+          input.checked = true;
+          leadershipJaxLocationsLayer.addLayer(marker);
+          return true;
+        })
+        .sort((first, second) => second.location.queryId - first.location.queryId);
       if (!activeMarkers.length) return;
 
       initialVisibleLayerFitComplete = true;
@@ -1351,6 +1353,7 @@ image: /media/2026/09/maps-featured.png
         map.fitBounds(bounds, { padding: [32, 32] });
       }
       orderMapLayers();
+      activeMarkers[0].marker.openPopup();
     }
 
     function addLeadershipJaxLocationsControl() {
