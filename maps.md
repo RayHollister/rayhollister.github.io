@@ -1342,7 +1342,7 @@ image: /media/2026/09/maps-featured.png
           leadershipJaxLocationsLayer.addLayer(marker);
           return true;
         })
-        .sort((first, second) => first.location.queryId - second.location.queryId);
+        .sort((first, second) => second.location.queryId - first.location.queryId);
       if (!activeMarkers.length) return;
 
       initialVisibleLayerFitComplete = true;
