@@ -1330,7 +1330,7 @@ image: /media/2026/09/maps-featured.png
           const title = document.createElement("div");
 
           title.className = "maps-leadership-locations-control__title";
-          title.textContent = "Leadership Jax Locations";
+          title.textContent = "LJ Training Locations";
           body.appendChild(title);
           markers.forEach(({ location, marker }) => {
             const row = document.createElement("label");
@@ -1355,7 +1355,7 @@ image: /media/2026/09/maps-featured.png
             body.appendChild(row);
           });
           container.appendChild(body);
-          setupCollapsibleMapControl(container, "Leadership Jax Locations", body, {
+          setupCollapsibleMapControl(container, "LJ Training Locations", body, {
             iconPath: "M160 64C124.7 64 96 92.7 96 128L96 512C96 547.3 124.7 576 160 576L480 576C515.3 576 544 547.3 544 512L544 128C544 92.7 515.3 64 480 64L416 64C416 28.7 387.3 0 352 0L288 0C252.7 0 224 28.7 224 64L160 64zM288 48L352 48C360.8 48 368 55.2 368 64L368 96L272 96L272 64C272 55.2 279.2 48 288 48zM208 192L432 192C445.3 192 456 202.7 456 216C456 229.3 445.3 240 432 240L208 240C194.7 240 184 229.3 184 216C184 202.7 194.7 192 208 192zM208 288L432 288C445.3 288 456 298.7 456 312C456 325.3 445.3 336 432 336L208 336C194.7 336 184 325.3 184 312C184 298.7 194.7 288 208 288zM208 384L336 384C349.3 384 360 394.7 360 408C360 421.3 349.3 432 336 432L208 432C194.7 432 184 421.3 184 408C184 394.7 194.7 384 208 384z"
           });
           L.DomEvent.disableClickPropagation(container);
@@ -1629,6 +1629,14 @@ image: /media/2026/09/maps-featured.png
         addressLines: ["829 N. Davis Street", "Jacksonville, FL 32202"],
         lat: 30.335230069603266,
         lng: -81.66702419790622
+      },
+      {
+        displayDate: "Thursday, 8/13/2026 & Friday, 8/14/2026",
+        menuLabel: "8/13/26 & 8/14/26 - LJ Opening Retreat",
+        name: "LJ Opening Retreat",
+        addressLines: ["World Golf Village Renaissance St. Augustine Resort", "500 S Legacy Trail", "St. Augustine, FL 32092, USA"],
+        lat: 29.98996,
+        lng: -81.46825
       }
     ];
     const activePlaceLayer = L.layerGroup().addTo(map);
