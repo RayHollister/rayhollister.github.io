@@ -1311,13 +1311,55 @@ image: /media/2026/09/maps-featured.png
       return popup;
     }
 
+    function getLeadershipLocationQueryIds() {
+      const params = new URLSearchParams(window.location.search);
+      return params.getAll("lj")
+        .flatMap((value) => String(value).split(","))
+        .map((value) => Number.parseInt(value, 10))
+        .filter((value) => Number.isInteger(value));
+    }
+
+    function updateLeadershipLocationQueryUrl(markers) {
+      const url = new URL(window.location.href);
+      const queryIds = markers
+        .filter(({ input }) => input.checked)
+        .map(({ location }) => location.queryId)
+        .sort((first, second) => first - second);
+
+      url.searchParams.delete("lj");
+      if (queryIds.length) {
+        url.searchParams.set("lj", queryIds.join(","));
+      }
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function activateLeadershipLocationQuery(markers) {
+      const queryIds = getLeadershipLocationQueryIds();
+      const activeMarkers = markers.filter(({ location, marker, input }) => {
+        if (!queryIds.includes(location.queryId)) return false;
+        input.checked = true;
+        leadershipJaxLocationsLayer.addLayer(marker);
+        return true;
+      });
+      if (!activeMarkers.length) return;
+
+      initialVisibleLayerFitComplete = true;
+      if (activeMarkers.length === 1) {
+        map.setView(activeMarkers[0].marker.getLatLng(), 15);
+      } else {
+        const bounds = L.latLngBounds(activeMarkers.map(({ marker }) => marker.getLatLng()));
+        map.fitBounds(bounds, { padding: [32, 32] });
+      }
+      orderMapLayers();
+    }
+
     function addLeadershipJaxLocationsControl() {
       const markers = leadershipJaxLocations.map((location) => {
         const marker = L.marker([location.lat, location.lng], {
           title: `${location.displayDate} - ${location.name}`
         });
         marker.bindPopup(createLeadershipLocationPopup(location));
-        return { location, marker };
+        return { location, marker, input: null };
       });
 
       const LeadershipLocationsControl = L.Control.extend({
@@ -1332,7 +1374,8 @@ image: /media/2026/09/maps-featured.png
           title.className = "maps-leadership-locations-control__title";
           title.textContent = "LJ Training Locations";
           body.appendChild(title);
-          markers.forEach(({ location, marker }) => {
+          markers.forEach((markerConfig) => {
+            const { location, marker } = markerConfig;
             const row = document.createElement("label");
             const input = document.createElement("input");
             const name = document.createElement("span");
@@ -1341,6 +1384,7 @@ image: /media/2026/09/maps-featured.png
             input.type = "checkbox";
             input.className = "leaflet-control-layers-selector";
             input.dataset.leadershipLocation = location.name;
+            markerConfig.input = input;
             name.textContent = location.menuLabel;
             input.addEventListener("change", function () {
               if (input.checked) {
@@ -1349,6 +1393,7 @@ image: /media/2026/09/maps-featured.png
                 leadershipJaxLocationsLayer.removeLayer(marker);
               }
               orderMapLayers();
+              updateLeadershipLocationQueryUrl(markers);
             });
             row.appendChild(input);
             row.appendChild(name);
@@ -1360,6 +1405,7 @@ image: /media/2026/09/maps-featured.png
           });
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
+          activateLeadershipLocationQuery(markers);
           return container;
         }
       });
@@ -1620,7 +1666,8 @@ image: /media/2026/09/maps-featured.png
         name: "Feeding Northeast Florida",
         addressLines: ["5245 Old Kings Road", "Jacksonville, FL 32254"],
         lat: 30.364164280472675,
-        lng: -81.73475699989007
+        lng: -81.73475699989007,
+        queryId: 3
       },
       {
         displayDate: "Thursday, 9/17/2026",
@@ -1628,7 +1675,8 @@ image: /media/2026/09/maps-featured.png
         name: "Ritz Theatre and Museum",
         addressLines: ["829 N. Davis Street", "Jacksonville, FL 32202"],
         lat: 30.335230069603266,
-        lng: -81.66702419790622
+        lng: -81.66702419790622,
+        queryId: 2
       },
       {
         displayDate: "Thursday, 8/13/2026 & Friday, 8/14/2026",
@@ -1636,7 +1684,8 @@ image: /media/2026/09/maps-featured.png
         name: "LJ Opening Retreat",
         addressLines: ["World Golf Village Renaissance St. Augustine Resort", "500 S Legacy Trail", "St. Augustine, FL 32092, USA"],
         lat: 29.98996,
-        lng: -81.46825
+        lng: -81.46825,
+        queryId: 1
       }
     ];
     const activePlaceLayer = L.layerGroup().addTo(map);
