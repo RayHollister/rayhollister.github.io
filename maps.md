@@ -402,18 +402,17 @@ image: /media/2026/09/maps-featured.png
     text-transform: uppercase;
   }
 
-  .maps-leadership-locations-control button[data-leadership-location] {
-    background: #fff;
-    border: 0;
-    border-bottom: 1px solid #d0d7de;
+  .maps-leadership-locations-control__row {
+    align-items: flex-start;
     cursor: pointer;
-    font: inherit;
-    padding: 0.45rem 0.6rem;
-    text-align: left;
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.35rem 0.6rem;
   }
 
-  .maps-leadership-locations-control button[data-leadership-location]:last-child {
-    border-bottom: 0;
+  .maps-leadership-locations-control__row input {
+    flex: 0 0 auto;
+    margin: 0.2rem 0 0;
   }
 
   .maps-leadership-location-popup address {
@@ -1314,10 +1313,10 @@ image: /media/2026/09/maps-featured.png
 
     function addLeadershipJaxLocationsControl() {
       const markers = leadershipJaxLocations.map((location) => {
-        const marker = L.marker([location.lat, location.lng], Object.assign({
+        const marker = L.marker([location.lat, location.lng], {
           title: `${location.displayDate} - ${location.name}`
-        }, markerIcon ? { icon: markerIcon } : {}));
-        marker.bindPopup(createLeadershipLocationPopup(location)).addTo(leadershipJaxLocationsLayer);
+        });
+        marker.bindPopup(createLeadershipLocationPopup(location));
         return { location, marker };
       });
 
@@ -1329,25 +1328,34 @@ image: /media/2026/09/maps-featured.png
           const container = L.DomUtil.create("div", "maps-leadership-locations-control leaflet-bar leaflet-control");
           const body = document.createElement("div");
           const title = document.createElement("div");
-          let controlApi;
 
           title.className = "maps-leadership-locations-control__title";
           title.textContent = "Leadership Jax Locations";
           body.appendChild(title);
-          markers.forEach(({ location, marker }, index) => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.dataset.leadershipLocation = String(index);
-            button.textContent = location.menuLabel;
-            button.addEventListener("click", function () {
-              map.setView(marker.getLatLng(), 15);
-              marker.openPopup();
-              controlApi.setOpen(false);
+          markers.forEach(({ location, marker }) => {
+            const row = document.createElement("label");
+            const input = document.createElement("input");
+            const name = document.createElement("span");
+
+            row.className = "maps-leadership-locations-control__row";
+            input.type = "checkbox";
+            input.className = "leaflet-control-layers-selector";
+            input.dataset.leadershipLocation = location.name;
+            name.textContent = location.menuLabel;
+            input.addEventListener("change", function () {
+              if (input.checked) {
+                leadershipJaxLocationsLayer.addLayer(marker);
+              } else {
+                leadershipJaxLocationsLayer.removeLayer(marker);
+              }
+              orderMapLayers();
             });
-            body.appendChild(button);
+            row.appendChild(input);
+            row.appendChild(name);
+            body.appendChild(row);
           });
           container.appendChild(body);
-          controlApi = setupCollapsibleMapControl(container, "Leadership Jax Locations", body, {
+          setupCollapsibleMapControl(container, "Leadership Jax Locations", body, {
             iconPath: "M160 64C124.7 64 96 92.7 96 128L96 512C96 547.3 124.7 576 160 576L480 576C515.3 576 544 547.3 544 512L544 128C544 92.7 515.3 64 480 64L416 64C416 28.7 387.3 0 352 0L288 0C252.7 0 224 28.7 224 64L160 64zM288 48L352 48C360.8 48 368 55.2 368 64L368 96L272 96L272 64C272 55.2 279.2 48 288 48zM208 192L432 192C445.3 192 456 202.7 456 216C456 229.3 445.3 240 432 240L208 240C194.7 240 184 229.3 184 216C184 202.7 194.7 192 208 192zM208 288L432 288C445.3 288 456 298.7 456 312C456 325.3 445.3 336 432 336L208 336C194.7 336 184 325.3 184 312C184 298.7 194.7 288 208 288zM208 384L336 384C349.3 384 360 394.7 360 408C360 421.3 349.3 432 336 432L208 432C194.7 432 184 421.3 184 408C184 394.7 194.7 384 208 384z"
           });
           L.DomEvent.disableClickPropagation(container);
