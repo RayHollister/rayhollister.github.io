@@ -4014,7 +4014,11 @@ image: /media/2026/09/maps-featured.png
           const interstateControls = interstateRouteNumbers.map((routeNumber) => (
             createBoundaryLayerInput(`I-${routeNumber}`, interstateLayersByRouteNumber.get(routeNumber), { geometryType: "line" })
           ));
-          overlays.appendChild(createLayerAccordion("Interstates", interstateControls, false));
+          const allInterstateControls = [
+            createLayerGroupToggle("All Interstates", interstateControls),
+            ...interstateControls
+          ];
+          overlays.appendChild(createLayerAccordion("Interstates", allInterstateControls, false));
           const trainControls = [
             createBoundaryLayerInput("Train Tracks", trainTracksLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Amtrak Routes", amtrakRoutesLayer, { geometryType: "line" }),
