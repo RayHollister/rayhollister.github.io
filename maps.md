@@ -1838,6 +1838,14 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBusRouteStyle(feature),
       onEachFeature: (feature, layer) => addTransitRouteInteractivity(feature, layer, "ferryRoute")
     });
+    const interstateRouteNumbers = ["4", "10", "75", "95", "110", "175", "195", "275", "295", "375", "395", "595"];
+    const interstateLayersByRouteNumber = new Map(interstateRouteNumbers.map((routeNumber) => [
+      routeNumber,
+      L.geoJSON(null, {
+        style: () => getInterstateStyle(),
+        onEachFeature: (feature, layer) => addInterstateInteractivity(feature, layer)
+      })
+    ]));
     const trainTracksLayer = L.geoJSON(null, {
       style: () => getTrainTrackStyle(),
       onEachFeature: (feature, layer) => addTrainTrackInteractivity(feature, layer)
@@ -2041,6 +2049,7 @@ image: /media/2026/09/maps-featured.png
         busRoutesLayer,
         skywayRoutesLayer,
         ferryRouteLayer,
+        ...interstateLayersByRouteNumber.values(),
         trainTracksLayer,
         amtrakRoutesLayer,
         brightlineRoutesLayer,
@@ -2127,6 +2136,7 @@ image: /media/2026/09/maps-featured.png
         skywayStationsLayer,
         ferryRouteLayer,
         ferryLandingsLayer,
+        ...interstateLayersByRouteNumber.values(),
         trainTracksLayer,
         amtrakRoutesLayer,
         brightlineRoutesLayer,
@@ -2325,6 +2335,7 @@ image: /media/2026/09/maps-featured.png
         skywayStationsLayer,
         ferryRouteLayer,
         ferryLandingsLayer,
+        ...interstateLayersByRouteNumber.values(),
         amtrakRoutesLayer,
         brightlineRoutesLayer,
         sunrailRoutesLayer,
@@ -4000,6 +4011,10 @@ image: /media/2026/09/maps-featured.png
             createBoundaryLayerInput("St. Johns River Ferry", ferryRouteLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Ferry Landings", ferryLandingsLayer, { countLabel: "Ferry Landings" })
           ]);
+          const interstateControls = interstateRouteNumbers.map((routeNumber) => (
+            createBoundaryLayerInput(`I-${routeNumber}`, interstateLayersByRouteNumber.get(routeNumber), { geometryType: "line" })
+          ));
+          overlays.appendChild(createLayerAccordion("Interstates", interstateControls, false));
           const trainControls = [
             createBoundaryLayerInput("Train Tracks", trainTracksLayer, { geometryType: "line" }),
             createBoundaryLayerInput("Amtrak Routes", amtrakRoutesLayer, { geometryType: "line" }),
@@ -4125,6 +4140,13 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["jsosubsection", "jsosubsections", "jsosubsector", "jsosubsectors"], jsoSubsectionFillLayer, { group: "boundaries", slug: "jsosubsections", alternateLayers: [jsoSubsectionBorderLayer] });
       registerQueryLayer(["neighborhoodorganizations", "neighborhoodorgs", "neighborhoodpoints"], neighborhoodOrganizationsLayer, { slug: "neighborhoodorganizations" });
       registerQueryLayer(["substations", "jsosubstations", "policestations"], jsoPoliceStationsLayer, { slug: "substations" });
+      interstateRouteNumbers.forEach((routeNumber) => {
+        registerQueryLayer(
+          [`i${routeNumber}`, `interstate${routeNumber}`],
+          interstateLayersByRouteNumber.get(routeNumber),
+          { slug: `i${routeNumber}` }
+        );
+      });
       registerQueryLayer(["traintracks", "railroads", "railroad", "rails"], trainTracksLayer, { slug: "traintracks" });
       registerQueryLayer(["amtrakstations", "trainstations", "railroadstations", "railstations", "stations"], trainStationsLayer, { slug: "amtrakstations" });
       registerQueryLayer(["amtrakroutes", "amtrak"], amtrakRoutesLayer, { slug: "amtrakroutes" });
@@ -5454,6 +5476,14 @@ image: /media/2026/09/maps-featured.png
       };
     }
 
+    function getInterstateStyle() {
+      return {
+        color: "#1d4ed8",
+        opacity: 0.9,
+        weight: 4
+      };
+    }
+
     function getTrainStationStyle(fillColor) {
       return {
         color: "#ffffff",
@@ -5537,6 +5567,11 @@ image: /media/2026/09/maps-featured.png
       return properties.name || "Train Tracks";
     }
 
+    function getInterstateTitle(feature) {
+      const properties = feature.properties || {};
+      return properties.name || (properties.route_number ? `I-${properties.route_number}` : "Interstate");
+    }
+
     function getTrainStationTitle(feature) {
       const properties = feature.properties || {};
       return properties.name || "Train Station";
@@ -5604,6 +5639,27 @@ image: /media/2026/09/maps-featured.png
         properties.trackage_rights ? `Trackage rights: ${properties.trackage_rights}` : "",
         properties.county ? `County: ${properties.county}` : "",
         properties.tracks ? `Tracks: ${properties.tracks}` : ""
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+
+      return popup;
+    }
+
+    function createInterstatePopup(feature) {
+      const properties = feature.properties || {};
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+
+      popup.className = "maps-district-popup";
+      title.textContent = getInterstateTitle(feature);
+      popup.appendChild(title);
+
+      [
+        properties.county ? `County: ${properties.county}` : "",
+        properties.fdot_district ? `FDOT district: ${properties.fdot_district}` : ""
       ].filter(Boolean).forEach((value) => {
         const line = document.createElement("span");
         line.textContent = value;
@@ -5854,6 +5910,27 @@ image: /media/2026/09/maps-featured.png
           },
           mouseout: function () {
             layer.setStyle(getBusRouteStyle(feature));
+          }
+        });
+      }
+    }
+
+    function addInterstateInteractivity(feature, layer) {
+      const name = getInterstateTitle(feature);
+      layer.bindPopup(createInterstatePopup(feature));
+      if (name && supportsPointerHover) {
+        layer.bindTooltip(name, {
+          sticky: true
+        });
+        layer.on({
+          mouseover: function () {
+            layer.setStyle({
+              opacity: 1,
+              weight: 6
+            });
+          },
+          mouseout: function () {
+            layer.setStyle(getInterstateStyle());
           }
         });
       }
@@ -6478,6 +6555,33 @@ image: /media/2026/09/maps-featured.png
         });
     }
 
+    function loadInterstateLayers(url) {
+      beginMapDataLoad();
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Could not load Florida interstates: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((geojson) => {
+          (geojson.features || []).forEach((feature) => {
+            const routeNumber = String((feature.properties || {}).route_number || "");
+            const interstateLayer = interstateLayersByRouteNumber.get(routeNumber);
+            if (interstateLayer) {
+              interstateLayer.addData(feature);
+            }
+          });
+          orderMapLayers();
+        })
+        .catch((error) => {
+          console.warn(error);
+        })
+        .finally(() => {
+          finishMapDataLoad();
+        });
+    }
+
     renderPlaces();
     loadCouncilDistricts();
     loadBoundaryLayers(
@@ -6582,6 +6686,7 @@ image: /media/2026/09/maps-featured.png
       "Duval County health zones"
     );
     loadGeoJsonLayer("/data/duval-health-zones-by-zipcodes.geojson", healthZoneByZipCodeLayer, "Duval County health zones by listed ZIP codes");
+    loadInterstateLayers("/data/florida-interstates.geojson");
     loadGeoJsonLayer("/data/train-tracks.geojson", trainTracksLayer, "train tracks");
     loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
     loadGeoJsonLayer("/data/jta-bus-stops.geojson", busStopsLayer, "JTA bus stops");

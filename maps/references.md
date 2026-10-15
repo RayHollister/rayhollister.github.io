@@ -103,6 +103,9 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 
 ## Transportation
 
+- Interstates:
+  - Geometry source: [Florida Department of Transportation Transportation Data & Analytics Interstates](https://www.arcgis.com/home/item.html?id=03d781d37e314a1a8dcb99187220f3dd), derived from the FDOT Roadway Characteristics Inventory and queried as GeoJSON.
+  - I-4, I-10, I-75, I-95, I-110, I-175, I-195, I-275, I-295, I-375, I-395, and I-595
 - Train Tracks:
   - Geometry source: [USDOT Bureau of Transportation Statistics / Federal Railroad Administration North American Rail Network Lines](https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_North_American_Rail_Network_Lines/FeatureServer/0), queried as GeoJSON and filtered to Florida.
   - Note: This layer shows active rail network records from NARN; abandoned and disused rail corridors are not included.
