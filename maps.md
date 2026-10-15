@@ -1846,6 +1846,14 @@ image: /media/2026/09/maps-featured.png
         onEachFeature: (feature, layer) => addInterstateInteractivity(feature, layer)
       })
     ]));
+    const duvalInterstatesLayer = L.geoJSON(null, {
+      style: () => getInterstateStyle(),
+      onEachFeature: (feature, layer) => addInterstateInteractivity(feature, layer)
+    });
+    const northeastFloridaInterstatesLayer = L.geoJSON(null, {
+      style: () => getInterstateStyle(),
+      onEachFeature: (feature, layer) => addInterstateInteractivity(feature, layer)
+    });
     const trainTracksLayer = L.geoJSON(null, {
       style: () => getTrainTrackStyle(),
       onEachFeature: (feature, layer) => addTrainTrackInteractivity(feature, layer)
@@ -2049,6 +2057,8 @@ image: /media/2026/09/maps-featured.png
         busRoutesLayer,
         skywayRoutesLayer,
         ferryRouteLayer,
+        duvalInterstatesLayer,
+        northeastFloridaInterstatesLayer,
         ...interstateLayersByRouteNumber.values(),
         trainTracksLayer,
         amtrakRoutesLayer,
@@ -2136,6 +2146,8 @@ image: /media/2026/09/maps-featured.png
         skywayStationsLayer,
         ferryRouteLayer,
         ferryLandingsLayer,
+        duvalInterstatesLayer,
+        northeastFloridaInterstatesLayer,
         ...interstateLayersByRouteNumber.values(),
         trainTracksLayer,
         amtrakRoutesLayer,
@@ -2335,6 +2347,8 @@ image: /media/2026/09/maps-featured.png
         skywayStationsLayer,
         ferryRouteLayer,
         ferryLandingsLayer,
+        duvalInterstatesLayer,
+        northeastFloridaInterstatesLayer,
         ...interstateLayersByRouteNumber.values(),
         amtrakRoutesLayer,
         brightlineRoutesLayer,
@@ -4016,6 +4030,8 @@ image: /media/2026/09/maps-featured.png
           ));
           const allInterstateControls = [
             createLayerGroupToggle("All Interstates", interstateControls),
+            createBoundaryLayerInput("Duval Interstates", duvalInterstatesLayer, { geometryType: "line" }),
+            createBoundaryLayerInput("NE FL Interstates", northeastFloridaInterstatesLayer, { geometryType: "line" }),
             ...interstateControls
           ];
           overlays.appendChild(createLayerAccordion("Interstates", allInterstateControls, false));
@@ -4151,6 +4167,8 @@ image: /media/2026/09/maps-featured.png
           { slug: `i${routeNumber}` }
         );
       });
+      registerQueryLayer(["duvalinterstates", "duvalhighways"], duvalInterstatesLayer, { slug: "duvalinterstates" });
+      registerQueryLayer(["neflinterstates", "northeastfloridainterstates"], northeastFloridaInterstatesLayer, { slug: "neflinterstates" });
       registerQueryLayer(["traintracks", "railroads", "railroad", "rails"], trainTracksLayer, { slug: "traintracks" });
       registerQueryLayer(["amtrakstations", "trainstations", "railroadstations", "railstations", "stations"], trainStationsLayer, { slug: "amtrakstations" });
       registerQueryLayer(["amtrakroutes", "amtrak"], amtrakRoutesLayer, { slug: "amtrakroutes" });
@@ -6559,16 +6577,35 @@ image: /media/2026/09/maps-featured.png
         });
     }
 
+    function addClippedInterstatesToLayer(geojson, countyFeatures, targetLayer) {
+      (geojson.features || []).forEach((feature) => {
+        countyFeatures.forEach((countyFeature) => {
+          const clippedGeometry = clipLineGeometryToFeature(feature.geometry, countyFeature);
+          if (!clippedGeometry) return;
+          targetLayer.addData({
+            ...feature,
+            geometry: clippedGeometry
+          });
+        });
+      });
+    }
+
     function loadInterstateLayers(url) {
+      const northeastFloridaCountyNames = new Set([
+        "Baker County",
+        "Clay County",
+        "Duval County",
+        "Flagler County",
+        "Nassau County",
+        "Putnam County",
+        "St. Johns County"
+      ]);
       beginMapDataLoad();
-      fetch(url)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Could not load Florida interstates: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((geojson) => {
+      Promise.all([
+        fetchJsonData(url, "Florida interstates"),
+        fetchJsonData("/data/counties.geojson", "county boundaries")
+      ])
+        .then(([geojson, countyGeojson]) => {
           (geojson.features || []).forEach((feature) => {
             const routeNumber = String((feature.properties || {}).route_number || "");
             const interstateLayer = interstateLayersByRouteNumber.get(routeNumber);
@@ -6576,6 +6613,15 @@ image: /media/2026/09/maps-featured.png
               interstateLayer.addData(feature);
             }
           });
+          const countyFeatures = countyGeojson.features || [];
+          const duvalCountyFeatures = countyFeatures.filter((feature) => (
+            (feature.properties || {}).county_name === "Duval County"
+          ));
+          const northeastFloridaCountyFeatures = countyFeatures.filter((feature) => (
+            northeastFloridaCountyNames.has((feature.properties || {}).county_name)
+          ));
+          addClippedInterstatesToLayer(geojson, duvalCountyFeatures, duvalInterstatesLayer);
+          addClippedInterstatesToLayer(geojson, northeastFloridaCountyFeatures, northeastFloridaInterstatesLayer);
           orderMapLayers();
         })
         .catch((error) => {
