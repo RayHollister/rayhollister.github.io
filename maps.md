@@ -966,6 +966,50 @@ image: /media/2026/09/maps-featured.png
     background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="rgb(252, 132, 40)" d="M445 4 29 195c-48 23-32 93 19 93h176v176c0 51 70 67 93 19L508 67c16-38-25-79-63-63z"/></svg>');
   }
 
+  .maps-user-location-icon {
+    background: transparent;
+    border: 0;
+  }
+
+  .maps-user-location-marker {
+    height: 44px;
+    position: relative;
+    width: 44px;
+  }
+
+  .maps-user-location-marker__heading {
+    height: 44px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transform: rotate(var(--maps-user-heading, 0deg));
+    transition: transform 120ms linear;
+    width: 44px;
+  }
+
+  .maps-user-location-marker.has-heading .maps-user-location-marker__heading {
+    opacity: 1;
+  }
+
+  .maps-user-location-marker__heading svg {
+    display: block;
+    height: 44px;
+    width: 44px;
+  }
+
+  .maps-user-location-marker__dot {
+    background: #2074b6;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 45%);
+    height: 14px;
+    left: 12px;
+    position: absolute;
+    top: 12px;
+    width: 14px;
+  }
+
   @keyframes leaflet-control-locate-spin {
     0% {
       transform: rotate(0deg);
@@ -1440,6 +1484,8 @@ image: /media/2026/09/maps-featured.png
     }
 
     let userAccuracyCircle;
+    let userHeading;
+    let userHeadingTrackingStarted = false;
     let userLocationMarker;
     let userLocationLatLng;
     let locateControlContainer;
@@ -1457,6 +1503,71 @@ image: /media/2026/09/maps-featured.png
       "usSenate"
     ]);
 
+    function isMobileLocationHeadingEnabled() {
+      return window.matchMedia && window.matchMedia("(max-width: 760px)").matches;
+    }
+
+    function getScreenOrientationAngle() {
+      if (window.screen && window.screen.orientation && Number.isFinite(window.screen.orientation.angle)) {
+        return window.screen.orientation.angle;
+      }
+      return Number.isFinite(window.orientation) ? window.orientation : 0;
+    }
+
+    function updateUserLocationHeadingMarker() {
+      if (!userLocationMarker || !Number.isFinite(userHeading)) return;
+      const markerElement = userLocationMarker.getElement();
+      const headingElement = markerElement && markerElement.querySelector(".maps-user-location-marker");
+      if (!headingElement) return;
+      headingElement.classList.add("has-heading");
+      headingElement.style.setProperty("--maps-user-heading", `${userHeading}deg`);
+    }
+
+    function handleDeviceOrientation(event) {
+      let heading;
+      if (Number.isFinite(event.webkitCompassHeading)) {
+        heading = event.webkitCompassHeading;
+      } else if (event.absolute && Number.isFinite(event.alpha)) {
+        heading = 360 - event.alpha + getScreenOrientationAngle();
+      }
+      if (!Number.isFinite(heading)) return;
+      userHeading = ((heading % 360) + 360) % 360;
+      updateUserLocationHeadingMarker();
+    }
+
+    function startMobileLocationHeading() {
+      if (!isMobileLocationHeadingEnabled() || userHeadingTrackingStarted || typeof window.DeviceOrientationEvent === "undefined") {
+        return;
+      }
+
+      function addHeadingListeners() {
+        if (userHeadingTrackingStarted) return;
+        userHeadingTrackingStarted = true;
+        window.addEventListener("deviceorientationabsolute", handleDeviceOrientation, true);
+        window.addEventListener("deviceorientation", handleDeviceOrientation, true);
+      }
+
+      if (typeof window.DeviceOrientationEvent.requestPermission === "function") {
+        window.DeviceOrientationEvent.requestPermission()
+          .then((permission) => {
+            if (permission === "granted") addHeadingListeners();
+          })
+          .catch(() => {});
+      } else {
+        addHeadingListeners();
+      }
+    }
+
+    function createMobileUserLocationIcon() {
+      return L.divIcon({
+        className: "maps-user-location-icon",
+        html: '<div class="maps-user-location-marker"><div class="maps-user-location-marker__heading"><svg viewBox="0 0 44 44" aria-hidden="true"><path fill="rgb(32, 116, 182)" fill-opacity="0.32" d="M22 0 34 28 22 22 10 28Z"/></svg></div><span class="maps-user-location-marker__dot"></span></div>',
+        iconAnchor: [22, 22],
+        iconSize: [44, 44],
+        popupAnchor: [0, -18]
+      });
+    }
+
     function addLocateControl() {
       const LocateControl = L.Control.extend({
         options: {
@@ -1472,6 +1583,7 @@ image: /media/2026/09/maps-featured.png
           link.setAttribute("aria-label", "Show me where I am");
           link.addEventListener("click", function (event) {
             event.preventDefault();
+            startMobileLocationHeading();
             L.DomUtil.addClass(container, "requesting");
             L.DomUtil.removeClass(container, "active");
             L.DomUtil.removeClass(container, "following");
@@ -1616,9 +1728,17 @@ image: /media/2026/09/maps-featured.png
         map.removeLayer(userAccuracyCircle);
       }
 
-      userLocationMarker = L.marker(event.latlng, {
+      const markerOptions = {
         title: "Your location"
-      }).addTo(map).bindPopup(createYouAreHereCard()).openPopup();
+      };
+      if (isMobileLocationHeadingEnabled()) {
+        markerOptions.icon = createMobileUserLocationIcon();
+      }
+      if (Number.isFinite(event.heading)) {
+        userHeading = event.heading;
+      }
+      userLocationMarker = L.marker(event.latlng, markerOptions).addTo(map).bindPopup(createYouAreHereCard()).openPopup();
+      updateUserLocationHeadingMarker();
       userAccuracyCircle = L.circle(event.latlng, {
         color: "#0969da",
         fillColor: "#0969da",
