@@ -1816,8 +1816,8 @@ image: /media/2026/09/maps-featured.png
       L.imageOverlay(
         "/assets/images/maps/nas-jax-airshow-layout.jpg",
         [
-          [30.228615, -81.679246],
-          [30.234871, -81.666996]
+          [30.228615, -81.67465225],
+          [30.230179, -81.67158975]
         ],
         {
           alt: "NAS Jax Air Show layout",
