@@ -1887,6 +1887,10 @@ image: /media/2026/09/maps-featured.png
         return this._corners.map((corner) => L.latLng(corner.lat, corner.lng));
       },
 
+      getBounds: function () {
+        return L.latLngBounds(this._corners);
+      },
+
       _createHandles: function () {
         this._handles = this._corners.map((corner, index) => {
           const handle = L.marker(corner, {
@@ -1900,17 +1904,36 @@ image: /media/2026/09/maps-featured.png
             keyboard: false,
             riseOnHover: true
           }).addTo(this._map);
-          handle.on("dragstart", () => this._disableMapGestures());
+          handle.on("dragstart", () => {
+            this._resizeOppositePoint = this._map.latLngToLayerPoint(this._corners[(index + 2) % 4]);
+            this._disableMapGestures();
+          });
           handle.on("drag", () => {
-            this._corners[index] = handle.getLatLng();
-            this._update();
+            this._resizeFromCorner(index, handle.getLatLng());
           });
           handle.on("dragend", () => {
+            this._resizeOppositePoint = null;
             this._enableMapGestures();
             updateLayerQueryUrl();
           });
           return handle;
         });
+      },
+
+      _resizeFromCorner: function (index, latlng) {
+        const moving = this._map.latLngToLayerPoint(latlng);
+        const opposite = this._resizeOppositePoint || this._map.latLngToLayerPoint(this._corners[(index + 2) % 4]);
+        let points;
+        if (index === 0) {
+          points = [moving, L.point(opposite.x, moving.y), opposite, L.point(moving.x, opposite.y)];
+        } else if (index === 1) {
+          points = [L.point(opposite.x, moving.y), moving, L.point(moving.x, opposite.y), opposite];
+        } else if (index === 2) {
+          points = [opposite, L.point(moving.x, opposite.y), moving, L.point(opposite.x, moving.y)];
+        } else {
+          points = [L.point(moving.x, opposite.y), opposite, L.point(opposite.x, moving.y), moving];
+        }
+        this._setCornersFromLayerPoints(points);
       },
 
       _disableMapGestures: function () {
@@ -2003,6 +2026,26 @@ image: /media/2026/09/maps-featured.png
         this._longPressTimer = null;
       },
 
+      _copyGeometry: function (text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          return navigator.clipboard.writeText(text).then(() => true).catch(() => this._copyGeometryFallback(text));
+        }
+        return Promise.resolve(this._copyGeometryFallback(text));
+      },
+
+      _copyGeometryFallback: function (text) {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        const copied = document.execCommand("copy");
+        textarea.remove();
+        return copied;
+      },
+
       _showGeometryReadout: function (event) {
         this._longPressTimer = null;
         const names = ["NW", "NE", "SE", "SW"];
@@ -2011,15 +2054,19 @@ image: /media/2026/09/maps-featured.png
         ));
         const encoded = this._corners.map((corner) => `${corner.lat.toFixed(7)},${corner.lng.toFixed(7)}`).join(";");
         lines.push("", `airshowcorners=${encoded}`);
+        const geometryText = lines.join("\n");
         const containerRect = this._map.getContainer().getBoundingClientRect();
         const latlng = this._map.containerPointToLatLng([
           event.clientX - containerRect.left,
           event.clientY - containerRect.top
         ]);
-        L.popup({ closeButton: true, maxWidth: 420 })
-          .setLatLng(latlng)
-          .setContent(`<pre class="maps-warp-readout">${lines.join("\n")}</pre>`)
-          .openOn(this._map);
+        this._copyGeometry(geometryText).then((copied) => {
+          const status = copied ? "Copied to clipboard" : "Copy unavailable; screenshot this readout";
+          L.popup({ closeButton: true, maxWidth: 420 })
+            .setLatLng(latlng)
+            .setContent(`<strong>${status}</strong><pre class="maps-warp-readout">${geometryText}</pre>`)
+            .openOn(this._map);
+        });
       },
 
       _update: function () {
@@ -2095,6 +2142,14 @@ image: /media/2026/09/maps-featured.png
       }
     );
     const nasJaxAirshowLayoutLayer = L.layerGroup([nasJaxAirshowLayoutOverlay]).addTo(map);
+
+    function fitAirshowLayout() {
+      map.fitBounds(nasJaxAirshowLayoutOverlay.getBounds(), {
+        maxZoom: 17,
+        padding: [30, 30]
+      });
+    }
+
     const councilDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getCouncilDistrictStyle(feature, "fill"),
       onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "fill")
@@ -3476,6 +3531,9 @@ image: /media/2026/09/maps-featured.png
           });
         }
         setExplicitQueryLayerState(control, true);
+        if (control.layer === nasJaxAirshowLayoutLayer) {
+          fitAirshowLayout();
+        }
       } else if (map.hasLayer(control.layer)) {
         map.removeLayer(control.layer);
         setExplicitQueryLayerState(control, false);
@@ -6842,7 +6900,9 @@ image: /media/2026/09/maps-featured.png
         bounds.extend([place.lat, place.lng]);
       });
 
-      if (visiblePlaces.length > 1) {
+      if (map.hasLayer(nasJaxAirshowLayoutLayer)) {
+        fitAirshowLayout();
+      } else if (visiblePlaces.length > 1) {
         map.fitBounds(bounds, { padding: [24, 24] });
       } else if (visiblePlaces.length === 1) {
         map.setView([visiblePlaces[0].lat, visiblePlaces[0].lng], visiblePlaces[0].zoom || 14);
@@ -6866,7 +6926,9 @@ image: /media/2026/09/maps-featured.png
           councilDistrictBorderLayer.addData(districts);
           orderMapLayers();
           updateZoomHomeDefaultBounds();
-          if (!places.length && councilDistrictFillLayer.getLayers().length) {
+          if (map.hasLayer(nasJaxAirshowLayoutLayer)) {
+            fitAirshowLayout();
+          } else if (!places.length && councilDistrictFillLayer.getLayers().length) {
             map.fitBounds(councilDistrictFillLayer.getBounds(), {
               padding: [24, 24]
             });
@@ -7252,6 +7314,9 @@ image: /media/2026/09/maps-featured.png
     activateAirshowOpacityQuery();
     activateAirshowCornersQuery();
     activateQueryLayers();
+    if (map.hasLayer(nasJaxAirshowLayoutLayer)) {
+      fitAirshowLayout();
+    }
     updateLayerQueryUrl();
     addBaseMapControl();
     addLocateControl();
