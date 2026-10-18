@@ -1814,6 +1814,19 @@ image: /media/2026/09/maps-featured.png
     const activePlaceLayer = L.layerGroup().addTo(map);
     const archivedPlaceLayer = L.layerGroup();
     const leadershipJaxLocationsLayer = L.layerGroup().addTo(map);
+    const nasJaxAirshowLayoutLayer = L.layerGroup([
+      L.imageOverlay(
+        "/assets/images/maps/nas-jax-airshow-layout.jpg",
+        [
+          [30.228615, -81.679246],
+          [30.234871, -81.666996]
+        ],
+        {
+          alt: "NAS Jax Air Show layout",
+          opacity: 0.92
+        }
+      )
+    ]).addTo(map);
     const councilDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getCouncilDistrictStyle(feature, "fill"),
       onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "fill")
@@ -2220,6 +2233,7 @@ image: /media/2026/09/maps-featured.png
       ];
 
       polygonLayers.forEach((layer) => moveLayerGroup(layer, "bringToBack"));
+      moveLayerGroup(nasJaxAirshowLayoutLayer, "bringToFront");
       lineLayers.forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       pointLayers.forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       moveLayerGroup(busStopsLayer, "bringToFront");
@@ -2227,6 +2241,7 @@ image: /media/2026/09/maps-featured.png
 
     function getVisibleOverlayLayers() {
       return [
+        nasJaxAirshowLayoutLayer,
         councilDistrictFillLayer,
         councilDistrictBorderLayer,
         councilAtLargeFillLayer,
@@ -4110,6 +4125,10 @@ image: /media/2026/09/maps-featured.png
           const overlays = L.DomUtil.create("div", "leaflet-control-layers-overlays", list);
           layersControlElement = container;
           overlays.appendChild(createLocationInfoHeader());
+          overlays.appendChild(createLayerHeading("Events"));
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("NAS Jax Air Show Layout", nasJaxAirshowLayoutLayer, { geometryType: "polygon", countable: false })
+          ]);
           overlays.appendChild(createLayerHeading("Government"));
           appendGeographyLayerRow(overlays, "City Council District", councilDistrictFillLayer, councilDistrictBorderLayer, { locationLayerType: "district" });
           appendGeographyLayerRow(overlays, "City Council District At Large", councilAtLargeFillLayer, councilAtLargeBorderLayer, { locationLayerType: "atLarge" });
@@ -4262,6 +4281,7 @@ image: /media/2026/09/maps-featured.png
     }
 
     function registerMapQueryLayers() {
+      registerQueryLayer(["nasjaxairshow", "nasjaxairshowlayout", "airshowlayout"], nasJaxAirshowLayoutLayer, { slug: "nasjaxairshowlayout" });
       registerQueryLayer(["councildistrict", "councildistricts", "citycouncildistrict", "citycouncildistricts"], councilDistrictFillLayer, { group: "boundaries", slug: "citycouncildistrict", alternateLayers: [councilDistrictBorderLayer] });
       registerQueryLayer(["councilatlarge", "councildistrictatlarge", "citycouncilatlarge", "citycouncildistrictatlarge"], councilAtLargeFillLayer, { group: "boundaries", slug: "citycouncilatlarge", alternateLayers: [councilAtLargeBorderLayer] });
       registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries", slug: "schoolboarddistricts", alternateLayers: [schoolBoardDistrictBorderLayer] });
