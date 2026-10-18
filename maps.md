@@ -1010,6 +1010,37 @@ image: /media/2026/09/maps-featured.png
     width: 14px;
   }
 
+  .maps-warped-overlay {
+    cursor: move;
+    max-width: none !important;
+    pointer-events: auto;
+    position: absolute;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+  }
+
+  .maps-warp-handle {
+    background: #fff;
+    border: 3px solid #0969da;
+    border-radius: 50%;
+    box-shadow: 0 1px 5px rgb(0 0 0 / 55%);
+    box-sizing: border-box;
+    cursor: move;
+    height: 20px;
+    touch-action: none;
+    width: 20px;
+  }
+
+  .maps-warp-readout {
+    font: 11px/1.4 ui-monospace, SFMono-Regular, Consolas, monospace;
+    margin: 0;
+    max-width: min(24rem, 70vw);
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
   @keyframes leaflet-control-locate-spin {
     0% {
       transform: rotate(0deg);
@@ -1813,15 +1844,253 @@ image: /media/2026/09/maps-featured.png
     const archivedPlaceLayer = L.layerGroup();
     const leadershipJaxLocationsLayer = L.layerGroup().addTo(map);
 
-    const nasJaxAirshowLayoutOverlay = L.imageOverlay(
+    const WarpedImageOverlay = L.Layer.extend({
+      initialize: function (url, corners, options) {
+        L.setOptions(this, options);
+        this._url = url;
+        this._corners = corners.map((corner) => L.latLng(corner));
+        this._pointers = new Map();
+      },
+
+      onAdd: function (targetMap) {
+        this._map = targetMap;
+        this._image = L.DomUtil.create("img", "maps-warped-overlay");
+        this._image.src = this._url;
+        this._image.alt = this.options.alt || "";
+        this._image.draggable = false;
+        this._image.style.opacity = this.options.opacity;
+        this._image.style.width = `${this.options.imageWidth}px`;
+        this._image.style.height = `${this.options.imageHeight}px`;
+        this._map.getPanes().overlayPane.appendChild(this._image);
+        this._createHandles();
+        this._bindImageGestures();
+        this._map.on("zoom viewreset move", this._update, this);
+        this._update();
+      },
+
+      onRemove: function () {
+        this._clearLongPress();
+        this._map.off("zoom viewreset move", this._update, this);
+        this._handles.forEach((handle) => handle.remove());
+        L.DomUtil.remove(this._image);
+        this._handles = [];
+        this._pointers.clear();
+      },
+
+      setOpacity: function (opacity) {
+        this.options.opacity = opacity;
+        if (this._image) this._image.style.opacity = opacity;
+        return this;
+      },
+
+      getCorners: function () {
+        return this._corners.map((corner) => L.latLng(corner.lat, corner.lng));
+      },
+
+      _createHandles: function () {
+        this._handles = this._corners.map((corner, index) => {
+          const handle = L.marker(corner, {
+            draggable: true,
+            icon: L.divIcon({
+              className: "",
+              html: '<div class="maps-warp-handle" aria-hidden="true"></div>',
+              iconAnchor: [10, 10],
+              iconSize: [20, 20]
+            }),
+            keyboard: false,
+            riseOnHover: true
+          }).addTo(this._map);
+          handle.on("dragstart", () => this._disableMapGestures());
+          handle.on("drag", () => {
+            this._corners[index] = handle.getLatLng();
+            this._update();
+          });
+          handle.on("dragend", () => {
+            this._enableMapGestures();
+            updateLayerQueryUrl();
+          });
+          return handle;
+        });
+      },
+
+      _disableMapGestures: function () {
+        if (this._map.dragging.enabled()) this._map.dragging.disable();
+        if (this._map.touchZoom.enabled()) this._map.touchZoom.disable();
+      },
+
+      _enableMapGestures: function () {
+        this._map.dragging.enable();
+        this._map.touchZoom.enable();
+      },
+
+      _bindImageGestures: function () {
+        ["click", "dblclick", "contextmenu"].forEach((eventName) => {
+          this._image.addEventListener(eventName, (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+          });
+        });
+        this._image.addEventListener("pointerdown", (event) => {
+          if (event.button !== 0) return;
+          event.preventDefault();
+          event.stopPropagation();
+          this._image.setPointerCapture(event.pointerId);
+          this._pointers.set(event.pointerId, L.point(event.clientX, event.clientY));
+          this._gestureStartPointers = new Map(this._pointers);
+          this._gestureStartCorners = this._corners.map((corner) => this._map.latLngToLayerPoint(corner));
+          this._longPressPoint = L.point(event.clientX, event.clientY);
+          this._longPressTimer = window.setTimeout(() => this._showGeometryReadout(event), 650);
+          this._disableMapGestures();
+        });
+
+        this._image.addEventListener("pointermove", (event) => {
+          if (!this._pointers.has(event.pointerId)) return;
+          event.preventDefault();
+          this._pointers.set(event.pointerId, L.point(event.clientX, event.clientY));
+          const movement = this._pointers.get(event.pointerId).distanceTo(this._longPressPoint);
+          if (movement > 8) this._clearLongPress();
+          this._applyGesture();
+        });
+
+        const finishPointer = (event) => {
+          if (!this._pointers.has(event.pointerId)) return;
+          this._clearLongPress();
+          this._pointers.delete(event.pointerId);
+          if (this._pointers.size) {
+            this._gestureStartPointers = new Map(this._pointers);
+            this._gestureStartCorners = this._corners.map((corner) => this._map.latLngToLayerPoint(corner));
+          } else {
+            this._enableMapGestures();
+            updateLayerQueryUrl();
+          }
+        };
+        this._image.addEventListener("pointerup", finishPointer);
+        this._image.addEventListener("pointercancel", finishPointer);
+      },
+
+      _applyGesture: function () {
+        const current = Array.from(this._pointers.values());
+        const starting = Array.from(this._gestureStartPointers.values());
+        if (!current.length || !starting.length) return;
+        if (current.length === 1 || starting.length === 1) {
+          const delta = current[0].subtract(starting[0]);
+          this._setCornersFromLayerPoints(this._gestureStartCorners.map((point) => point.add(delta)));
+          return;
+        }
+        const startCenter = starting[0].add(starting[1]).divideBy(2);
+        const currentCenter = current[0].add(current[1]).divideBy(2);
+        const startDistance = starting[0].distanceTo(starting[1]);
+        const scale = startDistance ? current[0].distanceTo(current[1]) / startDistance : 1;
+        const startCenterLayer = this._map.containerPointToLayerPoint(
+          L.point(startCenter.x - this._map.getContainer().getBoundingClientRect().left, startCenter.y - this._map.getContainer().getBoundingClientRect().top)
+        );
+        const currentCenterLayer = this._map.containerPointToLayerPoint(
+          L.point(currentCenter.x - this._map.getContainer().getBoundingClientRect().left, currentCenter.y - this._map.getContainer().getBoundingClientRect().top)
+        );
+        this._setCornersFromLayerPoints(this._gestureStartCorners.map((point) => (
+          point.subtract(startCenterLayer).multiplyBy(scale).add(currentCenterLayer)
+        )));
+      },
+
+      _setCornersFromLayerPoints: function (points) {
+        this._corners = points.map((point) => this._map.layerPointToLatLng(point));
+        this._handles.forEach((handle, index) => handle.setLatLng(this._corners[index]));
+        this._update();
+      },
+
+      _clearLongPress: function () {
+        if (this._longPressTimer) window.clearTimeout(this._longPressTimer);
+        this._longPressTimer = null;
+      },
+
+      _showGeometryReadout: function (event) {
+        this._longPressTimer = null;
+        const names = ["NW", "NE", "SE", "SW"];
+        const lines = this._corners.map((corner, index) => (
+          `${names[index]}: ${corner.lat.toFixed(7)}, ${corner.lng.toFixed(7)}`
+        ));
+        const encoded = this._corners.map((corner) => `${corner.lat.toFixed(7)},${corner.lng.toFixed(7)}`).join(";");
+        lines.push("", `airshowcorners=${encoded}`);
+        const containerRect = this._map.getContainer().getBoundingClientRect();
+        const latlng = this._map.containerPointToLatLng([
+          event.clientX - containerRect.left,
+          event.clientY - containerRect.top
+        ]);
+        L.popup({ closeButton: true, maxWidth: 420 })
+          .setLatLng(latlng)
+          .setContent(`<pre class="maps-warp-readout">${lines.join("\n")}</pre>`)
+          .openOn(this._map);
+      },
+
+      _update: function () {
+        if (!this._map || !this._image) return;
+        const points = this._corners.map((corner) => this._map.latLngToLayerPoint(corner));
+        const matrix = this._projectiveMatrix(points);
+        this._image.style.transformOrigin = "0 0";
+        this._image.style.transform = `matrix3d(${matrix.join(",")})`;
+        this._handles.forEach((handle, index) => handle.setLatLng(this._corners[index]));
+      },
+
+      _projectiveMatrix: function (points) {
+        const width = this.options.imageWidth;
+        const height = this.options.imageHeight;
+        const source = [[0, 0], [width, 0], [width, height], [0, height]];
+        const equations = [];
+        const values = [];
+        source.forEach((sourcePoint, index) => {
+          const x = sourcePoint[0];
+          const y = sourcePoint[1];
+          const X = points[index].x;
+          const Y = points[index].y;
+          equations.push([x, y, 1, 0, 0, 0, -x * X, -y * X]);
+          values.push(X);
+          equations.push([0, 0, 0, x, y, 1, -x * Y, -y * Y]);
+          values.push(Y);
+        });
+        const homography = this._solveLinearSystem(equations, values).concat(1);
+        return [
+          homography[0], homography[3], 0, homography[6],
+          homography[1], homography[4], 0, homography[7],
+          0, 0, 1, 0,
+          homography[2], homography[5], 0, homography[8]
+        ];
+      },
+
+      _solveLinearSystem: function (matrix, values) {
+        const augmented = matrix.map((row, index) => row.concat(values[index]));
+        for (let column = 0; column < 8; column += 1) {
+          let pivot = column;
+          for (let row = column + 1; row < 8; row += 1) {
+            if (Math.abs(augmented[row][column]) > Math.abs(augmented[pivot][column])) pivot = row;
+          }
+          [augmented[column], augmented[pivot]] = [augmented[pivot], augmented[column]];
+          const divisor = augmented[column][column];
+          if (Math.abs(divisor) < 1e-12) return [1, 0, 0, 0, 1, 0, 0, 0];
+          for (let index = column; index <= 8; index += 1) augmented[column][index] /= divisor;
+          for (let row = 0; row < 8; row += 1) {
+            if (row === column) continue;
+            const factor = augmented[row][column];
+            for (let index = column; index <= 8; index += 1) {
+              augmented[row][index] -= factor * augmented[column][index];
+            }
+          }
+        }
+        return augmented.map((row) => row[8]);
+      }
+    });
+
+    const nasJaxAirshowLayoutOverlay = new WarpedImageOverlay(
       "/assets/images/maps/nas-jax-airshow-layout.jpg",
       [
-        [30.227847, -81.676061],
-        [30.230907, -81.670011]
+        [30.230907, -81.676061],
+        [30.230907, -81.670011],
+        [30.227847, -81.670011],
+        [30.227847, -81.676061]
       ],
       {
         alt: "NAS Jax Air Show layout",
-        interactive: false,
+        imageHeight: 294,
+        imageWidth: 500,
         opacity: 0.5
       }
     );
@@ -3262,8 +3531,15 @@ image: /media/2026/09/maps-featured.png
         const airshowOverlay = nasJaxAirshowLayoutLayer.getLayers()[0];
         const airshowOpacity = airshowOverlay && airshowOverlay.options.opacity;
         url.searchParams.set("airshowopacity", String(Math.round((airshowOpacity === undefined ? 1 : airshowOpacity) * 100)));
+        if (airshowOverlay && airshowOverlay.getCorners) {
+          const corners = airshowOverlay.getCorners()
+            .map((corner) => `${corner.lat.toFixed(7)},${corner.lng.toFixed(7)}`)
+            .join(";");
+          url.searchParams.set("airshowcorners", corners);
+        }
       } else {
         url.searchParams.delete("airshowopacity");
+        url.searchParams.delete("airshowcorners");
       }
       const searchParts = [
         url.searchParams.toString(),
@@ -3300,6 +3576,20 @@ image: /media/2026/09/maps-featured.png
       if (airshowOverlay) {
         airshowOverlay.setOpacity(Math.max(0, Math.min(100, opacity)) / 100);
       }
+    }
+
+    function activateAirshowCornersQuery() {
+      const params = new URLSearchParams(window.location.search);
+      if (!params.has("airshowcorners")) return;
+      const corners = params.get("airshowcorners").split(";").map((value) => {
+        const coordinates = value.split(",").map(Number);
+        return coordinates.length === 2 && coordinates.every(Number.isFinite)
+          ? L.latLng(coordinates[0], coordinates[1])
+          : null;
+      });
+      if (corners.length !== 4 || corners.some((corner) => !corner)) return;
+      nasJaxAirshowLayoutOverlay._corners = corners;
+      nasJaxAirshowLayoutOverlay._update();
     }
 
     function hasBoundaryLayerQuery(tokens) {
@@ -6960,6 +7250,7 @@ image: /media/2026/09/maps-featured.png
     explicitQueryLayerSlugs.add("nasjaxairshowlayout");
     activateOpacityQuery();
     activateAirshowOpacityQuery();
+    activateAirshowCornersQuery();
     activateQueryLayers();
     updateLayerQueryUrl();
     addBaseMapControl();
