@@ -1862,8 +1862,13 @@ image: /media/2026/09/maps-featured.png
         this._image.style.width = `${this.options.imageWidth}px`;
         this._image.style.height = `${this.options.imageHeight}px`;
         this._map.getPanes().overlayPane.appendChild(this._image);
-        this._createHandles();
-        this._bindImageGestures();
+        this._handles = [];
+        if (this.options.editable) {
+          this._createHandles();
+          this._bindImageGestures();
+        } else {
+          this._image.style.pointerEvents = "none";
+        }
         this._map.on("zoom viewreset move", this._update, this);
         this._update();
       },
@@ -2129,13 +2134,14 @@ image: /media/2026/09/maps-featured.png
     const nasJaxAirshowLayoutOverlay = new WarpedImageOverlay(
       "/assets/images/maps/nas-jax-airshow-layout.jpg",
       [
-        [30.230907, -81.676061],
-        [30.230907, -81.670011],
-        [30.227847, -81.670011],
-        [30.227847, -81.676061]
+        [30.2313525, -81.6752352],
+        [30.2313525, -81.6711276],
+        [30.2283779, -81.6711276],
+        [30.2283779, -81.6752352]
       ],
       {
         alt: "NAS Jax Air Show layout",
+        editable: false,
         imageHeight: 294,
         imageWidth: 500,
         opacity: 0.5
