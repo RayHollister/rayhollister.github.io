@@ -1010,6 +1010,13 @@ image: /media/2026/09/maps-featured.png
     width: 14px;
   }
 
+  #ray-map .maps-transformable-image-overlay {
+    cursor: move;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
   @keyframes leaflet-control-locate-spin {
     0% {
       transform: rotate(0deg);
@@ -1812,19 +1819,143 @@ image: /media/2026/09/maps-featured.png
     const activePlaceLayer = L.layerGroup().addTo(map);
     const archivedPlaceLayer = L.layerGroup();
     const leadershipJaxLocationsLayer = L.layerGroup().addTo(map);
-    const nasJaxAirshowLayoutLayer = L.layerGroup([
-      L.imageOverlay(
-        "/assets/images/maps/nas-jax-airshow-layout.jpg",
-        [
-          [30.226683, -81.678135],
-          [30.231355, -81.668952]
-        ],
-        {
-          alt: "NAS Jax Air Show layout",
-          opacity: 0.5
+
+    function enableImageOverlayTransform(overlay) {
+      const pointers = new Map();
+      let snapshot;
+      let mapDraggingWasEnabled = false;
+      let mapTouchZoomWasEnabled = false;
+
+      function getPointerPoint(event) {
+        return map.mouseEventToContainerPoint(event);
+      }
+
+      function getPointerPair() {
+        return Array.from(pointers.values()).slice(0, 2);
+      }
+
+      function resetSnapshot() {
+        const bounds = overlay.getBounds();
+        const northWest = map.latLngToContainerPoint(bounds.getNorthWest());
+        const southEast = map.latLngToContainerPoint(bounds.getSouthEast());
+        const center = northWest.add(southEast).divideBy(2);
+        const pointerPoints = getPointerPair();
+
+        snapshot = {
+          center,
+          halfHeight: Math.abs(southEast.y - northWest.y) / 2,
+          halfWidth: Math.abs(southEast.x - northWest.x) / 2,
+          pointerCount: pointerPoints.length
+        };
+
+        if (pointerPoints.length === 1) {
+          snapshot.pointer = pointerPoints[0];
+        } else if (pointerPoints.length === 2) {
+          snapshot.midpoint = pointerPoints[0].add(pointerPoints[1]).divideBy(2);
+          snapshot.distance = Math.max(1, pointerPoints[0].distanceTo(pointerPoints[1]));
         }
-      )
-    ]).addTo(map);
+      }
+
+      function setOverlayPixelBounds(center, halfWidth, halfHeight) {
+        const southWest = map.containerPointToLatLng([center.x - halfWidth, center.y + halfHeight]);
+        const northEast = map.containerPointToLatLng([center.x + halfWidth, center.y - halfHeight]);
+        overlay.setBounds(L.latLngBounds(southWest, northEast));
+      }
+
+      function updateTransform() {
+        if (!snapshot) return;
+        const pointerPoints = getPointerPair();
+
+        if (snapshot.pointerCount === 1 && pointerPoints.length === 1) {
+          const delta = pointerPoints[0].subtract(snapshot.pointer);
+          setOverlayPixelBounds(snapshot.center.add(delta), snapshot.halfWidth, snapshot.halfHeight);
+          return;
+        }
+
+        if (snapshot.pointerCount === 2 && pointerPoints.length === 2) {
+          const midpoint = pointerPoints[0].add(pointerPoints[1]).divideBy(2);
+          const distance = Math.max(1, pointerPoints[0].distanceTo(pointerPoints[1]));
+          const scale = Math.max(0.1, Math.min(10, distance / snapshot.distance));
+          const center = midpoint.add(snapshot.center.subtract(snapshot.midpoint).multiplyBy(scale));
+          setOverlayPixelBounds(center, snapshot.halfWidth * scale, snapshot.halfHeight * scale);
+        }
+      }
+
+      function beginInteraction() {
+        mapDraggingWasEnabled = map.dragging.enabled();
+        mapTouchZoomWasEnabled = map.touchZoom.enabled();
+        map.dragging.disable();
+        map.touchZoom.disable();
+        map.stop();
+      }
+
+      function endInteraction() {
+        snapshot = null;
+        if (mapDraggingWasEnabled) map.dragging.enable();
+        if (mapTouchZoomWasEnabled) map.touchZoom.enable();
+      }
+
+      function attachHandlers() {
+        const image = overlay.getElement();
+        if (!image || image.dataset.transformHandlersAttached === "true") return;
+        image.dataset.transformHandlersAttached = "true";
+
+        image.addEventListener("pointerdown", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (!pointers.size) beginInteraction();
+          pointers.set(event.pointerId, getPointerPoint(event));
+          try {
+            image.setPointerCapture(event.pointerId);
+          } catch (error) {
+            // Pointer capture can be unavailable in older mobile browsers.
+          }
+          resetSnapshot();
+        });
+
+        image.addEventListener("pointermove", function (event) {
+          if (!pointers.has(event.pointerId)) return;
+          event.preventDefault();
+          event.stopPropagation();
+          pointers.set(event.pointerId, getPointerPoint(event));
+          updateTransform();
+        });
+
+        function releasePointer(event) {
+          if (!pointers.has(event.pointerId)) return;
+          event.preventDefault();
+          event.stopPropagation();
+          pointers.delete(event.pointerId);
+          if (pointers.size) {
+            resetSnapshot();
+          } else {
+            endInteraction();
+          }
+        }
+
+        image.addEventListener("pointerup", releasePointer);
+        image.addEventListener("pointercancel", releasePointer);
+      }
+
+      overlay.on("load", attachHandlers);
+      attachHandlers();
+    }
+
+    const nasJaxAirshowLayoutOverlay = L.imageOverlay(
+      "/assets/images/maps/nas-jax-airshow-layout.jpg",
+      [
+        [30.226683, -81.678135],
+        [30.231355, -81.668952]
+      ],
+      {
+        alt: "NAS Jax Air Show layout",
+        className: "maps-transformable-image-overlay",
+        interactive: true,
+        opacity: 0.5
+      }
+    );
+    const nasJaxAirshowLayoutLayer = L.layerGroup([nasJaxAirshowLayoutOverlay]).addTo(map);
+    enableImageOverlayTransform(nasJaxAirshowLayoutOverlay);
     const councilDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getCouncilDistrictStyle(feature, "fill"),
       onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "fill")
