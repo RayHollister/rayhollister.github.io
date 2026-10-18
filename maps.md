@@ -1712,8 +1712,6 @@ image: /media/2026/09/maps-featured.png
 
     function updateYouAreHereCard() {
       updateLocationInfoControlVisibility();
-      if (!userLocationMarker || !userLocationLatLng) return;
-      userLocationMarker.setPopupContent(createYouAreHereCard());
     }
 
     map.on("locationfound", function (event) {
@@ -1737,7 +1735,7 @@ image: /media/2026/09/maps-featured.png
       if (Number.isFinite(event.heading)) {
         userHeading = event.heading;
       }
-      userLocationMarker = L.marker(event.latlng, markerOptions).addTo(map).bindPopup(createYouAreHereCard()).openPopup();
+      userLocationMarker = L.marker(event.latlng, markerOptions).addTo(map);
       updateUserLocationHeadingMarker();
       userAccuracyCircle = L.circle(event.latlng, {
         color: "#0969da",
@@ -1823,7 +1821,7 @@ image: /media/2026/09/maps-featured.png
         ],
         {
           alt: "NAS Jax Air Show layout",
-          opacity: 0.92
+          opacity: 0.5
         }
       )
     ]).addTo(map);
