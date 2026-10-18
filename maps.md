@@ -1116,6 +1116,8 @@ image: /media/2026/09/maps-featured.png
       zoomSnap: 0,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
+    const airshowOverlayPane = map.createPane("airshowOverlayPane");
+    airshowOverlayPane.style.zIndex = "690";
 
     const openFreeMapStyles = {
       positron: "https://tiles.openfreemap.org/styles/positron",
@@ -1861,7 +1863,7 @@ image: /media/2026/09/maps-featured.png
         this._image.style.opacity = this.options.opacity;
         this._image.style.width = `${this.options.imageWidth}px`;
         this._image.style.height = `${this.options.imageHeight}px`;
-        this._map.getPanes().overlayPane.appendChild(this._image);
+        this.getPane().appendChild(this._image);
         this._handles = [];
         if (this.options.editable) {
           this._createHandles();
@@ -2144,7 +2146,8 @@ image: /media/2026/09/maps-featured.png
         editable: false,
         imageHeight: 294,
         imageWidth: 500,
-        opacity: 0.5
+        opacity: 0.25,
+        pane: "airshowOverlayPane"
       }
     );
     const nasJaxAirshowLayoutLayer = L.layerGroup([nasJaxAirshowLayoutOverlay]).addTo(map);
@@ -3593,8 +3596,7 @@ image: /media/2026/09/maps-featured.png
       url.searchParams.delete("layers");
       if (includesAirshowLayout) {
         const airshowOverlay = nasJaxAirshowLayoutLayer.getLayers()[0];
-        const airshowOpacity = airshowOverlay && airshowOverlay.options.opacity;
-        url.searchParams.set("airshowopacity", String(Math.round((airshowOpacity === undefined ? 1 : airshowOpacity) * 100)));
+        url.searchParams.set("opacity", String(Math.round(governmentOverlayOpacity * 100)));
         if (airshowOverlay && airshowOverlay.getCorners) {
           const corners = airshowOverlay.getCorners()
             .map((corner) => `${corner.lat.toFixed(7)},${corner.lng.toFixed(7)}`)
@@ -3602,9 +3604,9 @@ image: /media/2026/09/maps-featured.png
           url.searchParams.set("airshowcorners", corners);
         }
       } else {
-        url.searchParams.delete("airshowopacity");
         url.searchParams.delete("airshowcorners");
       }
+      url.searchParams.delete("airshowopacity");
       const searchParts = [
         url.searchParams.toString(),
         layerSlugs.length ? `layer=${layerSlugs.join(",")}` : ""
@@ -3633,13 +3635,10 @@ image: /media/2026/09/maps-featured.png
 
     function activateAirshowOpacityQuery() {
       const params = new URLSearchParams(window.location.search);
-      if (!params.has("airshowopacity")) return;
+      if (params.has("opacity") || !params.has("airshowopacity")) return;
       const opacity = Number(params.get("airshowopacity"));
       if (!Number.isFinite(opacity)) return;
-      const airshowOverlay = nasJaxAirshowLayoutLayer.getLayers()[0];
-      if (airshowOverlay) {
-        airshowOverlay.setOpacity(Math.max(0, Math.min(100, opacity)) / 100);
-      }
+      setGovernmentOverlayOpacity(Math.max(0, Math.min(100, opacity)) / 100);
     }
 
     function activateAirshowCornersQuery() {
@@ -3993,7 +3992,7 @@ image: /media/2026/09/maps-featured.png
       opacityInput.min = "0";
       opacityInput.max = "100";
       opacityInput.step = "1";
-      opacityInput.setAttribute("aria-label", "Government layer overlay opacity");
+      opacityInput.setAttribute("aria-label", "Layer opacity");
       opacityInput.addEventListener("input", function () {
         setGovernmentOverlayOpacity(Number(opacityInput.value) / 100, { updateUrl: true });
       });
@@ -4360,7 +4359,7 @@ image: /media/2026/09/maps-featured.png
     }
 
     function updateGovernmentLayerOpacityControl() {
-      updateOpacityRangeVisual(governmentLayerOpacityInput, governmentLayerOpacityLabel, governmentOverlayOpacity, "Overlay opacity");
+      updateOpacityRangeVisual(governmentLayerOpacityInput, governmentLayerOpacityLabel, governmentOverlayOpacity, "Layer opacity");
     }
 
     function updateOpacityQueryUrl() {
@@ -4375,6 +4374,7 @@ image: /media/2026/09/maps-featured.png
       const nextOpacity = Math.max(0, Math.min(1, Number.isFinite(value) ? value : 1));
       governmentOverlayOpacity = nextOpacity;
       governmentLayerMode = "fill";
+      nasJaxAirshowLayoutOverlay.setOpacity(nextOpacity);
       updateGovernmentLayerOpacityControl();
       geographyLayerControls.forEach((geographyControl) => {
         const nextControl = geographyControl.overlayControl;
