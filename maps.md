@@ -3253,9 +3253,17 @@ image: /media/2026/09/maps-featured.png
     function updateLayerQueryUrl() {
       const url = new URL(window.location.href);
       const layerSlugs = Array.from(explicitQueryLayerSlugs);
+      const includesAirshowLayout = layerSlugs.includes("nasjaxairshowlayout");
 
       url.searchParams.delete("layer");
       url.searchParams.delete("layers");
+      if (includesAirshowLayout) {
+        const airshowOverlay = nasJaxAirshowLayoutLayer.getLayers()[0];
+        const airshowOpacity = airshowOverlay && airshowOverlay.options.opacity;
+        url.searchParams.set("airshowopacity", String(Math.round((airshowOpacity === undefined ? 1 : airshowOpacity) * 100)));
+      } else {
+        url.searchParams.delete("airshowopacity");
+      }
       const searchParts = [
         url.searchParams.toString(),
         layerSlugs.length ? `layer=${layerSlugs.join(",")}` : ""
@@ -3280,6 +3288,17 @@ image: /media/2026/09/maps-featured.png
       const opacity = Number(params.get("opacity"));
       if (!Number.isFinite(opacity)) return;
       setGovernmentOverlayOpacity(opacity / 100);
+    }
+
+    function activateAirshowOpacityQuery() {
+      const params = new URLSearchParams(window.location.search);
+      if (!params.has("airshowopacity")) return;
+      const opacity = Number(params.get("airshowopacity"));
+      if (!Number.isFinite(opacity)) return;
+      const airshowOverlay = nasJaxAirshowLayoutLayer.getLayers()[0];
+      if (airshowOverlay) {
+        airshowOverlay.setOpacity(Math.max(0, Math.min(100, opacity)) / 100);
+      }
     }
 
     function hasBoundaryLayerQuery(tokens) {
@@ -6937,8 +6956,11 @@ image: /media/2026/09/maps-featured.png
     addCompareKeyboardShortcut();
     addMapContextMenuHandlers();
     registerMapQueryLayers();
+    explicitQueryLayerSlugs.add("nasjaxairshowlayout");
     activateOpacityQuery();
+    activateAirshowOpacityQuery();
     activateQueryLayers();
+    updateLayerQueryUrl();
     addBaseMapControl();
     addLocateControl();
     
