@@ -1118,6 +1118,8 @@ image: /media/2026/09/maps-featured.png
     }).setView([30.3322, -81.6557], 11);
     const airshowOverlayPane = map.createPane("airshowOverlayPane");
     airshowOverlayPane.style.zIndex = "690";
+    const navigationMarkerPane = map.createPane("navigationMarkerPane");
+    navigationMarkerPane.style.zIndex = "750";
 
     const openFreeMapStyles = {
       positron: "https://tiles.openfreemap.org/styles/positron",
@@ -1760,6 +1762,7 @@ image: /media/2026/09/maps-featured.png
       }
 
       const markerOptions = {
+        pane: "navigationMarkerPane",
         title: "Your location"
       };
       if (isMobileLocationHeadingEnabled()) {
