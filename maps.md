@@ -2146,7 +2146,7 @@ image: /media/2026/09/maps-featured.png
         editable: false,
         imageHeight: 294,
         imageWidth: 500,
-        opacity: 0.25,
+        opacity: 0.5,
         pane: "airshowOverlayPane"
       }
     );
@@ -2406,7 +2406,7 @@ image: /media/2026/09/maps-featured.png
     const jsonDataPromises = new Map();
     const boundaryLayerStackItemsByLayer = new Map();
     const boundaryLayerStackOrder = [];
-    const defaultGovernmentOverlayOpacity = 0.25;
+    const defaultGovernmentOverlayOpacity = 0.5;
     let governmentLayerMode = "fill";
     let governmentOverlayOpacity = defaultGovernmentOverlayOpacity;
     let governmentLayerOpacityInput;
