@@ -1828,7 +1828,7 @@ image: /media/2026/09/maps-featured.png
     const councilDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getCouncilDistrictStyle(feature, "fill"),
       onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "fill")
-    }).addTo(map);
+    });
     const councilDistrictBorderLayer = L.geoJSON(null, {
       style: (feature) => getCouncilDistrictStyle(feature, "border"),
       onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "border")
