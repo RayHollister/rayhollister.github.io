@@ -1714,6 +1714,22 @@ image: /media/2026/09/maps-featured.png
 
     function updateYouAreHereCard() {
       updateLocationInfoControlVisibility();
+      if (pinnedBoundaryCards.some((card) => card.layerType === "userLocation")) {
+        renderPinnedCards();
+      }
+    }
+
+    function showYouAreHereCardInPanel() {
+      if (!userLocationLatLng) return;
+      const existingCard = pinnedBoundaryCards.find((card) => card.layerType === "userLocation");
+      if (!existingCard) {
+        pinnedBoundaryCards.unshift({
+          key: "userLocation",
+          layerType: "userLocation",
+          title: "You are here"
+        });
+      }
+      renderPinnedCards();
     }
 
     map.on("locationfound", function (event) {
@@ -1738,7 +1754,9 @@ image: /media/2026/09/maps-featured.png
       if (Number.isFinite(event.heading)) {
         userHeading = event.heading;
       }
-      userLocationMarker = L.marker(event.latlng, markerOptions).addTo(map);
+      userLocationMarker = L.marker(event.latlng, markerOptions)
+        .addTo(map)
+        .on("click", showYouAreHereCardInPanel);
       updateUserLocationHeadingMarker();
       userAccuracyCircle = L.circle(event.latlng, {
         color: "#0969da",
@@ -2062,7 +2080,7 @@ image: /media/2026/09/maps-featured.png
     const jsonDataPromises = new Map();
     const boundaryLayerStackItemsByLayer = new Map();
     const boundaryLayerStackOrder = [];
-    const defaultGovernmentOverlayOpacity = 0.5;
+    const defaultGovernmentOverlayOpacity = 0.35;
     let governmentLayerMode = "fill";
     let governmentOverlayOpacity = defaultGovernmentOverlayOpacity;
     let governmentLayerOpacityInput;
@@ -3800,6 +3818,9 @@ image: /media/2026/09/maps-featured.png
     }
 
     function createPinnedCardContent(card) {
+      if (card.layerType === "userLocation") {
+        return createYouAreHereCard();
+      }
       if (card.layerType === "busRoute") {
         return createBusRoutePopup(card.feature);
       }
@@ -3932,8 +3953,6 @@ image: /media/2026/09/maps-featured.png
     }
 
     function addPinnedCardPanel() {
-      if (!supportsPointerHover) return;
-
       const PinnedCardControl = L.Control.extend({
         options: {
           position: "topright"
