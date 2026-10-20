@@ -1941,7 +1941,6 @@ image: /media/2026/09/maps-featured.png
         const loadRequest = this._loadRequest;
         initialVisibleLayerFitComplete = true;
         targetMap.attributionControl.addAttribution(historicMapAttribution);
-        targetMap.fitBounds(this._bounds, { padding: [24, 24] });
         this._load(loadRequest);
       },
 
@@ -3427,10 +3426,6 @@ image: /media/2026/09/maps-featured.png
       orderMapLayers();
       syncDistrictLayerInputs();
       updateLayerQueryUrl();
-      if (enabled && control.layer === jacksonville1884HistoricMapLayer) {
-        initialVisibleLayerFitComplete = true;
-        map.fitBounds(jacksonville1884HistoricMapLayer.getBounds(), { padding: [24, 24] });
-      }
     }
 
     function normalizeLayerQueryToken(value) {
