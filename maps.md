@@ -950,6 +950,44 @@ image: /media/2026/09/maps-featured.png
     outline: 0;
   }
 
+  .maps-historic-placement-handle {
+    align-items: center;
+    background: #fff;
+    border: 2px solid #0969da;
+    box-shadow: 0 1px 4px rgb(27 31 36 / 35%);
+    box-sizing: border-box;
+    cursor: nwse-resize;
+    display: flex;
+    height: 16px;
+    justify-content: center;
+    width: 16px;
+  }
+
+  .maps-historic-placement-handle--move {
+    background: #0969da;
+    border-color: #fff;
+    border-radius: 50%;
+    color: #fff;
+    cursor: move;
+    font-size: 11px;
+    height: 22px;
+    line-height: 1;
+    width: 22px;
+  }
+
+  .maps-historic-placement-handle--rotate {
+    background: #fff;
+    border-color: #0969da;
+    border-radius: 50%;
+    color: #0969da;
+    cursor: grab;
+    font-size: 16px;
+    font-weight: 700;
+    height: 22px;
+    line-height: 1;
+    width: 22px;
+  }
+
   #ray-map .maplibregl-map,
   #ray-map .maplibregl-canvas-container,
   #ray-map .maplibregl-canvas,
@@ -1079,6 +1117,7 @@ image: /media/2026/09/maps-featured.png
 </section>
 
 <script src="/leaflet/leaflet.js"></script>
+<script src="/leaflet/imageoverlay-rotated/Leaflet.ImageOverlay.Rotated.js"></script>
 <script src="/leaflet/smoothwheelzoom/SmoothWheelZoom.js"></script>
 <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.js"></script>
@@ -1090,7 +1129,9 @@ image: /media/2026/09/maps-featured.png
 
   (function () {
     const places = window.rayMapsPlaces;
-    const map = L.map("ray-map", {
+    const Leaflet = L;
+    const RayRotatedImageOverlay = Leaflet.RayRotatedImageOverlay;
+    const map = Leaflet.map("ray-map", {
       minZoom: 4,
       maxZoom: 20,
       maxBounds: [[-85.051129, -Infinity], [85.051129, Infinity]],
@@ -1935,7 +1976,9 @@ image: /media/2026/09/maps-featured.png
         this._bounds = L.latLngBounds(bounds);
         this._label = settings.label || "Historic map";
         this._localIiifPattern = settings.localIiifPattern || null;
-        this._attribution = `<a href="${settings.sourceUrl}" target="_blank" rel="noopener">Library of Congress, ${this._label} Sanborn Map</a> · Georeferencing: <a href="https://mapsnap.org/" target="_blank" rel="noopener">mapsnap</a>`;
+        const attributionLabel = settings.attributionLabel || `Library of Congress, ${this._label} Sanborn Map`;
+        const georeferenceCredit = settings.georeferenceCredit || '<a href="https://mapsnap.org/" target="_blank" rel="noopener">mapsnap</a>';
+        this._attribution = `<a href="${settings.sourceUrl}" target="_blank" rel="noopener">${attributionLabel}</a> · Georeferencing: ${georeferenceCredit}`;
         this._loadRequest = 0;
         this._opacity = historicMapOpacity;
       },
@@ -1946,6 +1989,10 @@ image: /media/2026/09/maps-featured.png
         const loadRequest = this._loadRequest;
         initialVisibleLayerFitComplete = true;
         targetMap.attributionControl.addAttribution(this._attribution);
+        if (this._placementCorners && this._placementImageUrl) {
+          this._showPlacement();
+          return;
+        }
         this._load(loadRequest);
       },
 
@@ -1954,6 +2001,9 @@ image: /media/2026/09/maps-featured.png
         (this._warpedLayers || []).forEach((layer) => {
           if (targetMap.hasLayer(layer)) targetMap.removeLayer(layer);
         });
+        if (this._placementOverlay && targetMap.hasLayer(this._placementOverlay)) {
+          targetMap.removeLayer(this._placementOverlay);
+        }
         targetMap.attributionControl.removeAttribution(this._attribution);
         this._map = null;
       },
@@ -1965,11 +2015,62 @@ image: /media/2026/09/maps-featured.png
       setOpacity: function (opacity) {
         this._opacity = opacity;
         (this._warpedLayers || []).forEach((layer) => layer.setOpacity && layer.setOpacity(opacity));
+        if (this._placementOverlay) this._placementOverlay.setOpacity(opacity);
         return this;
+      },
+
+      setPlacement: function (corners, imageUrl) {
+        this._placementCorners = {
+          topLeft: Leaflet.latLng(corners.topLeft),
+          topRight: Leaflet.latLng(corners.topRight),
+          bottomRight: Leaflet.latLng(corners.bottomRight),
+          bottomLeft: Leaflet.latLng(corners.bottomLeft)
+        };
+        this._placementImageUrl = imageUrl || this._placementImageUrl;
+        if (this._map) this._showPlacement();
+        return this;
+      },
+
+      getPlacement: function () {
+        if (!this._placementCorners) return null;
+        return Object.fromEntries(Object.entries(this._placementCorners).map(([name, latLng]) => [
+          name,
+          Leaflet.latLng(latLng)
+        ]));
+      },
+
+      _showPlacement: function () {
+        if (!this._map || !this._placementImageUrl || !this._placementCorners) return;
+        (this._warpedLayers || []).forEach((layer) => {
+          if (this._map.hasLayer(layer)) this._map.removeLayer(layer);
+        });
+        if (!this._placementOverlay) {
+          this._placementOverlay = new RayRotatedImageOverlay(
+            this._placementImageUrl,
+            this._placementCorners.topLeft,
+            this._placementCorners.topRight,
+            this._placementCorners.bottomLeft,
+            {
+            interactive: false,
+            opacity: this._opacity,
+            pane: "historicMapsPane"
+            }
+          );
+        } else {
+          this._placementOverlay.reposition(
+            this._placementCorners.topLeft,
+            this._placementCorners.topRight,
+            this._placementCorners.bottomLeft
+          );
+          this._placementOverlay.setOpacity(this._opacity);
+        }
+        if (!this._map.hasLayer(this._placementOverlay)) this._placementOverlay.addTo(this._map);
+        this.bringToBack();
       },
 
       bringToBack: function () {
         (this._warpedLayers || []).forEach((layer) => layer.bringToBack && layer.bringToBack());
+        if (this._placementOverlay && this._placementOverlay.bringToBack) this._placementOverlay.bringToBack();
         return this;
       },
 
@@ -2046,6 +2147,25 @@ image: /media/2026/09/maps-featured.png
       { label: "1887 Jacksonville", slug: "historic1887", aliases: ["jacksonville1887", "sanborn1887"], itemId: "sanborn01286_002", annotationUrl: "/data/historic-maps/annotations/sanborn01286_002.json" },
       { label: "1891 Jacksonville", slug: "historic1891", aliases: ["jacksonville1891", "sanborn1891"], itemId: "sanborn01286_003", annotationUrl: "/data/historic-maps/annotations/sanborn01286_003.json" },
       { label: "1897 Jacksonville", slug: "historic1897", aliases: ["jacksonville1897", "sanborn1897"], itemId: "sanborn01286_004", annotationUrl: "/data/historic-maps/annotations/sanborn01286_004.json" },
+      {
+        label: "Great Fire of 1901",
+        slug: "historic1901fire",
+        aliases: ["greatfire1901", "jacksonvillefire1901", "historic1925fire"],
+        sourceUrl: "https://libapps.s3.amazonaws.com/accounts/29813/images/1925_Map_of_District_Burned_May_3_1901_-_TFD.jpg",
+        attributionLabel: "T. Frederick Davis, Map of district burned May 3, 1901",
+        annotationUrl: "/data/historic-maps/annotations/great-fire-1901-map.json",
+        localIiifPattern: /(great-fire-1901-map)(?:\/info\.json)?\/?$/,
+        bounds: [[30.3188515, -81.6770424], [30.3442707, -81.6368008]],
+        rectangularImageUrl: "/data/historic-maps/images/1925-great-fire-district-map.jpg",
+        placementEditorEnabled: false,
+        placement: {
+          topLeft: [30.3442707, -81.6718571],
+          topRight: [30.3366681, -81.6368008],
+          bottomRight: [30.3188515, -81.6419861],
+          bottomLeft: [30.3264555, -81.6770424]
+        },
+        georeferenceCredit: "Ray Hollister"
+      },
       { label: "1903 Jacksonville", slug: "historic1903", aliases: ["jacksonville1903", "sanborn1903"], itemId: "sanborn01286_005", annotationUrl: "/data/historic-maps/annotations/sanborn01286_005.json" },
       { label: "1903 Pablo Beach", slug: "historic1903pablobeach", aliases: ["pablobeach1903"], itemId: "sanborn01324_001", annotationUrl: "/data/historic-maps/annotations/sanborn01324_001.json", coastal: true },
       { label: "1909 Pablo Beach", slug: "historic1909pablobeach", aliases: ["pablobeach1909"], itemId: "sanborn01324_002", annotationUrl: "/data/historic-maps/annotations/sanborn01324_002.json", coastal: true },
@@ -2065,9 +2185,15 @@ image: /media/2026/09/maps-featured.png
           : definition.bounds || [[30.20, -81.85], [30.50, -81.45]];
       definition.layer = new HistoricMapLayer(definition.annotationUrl, bounds, {
         label: definition.label,
-        sourceUrl: `https://www.loc.gov/item/${definition.itemId}/`,
-        localIiifPattern: definition.localIiifPattern
+        sourceUrl: definition.sourceUrl || `https://www.loc.gov/item/${definition.itemId}/`,
+        attributionLabel: definition.attributionLabel,
+        localIiifPattern: definition.localIiifPattern,
+        georeferenceCredit: definition.georeferenceCredit
       });
+      if (definition.placement && definition.rectangularImageUrl) {
+        definition.layer.setPlacement(definition.placement, definition.rectangularImageUrl);
+      }
+      if (definition.placementEditorEnabled) definition.layer.on("remove", stopHistoricMapPlacementEditor);
     });
     const historicMapLayers = historicMapDefinitions.map((definition) => definition.layer);
     const councilDistrictFillLayer = L.geoJSON(null, {
@@ -2332,6 +2458,7 @@ image: /media/2026/09/maps-featured.png
     let pinnedCardPanel;
     let pinnedCardBody;
     let mapContextMenuElement;
+    let historicMapPlacementEditor;
     const pinnedBoundaryCards = [];
     let pendingMapDataLoads = 0;
     let initialVisibleLayerFitComplete = false;
@@ -3174,6 +3301,281 @@ image: /media/2026/09/maps-featured.png
       return button;
     }
 
+    function getEditableHistoricMapDefinition() {
+      return historicMapDefinitions.find((definition) => (
+        definition.placementEditorEnabled && map.hasLayer(definition.layer)
+      ));
+    }
+
+    function getInitialHistoricMapPlacement(definition) {
+      if (!definition) return null;
+      const savedPlacement = definition.layer.getPlacement();
+      if (savedPlacement) return savedPlacement;
+      const bounds = Leaflet.latLngBounds(definition.bounds);
+      const south = bounds.getSouth();
+      const west = bounds.getWest();
+      const north = bounds.getNorth();
+      const east = bounds.getEast();
+      return {
+        topLeft: Leaflet.latLng(north, west),
+        topRight: Leaflet.latLng(north, east),
+        bottomRight: Leaflet.latLng(south, east),
+        bottomLeft: Leaflet.latLng(south, west)
+      };
+    }
+
+    function formatHistoricMapPlacementCoordinates(definition, corners) {
+      const coordinatePair = (latLng) => [
+        Number(latLng.lng.toFixed(7)),
+        Number(latLng.lat.toFixed(7))
+      ];
+      const topLeftPoint = map.latLngToLayerPoint(corners.topLeft);
+      const topRightPoint = map.latLngToLayerPoint(corners.topRight);
+      const rotation = Math.atan2(
+        topRightPoint.y - topLeftPoint.y,
+        topRightPoint.x - topLeftPoint.x
+      ) * 180 / Math.PI;
+      return JSON.stringify({
+        layer: definition.slug,
+        coordinateOrder: "longitude, latitude",
+        rotationDegreesClockwise: Number(rotation.toFixed(3)),
+        corners: {
+          topLeft: coordinatePair(corners.topLeft),
+          topRight: coordinatePair(corners.topRight),
+          bottomRight: coordinatePair(corners.bottomRight),
+          bottomLeft: coordinatePair(corners.bottomLeft)
+        }
+      }, null, 2);
+    }
+
+    function stopHistoricMapPlacementEditor() {
+      if (!historicMapPlacementEditor) return;
+      if (map.hasLayer(historicMapPlacementEditor.guideLayer)) {
+        map.removeLayer(historicMapPlacementEditor.guideLayer);
+      }
+      historicMapPlacementEditor = undefined;
+    }
+
+    function startHistoricMapPlacementEditor(definition) {
+      if (!definition || !map.hasLayer(definition.layer)) return;
+      stopHistoricMapPlacementEditor();
+
+      let placementCorners = getInitialHistoricMapPlacement(definition);
+      definition.layer.setPlacement(placementCorners, definition.rectangularImageUrl);
+      const guideLayer = Leaflet.layerGroup().addTo(map);
+      const outline = Leaflet.polygon([], {
+        color: "#0969da",
+        dashArray: "6 5",
+        fill: false,
+        interactive: false,
+        pane: "markerPane",
+        weight: 2
+      }).addTo(guideLayer);
+      const rotationGuide = Leaflet.polyline([], {
+        color: "#0969da",
+        dashArray: "3 4",
+        interactive: false,
+        pane: "markerPane",
+        weight: 1
+      }).addTo(guideLayer);
+      const cornerMarkers = {};
+      const cornerIcon = Leaflet.divIcon({
+        className: "",
+        html: '<span class="maps-historic-placement-handle" aria-hidden="true"></span>',
+        iconAnchor: [8, 8],
+        iconSize: [16, 16]
+      });
+      const moveIcon = Leaflet.divIcon({
+        className: "",
+        html: '<span class="maps-historic-placement-handle maps-historic-placement-handle--move" aria-hidden="true">↕</span>',
+        iconAnchor: [11, 11],
+        iconSize: [22, 22]
+      });
+      const rotationIcon = Leaflet.divIcon({
+        className: "",
+        html: '<span class="maps-historic-placement-handle maps-historic-placement-handle--rotate" aria-hidden="true">↻</span>',
+        iconAnchor: [11, 11],
+        iconSize: [22, 22]
+      });
+      const moveMarker = Leaflet.marker([0, 0], {
+        draggable: true,
+        icon: moveIcon,
+        keyboard: true,
+        title: `Move ${definition.label}`
+      }).addTo(guideLayer);
+      const rotationMarker = Leaflet.marker([0, 0], {
+        draggable: true,
+        icon: rotationIcon,
+        keyboard: true,
+        title: `Rotate ${definition.label}`
+      }).addTo(guideLayer);
+      let mapDraggingWasEnabled = false;
+
+      function getPlacementGeometry(corners) {
+        const topLeft = map.latLngToLayerPoint(corners.topLeft);
+        const topRight = map.latLngToLayerPoint(corners.topRight);
+        const bottomLeft = map.latLngToLayerPoint(corners.bottomLeft);
+        const center = topLeft.add(topRight).add(bottomLeft).add(
+          topRight.subtract(topLeft).add(bottomLeft)
+        ).divideBy(4);
+        const horizontal = topRight.subtract(topLeft);
+        const vertical = bottomLeft.subtract(topLeft);
+        const width = Math.hypot(horizontal.x, horizontal.y) / 2;
+        const height = Math.hypot(vertical.x, vertical.y) / 2;
+        return {
+          center,
+          halfHeight: height,
+          halfWidth: width,
+          unitX: horizontal.divideBy(width * 2),
+          unitY: vertical.divideBy(height * 2)
+        };
+      }
+
+      function cornersFromGeometry(geometry) {
+        const horizontal = geometry.unitX.multiplyBy(geometry.halfWidth);
+        const vertical = geometry.unitY.multiplyBy(geometry.halfHeight);
+        const toLatLng = (point) => map.layerPointToLatLng(point);
+        return {
+          topLeft: toLatLng(geometry.center.subtract(horizontal).subtract(vertical)),
+          topRight: toLatLng(geometry.center.add(horizontal).subtract(vertical)),
+          bottomRight: toLatLng(geometry.center.add(horizontal).add(vertical)),
+          bottomLeft: toLatLng(geometry.center.subtract(horizontal).add(vertical))
+        };
+      }
+
+      function startHandleDrag() {
+        mapDraggingWasEnabled = Boolean(map.dragging && map.dragging.enabled());
+        if (mapDraggingWasEnabled) map.dragging.disable();
+      }
+
+      function finishHandleDrag() {
+        if (mapDraggingWasEnabled && map.dragging) map.dragging.enable();
+        mapDraggingWasEnabled = false;
+      }
+
+      function refreshEditor(nextCorners, activeHandle) {
+        placementCorners = nextCorners;
+        definition.layer.setPlacement(placementCorners, definition.rectangularImageUrl);
+        outline.setLatLngs([
+          placementCorners.topLeft,
+          placementCorners.topRight,
+          placementCorners.bottomRight,
+          placementCorners.bottomLeft
+        ]);
+        const geometry = getPlacementGeometry(placementCorners);
+        const rotationHandlePoint = geometry.center
+          .subtract(geometry.unitY.multiplyBy(geometry.halfHeight + 42));
+        const topCenterPoint = geometry.center.subtract(geometry.unitY.multiplyBy(geometry.halfHeight));
+        Object.entries(cornerMarkers).forEach(([name, marker]) => {
+          if (name !== activeHandle) marker.setLatLng(placementCorners[name]);
+        });
+        if (activeHandle !== "move") moveMarker.setLatLng(map.layerPointToLatLng(geometry.center));
+        if (activeHandle !== "rotate") rotationMarker.setLatLng(map.layerPointToLatLng(rotationHandlePoint));
+        rotationGuide.setLatLngs([
+          map.layerPointToLatLng(topCenterPoint),
+          map.layerPointToLatLng(rotationHandlePoint)
+        ]);
+        historicMapPlacementEditor.corners = placementCorners;
+      }
+
+      const cornerSigns = {
+        topLeft: [-1, -1],
+        topRight: [1, -1],
+        bottomRight: [1, 1],
+        bottomLeft: [-1, 1]
+      };
+      Object.entries(placementCorners).forEach(([name, latLng]) => {
+        const marker = Leaflet.marker(latLng, {
+          draggable: true,
+          icon: cornerIcon,
+          keyboard: true,
+          title: `Resize ${definition.label} from ${name}`
+        }).addTo(guideLayer);
+        cornerMarkers[name] = marker;
+        let resizeStartGeometry;
+        marker.on("dragstart", function () {
+          startHandleDrag();
+          resizeStartGeometry = getPlacementGeometry(placementCorners);
+        });
+        marker.on("drag", function (event) {
+          const [horizontalSign, verticalSign] = cornerSigns[name];
+          const opposite = resizeStartGeometry.center
+            .subtract(resizeStartGeometry.unitX.multiplyBy(horizontalSign * resizeStartGeometry.halfWidth))
+            .subtract(resizeStartGeometry.unitY.multiplyBy(verticalSign * resizeStartGeometry.halfHeight));
+          const dragged = map.latLngToLayerPoint(event.target.getLatLng());
+          const diagonal = dragged.subtract(opposite);
+          const horizontalProjection = diagonal.x * resizeStartGeometry.unitX.x + diagonal.y * resizeStartGeometry.unitX.y;
+          const verticalProjection = diagonal.x * resizeStartGeometry.unitY.x + diagonal.y * resizeStartGeometry.unitY.y;
+          const halfWidth = Math.max(8, horizontalSign * horizontalProjection / 2);
+          const halfHeight = Math.max(8, verticalSign * verticalProjection / 2);
+          refreshEditor(cornersFromGeometry({
+            center: opposite.add(dragged).divideBy(2),
+            halfHeight,
+            halfWidth,
+            unitX: resizeStartGeometry.unitX,
+            unitY: resizeStartGeometry.unitY
+          }), name);
+        });
+        marker.on("dragend", function () {
+          finishHandleDrag();
+          refreshEditor(placementCorners);
+        });
+      });
+
+      let moveStartPoint;
+      let moveStartGeometry;
+      moveMarker.on("dragstart", function () {
+        startHandleDrag();
+        moveStartPoint = map.latLngToLayerPoint(moveMarker.getLatLng());
+        moveStartGeometry = getPlacementGeometry(placementCorners);
+      });
+      moveMarker.on("drag", function (event) {
+        const nextPoint = map.latLngToLayerPoint(event.target.getLatLng());
+        refreshEditor(cornersFromGeometry({
+          ...moveStartGeometry,
+          center: moveStartGeometry.center.add(nextPoint.subtract(moveStartPoint))
+        }), "move");
+      });
+      moveMarker.on("dragend", function () {
+        finishHandleDrag();
+        refreshEditor(placementCorners);
+      });
+
+      let rotateStartGeometry;
+      rotationMarker.on("dragstart", function () {
+        startHandleDrag();
+        rotateStartGeometry = getPlacementGeometry(placementCorners);
+      });
+      rotationMarker.on("drag", function (event) {
+        const pointer = map.latLngToLayerPoint(event.target.getLatLng());
+        const outward = pointer.subtract(rotateStartGeometry.center);
+        const distance = Math.max(1, Math.hypot(outward.x, outward.y));
+        const unitY = outward.divideBy(-distance);
+        const unitX = Leaflet.point(unitY.y, -unitY.x);
+        refreshEditor(cornersFromGeometry({
+          ...rotateStartGeometry,
+          unitX,
+          unitY
+        }), "rotate");
+      });
+      rotationMarker.on("dragend", function () {
+        finishHandleDrag();
+        refreshEditor(placementCorners);
+      });
+
+      historicMapPlacementEditor = {
+        definition,
+        corners: placementCorners,
+        cornerMarkers,
+        guideLayer,
+        moveMarker,
+        outline,
+        rotationGuide,
+        rotationMarker
+      };
+      refreshEditor(placementCorners);
+    }
+
     function getComparablePointLayerDefinitions() {
       return [
         { layer: activePlaceLayer, layerType: "place" },
@@ -3338,6 +3740,41 @@ image: /media/2026/09/maps-featured.png
             });
         }
       ));
+
+      const editableHistoricMapDefinition = getEditableHistoricMapDefinition();
+      if (editableHistoricMapDefinition) {
+        mapContextMenuElement.appendChild(createContextMenuButton(
+          historicMapPlacementEditor ? "Finish positioning" : "Move, resize and rotate",
+          historicMapPlacementEditor
+            ? `Hide the ${editableHistoricMapDefinition.label} placement handles`
+            : `Show handles for moving, independently resizing, and rotating ${editableHistoricMapDefinition.label}`,
+          () => {
+            if (historicMapPlacementEditor) {
+              stopHistoricMapPlacementEditor();
+            } else {
+              startHistoricMapPlacementEditor(editableHistoricMapDefinition);
+            }
+            hideMapContextMenu();
+          }
+        ));
+        mapContextMenuElement.appendChild(createContextMenuButton(
+          "Copy coordinates",
+          "Copy the rectangular bounds and four corner coordinates",
+          (button) => {
+            const placementCorners = historicMapPlacementEditor
+              ? historicMapPlacementEditor.corners
+              : getInitialHistoricMapPlacement(editableHistoricMapDefinition);
+            copyTextToClipboard(formatHistoricMapPlacementCoordinates(editableHistoricMapDefinition, placementCorners))
+              .then(() => {
+                button.textContent = "Placement coordinates copied";
+                window.setTimeout(hideMapContextMenu, 650);
+              })
+              .catch(() => {
+                button.textContent = "Copy failed";
+              });
+          }
+        ));
+      }
 
       if (featureContext && featureContext.feature && featureContext.layer) {
         const contextTitle = getComparableFeatureTitle(featureContext.feature, featureContext.layerType);

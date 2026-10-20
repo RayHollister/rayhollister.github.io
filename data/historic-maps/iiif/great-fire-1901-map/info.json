@@ -1,0 +1,20 @@
+{
+  "@context": "http://iiif.io/api/image/2/context.json",
+  "@id": "/data/historic-maps/iiif/great-fire-1901-map",
+  "profile": [
+    "http://iiif.io/api/image/2/level0.json",
+    {
+      "formats": ["jpg"],
+      "qualities": ["default"]
+    }
+  ],
+  "protocol": "http://iiif.io/api/image",
+  "tiles": [
+    {
+      "scaleFactors": [1, 2, 4, 8],
+      "width": 512
+    }
+  ],
+  "width": 2645,
+  "height": 1580
+}
