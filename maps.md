@@ -1079,7 +1079,6 @@ image: /media/2026/09/maps-featured.png
 </section>
 
 <script src="/leaflet/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-rotate@0.2.8/dist/leaflet-rotate-src.js"></script>
 <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.js"></script>
 <script src="/leaflet/extramarkers/js/leaflet.extra-markers.min.js"></script>
@@ -1098,20 +1097,11 @@ image: /media/2026/09/maps-featured.png
       zoomControl: false,
       scrollWheelZoom: true,
       zoomAnimationThreshold: 1,
-      rotate: true,
-      rotateControl: {
-        closeOnZeroBearing: false
-      },
-      bearing: 0,
-      touchRotate: true,
-      shiftKeyRotate: false,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
     const baseMapPane = map.createPane("baseMapPane", map.getPane("mapPane"));
     baseMapPane.style.zIndex = "100";
-    map.getPane("rotatePane").style.zIndex = "400";
-    map.getPane("norotatePane").style.zIndex = "600";
-    const navigationMarkerPane = map.createPane("navigationMarkerPane", map.getPane("norotatePane"));
+    const navigationMarkerPane = map.createPane("navigationMarkerPane", map.getPane("mapPane"));
     navigationMarkerPane.style.zIndex = "750";
 
     const openFreeMapStyles = {
@@ -1192,16 +1182,12 @@ image: /media/2026/09/maps-featured.png
       const config = baseMapStyles[baseMapKey];
       const settings = options || {};
       const requestId = ++baseMapRequestId;
-      const preservedBearing = map.getBearing ? map.getBearing() : 0;
       if (!config) return false;
       if (!window.maplibregl || !createMapLibreLayer || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true }))) {
         return false;
       }
       if (requestId !== baseMapRequestId) {
         return false;
-      }
-      if (preservedBearing) {
-        map.setBearing(0);
       }
       if (baseMapLayer) {
         if (map.hasLayer(jacksonville1884HistoricMapLayer)) {
@@ -1223,10 +1209,6 @@ image: /media/2026/09/maps-featured.png
         pane: "baseMapPane"
       }).addTo(map);
       activeBaseMapKey = baseMapKey;
-      if (preservedBearing) {
-        map.setBearing(preservedBearing);
-      }
-      syncBaseMapBearing();
       if (map.hasLayer(jacksonville1884HistoricMapLayer)) {
         jacksonville1884HistoricMapLayer.refreshBaseMap();
       }
@@ -1300,14 +1282,6 @@ image: /media/2026/09/maps-featured.png
     function refreshActiveBaseMap() {
       if (baseMapStyles[activeBaseMapKey]) {
         setBaseMap(activeBaseMapKey, { quiet: true, updateUrl: false });
-      }
-    }
-
-    function syncBaseMapBearing() {
-      if (!baseMapLayer || !baseMapLayer.getMaplibreMap || !map.getBearing) return;
-      const maplibreMap = baseMapLayer.getMaplibreMap();
-      if (maplibreMap) {
-        maplibreMap.jumpTo({ bearing: -map.getBearing() });
       }
     }
 
@@ -7290,7 +7264,6 @@ image: /media/2026/09/maps-featured.png
     addLocateControl();
     
     setBaseMap(getBaseMapQueryKey(), { quiet: true, updateUrl: false });
-    map.on("rotate", syncBaseMapBearing);
 
     if (window.matchMedia) {
       const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
