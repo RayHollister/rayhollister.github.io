@@ -1079,6 +1079,7 @@ image: /media/2026/09/maps-featured.png
 </section>
 
 <script src="/leaflet/leaflet.js"></script>
+<script src="/leaflet/smoothwheelzoom/SmoothWheelZoom.js"></script>
 <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.js"></script>
 <script src="/leaflet/extramarkers/js/leaflet.extra-markers.min.js"></script>
@@ -1095,13 +1096,16 @@ image: /media/2026/09/maps-featured.png
       maxBounds: [[-85.051129, -Infinity], [85.051129, Infinity]],
       maxBoundsViscosity: 1,
       zoomControl: false,
-      scrollWheelZoom: true,
+      scrollWheelZoom: false,
+      smoothWheelZoom: true,
+      smoothSensitivity: 1,
+      zoomSnap: 0,
       zoomAnimationThreshold: 1,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
-    const baseMapPane = map.createPane("baseMapPane", map.getPane("mapPane"));
-    baseMapPane.style.zIndex = "100";
-    const navigationMarkerPane = map.createPane("navigationMarkerPane", map.getPane("mapPane"));
+    const historicMapsPane = map.createPane("historicMapsPane");
+    historicMapsPane.style.zIndex = "350";
+    const navigationMarkerPane = map.createPane("navigationMarkerPane");
     navigationMarkerPane.style.zIndex = "750";
 
     const openFreeMapStyles = {
@@ -1124,22 +1128,8 @@ image: /media/2026/09/maps-featured.png
       },
       googleSatellite: {
         label: "Google Satellite",
-        getStyle: () => ({
-          version: 8,
-          sources: {
-            googleSatellite: {
-              type: "raster",
-              tiles: ["https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"],
-              tileSize: 256,
-              attribution: "Google Satellite"
-            }
-          },
-          layers: [{
-            id: "google-satellite",
-            type: "raster",
-            source: "googleSatellite"
-          }]
-        })
+        type: "tile",
+        url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
       }
     };
     const createMapLibreLayer = typeof L.maplibreGL === "function"
@@ -1153,7 +1143,6 @@ image: /media/2026/09/maps-featured.png
     let baseMapOpacityLabel;
     let baseMapTileOpacity = 1;
     let baseMapRequestId = 0;
-    const baseMapOriginalPaintOpacity = new WeakMap();
     const defaultHistoricMapOpacity = 1;
     let historicMapOpacity = defaultHistoricMapOpacity;
     let historicMapOpacityInput;
@@ -1183,35 +1172,35 @@ image: /media/2026/09/maps-featured.png
       const settings = options || {};
       const requestId = ++baseMapRequestId;
       if (!config) return false;
-      if (!window.maplibregl || !createMapLibreLayer || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true }))) {
+      if (config.type !== "tile" && (!window.maplibregl || !createMapLibreLayer || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true })))) {
         return false;
       }
       if (requestId !== baseMapRequestId) {
         return false;
       }
       if (baseMapLayer) {
-        if (map.hasLayer(jacksonville1884HistoricMapLayer)) {
-          jacksonville1884HistoricMapLayer.detachBaseMap();
-        }
         map.removeLayer(baseMapLayer);
       }
-      let nextStyle;
-      try {
-        nextStyle = config.getStyle();
-      } catch (error) {
-        if (!settings.quiet) {
-          window.alert(error.message || `Could not load ${config.label} basemap.`);
+      if (config.type === "tile") {
+        baseMapLayer = L.tileLayer(config.url, {
+          attribution: "Google Satellite",
+          maxZoom: 20
+        }).addTo(map);
+      } else {
+        let nextStyle;
+        try {
+          nextStyle = config.getStyle();
+        } catch (error) {
+          if (!settings.quiet) {
+            window.alert(error.message || `Could not load ${config.label} basemap.`);
+          }
+          return false;
         }
-        return false;
+        baseMapLayer = createMapLibreLayer({
+          style: nextStyle
+        }).addTo(map);
       }
-      baseMapLayer = createMapLibreLayer({
-        style: nextStyle,
-        pane: "baseMapPane"
-      }).addTo(map);
       activeBaseMapKey = baseMapKey;
-      if (map.hasLayer(jacksonville1884HistoricMapLayer)) {
-        jacksonville1884HistoricMapLayer.refreshBaseMap();
-      }
       applyBaseMapTileOpacity();
       updateBaseMapControl();
       if (settings.updateUrl !== false) {
@@ -1230,57 +1219,17 @@ image: /media/2026/09/maps-featured.png
 
     function applyBaseMapTileOpacity() {
       if (!baseMapLayer) return;
-      const maplibreMap = baseMapLayer.getMaplibreMap ? baseMapLayer.getMaplibreMap() : null;
+      if (baseMapLayer.setOpacity) {
+        baseMapLayer.setOpacity(baseMapTileOpacity);
+      }
       const container = getBaseMapLayerContainer();
       if (container) {
-        container.style.opacity = "1";
-      }
-      if (!maplibreMap) return;
-      const applyOpacity = () => {
-        const style = maplibreMap.getStyle();
-        if (!style || !style.layers) return;
-        let originalValues = baseMapOriginalPaintOpacity.get(maplibreMap);
-        if (!originalValues) {
-          originalValues = new Map();
-          baseMapOriginalPaintOpacity.set(maplibreMap, originalValues);
-        }
-        const opacityProperties = {
-          background: ["background-opacity"],
-          circle: ["circle-opacity", "circle-stroke-opacity"],
-          fill: ["fill-opacity"],
-          "fill-extrusion": ["fill-extrusion-opacity"],
-          heatmap: ["heatmap-opacity"],
-          line: ["line-opacity"],
-          raster: ["raster-opacity"],
-          symbol: ["icon-opacity", "text-opacity"]
-        };
-        style.layers.forEach((styleLayer) => {
-          if (styleLayer.id === "historic1884") return;
-          (opacityProperties[styleLayer.type] || []).forEach((property) => {
-            const valueKey = `${styleLayer.id}:${property}`;
-            if (!originalValues.has(valueKey)) {
-              const originalValue = maplibreMap.getPaintProperty(styleLayer.id, property);
-              originalValues.set(valueKey, originalValue === undefined ? 1 : originalValue);
-            }
-            const originalValue = originalValues.get(valueKey);
-            const opacityValue = baseMapTileOpacity === 1
-              ? originalValue
-              : typeof originalValue === "number"
-                ? originalValue * baseMapTileOpacity
-                : ["*", originalValue, baseMapTileOpacity];
-            maplibreMap.setPaintProperty(styleLayer.id, property, opacityValue);
-          });
-        });
-      };
-      if (maplibreMap.loaded()) {
-        applyOpacity();
-      } else {
-        maplibreMap.once("load", applyOpacity);
+        container.style.opacity = String(baseMapTileOpacity);
       }
     }
 
     function refreshActiveBaseMap() {
-      if (baseMapStyles[activeBaseMapKey]) {
+      if (baseMapStyles[activeBaseMapKey] && baseMapStyles[activeBaseMapKey].type !== "tile") {
         setBaseMap(activeBaseMapKey, { quiet: true, updateUrl: false });
       }
     }
@@ -1983,8 +1932,6 @@ image: /media/2026/09/maps-featured.png
         this._annotationUrl = annotationUrl;
         this._bounds = L.latLngBounds(bounds);
         this._loadRequest = 0;
-        this._attachmentRequest = 0;
-        this._resourcesPromise = null;
         this._opacity = historicMapOpacity;
       },
 
@@ -1994,13 +1941,15 @@ image: /media/2026/09/maps-featured.png
         const loadRequest = this._loadRequest;
         initialVisibleLayerFitComplete = true;
         targetMap.attributionControl.addAttribution(historicMapAttribution);
+        targetMap.fitBounds(this._bounds, { padding: [24, 24] });
         this._load(loadRequest);
       },
 
       onRemove: function (targetMap) {
         this._loadRequest += 1;
-        this._attachmentRequest += 1;
-        this._removeWarpedLayer();
+        if (this._warpedLayer && targetMap.hasLayer(this._warpedLayer)) {
+          targetMap.removeLayer(this._warpedLayer);
+        }
         targetMap.attributionControl.removeAttribution(historicMapAttribution);
         this._map = null;
       },
@@ -2018,63 +1967,22 @@ image: /media/2026/09/maps-featured.png
       },
 
       bringToBack: function () {
+        if (this._warpedLayer && this._warpedLayer.bringToBack) {
+          this._warpedLayer.bringToBack();
+        }
         return this;
       },
 
-      refreshBaseMap: function () {
-        this._attachmentRequest += 1;
-        this._removeWarpedLayer();
-        if (this._map && this._allmaps && this._annotation && this._imageInfos) {
-          this._attachToBaseMap(this._attachmentRequest);
-        }
-      },
-
-      detachBaseMap: function () {
-        this._attachmentRequest += 1;
-        this._removeWarpedLayer();
-      },
-
-      _removeWarpedLayer: function () {
-        const maplibreMap = this._warpedMapLibreMap;
-        const warpedLayer = this._warpedLayer;
-        if (maplibreMap && warpedLayer && maplibreMap.getLayer(warpedLayer.id)) {
-          maplibreMap.removeLayer(warpedLayer.id);
-        }
-        this._warpedMapLibreMap = null;
-        this._warpedLayer = null;
-      },
-
-      _attachToBaseMap: function (attachmentRequest) {
-        const maplibreMap = baseMapLayer && baseMapLayer.getMaplibreMap
-          ? baseMapLayer.getMaplibreMap()
-          : null;
-        if (!maplibreMap) return;
-        const attach = () => {
-          if (attachmentRequest !== this._attachmentRequest || !this._map || maplibreMap !== baseMapLayer.getMaplibreMap()) return;
-          this._removeWarpedLayer();
-          const warpedLayer = new this._allmaps.WarpedMapLayer({
-            layerId: "historic1884",
-            opacity: this._opacity
-          });
-          maplibreMap.addLayer(warpedLayer);
-          warpedLayer.addImageInfos(this._imageInfos);
-          warpedLayer.addGeoreferenceAnnotation(this._annotation);
-          warpedLayer.setOpacity(this._opacity);
-          warpedLayer.nativeUpdate();
-          this._warpedLayer = warpedLayer;
-          this._warpedMapLibreMap = maplibreMap;
-        };
-        if (maplibreMap.loaded()) {
-          attach();
-        } else {
-          maplibreMap.once("load", attach);
-        }
-      },
-
-      _loadResources: function () {
-        if (!this._resourcesPromise) {
-          this._resourcesPromise = (async () => {
-            const allmaps = await import("https://cdn.jsdelivr.net/npm/@allmaps/maplibre@1.0.0-beta.43/+esm");
+      _load: async function (loadRequest) {
+        try {
+          if (!this._warpedLayer) {
+            const allmaps = await import("https://cdn.jsdelivr.net/npm/@allmaps/leaflet@1.0.0-beta.55/+esm");
+            if (loadRequest !== this._loadRequest || !this._map) return;
+            this._warpedLayer = new allmaps.WarpedMapLayer(undefined, {
+              opacity: this._opacity,
+              pane: "historicMapsPane"
+            });
+            this._map.addLayer(this._warpedLayer);
             const annotationResponse = await fetch(this._annotationUrl);
             if (!annotationResponse.ok) {
               throw new Error(`Historic map annotation request failed: ${annotationResponse.status}`);
@@ -2099,24 +2007,17 @@ image: /media/2026/09/maps-featured.png
               imageInfo["@id"] = source.id;
               return imageInfo;
             }));
-            return { allmaps, annotation, imageInfos };
-          })().catch((error) => {
-            this._resourcesPromise = null;
-            throw error;
-          });
-        }
-        return this._resourcesPromise;
-      },
-
-      _load: async function (loadRequest) {
-        try {
-          const resources = await this._loadResources();
+            this._warpedLayer.addImageInfos(imageInfos);
+            this._warpedLayer.addGeoreferenceAnnotation(annotation);
+          } else if (!this._map.hasLayer(this._warpedLayer)) {
+            this._map.addLayer(this._warpedLayer);
+          }
           if (loadRequest !== this._loadRequest || !this._map) return;
-          this._allmaps = resources.allmaps;
-          this._annotation = resources.annotation;
-          this._imageInfos = resources.imageInfos;
-          this._attachmentRequest += 1;
-          this._attachToBaseMap(this._attachmentRequest);
+          this._warpedLayer.setOpacity(this._opacity);
+          if (this._warpedLayer.nativeUpdate) {
+            this._warpedLayer.nativeUpdate();
+          }
+          this.bringToBack();
         } catch (error) {
           console.error("Could not load the 1884 historic map layer.", error);
           if (loadRequest === this._loadRequest && this._map) {
@@ -3526,6 +3427,10 @@ image: /media/2026/09/maps-featured.png
       orderMapLayers();
       syncDistrictLayerInputs();
       updateLayerQueryUrl();
+      if (enabled && control.layer === jacksonville1884HistoricMapLayer) {
+        initialVisibleLayerFitComplete = true;
+        map.fitBounds(jacksonville1884HistoricMapLayer.getBounds(), { padding: [24, 24] });
+      }
     }
 
     function normalizeLayerQueryToken(value) {
