@@ -25,8 +25,6 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 
 ## Historic Maps
 
-- Romans, B. (1776). *A general map of the southern British colonies, in America, comprehending North and South Carolina, Georgia, east and west Florida, with the neighbouring Indian countries* [Map]. R. Sayer & J. Bennett. Yale University Library, Beinecke Rare Book and Manuscript Library. [https://collections.library.yale.edu/catalog/2000126](https://collections.library.yale.edu/catalog/2000126)
-
 - Sanborn Map Company. (1884, July). *Sanborn fire insurance map from Jacksonville, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_001/](https://www.loc.gov/item/sanborn01286_001/)
   - Seven detailed map sheets are displayed; the volume's index/key sheet remains available from the Library of Congress source page.
 - Sanborn Map Company. (1887). *Sanborn fire insurance map from Jacksonville, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_002/](https://www.loc.gov/item/sanborn01286_002/)

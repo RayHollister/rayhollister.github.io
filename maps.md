@@ -2148,23 +2148,6 @@ image: /media/2026/09/maps-featured.png
       { label: "1891 Jacksonville", slug: "historic1891", aliases: ["jacksonville1891", "sanborn1891"], itemId: "sanborn01286_003", annotationUrl: "/data/historic-maps/annotations/sanborn01286_003.json" },
       { label: "1897 Jacksonville", slug: "historic1897", aliases: ["jacksonville1897", "sanborn1897"], itemId: "sanborn01286_004", annotationUrl: "/data/historic-maps/annotations/sanborn01286_004.json" },
       {
-        label: "1776 Southern British Colonies",
-        slug: "historic1776southerncolonies",
-        aliases: ["southerncolonies1776", "romans1776"],
-        sourceUrl: "https://collections.library.yale.edu/catalog/2000126",
-        attributionLabel: "Bernard Romans, A General map of the southern British colonies",
-        bounds: [[30.15, -81.95], [30.55, -81.45]],
-        rectangularImageUrl: "/data/historic-maps/images/1776-southern-british-colonies.jpg",
-        placementEditorEnabled: true,
-        placement: {
-          topLeft: [30.55, -81.95],
-          topRight: [30.55, -81.45],
-          bottomRight: [30.15, -81.45],
-          bottomLeft: [30.15, -81.95]
-        },
-        georeferenceCredit: "Placement pending"
-      },
-      {
         label: "Great Fire of 1901",
         slug: "historic1901fire",
         aliases: ["greatfire1901", "jacksonvillefire1901", "historic1925fire"],
