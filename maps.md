@@ -1284,7 +1284,7 @@ image: /media/2026/09/maps-featured.png
     function setHistoricMapOpacity(value, options) {
       const settings = options || {};
       historicMapOpacity = Math.max(0, Math.min(1, Number.isFinite(value) ? value : defaultHistoricMapOpacity));
-      jacksonville1884HistoricMapLayer.setOpacity(historicMapOpacity);
+      historicMapLayers.forEach((layer) => layer.setOpacity(historicMapOpacity));
       updateHistoricMapOpacityControl();
       if (settings.updateUrl) {
         updateHistoricMapOpacityQueryUrl();
@@ -1390,13 +1390,15 @@ image: /media/2026/09/maps-featured.png
           });
           body.appendChild(createLayerSubheading("Historic Maps"));
           body.appendChild(createHistoricMapOpacityControl());
-          const historicMapControl = createBoundaryLayerInput(
-            "1884 Jacksonville",
-            jacksonville1884HistoricMapLayer,
-            { countable: false, geometryType: "polygon", querySlug: "historic1884" }
-          );
-          historicMapControl.input.checked = map.hasLayer(jacksonville1884HistoricMapLayer);
-          body.appendChild(historicMapControl.labelElement);
+          historicMapDefinitions.forEach((definition) => {
+            const historicMapControl = createBoundaryLayerInput(
+              definition.label,
+              definition.layer,
+              { countable: false, geometryType: "polygon", querySlug: definition.slug }
+            );
+            historicMapControl.input.checked = map.hasLayer(definition.layer);
+            body.appendChild(historicMapControl.labelElement);
+          });
           controlApi = setupCollapsibleMapControl(container, "Basemap", body, {
             headerAction: createBaseMapHeaderActions(),
             iconPath: "M576 112C576 103.7 571.7 96 564.7 91.6C557.7 87.2 548.8 86.8 541.4 90.5L416.5 152.1L244 93.4C230.3 88.7 215.3 89.6 202.1 95.7L77.8 154.3C69.4 158.2 64 166.7 64 176L64 528C64 536.2 68.2 543.9 75.1 548.3C82 552.7 90.7 553.2 98.2 549.7L225.5 489.8L396.2 546.7C409.9 551.3 424.7 550.4 437.8 544.2L562.2 485.7C570.6 481.7 576 473.3 576 464L576 112zM208 146.1L208 445.1L112 490.3L112 191.3L208 146.1zM256 449.4L256 148.3L384 191.8L384 492.1L256 449.4zM432 198L528 150.6L528 448.8L432 494L432 198z"
@@ -1926,11 +1928,14 @@ image: /media/2026/09/maps-featured.png
     const activePlaceLayer = L.layerGroup().addTo(map);
     const archivedPlaceLayer = L.layerGroup();
     const leadershipJaxLocationsLayer = L.layerGroup().addTo(map);
-    const historicMapAttribution = '<a href="https://www.loc.gov/item/sanborn01286_001/" target="_blank" rel="noopener">Library of Congress, 1884 Sanborn Map</a> · Georeferencing: <a href="https://mapsnap.org/" target="_blank" rel="noopener">mapsnap</a>';
     const HistoricMapLayer = L.Layer.extend({
-      initialize: function (annotationUrl, bounds) {
+      initialize: function (annotationUrl, bounds, options) {
+        const settings = options || {};
         this._annotationUrl = annotationUrl;
         this._bounds = L.latLngBounds(bounds);
+        this._label = settings.label || "Historic map";
+        this._localIiifPattern = settings.localIiifPattern || null;
+        this._attribution = `<a href="${settings.sourceUrl}" target="_blank" rel="noopener">Library of Congress, ${this._label} Sanborn Map</a> · Georeferencing: <a href="https://mapsnap.org/" target="_blank" rel="noopener">mapsnap</a>`;
         this._loadRequest = 0;
         this._opacity = historicMapOpacity;
       },
@@ -1940,16 +1945,16 @@ image: /media/2026/09/maps-featured.png
         this._loadRequest += 1;
         const loadRequest = this._loadRequest;
         initialVisibleLayerFitComplete = true;
-        targetMap.attributionControl.addAttribution(historicMapAttribution);
+        targetMap.attributionControl.addAttribution(this._attribution);
         this._load(loadRequest);
       },
 
       onRemove: function (targetMap) {
         this._loadRequest += 1;
-        if (this._warpedLayer && targetMap.hasLayer(this._warpedLayer)) {
-          targetMap.removeLayer(this._warpedLayer);
-        }
-        targetMap.attributionControl.removeAttribution(historicMapAttribution);
+        (this._warpedLayers || []).forEach((layer) => {
+          if (targetMap.hasLayer(layer)) targetMap.removeLayer(layer);
+        });
+        targetMap.attributionControl.removeAttribution(this._attribution);
         this._map = null;
       },
 
@@ -1959,29 +1964,20 @@ image: /media/2026/09/maps-featured.png
 
       setOpacity: function (opacity) {
         this._opacity = opacity;
-        if (this._warpedLayer && this._warpedLayer.setOpacity) {
-          this._warpedLayer.setOpacity(opacity);
-        }
+        (this._warpedLayers || []).forEach((layer) => layer.setOpacity && layer.setOpacity(opacity));
         return this;
       },
 
       bringToBack: function () {
-        if (this._warpedLayer && this._warpedLayer.bringToBack) {
-          this._warpedLayer.bringToBack();
-        }
+        (this._warpedLayers || []).forEach((layer) => layer.bringToBack && layer.bringToBack());
         return this;
       },
 
       _load: async function (loadRequest) {
         try {
-          if (!this._warpedLayer) {
+          if (!this._warpedLayers) {
             const allmaps = await import("https://cdn.jsdelivr.net/npm/@allmaps/leaflet@1.0.0-beta.55/+esm");
             if (loadRequest !== this._loadRequest || !this._map) return;
-            this._warpedLayer = new allmaps.WarpedMapLayer(undefined, {
-              opacity: this._opacity,
-              pane: "historicMapsPane"
-            });
-            this._map.addLayer(this._warpedLayer);
             const annotationResponse = await fetch(this._annotationUrl);
             if (!annotationResponse.ok) {
               throw new Error(`Historic map annotation request failed: ${annotationResponse.status}`);
@@ -1990,45 +1986,90 @@ image: /media/2026/09/maps-featured.png
             (annotation.items || []).forEach((item) => {
               const source = item && item.target && item.target.source;
               if (source && typeof source.id === "string") {
-                const sheetMatch = source.id.match(/(01286_1884-\d{4})(?:\/info\.json)?\/?$/);
+                const sheetMatch = this._localIiifPattern && source.id.match(this._localIiifPattern);
                 if (sheetMatch) {
                   source.id = new URL(`/data/historic-maps/iiif/${sheetMatch[1]}`, window.location.origin).href;
                 }
               }
             });
-            const imageInfos = await Promise.all((annotation.items || []).map(async (item) => {
+            const sourceUrls = [...new Set((annotation.items || []).map((item) => {
               const source = item && item.target && item.target.source;
-              const response = await fetch(`${source.id}/info.json`);
+              return source && source.id;
+            }).filter(Boolean))];
+            const imageInfos = await Promise.all(sourceUrls.map(async (sourceUrl) => {
+              const response = await fetch(`${sourceUrl}/info.json`);
               if (!response.ok) {
                 throw new Error(`Historic map image information request failed: ${response.status}`);
               }
               const imageInfo = await response.json();
-              imageInfo["@id"] = source.id;
+              imageInfo["@id"] = sourceUrl;
               return imageInfo;
             }));
-            this._warpedLayer.addImageInfos(imageInfos);
-            this._warpedLayer.addGeoreferenceAnnotation(annotation);
-          } else if (!this._map.hasLayer(this._warpedLayer)) {
-            this._map.addLayer(this._warpedLayer);
+            if (loadRequest !== this._loadRequest || !this._map) return;
+            const groupedItems = [];
+            const sourceOccurrences = new Map();
+            (annotation.items || []).forEach((item) => {
+              const sourceUrl = item && item.target && item.target.source && item.target.source.id;
+              const occurrence = sourceOccurrences.get(sourceUrl) || 0;
+              sourceOccurrences.set(sourceUrl, occurrence + 1);
+              if (!groupedItems[occurrence]) groupedItems[occurrence] = [];
+              groupedItems[occurrence].push(item);
+            });
+            this._warpedLayers = groupedItems.map((items) => {
+              const layer = new allmaps.WarpedMapLayer(undefined, {
+                opacity: this._opacity,
+                pane: "historicMapsPane"
+              });
+              this._map.addLayer(layer);
+              layer.addImageInfos(imageInfos);
+              layer.addGeoreferenceAnnotation({ ...annotation, items });
+              return layer;
+            });
+          } else {
+            this._warpedLayers.forEach((layer) => {
+              if (!this._map.hasLayer(layer)) this._map.addLayer(layer);
+            });
           }
           if (loadRequest !== this._loadRequest || !this._map) return;
-          this._warpedLayer.setOpacity(this._opacity);
-          if (this._warpedLayer.nativeUpdate) {
-            this._warpedLayer.nativeUpdate();
-          }
+          this._warpedLayers.forEach((layer) => layer.setOpacity(this._opacity));
           this.bringToBack();
         } catch (error) {
-          console.error("Could not load the 1884 historic map layer.", error);
+          console.error(`Could not load the ${this._label} historic map layer.`, error);
           if (loadRequest === this._loadRequest && this._map) {
-            window.alert("The 1884 historic map layer could not be loaded. Please try again.");
+            window.alert(`The ${this._label} historic map layer could not be loaded. Please try again.`);
           }
         }
       }
     });
-    const jacksonville1884HistoricMapLayer = new HistoricMapLayer(
-      "/data/historic-maps/jacksonville-sanborn-1884-georeference.json",
-      [[30.323807908372586, -81.6642101], [30.3315704, -81.6514076150357]]
-    );
+    const historicMapDefinitions = [
+      { label: "1884 Jacksonville", slug: "historic1884", aliases: ["jacksonville1884", "sanborn1884"], itemId: "sanborn01286_001", annotationUrl: "/data/historic-maps/jacksonville-sanborn-1884-georeference.json", bounds: [[30.323807908372586, -81.6642101], [30.3315704, -81.6514076150357]], localIiifPattern: /(01286_1884-\d{4})(?:\/info\.json)?\/?$/ },
+      { label: "1887 Jacksonville", slug: "historic1887", aliases: ["jacksonville1887", "sanborn1887"], itemId: "sanborn01286_002", annotationUrl: "/data/historic-maps/annotations/sanborn01286_002.json" },
+      { label: "1891 Jacksonville", slug: "historic1891", aliases: ["jacksonville1891", "sanborn1891"], itemId: "sanborn01286_003", annotationUrl: "/data/historic-maps/annotations/sanborn01286_003.json" },
+      { label: "1897 Jacksonville", slug: "historic1897", aliases: ["jacksonville1897", "sanborn1897"], itemId: "sanborn01286_004", annotationUrl: "/data/historic-maps/annotations/sanborn01286_004.json" },
+      { label: "1903 Jacksonville", slug: "historic1903", aliases: ["jacksonville1903", "sanborn1903"], itemId: "sanborn01286_005", annotationUrl: "/data/historic-maps/annotations/sanborn01286_005.json" },
+      { label: "1903 Pablo Beach", slug: "historic1903pablobeach", aliases: ["pablobeach1903"], itemId: "sanborn01324_001", annotationUrl: "/data/historic-maps/annotations/sanborn01324_001.json", coastal: true },
+      { label: "1909 Pablo Beach", slug: "historic1909pablobeach", aliases: ["pablobeach1909"], itemId: "sanborn01324_002", annotationUrl: "/data/historic-maps/annotations/sanborn01324_002.json", coastal: true },
+      { label: "1913 Jacksonville — Volume 1", slug: "historic1913v1", aliases: ["jacksonville1913v1", "sanborn1913v1"], itemId: "sanborn01286_006", annotationUrl: "/data/historic-maps/annotations/sanborn01286_006.json" },
+      { label: "1913 Jacksonville — Volume 2", slug: "historic1913v2", aliases: ["jacksonville1913v2", "sanborn1913v2"], itemId: "sanborn01286_007", annotationUrl: "/data/historic-maps/annotations/sanborn01286_007.json" },
+      { label: "1917 Pablo Beach", slug: "historic1917pablobeach", aliases: ["pablobeach1917"], itemId: "sanborn01324_003", annotationUrl: "/data/historic-maps/annotations/sanborn01324_003.json", coastal: true },
+      { label: "1921 Mayport", slug: "historic1921mayport", aliases: ["mayport1921"], itemId: "sanborn01307_002", annotationUrl: "/data/historic-maps/annotations/sanborn01307_002.json", mayport: true },
+      { label: "1924 Pablo Beach", slug: "historic1924pablobeach", aliases: ["pablobeach1924"], itemId: "sanborn01324_004", annotationUrl: "/data/historic-maps/annotations/sanborn01324_004.json", coastal: true },
+      { label: "1949 Jacksonville — Volume 1A", slug: "historic1949v1a", aliases: ["jacksonville1949v1a", "sanborn1949v1a"], itemId: "sanborn01286_008", annotationUrl: "/data/historic-maps/annotations/sanborn01286_008.json" },
+      { label: "1949 Jacksonville — Volume 4", slug: "historic1949v4", aliases: ["jacksonville1949v4", "sanborn1949v4"], itemId: "sanborn01286_010", annotationUrl: "/data/historic-maps/annotations/sanborn01286_010.json" }
+    ];
+    historicMapDefinitions.forEach((definition) => {
+      const bounds = definition.mayport
+        ? [[30.37, -81.46], [30.43, -81.38]]
+        : definition.coastal
+          ? [[30.25, -81.45], [30.36, -81.35]]
+          : definition.bounds || [[30.20, -81.85], [30.50, -81.45]];
+      definition.layer = new HistoricMapLayer(definition.annotationUrl, bounds, {
+        label: definition.label,
+        sourceUrl: `https://www.loc.gov/item/${definition.itemId}/`,
+        localIiifPattern: definition.localIiifPattern
+      });
+    });
+    const historicMapLayers = historicMapDefinitions.map((definition) => definition.layer);
     const councilDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getCouncilDistrictStyle(feature, "fill"),
       onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "fill")
@@ -2435,9 +2476,9 @@ image: /media/2026/09/maps-featured.png
       ];
 
       polygonLayers.forEach((layer) => moveLayerGroup(layer, "bringToBack"));
-      if (map.hasLayer(jacksonville1884HistoricMapLayer)) {
-        jacksonville1884HistoricMapLayer.bringToBack();
-      }
+      historicMapLayers.forEach((layer) => {
+        if (map.hasLayer(layer)) layer.bringToBack();
+      });
       lineLayers.forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       pointLayers.forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       moveLayerGroup(busStopsLayer, "bringToFront");
@@ -4496,7 +4537,9 @@ image: /media/2026/09/maps-featured.png
     }
 
     function registerMapQueryLayers() {
-      registerQueryLayer(["historic1884", "jacksonville1884", "sanborn1884"], jacksonville1884HistoricMapLayer, { slug: "historic1884" });
+      historicMapDefinitions.forEach((definition) => {
+        registerQueryLayer([definition.slug].concat(definition.aliases), definition.layer, { slug: definition.slug });
+      });
       registerQueryLayer(["councildistrict", "councildistricts", "citycouncildistrict", "citycouncildistricts"], councilDistrictFillLayer, { group: "boundaries", slug: "citycouncildistrict", alternateLayers: [councilDistrictBorderLayer] });
       registerQueryLayer(["councilatlarge", "councildistrictatlarge", "citycouncilatlarge", "citycouncildistrictatlarge"], councilAtLargeFillLayer, { group: "boundaries", slug: "citycouncilatlarge", alternateLayers: [councilAtLargeBorderLayer] });
       registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries", slug: "schoolboarddistricts", alternateLayers: [schoolBoardDistrictBorderLayer] });
