@@ -950,6 +950,31 @@ image: /media/2026/09/maps-featured.png
     outline: 0;
   }
 
+  .maps-historic-placement-handle {
+    align-items: center;
+    background: #fff;
+    border: 2px solid #0969da;
+    box-shadow: 0 1px 4px rgb(27 31 36 / 35%);
+    box-sizing: border-box;
+    cursor: nwse-resize;
+    display: flex;
+    height: 16px;
+    justify-content: center;
+    width: 16px;
+  }
+
+  .maps-historic-placement-handle--move {
+    background: #0969da;
+    border-color: #fff;
+    border-radius: 50%;
+    color: #fff;
+    cursor: move;
+    font-size: 11px;
+    height: 22px;
+    line-height: 1;
+    width: 22px;
+  }
+
   #ray-map .maplibregl-map,
   #ray-map .maplibregl-canvas-container,
   #ray-map .maplibregl-canvas,
@@ -1948,6 +1973,10 @@ image: /media/2026/09/maps-featured.png
         const loadRequest = this._loadRequest;
         initialVisibleLayerFitComplete = true;
         targetMap.attributionControl.addAttribution(this._attribution);
+        if (this._placementBounds && this._rectangularImageUrl) {
+          this._showRectangularPlacement();
+          return;
+        }
         this._load(loadRequest);
       },
 
@@ -1956,6 +1985,9 @@ image: /media/2026/09/maps-featured.png
         (this._warpedLayers || []).forEach((layer) => {
           if (targetMap.hasLayer(layer)) targetMap.removeLayer(layer);
         });
+        if (this._placementOverlay && targetMap.hasLayer(this._placementOverlay)) {
+          targetMap.removeLayer(this._placementOverlay);
+        }
         targetMap.attributionControl.removeAttribution(this._attribution);
         this._map = null;
       },
@@ -1967,11 +1999,43 @@ image: /media/2026/09/maps-featured.png
       setOpacity: function (opacity) {
         this._opacity = opacity;
         (this._warpedLayers || []).forEach((layer) => layer.setOpacity && layer.setOpacity(opacity));
+        if (this._placementOverlay) this._placementOverlay.setOpacity(opacity);
         return this;
+      },
+
+      setRectangularPlacement: function (bounds, imageUrl) {
+        this._placementBounds = L.latLngBounds(bounds);
+        this._rectangularImageUrl = imageUrl || this._rectangularImageUrl;
+        if (this._map) this._showRectangularPlacement();
+        return this;
+      },
+
+      getRectangularPlacement: function () {
+        return this._placementBounds ? L.latLngBounds(this._placementBounds) : null;
+      },
+
+      _showRectangularPlacement: function () {
+        if (!this._map || !this._rectangularImageUrl || !this._placementBounds) return;
+        (this._warpedLayers || []).forEach((layer) => {
+          if (this._map.hasLayer(layer)) this._map.removeLayer(layer);
+        });
+        if (!this._placementOverlay) {
+          this._placementOverlay = L.imageOverlay(this._rectangularImageUrl, this._placementBounds, {
+            interactive: false,
+            opacity: this._opacity,
+            pane: "historicMapsPane"
+          });
+        } else {
+          this._placementOverlay.setBounds(this._placementBounds);
+          this._placementOverlay.setOpacity(this._opacity);
+        }
+        if (!this._map.hasLayer(this._placementOverlay)) this._placementOverlay.addTo(this._map);
+        this.bringToBack();
       },
 
       bringToBack: function () {
         (this._warpedLayers || []).forEach((layer) => layer.bringToBack && layer.bringToBack());
+        if (this._placementOverlay && this._placementOverlay.bringToBack) this._placementOverlay.bringToBack();
         return this;
       },
 
@@ -2048,7 +2112,7 @@ image: /media/2026/09/maps-featured.png
       { label: "1887 Jacksonville", slug: "historic1887", aliases: ["jacksonville1887", "sanborn1887"], itemId: "sanborn01286_002", annotationUrl: "/data/historic-maps/annotations/sanborn01286_002.json" },
       { label: "1891 Jacksonville", slug: "historic1891", aliases: ["jacksonville1891", "sanborn1891"], itemId: "sanborn01286_003", annotationUrl: "/data/historic-maps/annotations/sanborn01286_003.json" },
       { label: "1897 Jacksonville", slug: "historic1897", aliases: ["jacksonville1897", "sanborn1897"], itemId: "sanborn01286_004", annotationUrl: "/data/historic-maps/annotations/sanborn01286_004.json" },
-      { label: "Great Fire of 1901", slug: "historic1901fire", aliases: ["greatfire1901", "jacksonvillefire1901", "historic1925fire"], sourceUrl: "https://libapps.s3.amazonaws.com/accounts/29813/images/1925_Map_of_District_Burned_May_3_1901_-_TFD.jpg", attributionLabel: "T. Frederick Davis, Map of district burned May 3, 1901", annotationUrl: "/data/historic-maps/annotations/great-fire-1901-map.json", localIiifPattern: /(great-fire-1901-map)(?:\/info\.json)?\/?$/, bounds: [[30.325, -81.666], [30.335, -81.649]], georeferenceCredit: "Ray Hollister" },
+      { label: "Great Fire of 1901", slug: "historic1901fire", aliases: ["greatfire1901", "jacksonvillefire1901", "historic1925fire"], sourceUrl: "https://libapps.s3.amazonaws.com/accounts/29813/images/1925_Map_of_District_Burned_May_3_1901_-_TFD.jpg", attributionLabel: "T. Frederick Davis, Map of district burned May 3, 1901", annotationUrl: "/data/historic-maps/annotations/great-fire-1901-map.json", localIiifPattern: /(great-fire-1901-map)(?:\/info\.json)?\/?$/, bounds: [[30.325, -81.666], [30.335, -81.649]], rectangularImageUrl: "/data/historic-maps/images/1925-great-fire-district-map.jpg", georeferenceCredit: "Ray Hollister" },
       { label: "1903 Jacksonville", slug: "historic1903", aliases: ["jacksonville1903", "sanborn1903"], itemId: "sanborn01286_005", annotationUrl: "/data/historic-maps/annotations/sanborn01286_005.json" },
       { label: "1903 Pablo Beach", slug: "historic1903pablobeach", aliases: ["pablobeach1903"], itemId: "sanborn01324_001", annotationUrl: "/data/historic-maps/annotations/sanborn01324_001.json", coastal: true },
       { label: "1909 Pablo Beach", slug: "historic1909pablobeach", aliases: ["pablobeach1909"], itemId: "sanborn01324_002", annotationUrl: "/data/historic-maps/annotations/sanborn01324_002.json", coastal: true },
@@ -2073,6 +2137,9 @@ image: /media/2026/09/maps-featured.png
         localIiifPattern: definition.localIiifPattern,
         georeferenceCredit: definition.georeferenceCredit
       });
+      if (definition.slug === "historic1901fire") {
+        definition.layer.on("remove", stopGreatFirePlacementEditor);
+      }
     });
     const historicMapLayers = historicMapDefinitions.map((definition) => definition.layer);
     const councilDistrictFillLayer = L.geoJSON(null, {
@@ -2337,6 +2404,7 @@ image: /media/2026/09/maps-featured.png
     let pinnedCardPanel;
     let pinnedCardBody;
     let mapContextMenuElement;
+    let greatFirePlacementEditor;
     const pinnedBoundaryCards = [];
     let pendingMapDataLoads = 0;
     let initialVisibleLayerFitComplete = false;
@@ -3179,6 +3247,153 @@ image: /media/2026/09/maps-featured.png
       return button;
     }
 
+    function getGreatFireMapDefinition() {
+      return historicMapDefinitions.find((definition) => definition.slug === "historic1901fire");
+    }
+
+    function getGreatFirePlacementBounds() {
+      const definition = getGreatFireMapDefinition();
+      if (!definition) return null;
+      return definition.layer.getRectangularPlacement() || L.latLngBounds(definition.bounds);
+    }
+
+    function getGreatFirePlacementCorners(bounds) {
+      const south = bounds.getSouth();
+      const west = bounds.getWest();
+      const north = bounds.getNorth();
+      const east = bounds.getEast();
+      return {
+        northWest: L.latLng(north, west),
+        northEast: L.latLng(north, east),
+        southEast: L.latLng(south, east),
+        southWest: L.latLng(south, west)
+      };
+    }
+
+    function formatGreatFirePlacementCoordinates(bounds) {
+      const corners = getGreatFirePlacementCorners(bounds);
+      const coordinatePair = (latLng) => [
+        Number(latLng.lng.toFixed(7)),
+        Number(latLng.lat.toFixed(7))
+      ];
+      return JSON.stringify({
+        layer: "historic1901fire",
+        bounds: [
+          [Number(bounds.getSouth().toFixed(7)), Number(bounds.getWest().toFixed(7))],
+          [Number(bounds.getNorth().toFixed(7)), Number(bounds.getEast().toFixed(7))]
+        ],
+        corners: {
+          northWest: coordinatePair(corners.northWest),
+          northEast: coordinatePair(corners.northEast),
+          southEast: coordinatePair(corners.southEast),
+          southWest: coordinatePair(corners.southWest)
+        }
+      }, null, 2);
+    }
+
+    function stopGreatFirePlacementEditor() {
+      if (!greatFirePlacementEditor) return;
+      if (map.hasLayer(greatFirePlacementEditor.guideLayer)) {
+        map.removeLayer(greatFirePlacementEditor.guideLayer);
+      }
+      greatFirePlacementEditor = undefined;
+    }
+
+    function startGreatFirePlacementEditor() {
+      const definition = getGreatFireMapDefinition();
+      if (!definition || !map.hasLayer(definition.layer)) return;
+      stopGreatFirePlacementEditor();
+
+      let placementBounds = getGreatFirePlacementBounds();
+      definition.layer.setRectangularPlacement(placementBounds, definition.rectangularImageUrl);
+      const guideLayer = L.layerGroup().addTo(map);
+      const outline = L.rectangle(placementBounds, {
+        color: "#0969da",
+        dashArray: "6 5",
+        fill: false,
+        interactive: false,
+        pane: "markerPane",
+        weight: 2
+      }).addTo(guideLayer);
+      const cornerMarkers = {};
+      const cornerIcon = L.divIcon({
+        className: "",
+        html: '<span class="maps-historic-placement-handle" aria-hidden="true"></span>',
+        iconAnchor: [8, 8],
+        iconSize: [16, 16]
+      });
+      const moveIcon = L.divIcon({
+        className: "",
+        html: '<span class="maps-historic-placement-handle maps-historic-placement-handle--move" aria-hidden="true">↕</span>',
+        iconAnchor: [11, 11],
+        iconSize: [22, 22]
+      });
+      const moveMarker = L.marker(placementBounds.getCenter(), {
+        draggable: true,
+        icon: moveIcon,
+        keyboard: true,
+        title: "Move Great Fire map"
+      }).addTo(guideLayer);
+
+      function refreshEditor(nextBounds, activeCorner) {
+        placementBounds = L.latLngBounds(nextBounds);
+        definition.layer.setRectangularPlacement(placementBounds, definition.rectangularImageUrl);
+        outline.setBounds(placementBounds);
+        const corners = getGreatFirePlacementCorners(placementBounds);
+        Object.entries(cornerMarkers).forEach(([name, marker]) => {
+          if (name !== activeCorner) marker.setLatLng(corners[name]);
+        });
+        if (!activeCorner) moveMarker.setLatLng(placementBounds.getCenter());
+        greatFirePlacementEditor.bounds = placementBounds;
+      }
+
+      Object.entries(getGreatFirePlacementCorners(placementBounds)).forEach(([name, latLng]) => {
+        const marker = L.marker(latLng, {
+          draggable: true,
+          icon: cornerIcon,
+          keyboard: true,
+          title: `Resize Great Fire map from ${name}`
+        }).addTo(guideLayer);
+        cornerMarkers[name] = marker;
+        marker.on("drag", function (event) {
+          const dragged = event.target.getLatLng();
+          const current = placementBounds;
+          const north = name.startsWith("north") ? dragged.lat : current.getNorth();
+          const south = name.startsWith("south") ? dragged.lat : current.getSouth();
+          const east = name.endsWith("East") ? dragged.lng : current.getEast();
+          const west = name.endsWith("West") ? dragged.lng : current.getWest();
+          refreshEditor([[south, west], [north, east]], name);
+        });
+        marker.on("dragend", function () {
+          refreshEditor(placementBounds);
+        });
+      });
+
+      let moveStartCenter;
+      let moveStartBounds;
+      moveMarker.on("dragstart", function () {
+        moveStartCenter = placementBounds.getCenter();
+        moveStartBounds = L.latLngBounds(placementBounds);
+      });
+      moveMarker.on("drag", function (event) {
+        const nextCenter = event.target.getLatLng();
+        const latOffset = nextCenter.lat - moveStartCenter.lat;
+        const lngOffset = nextCenter.lng - moveStartCenter.lng;
+        refreshEditor([
+          [moveStartBounds.getSouth() + latOffset, moveStartBounds.getWest() + lngOffset],
+          [moveStartBounds.getNorth() + latOffset, moveStartBounds.getEast() + lngOffset]
+        ]);
+      });
+
+      greatFirePlacementEditor = {
+        bounds: placementBounds,
+        cornerMarkers,
+        guideLayer,
+        moveMarker,
+        outline
+      };
+    }
+
     function getComparablePointLayerDefinitions() {
       return [
         { layer: activePlaceLayer, layerType: "place" },
@@ -3343,6 +3558,41 @@ image: /media/2026/09/maps-featured.png
             });
         }
       ));
+
+      const greatFireDefinition = getGreatFireMapDefinition();
+      if (greatFireDefinition && map.hasLayer(greatFireDefinition.layer)) {
+        mapContextMenuElement.appendChild(createContextMenuButton(
+          greatFirePlacementEditor ? "Finish positioning Great Fire map" : "Move and resize Great Fire map",
+          greatFirePlacementEditor
+            ? "Hide the Great Fire map placement handles"
+            : "Show handles for moving and independently resizing the Great Fire map",
+          () => {
+            if (greatFirePlacementEditor) {
+              stopGreatFirePlacementEditor();
+            } else {
+              startGreatFirePlacementEditor();
+            }
+            hideMapContextMenu();
+          }
+        ));
+        mapContextMenuElement.appendChild(createContextMenuButton(
+          "Copy Great Fire placement coordinates",
+          "Copy the rectangular bounds and four corner coordinates",
+          (button) => {
+            const placementBounds = greatFirePlacementEditor
+              ? greatFirePlacementEditor.bounds
+              : getGreatFirePlacementBounds();
+            copyTextToClipboard(formatGreatFirePlacementCoordinates(placementBounds))
+              .then(() => {
+                button.textContent = "Placement coordinates copied";
+                window.setTimeout(hideMapContextMenu, 650);
+              })
+              .catch(() => {
+                button.textContent = "Copy failed";
+              });
+          }
+        ));
+      }
 
       if (featureContext && featureContext.feature && featureContext.layer) {
         const contextTitle = getComparableFeatureTitle(featureContext.feature, featureContext.layerType);
