@@ -394,6 +394,12 @@ image: /media/2026/09/maps-featured.png
     padding: 0.45rem 0.6rem 0.2rem;
   }
 
+  .maps-basemap-control .maps-historic-map-opacity-control {
+    box-sizing: border-box;
+    margin: 0.1rem 0.6rem 0.35rem;
+    width: calc(100% - 1.2rem);
+  }
+
   .maps-basemap-control .maps-layer-control-row {
     align-items: center;
     cursor: pointer;
@@ -1132,6 +1138,10 @@ image: /media/2026/09/maps-featured.png
     let baseMapOpacityLabel;
     let baseMapTileOpacity = 1;
     let baseMapRequestId = 0;
+    const defaultHistoricMapOpacity = 0.35;
+    let historicMapOpacity = defaultHistoricMapOpacity;
+    let historicMapOpacityInput;
+    let historicMapOpacityLabel;
     let zoomHomeControl;
     const censusReporterGeographyPromises = new Map();
     const squareMetersPerSquareMile = 2589988.110336;
@@ -1240,6 +1250,46 @@ image: /media/2026/09/maps-featured.png
       updateOpacityRangeVisual(baseMapOpacityInput, baseMapOpacityLabel, baseMapTileOpacity, "Map tile opacity");
     }
 
+    function updateHistoricMapOpacityControl() {
+      updateOpacityRangeVisual(historicMapOpacityInput, historicMapOpacityLabel, historicMapOpacity, "Historic map opacity");
+    }
+
+    function updateHistoricMapOpacityQueryUrl() {
+      const url = new URL(window.location.href);
+      url.searchParams.set("hm-opacity", String(Math.round(historicMapOpacity * 100)));
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function setHistoricMapOpacity(value, options) {
+      const settings = options || {};
+      historicMapOpacity = Math.max(0, Math.min(1, Number.isFinite(value) ? value : defaultHistoricMapOpacity));
+      jacksonville1884HistoricMapLayer.setOpacity(historicMapOpacity);
+      updateHistoricMapOpacityControl();
+      if (settings.updateUrl) {
+        updateHistoricMapOpacityQueryUrl();
+      }
+    }
+
+    function createHistoricMapOpacityControl() {
+      const opacityLabel = document.createElement("label");
+      const opacityInput = document.createElement("input");
+
+      opacityLabel.className = "maps-layer-opacity-control maps-historic-map-opacity-control";
+      opacityInput.type = "range";
+      opacityInput.min = "0";
+      opacityInput.max = "100";
+      opacityInput.step = "1";
+      opacityInput.setAttribute("aria-label", "Historic map opacity");
+      opacityInput.addEventListener("input", function () {
+        setHistoricMapOpacity(Number(opacityInput.value) / 100, { updateUrl: true });
+      });
+      opacityLabel.appendChild(opacityInput);
+      historicMapOpacityInput = opacityInput;
+      historicMapOpacityLabel = opacityLabel;
+      updateHistoricMapOpacityControl();
+      return opacityLabel;
+    }
+
     function setupCollapsibleMapControl(container, label, body, options) {
       const toggle = document.createElement("button");
       const settings = options || {};
@@ -1318,6 +1368,7 @@ image: /media/2026/09/maps-featured.png
             body.appendChild(button);
           });
           body.appendChild(createLayerSubheading("Historic Maps"));
+          body.appendChild(createHistoricMapOpacityControl());
           const historicMapControl = createBoundaryLayerInput(
             "1884 Jacksonville",
             jacksonville1884HistoricMapLayer,
@@ -1860,7 +1911,7 @@ image: /media/2026/09/maps-featured.png
         this._annotationUrl = annotationUrl;
         this._bounds = L.latLngBounds(bounds);
         this._loadRequest = 0;
-        this._opacity = 0.35;
+        this._opacity = historicMapOpacity;
       },
 
       onAdd: function (targetMap) {
@@ -3387,6 +3438,14 @@ image: /media/2026/09/maps-featured.png
       setGovernmentOverlayOpacity(opacity / 100);
     }
 
+    function activateHistoricMapOpacityQuery() {
+      const params = new URLSearchParams(window.location.search);
+      if (!params.has("hm-opacity")) return;
+      const opacity = Number(params.get("hm-opacity"));
+      if (!Number.isFinite(opacity)) return;
+      setHistoricMapOpacity(opacity / 100);
+    }
+
     function activateQueryLayers() {
       const tokens = getQueryLayerTokens();
       if (!tokens.length) return;
@@ -4102,7 +4161,6 @@ image: /media/2026/09/maps-featured.png
       const settings = options || {};
       const nextOpacity = Math.max(0, Math.min(1, Number.isFinite(value) ? value : 1));
       governmentOverlayOpacity = nextOpacity;
-      jacksonville1884HistoricMapLayer.setOpacity(nextOpacity);
       governmentLayerMode = "fill";
       updateGovernmentLayerOpacityControl();
       geographyLayerControls.forEach((geographyControl) => {
@@ -7037,6 +7095,7 @@ image: /media/2026/09/maps-featured.png
     addMapContextMenuHandlers();
     registerMapQueryLayers();
     activateOpacityQuery();
+    activateHistoricMapOpacityQuery();
     activateQueryLayers();
     addBaseMapControl();
     addLocateControl();
