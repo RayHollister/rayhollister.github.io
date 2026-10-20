@@ -2147,7 +2147,25 @@ image: /media/2026/09/maps-featured.png
       { label: "1887 Jacksonville", slug: "historic1887", aliases: ["jacksonville1887", "sanborn1887"], itemId: "sanborn01286_002", annotationUrl: "/data/historic-maps/annotations/sanborn01286_002.json" },
       { label: "1891 Jacksonville", slug: "historic1891", aliases: ["jacksonville1891", "sanborn1891"], itemId: "sanborn01286_003", annotationUrl: "/data/historic-maps/annotations/sanborn01286_003.json" },
       { label: "1897 Jacksonville", slug: "historic1897", aliases: ["jacksonville1897", "sanborn1897"], itemId: "sanborn01286_004", annotationUrl: "/data/historic-maps/annotations/sanborn01286_004.json" },
-      { label: "Great Fire of 1901", slug: "historic1901fire", aliases: ["greatfire1901", "jacksonvillefire1901", "historic1925fire"], sourceUrl: "https://libapps.s3.amazonaws.com/accounts/29813/images/1925_Map_of_District_Burned_May_3_1901_-_TFD.jpg", attributionLabel: "T. Frederick Davis, Map of district burned May 3, 1901", annotationUrl: "/data/historic-maps/annotations/great-fire-1901-map.json", localIiifPattern: /(great-fire-1901-map)(?:\/info\.json)?\/?$/, bounds: [[30.325, -81.666], [30.335, -81.649]], rectangularImageUrl: "/data/historic-maps/images/1925-great-fire-district-map.jpg", georeferenceCredit: "Ray Hollister" },
+      {
+        label: "Great Fire of 1901",
+        slug: "historic1901fire",
+        aliases: ["greatfire1901", "jacksonvillefire1901", "historic1925fire"],
+        sourceUrl: "https://libapps.s3.amazonaws.com/accounts/29813/images/1925_Map_of_District_Burned_May_3_1901_-_TFD.jpg",
+        attributionLabel: "T. Frederick Davis, Map of district burned May 3, 1901",
+        annotationUrl: "/data/historic-maps/annotations/great-fire-1901-map.json",
+        localIiifPattern: /(great-fire-1901-map)(?:\/info\.json)?\/?$/,
+        bounds: [[30.3188515, -81.6770424], [30.3442707, -81.6368008]],
+        rectangularImageUrl: "/data/historic-maps/images/1925-great-fire-district-map.jpg",
+        placementEditorEnabled: false,
+        placement: {
+          topLeft: [30.3442707, -81.6718571],
+          topRight: [30.3366681, -81.6368008],
+          bottomRight: [30.3188515, -81.6419861],
+          bottomLeft: [30.3264555, -81.6770424]
+        },
+        georeferenceCredit: "Ray Hollister"
+      },
       { label: "1903 Jacksonville", slug: "historic1903", aliases: ["jacksonville1903", "sanborn1903"], itemId: "sanborn01286_005", annotationUrl: "/data/historic-maps/annotations/sanborn01286_005.json" },
       { label: "1903 Pablo Beach", slug: "historic1903pablobeach", aliases: ["pablobeach1903"], itemId: "sanborn01324_001", annotationUrl: "/data/historic-maps/annotations/sanborn01324_001.json", coastal: true },
       { label: "1909 Pablo Beach", slug: "historic1909pablobeach", aliases: ["pablobeach1909"], itemId: "sanborn01324_002", annotationUrl: "/data/historic-maps/annotations/sanborn01324_002.json", coastal: true },
@@ -2172,6 +2190,9 @@ image: /media/2026/09/maps-featured.png
         localIiifPattern: definition.localIiifPattern,
         georeferenceCredit: definition.georeferenceCredit
       });
+      if (definition.placement && definition.rectangularImageUrl) {
+        definition.layer.setPlacement(definition.placement, definition.rectangularImageUrl);
+      }
       if (definition.slug === "historic1901fire") {
         definition.layer.on("remove", stopGreatFirePlacementEditor);
       }
@@ -3722,9 +3743,9 @@ image: /media/2026/09/maps-featured.png
       ));
 
       const greatFireDefinition = getGreatFireMapDefinition();
-      if (greatFireDefinition && map.hasLayer(greatFireDefinition.layer)) {
+      if (greatFireDefinition && greatFireDefinition.placementEditorEnabled && map.hasLayer(greatFireDefinition.layer)) {
         mapContextMenuElement.appendChild(createContextMenuButton(
-          greatFirePlacementEditor ? "Finish positioning Great Fire map" : "Move, resize, and rotate Great Fire map",
+          greatFirePlacementEditor ? "Finish positioning" : "Move, resize and rotate",
           greatFirePlacementEditor
             ? "Hide the Great Fire map placement handles"
             : "Show handles for moving, independently resizing, and rotating the Great Fire map",
@@ -3738,7 +3759,7 @@ image: /media/2026/09/maps-featured.png
           }
         ));
         mapContextMenuElement.appendChild(createContextMenuButton(
-          "Copy Great Fire placement coordinates",
+          "Copy coordinates",
           "Copy the rectangular bounds and four corner coordinates",
           (button) => {
             const placementCorners = greatFirePlacementEditor
