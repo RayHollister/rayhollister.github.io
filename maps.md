@@ -685,7 +685,7 @@ image: /media/2026/09/maps-featured.png
   .maps-basemap-control .maps-layer-opacity-control {
     align-items: center;
     display: flex;
-    flex: 1 1 7rem;
+    flex: 1 1 1rem;
     height: 30px;
     justify-content: center;
     min-width: 5rem;
@@ -1100,6 +1100,7 @@ image: /media/2026/09/maps-featured.png
       smoothWheelZoom: true,
       smoothSensitivity: 1,
       zoomSnap: 0,
+      zoomAnimationThreshold: 1,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
     const historicMapsPane = map.createPane("historicMapsPane");
@@ -1138,7 +1139,7 @@ image: /media/2026/09/maps-featured.png
     let baseMapOpacityLabel;
     let baseMapTileOpacity = 1;
     let baseMapRequestId = 0;
-    const defaultHistoricMapOpacity = 0.35;
+    const defaultHistoricMapOpacity = 1;
     let historicMapOpacity = defaultHistoricMapOpacity;
     let historicMapOpacityInput;
     let historicMapOpacityLabel;
@@ -1955,17 +1956,20 @@ image: /media/2026/09/maps-featured.png
         try {
           if (!this._warpedLayer) {
             const allmaps = await import("https://cdn.jsdelivr.net/npm/@allmaps/leaflet@1.0.0-beta.55/+esm");
-            const warpedLayer = new allmaps.WarpedMapLayer(undefined, {
+            if (loadRequest !== this._loadRequest || !this._map) return;
+            this._warpedLayer = new allmaps.WarpedMapLayer(undefined, {
               opacity: this._opacity,
               pane: "historicMapsPane"
             });
-            await warpedLayer.addGeoreferenceAnnotationByUrl(this._annotationUrl);
-            this._warpedLayer = warpedLayer;
+            this._map.addLayer(this._warpedLayer);
+            await this._warpedLayer.addGeoreferenceAnnotationByUrl(this._annotationUrl);
+          } else if (!this._map.hasLayer(this._warpedLayer)) {
+            this._map.addLayer(this._warpedLayer);
           }
           if (loadRequest !== this._loadRequest || !this._map) return;
           this._warpedLayer.setOpacity(this._opacity);
-          if (!this._map.hasLayer(this._warpedLayer)) {
-            this._map.addLayer(this._warpedLayer);
+          if (this._warpedLayer.nativeUpdate) {
+            this._warpedLayer.nativeUpdate();
           }
           this.bringToBack();
         } catch (error) {
