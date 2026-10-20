@@ -1080,7 +1080,6 @@ image: /media/2026/09/maps-featured.png
 
 <script src="/leaflet/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-rotate@0.2.8/dist/leaflet-rotate-src.js"></script>
-<script src="/leaflet/smoothwheelzoom/SmoothWheelZoom.js"></script>
 <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.js"></script>
 <script src="/leaflet/extramarkers/js/leaflet.extra-markers.min.js"></script>
@@ -1097,10 +1096,7 @@ image: /media/2026/09/maps-featured.png
       maxBounds: [[-85.051129, -Infinity], [85.051129, Infinity]],
       maxBoundsViscosity: 1,
       zoomControl: false,
-      scrollWheelZoom: false,
-      smoothWheelZoom: true,
-      smoothSensitivity: 1,
-      zoomSnap: 0,
+      scrollWheelZoom: true,
       zoomAnimationThreshold: 1,
       rotate: true,
       rotateControl: {
@@ -1108,8 +1104,13 @@ image: /media/2026/09/maps-featured.png
       },
       bearing: 0,
       touchRotate: true,
+      shiftKeyRotate: false,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
+    const baseMapPane = map.createPane("baseMapPane", map.getPane("mapPane"));
+    baseMapPane.style.zIndex = "100";
+    map.getPane("rotatePane").style.zIndex = "400";
+    map.getPane("norotatePane").style.zIndex = "600";
     const navigationMarkerPane = map.createPane("navigationMarkerPane", map.getPane("norotatePane"));
     navigationMarkerPane.style.zIndex = "750";
 
@@ -1219,7 +1220,7 @@ image: /media/2026/09/maps-featured.png
       }
       baseMapLayer = createMapLibreLayer({
         style: nextStyle,
-        pane: "norotatePane"
+        pane: "baseMapPane"
       }).addTo(map);
       activeBaseMapKey = baseMapKey;
       if (preservedBearing) {
@@ -1306,7 +1307,7 @@ image: /media/2026/09/maps-featured.png
       if (!baseMapLayer || !baseMapLayer.getMaplibreMap || !map.getBearing) return;
       const maplibreMap = baseMapLayer.getMaplibreMap();
       if (maplibreMap) {
-        maplibreMap.jumpTo({ bearing: map.getBearing() });
+        maplibreMap.jumpTo({ bearing: -map.getBearing() });
       }
     }
 
@@ -2009,6 +2010,7 @@ image: /media/2026/09/maps-featured.png
         this._bounds = L.latLngBounds(bounds);
         this._loadRequest = 0;
         this._attachmentRequest = 0;
+        this._resourcesPromise = null;
         this._opacity = historicMapOpacity;
       },
 
@@ -2018,7 +2020,6 @@ image: /media/2026/09/maps-featured.png
         const loadRequest = this._loadRequest;
         initialVisibleLayerFitComplete = true;
         targetMap.attributionControl.addAttribution(historicMapAttribution);
-        targetMap.fitBounds(this._bounds, { padding: [24, 24] });
         this._load(loadRequest);
       },
 
@@ -2096,17 +2097,16 @@ image: /media/2026/09/maps-featured.png
         }
       },
 
-      _load: async function (loadRequest) {
-        try {
-          if (!this._allmaps) {
-            this._allmaps = await import("https://cdn.jsdelivr.net/npm/@allmaps/maplibre@1.0.0-beta.43/+esm");
-            if (loadRequest !== this._loadRequest || !this._map) return;
+      _loadResources: function () {
+        if (!this._resourcesPromise) {
+          this._resourcesPromise = (async () => {
+            const allmaps = await import("https://cdn.jsdelivr.net/npm/@allmaps/maplibre@1.0.0-beta.43/+esm");
             const annotationResponse = await fetch(this._annotationUrl);
             if (!annotationResponse.ok) {
               throw new Error(`Historic map annotation request failed: ${annotationResponse.status}`);
             }
-            this._annotation = await annotationResponse.json();
-            (this._annotation.items || []).forEach((item) => {
+            const annotation = await annotationResponse.json();
+            (annotation.items || []).forEach((item) => {
               const source = item && item.target && item.target.source;
               if (source && typeof source.id === "string") {
                 const sheetMatch = source.id.match(/(01286_1884-\d{4})(?:\/info\.json)?\/?$/);
@@ -2115,7 +2115,7 @@ image: /media/2026/09/maps-featured.png
                 }
               }
             });
-            this._imageInfos = await Promise.all((this._annotation.items || []).map(async (item) => {
+            const imageInfos = await Promise.all((annotation.items || []).map(async (item) => {
               const source = item && item.target && item.target.source;
               const response = await fetch(`${source.id}/info.json`);
               if (!response.ok) {
@@ -2125,8 +2125,22 @@ image: /media/2026/09/maps-featured.png
               imageInfo["@id"] = source.id;
               return imageInfo;
             }));
-          }
+            return { allmaps, annotation, imageInfos };
+          })().catch((error) => {
+            this._resourcesPromise = null;
+            throw error;
+          });
+        }
+        return this._resourcesPromise;
+      },
+
+      _load: async function (loadRequest) {
+        try {
+          const resources = await this._loadResources();
           if (loadRequest !== this._loadRequest || !this._map) return;
+          this._allmaps = resources.allmaps;
+          this._annotation = resources.annotation;
+          this._imageInfos = resources.imageInfos;
           this._attachmentRequest += 1;
           this._attachToBaseMap(this._attachmentRequest);
         } catch (error) {
@@ -3538,10 +3552,6 @@ image: /media/2026/09/maps-featured.png
       orderMapLayers();
       syncDistrictLayerInputs();
       updateLayerQueryUrl();
-      if (enabled && control.layer === jacksonville1884HistoricMapLayer) {
-        initialVisibleLayerFitComplete = true;
-        map.fitBounds(jacksonville1884HistoricMapLayer.getBounds(), { padding: [24, 24] });
-      }
     }
 
     function normalizeLayerQueryToken(value) {
