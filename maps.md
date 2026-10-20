@@ -2148,6 +2148,23 @@ image: /media/2026/09/maps-featured.png
       { label: "1891 Jacksonville", slug: "historic1891", aliases: ["jacksonville1891", "sanborn1891"], itemId: "sanborn01286_003", annotationUrl: "/data/historic-maps/annotations/sanborn01286_003.json" },
       { label: "1897 Jacksonville", slug: "historic1897", aliases: ["jacksonville1897", "sanborn1897"], itemId: "sanborn01286_004", annotationUrl: "/data/historic-maps/annotations/sanborn01286_004.json" },
       {
+        label: "1776 Southern British Colonies",
+        slug: "historic1776southerncolonies",
+        aliases: ["southerncolonies1776", "romans1776"],
+        sourceUrl: "https://collections.library.yale.edu/catalog/2000126",
+        attributionLabel: "Bernard Romans, A General map of the southern British colonies",
+        bounds: [[30.15, -81.95], [30.55, -81.45]],
+        rectangularImageUrl: "/data/historic-maps/images/1776-southern-british-colonies.jpg",
+        placementEditorEnabled: true,
+        placement: {
+          topLeft: [30.55, -81.95],
+          topRight: [30.55, -81.45],
+          bottomRight: [30.15, -81.45],
+          bottomLeft: [30.15, -81.95]
+        },
+        georeferenceCredit: "Placement pending"
+      },
+      {
         label: "Great Fire of 1901",
         slug: "historic1901fire",
         aliases: ["greatfire1901", "jacksonvillefire1901", "historic1925fire"],
@@ -2193,9 +2210,7 @@ image: /media/2026/09/maps-featured.png
       if (definition.placement && definition.rectangularImageUrl) {
         definition.layer.setPlacement(definition.placement, definition.rectangularImageUrl);
       }
-      if (definition.slug === "historic1901fire") {
-        definition.layer.on("remove", stopGreatFirePlacementEditor);
-      }
+      if (definition.placementEditorEnabled) definition.layer.on("remove", stopHistoricMapPlacementEditor);
     });
     const historicMapLayers = historicMapDefinitions.map((definition) => definition.layer);
     const councilDistrictFillLayer = L.geoJSON(null, {
@@ -2460,7 +2475,7 @@ image: /media/2026/09/maps-featured.png
     let pinnedCardPanel;
     let pinnedCardBody;
     let mapContextMenuElement;
-    let greatFirePlacementEditor;
+    let historicMapPlacementEditor;
     const pinnedBoundaryCards = [];
     let pendingMapDataLoads = 0;
     let initialVisibleLayerFitComplete = false;
@@ -3303,12 +3318,13 @@ image: /media/2026/09/maps-featured.png
       return button;
     }
 
-    function getGreatFireMapDefinition() {
-      return historicMapDefinitions.find((definition) => definition.slug === "historic1901fire");
+    function getEditableHistoricMapDefinition() {
+      return historicMapDefinitions.find((definition) => (
+        definition.placementEditorEnabled && map.hasLayer(definition.layer)
+      ));
     }
 
-    function getInitialGreatFirePlacement() {
-      const definition = getGreatFireMapDefinition();
+    function getInitialHistoricMapPlacement(definition) {
       if (!definition) return null;
       const savedPlacement = definition.layer.getPlacement();
       if (savedPlacement) return savedPlacement;
@@ -3325,7 +3341,7 @@ image: /media/2026/09/maps-featured.png
       };
     }
 
-    function formatGreatFirePlacementCoordinates(corners) {
+    function formatHistoricMapPlacementCoordinates(definition, corners) {
       const coordinatePair = (latLng) => [
         Number(latLng.lng.toFixed(7)),
         Number(latLng.lat.toFixed(7))
@@ -3337,7 +3353,7 @@ image: /media/2026/09/maps-featured.png
         topRightPoint.x - topLeftPoint.x
       ) * 180 / Math.PI;
       return JSON.stringify({
-        layer: "historic1901fire",
+        layer: definition.slug,
         coordinateOrder: "longitude, latitude",
         rotationDegreesClockwise: Number(rotation.toFixed(3)),
         corners: {
@@ -3349,20 +3365,19 @@ image: /media/2026/09/maps-featured.png
       }, null, 2);
     }
 
-    function stopGreatFirePlacementEditor() {
-      if (!greatFirePlacementEditor) return;
-      if (map.hasLayer(greatFirePlacementEditor.guideLayer)) {
-        map.removeLayer(greatFirePlacementEditor.guideLayer);
+    function stopHistoricMapPlacementEditor() {
+      if (!historicMapPlacementEditor) return;
+      if (map.hasLayer(historicMapPlacementEditor.guideLayer)) {
+        map.removeLayer(historicMapPlacementEditor.guideLayer);
       }
-      greatFirePlacementEditor = undefined;
+      historicMapPlacementEditor = undefined;
     }
 
-    function startGreatFirePlacementEditor() {
-      const definition = getGreatFireMapDefinition();
+    function startHistoricMapPlacementEditor(definition) {
       if (!definition || !map.hasLayer(definition.layer)) return;
-      stopGreatFirePlacementEditor();
+      stopHistoricMapPlacementEditor();
 
-      let placementCorners = getInitialGreatFirePlacement();
+      let placementCorners = getInitialHistoricMapPlacement(definition);
       definition.layer.setPlacement(placementCorners, definition.rectangularImageUrl);
       const guideLayer = Leaflet.layerGroup().addTo(map);
       const outline = Leaflet.polygon([], {
@@ -3403,13 +3418,13 @@ image: /media/2026/09/maps-featured.png
         draggable: true,
         icon: moveIcon,
         keyboard: true,
-        title: "Move Great Fire map"
+        title: `Move ${definition.label}`
       }).addTo(guideLayer);
       const rotationMarker = Leaflet.marker([0, 0], {
         draggable: true,
         icon: rotationIcon,
         keyboard: true,
-        title: "Rotate Great Fire map"
+        title: `Rotate ${definition.label}`
       }).addTo(guideLayer);
       let mapDraggingWasEnabled = false;
 
@@ -3477,7 +3492,7 @@ image: /media/2026/09/maps-featured.png
           map.layerPointToLatLng(topCenterPoint),
           map.layerPointToLatLng(rotationHandlePoint)
         ]);
-        greatFirePlacementEditor.corners = placementCorners;
+        historicMapPlacementEditor.corners = placementCorners;
       }
 
       const cornerSigns = {
@@ -3491,7 +3506,7 @@ image: /media/2026/09/maps-featured.png
           draggable: true,
           icon: cornerIcon,
           keyboard: true,
-          title: `Resize Great Fire map from ${name}`
+          title: `Resize ${definition.label} from ${name}`
         }).addTo(guideLayer);
         cornerMarkers[name] = marker;
         let resizeStartGeometry;
@@ -3565,7 +3580,8 @@ image: /media/2026/09/maps-featured.png
         refreshEditor(placementCorners);
       });
 
-      greatFirePlacementEditor = {
+      historicMapPlacementEditor = {
+        definition,
         corners: placementCorners,
         cornerMarkers,
         guideLayer,
@@ -3742,18 +3758,18 @@ image: /media/2026/09/maps-featured.png
         }
       ));
 
-      const greatFireDefinition = getGreatFireMapDefinition();
-      if (greatFireDefinition && greatFireDefinition.placementEditorEnabled && map.hasLayer(greatFireDefinition.layer)) {
+      const editableHistoricMapDefinition = getEditableHistoricMapDefinition();
+      if (editableHistoricMapDefinition) {
         mapContextMenuElement.appendChild(createContextMenuButton(
-          greatFirePlacementEditor ? "Finish positioning" : "Move, resize and rotate",
-          greatFirePlacementEditor
-            ? "Hide the Great Fire map placement handles"
-            : "Show handles for moving, independently resizing, and rotating the Great Fire map",
+          historicMapPlacementEditor ? "Finish positioning" : "Move, resize and rotate",
+          historicMapPlacementEditor
+            ? `Hide the ${editableHistoricMapDefinition.label} placement handles`
+            : `Show handles for moving, independently resizing, and rotating ${editableHistoricMapDefinition.label}`,
           () => {
-            if (greatFirePlacementEditor) {
-              stopGreatFirePlacementEditor();
+            if (historicMapPlacementEditor) {
+              stopHistoricMapPlacementEditor();
             } else {
-              startGreatFirePlacementEditor();
+              startHistoricMapPlacementEditor(editableHistoricMapDefinition);
             }
             hideMapContextMenu();
           }
@@ -3762,10 +3778,10 @@ image: /media/2026/09/maps-featured.png
           "Copy coordinates",
           "Copy the rectangular bounds and four corner coordinates",
           (button) => {
-            const placementCorners = greatFirePlacementEditor
-              ? greatFirePlacementEditor.corners
-              : getInitialGreatFirePlacement();
-            copyTextToClipboard(formatGreatFirePlacementCoordinates(placementCorners))
+            const placementCorners = historicMapPlacementEditor
+              ? historicMapPlacementEditor.corners
+              : getInitialHistoricMapPlacement(editableHistoricMapDefinition);
+            copyTextToClipboard(formatHistoricMapPlacementCoordinates(editableHistoricMapDefinition, placementCorners))
               .then(() => {
                 button.textContent = "Placement coordinates copied";
                 window.setTimeout(hideMapContextMenu, 650);
