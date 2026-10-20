@@ -1919,6 +1919,7 @@ image: /media/2026/09/maps-featured.png
         this._map = targetMap;
         this._loadRequest += 1;
         const loadRequest = this._loadRequest;
+        initialVisibleLayerFitComplete = true;
         targetMap.attributionControl.addAttribution(historicMapAttribution);
         targetMap.fitBounds(this._bounds, { padding: [24, 24] });
         this._load(loadRequest);
@@ -1970,9 +1971,23 @@ image: /media/2026/09/maps-featured.png
             (annotation.items || []).forEach((item) => {
               const source = item && item.target && item.target.source;
               if (source && typeof source.id === "string") {
-                source.id = source.id.replace(/\/info\.json\/?$/, "");
+                const sheetMatch = source.id.match(/(01286_1884-\d{4})(?:\/info\.json)?\/?$/);
+                if (sheetMatch) {
+                  source.id = new URL(`/data/historic-maps/iiif/${sheetMatch[1]}`, window.location.origin).href;
+                }
               }
             });
+            const imageInfos = await Promise.all((annotation.items || []).map(async (item) => {
+              const source = item && item.target && item.target.source;
+              const response = await fetch(`${source.id}/info.json`);
+              if (!response.ok) {
+                throw new Error(`Historic map image information request failed: ${response.status}`);
+              }
+              const imageInfo = await response.json();
+              imageInfo["@id"] = source.id;
+              return imageInfo;
+            }));
+            this._warpedLayer.addImageInfos(imageInfos);
             this._warpedLayer.addGeoreferenceAnnotation(annotation);
           } else if (!this._map.hasLayer(this._warpedLayer)) {
             this._map.addLayer(this._warpedLayer);
@@ -3365,6 +3380,12 @@ image: /media/2026/09/maps-featured.png
     function setBoundaryLayer(control, enabled, allowMultiple) {
       clearMapFocus();
       if (enabled) {
+        const councilDistrictQuerySlug = queryLayerSlugsByLayer.get(councilDistrictFillLayer);
+        if (control.layer !== councilDistrictFillLayer &&
+            map.hasLayer(councilDistrictFillLayer) &&
+            !explicitQueryLayerSlugs.has(councilDistrictQuerySlug)) {
+          map.removeLayer(councilDistrictFillLayer);
+        }
         if (!map.hasLayer(control.layer)) map.addLayer(control.layer);
         restoreBoundaryLayerFeatures(control.layer);
         trackBoundaryLayerStackSelection(control.layer);
@@ -3386,6 +3407,10 @@ image: /media/2026/09/maps-featured.png
       orderMapLayers();
       syncDistrictLayerInputs();
       updateLayerQueryUrl();
+      if (enabled && control.layer === jacksonville1884HistoricMapLayer) {
+        initialVisibleLayerFitComplete = true;
+        map.fitBounds(jacksonville1884HistoricMapLayer.getBounds(), { padding: [24, 24] });
+      }
     }
 
     function normalizeLayerQueryToken(value) {
@@ -6709,9 +6734,11 @@ image: /media/2026/09/maps-featured.png
         bounds.extend([place.lat, place.lng]);
       });
 
-      if (visiblePlaces.length > 1) {
+      if (!initialVisibleLayerFitComplete && visiblePlaces.length > 1) {
+        initialVisibleLayerFitComplete = true;
         map.fitBounds(bounds, { padding: [24, 24] });
-      } else if (visiblePlaces.length === 1) {
+      } else if (!initialVisibleLayerFitComplete && visiblePlaces.length === 1) {
+        initialVisibleLayerFitComplete = true;
         map.setView([visiblePlaces[0].lat, visiblePlaces[0].lng], visiblePlaces[0].zoom || 14);
       }
       updateZoomHomeDefaultBounds();
@@ -6733,7 +6760,8 @@ image: /media/2026/09/maps-featured.png
           councilDistrictBorderLayer.addData(districts);
           orderMapLayers();
           updateZoomHomeDefaultBounds();
-          if (!places.length && councilDistrictFillLayer.getLayers().length) {
+          if (!initialVisibleLayerFitComplete && !places.length && councilDistrictFillLayer.getLayers().length) {
+            initialVisibleLayerFitComplete = true;
             map.fitBounds(councilDistrictFillLayer.getBounds(), {
               padding: [24, 24]
             });
