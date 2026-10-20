@@ -17,6 +17,9 @@ image: /media/2026/09/maps-featured.png
   .leaflet-container {
     background: #ffffff;
   }
+  .leaflet-container.maps-modifier-rotating {
+    cursor: grabbing;
+  }
   .leaflet-top .leaflet-control {
     margin-bottom: 10px;
   }
@@ -1118,6 +1121,7 @@ image: /media/2026/09/maps-featured.png
 
 <script src="/leaflet/leaflet.js"></script>
 <script src="/leaflet/imageoverlay-rotated/Leaflet.ImageOverlay.Rotated.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-rotate@0.2.8/dist/leaflet-rotate-src.js"></script>
 <script src="/leaflet/smoothwheelzoom/SmoothWheelZoom.js"></script>
 <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.js"></script>
@@ -1142,6 +1146,13 @@ image: /media/2026/09/maps-featured.png
       smoothSensitivity: 1,
       zoomSnap: 0,
       zoomAnimationThreshold: 1,
+      rotate: true,
+      rotateControl: {
+        closeOnZeroBearing: false,
+        position: "topleft"
+      },
+      touchRotate: true,
+      bearing: 0,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
     const historicMapsPane = map.createPane("historicMapsPane");
@@ -1194,6 +1205,47 @@ image: /media/2026/09/maps-featured.png
     const supportsPointerHover = window.matchMedia
       ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
       : true;
+
+    function addModifierDragRotation() {
+      const container = map.getContainer();
+      let activePointerId = null;
+      let startingBearing = 0;
+      let startingX = 0;
+
+      container.addEventListener("pointerdown", function (event) {
+        if (!event.metaKey || event.button !== 0 || event.target.closest(".leaflet-control")) return;
+        activePointerId = event.pointerId;
+        startingBearing = map.getBearing();
+        startingX = event.clientX;
+        map.dragging.disable();
+        container.classList.add("maps-modifier-rotating");
+        container.setPointerCapture(activePointerId);
+        event.preventDefault();
+        event.stopPropagation();
+      }, true);
+
+      container.addEventListener("pointermove", function (event) {
+        if (event.pointerId !== activePointerId) return;
+        map.setBearing(startingBearing + ((event.clientX - startingX) * 0.4));
+        event.preventDefault();
+        event.stopPropagation();
+      }, true);
+
+      function stopModifierDragRotation(event) {
+        if (event.pointerId !== activePointerId) return;
+        if (container.hasPointerCapture(activePointerId)) {
+          container.releasePointerCapture(activePointerId);
+        }
+        activePointerId = null;
+        container.classList.remove("maps-modifier-rotating");
+        map.dragging.enable();
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      container.addEventListener("pointerup", stopModifierDragRotation, true);
+      container.addEventListener("pointercancel", stopModifierDragRotation, true);
+    }
 
     function getBaseMapQueryKey() {
       const requestedBaseMap = new URLSearchParams(window.location.search).get("basemap");
@@ -2082,7 +2134,13 @@ image: /media/2026/09/maps-featured.png
       _load: async function (loadRequest) {
         try {
           if (!this._warpedLayers) {
-            const allmaps = await import("https://cdn.jsdelivr.net/npm/@allmaps/leaflet@1.0.0-beta.55/+esm");
+            const leafletNamespace = window.L;
+            let allmaps;
+            try {
+              allmaps = await import("https://cdn.jsdelivr.net/npm/@allmaps/leaflet@1.0.0-beta.55/+esm");
+            } finally {
+              window.L = leafletNamespace;
+            }
             if (loadRequest !== this._loadRequest || !this._map) return;
             const annotationResponse = await fetch(this._annotationUrl);
             if (!annotationResponse.ok) {
@@ -7641,6 +7699,7 @@ image: /media/2026/09/maps-featured.png
     addFocusKeyboardShortcut();
     addCompareKeyboardShortcut();
     addMapContextMenuHandlers();
+    addModifierDragRotation();
     registerMapQueryLayers();
     activateOpacityQuery();
     activateHistoricMapOpacityQuery();
