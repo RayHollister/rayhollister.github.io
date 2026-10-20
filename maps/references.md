@@ -40,7 +40,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 - Sanborn Map Company. (1924). *Sanborn fire insurance map from Pablo Beach, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01324_004/](https://www.loc.gov/item/sanborn01324_004/)
 - Sanborn Map Company. (1949). *Sanborn fire insurance map from Jacksonville, Duval County, Florida: Volume 1A* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_008/](https://www.loc.gov/item/sanborn01286_008/)
 - Sanborn Map Company. (1949). *Sanborn fire insurance map from Jacksonville, Duval County, Florida: Volume 4* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_010/](https://www.loc.gov/item/sanborn01286_010/)
-- Vanderkam, D. (2026). *mapsnap* (Version 1.3) [Data set and computer software]. [https://data.mapsnap.org/runs/v1.3/](https://data.mapsnap.org/runs/v1.3/)
+- Vanderkam, D. (2026). *mapsnap* (Version 1.3) [Data set and computer software]. [https://mapsnap.org/runs/v1.3/](https://mapsnap.org/runs/v1.3/)
 - Allmaps. (2026). *@allmaps/leaflet* [Computer software]. GitHub. [https://github.com/allmaps/allmaps/tree/main/packages/leaflet](https://github.com/allmaps/allmaps/tree/main/packages/leaflet)
 - The Allmaps renderer requests only visible IIIF image tiles rather than downloading complete sheets. Added volumes use mapsnap's quarter-resolution Chronoscope IIIF mirrors to reduce transfer size and avoid placing hundreds of full-resolution scans in the site repository.
 - The Library of Congress identifies its online Sanborn Maps Collection as public domain and free to use and reuse.
