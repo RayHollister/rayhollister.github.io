@@ -975,6 +975,19 @@ image: /media/2026/09/maps-featured.png
     width: 22px;
   }
 
+  .maps-historic-placement-handle--rotate {
+    background: #fff;
+    border-color: #0969da;
+    border-radius: 50%;
+    color: #0969da;
+    cursor: grab;
+    font-size: 16px;
+    font-weight: 700;
+    height: 22px;
+    line-height: 1;
+    width: 22px;
+  }
+
   #ray-map .maplibregl-map,
   #ray-map .maplibregl-canvas-container,
   #ray-map .maplibregl-canvas,
@@ -1104,6 +1117,7 @@ image: /media/2026/09/maps-featured.png
 </section>
 
 <script src="/leaflet/leaflet.js"></script>
+<script src="/leaflet/imageoverlay-rotated/Leaflet.ImageOverlay.Rotated.js"></script>
 <script src="/leaflet/smoothwheelzoom/SmoothWheelZoom.js"></script>
 <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.js"></script>
@@ -1115,7 +1129,9 @@ image: /media/2026/09/maps-featured.png
 
   (function () {
     const places = window.rayMapsPlaces;
-    const map = L.map("ray-map", {
+    const Leaflet = L;
+    const RayRotatedImageOverlay = Leaflet.RayRotatedImageOverlay;
+    const map = Leaflet.map("ray-map", {
       minZoom: 4,
       maxZoom: 20,
       maxBounds: [[-85.051129, -Infinity], [85.051129, Infinity]],
@@ -1973,8 +1989,8 @@ image: /media/2026/09/maps-featured.png
         const loadRequest = this._loadRequest;
         initialVisibleLayerFitComplete = true;
         targetMap.attributionControl.addAttribution(this._attribution);
-        if (this._placementBounds && this._rectangularImageUrl) {
-          this._showRectangularPlacement();
+        if (this._placementCorners && this._placementImageUrl) {
+          this._showPlacement();
           return;
         }
         this._load(loadRequest);
@@ -2003,30 +2019,49 @@ image: /media/2026/09/maps-featured.png
         return this;
       },
 
-      setRectangularPlacement: function (bounds, imageUrl) {
-        this._placementBounds = L.latLngBounds(bounds);
-        this._rectangularImageUrl = imageUrl || this._rectangularImageUrl;
-        if (this._map) this._showRectangularPlacement();
+      setPlacement: function (corners, imageUrl) {
+        this._placementCorners = {
+          topLeft: Leaflet.latLng(corners.topLeft),
+          topRight: Leaflet.latLng(corners.topRight),
+          bottomRight: Leaflet.latLng(corners.bottomRight),
+          bottomLeft: Leaflet.latLng(corners.bottomLeft)
+        };
+        this._placementImageUrl = imageUrl || this._placementImageUrl;
+        if (this._map) this._showPlacement();
         return this;
       },
 
-      getRectangularPlacement: function () {
-        return this._placementBounds ? L.latLngBounds(this._placementBounds) : null;
+      getPlacement: function () {
+        if (!this._placementCorners) return null;
+        return Object.fromEntries(Object.entries(this._placementCorners).map(([name, latLng]) => [
+          name,
+          Leaflet.latLng(latLng)
+        ]));
       },
 
-      _showRectangularPlacement: function () {
-        if (!this._map || !this._rectangularImageUrl || !this._placementBounds) return;
+      _showPlacement: function () {
+        if (!this._map || !this._placementImageUrl || !this._placementCorners) return;
         (this._warpedLayers || []).forEach((layer) => {
           if (this._map.hasLayer(layer)) this._map.removeLayer(layer);
         });
         if (!this._placementOverlay) {
-          this._placementOverlay = L.imageOverlay(this._rectangularImageUrl, this._placementBounds, {
+          this._placementOverlay = new RayRotatedImageOverlay(
+            this._placementImageUrl,
+            this._placementCorners.topLeft,
+            this._placementCorners.topRight,
+            this._placementCorners.bottomLeft,
+            {
             interactive: false,
             opacity: this._opacity,
             pane: "historicMapsPane"
-          });
+            }
+          );
         } else {
-          this._placementOverlay.setBounds(this._placementBounds);
+          this._placementOverlay.reposition(
+            this._placementCorners.topLeft,
+            this._placementCorners.topRight,
+            this._placementCorners.bottomLeft
+          );
           this._placementOverlay.setOpacity(this._opacity);
         }
         if (!this._map.hasLayer(this._placementOverlay)) this._placementOverlay.addTo(this._map);
@@ -3251,42 +3286,44 @@ image: /media/2026/09/maps-featured.png
       return historicMapDefinitions.find((definition) => definition.slug === "historic1901fire");
     }
 
-    function getGreatFirePlacementBounds() {
+    function getInitialGreatFirePlacement() {
       const definition = getGreatFireMapDefinition();
       if (!definition) return null;
-      return definition.layer.getRectangularPlacement() || L.latLngBounds(definition.bounds);
-    }
-
-    function getGreatFirePlacementCorners(bounds) {
+      const savedPlacement = definition.layer.getPlacement();
+      if (savedPlacement) return savedPlacement;
+      const bounds = Leaflet.latLngBounds(definition.bounds);
       const south = bounds.getSouth();
       const west = bounds.getWest();
       const north = bounds.getNorth();
       const east = bounds.getEast();
       return {
-        northWest: L.latLng(north, west),
-        northEast: L.latLng(north, east),
-        southEast: L.latLng(south, east),
-        southWest: L.latLng(south, west)
+        topLeft: Leaflet.latLng(north, west),
+        topRight: Leaflet.latLng(north, east),
+        bottomRight: Leaflet.latLng(south, east),
+        bottomLeft: Leaflet.latLng(south, west)
       };
     }
 
-    function formatGreatFirePlacementCoordinates(bounds) {
-      const corners = getGreatFirePlacementCorners(bounds);
+    function formatGreatFirePlacementCoordinates(corners) {
       const coordinatePair = (latLng) => [
         Number(latLng.lng.toFixed(7)),
         Number(latLng.lat.toFixed(7))
       ];
+      const topLeftPoint = map.latLngToLayerPoint(corners.topLeft);
+      const topRightPoint = map.latLngToLayerPoint(corners.topRight);
+      const rotation = Math.atan2(
+        topRightPoint.y - topLeftPoint.y,
+        topRightPoint.x - topLeftPoint.x
+      ) * 180 / Math.PI;
       return JSON.stringify({
         layer: "historic1901fire",
-        bounds: [
-          [Number(bounds.getSouth().toFixed(7)), Number(bounds.getWest().toFixed(7))],
-          [Number(bounds.getNorth().toFixed(7)), Number(bounds.getEast().toFixed(7))]
-        ],
+        coordinateOrder: "longitude, latitude",
+        rotationDegreesClockwise: Number(rotation.toFixed(3)),
         corners: {
-          northWest: coordinatePair(corners.northWest),
-          northEast: coordinatePair(corners.northEast),
-          southEast: coordinatePair(corners.southEast),
-          southWest: coordinatePair(corners.southWest)
+          topLeft: coordinatePair(corners.topLeft),
+          topRight: coordinatePair(corners.topRight),
+          bottomRight: coordinatePair(corners.bottomRight),
+          bottomLeft: coordinatePair(corners.bottomLeft)
         }
       }, null, 2);
     }
@@ -3304,10 +3341,10 @@ image: /media/2026/09/maps-featured.png
       if (!definition || !map.hasLayer(definition.layer)) return;
       stopGreatFirePlacementEditor();
 
-      let placementBounds = getGreatFirePlacementBounds();
-      definition.layer.setRectangularPlacement(placementBounds, definition.rectangularImageUrl);
-      const guideLayer = L.layerGroup().addTo(map);
-      const outline = L.rectangle(placementBounds, {
+      let placementCorners = getInitialGreatFirePlacement();
+      definition.layer.setPlacement(placementCorners, definition.rectangularImageUrl);
+      const guideLayer = Leaflet.layerGroup().addTo(map);
+      const outline = Leaflet.polygon([], {
         color: "#0969da",
         dashArray: "6 5",
         fill: false,
@@ -3315,83 +3352,208 @@ image: /media/2026/09/maps-featured.png
         pane: "markerPane",
         weight: 2
       }).addTo(guideLayer);
+      const rotationGuide = Leaflet.polyline([], {
+        color: "#0969da",
+        dashArray: "3 4",
+        interactive: false,
+        pane: "markerPane",
+        weight: 1
+      }).addTo(guideLayer);
       const cornerMarkers = {};
-      const cornerIcon = L.divIcon({
+      const cornerIcon = Leaflet.divIcon({
         className: "",
         html: '<span class="maps-historic-placement-handle" aria-hidden="true"></span>',
         iconAnchor: [8, 8],
         iconSize: [16, 16]
       });
-      const moveIcon = L.divIcon({
+      const moveIcon = Leaflet.divIcon({
         className: "",
         html: '<span class="maps-historic-placement-handle maps-historic-placement-handle--move" aria-hidden="true">↕</span>',
         iconAnchor: [11, 11],
         iconSize: [22, 22]
       });
-      const moveMarker = L.marker(placementBounds.getCenter(), {
+      const rotationIcon = Leaflet.divIcon({
+        className: "",
+        html: '<span class="maps-historic-placement-handle maps-historic-placement-handle--rotate" aria-hidden="true">↻</span>',
+        iconAnchor: [11, 11],
+        iconSize: [22, 22]
+      });
+      const moveMarker = Leaflet.marker([0, 0], {
         draggable: true,
         icon: moveIcon,
         keyboard: true,
         title: "Move Great Fire map"
       }).addTo(guideLayer);
+      const rotationMarker = Leaflet.marker([0, 0], {
+        draggable: true,
+        icon: rotationIcon,
+        keyboard: true,
+        title: "Rotate Great Fire map"
+      }).addTo(guideLayer);
+      let mapDraggingWasEnabled = false;
 
-      function refreshEditor(nextBounds, activeCorner) {
-        placementBounds = L.latLngBounds(nextBounds);
-        definition.layer.setRectangularPlacement(placementBounds, definition.rectangularImageUrl);
-        outline.setBounds(placementBounds);
-        const corners = getGreatFirePlacementCorners(placementBounds);
-        Object.entries(cornerMarkers).forEach(([name, marker]) => {
-          if (name !== activeCorner) marker.setLatLng(corners[name]);
-        });
-        if (!activeCorner) moveMarker.setLatLng(placementBounds.getCenter());
-        greatFirePlacementEditor.bounds = placementBounds;
+      function getPlacementGeometry(corners) {
+        const topLeft = map.latLngToLayerPoint(corners.topLeft);
+        const topRight = map.latLngToLayerPoint(corners.topRight);
+        const bottomLeft = map.latLngToLayerPoint(corners.bottomLeft);
+        const center = topLeft.add(topRight).add(bottomLeft).add(
+          topRight.subtract(topLeft).add(bottomLeft)
+        ).divideBy(4);
+        const horizontal = topRight.subtract(topLeft);
+        const vertical = bottomLeft.subtract(topLeft);
+        const width = Math.hypot(horizontal.x, horizontal.y) / 2;
+        const height = Math.hypot(vertical.x, vertical.y) / 2;
+        return {
+          center,
+          halfHeight: height,
+          halfWidth: width,
+          unitX: horizontal.divideBy(width * 2),
+          unitY: vertical.divideBy(height * 2)
+        };
       }
 
-      Object.entries(getGreatFirePlacementCorners(placementBounds)).forEach(([name, latLng]) => {
-        const marker = L.marker(latLng, {
+      function cornersFromGeometry(geometry) {
+        const horizontal = geometry.unitX.multiplyBy(geometry.halfWidth);
+        const vertical = geometry.unitY.multiplyBy(geometry.halfHeight);
+        const toLatLng = (point) => map.layerPointToLatLng(point);
+        return {
+          topLeft: toLatLng(geometry.center.subtract(horizontal).subtract(vertical)),
+          topRight: toLatLng(geometry.center.add(horizontal).subtract(vertical)),
+          bottomRight: toLatLng(geometry.center.add(horizontal).add(vertical)),
+          bottomLeft: toLatLng(geometry.center.subtract(horizontal).add(vertical))
+        };
+      }
+
+      function startHandleDrag() {
+        mapDraggingWasEnabled = Boolean(map.dragging && map.dragging.enabled());
+        if (mapDraggingWasEnabled) map.dragging.disable();
+      }
+
+      function finishHandleDrag() {
+        if (mapDraggingWasEnabled && map.dragging) map.dragging.enable();
+        mapDraggingWasEnabled = false;
+      }
+
+      function refreshEditor(nextCorners, activeHandle) {
+        placementCorners = nextCorners;
+        definition.layer.setPlacement(placementCorners, definition.rectangularImageUrl);
+        outline.setLatLngs([
+          placementCorners.topLeft,
+          placementCorners.topRight,
+          placementCorners.bottomRight,
+          placementCorners.bottomLeft
+        ]);
+        const geometry = getPlacementGeometry(placementCorners);
+        const rotationHandlePoint = geometry.center
+          .subtract(geometry.unitY.multiplyBy(geometry.halfHeight + 42));
+        const topCenterPoint = geometry.center.subtract(geometry.unitY.multiplyBy(geometry.halfHeight));
+        Object.entries(cornerMarkers).forEach(([name, marker]) => {
+          if (name !== activeHandle) marker.setLatLng(placementCorners[name]);
+        });
+        if (activeHandle !== "move") moveMarker.setLatLng(map.layerPointToLatLng(geometry.center));
+        if (activeHandle !== "rotate") rotationMarker.setLatLng(map.layerPointToLatLng(rotationHandlePoint));
+        rotationGuide.setLatLngs([
+          map.layerPointToLatLng(topCenterPoint),
+          map.layerPointToLatLng(rotationHandlePoint)
+        ]);
+        greatFirePlacementEditor.corners = placementCorners;
+      }
+
+      const cornerSigns = {
+        topLeft: [-1, -1],
+        topRight: [1, -1],
+        bottomRight: [1, 1],
+        bottomLeft: [-1, 1]
+      };
+      Object.entries(placementCorners).forEach(([name, latLng]) => {
+        const marker = Leaflet.marker(latLng, {
           draggable: true,
           icon: cornerIcon,
           keyboard: true,
           title: `Resize Great Fire map from ${name}`
         }).addTo(guideLayer);
         cornerMarkers[name] = marker;
+        let resizeStartGeometry;
+        marker.on("dragstart", function () {
+          startHandleDrag();
+          resizeStartGeometry = getPlacementGeometry(placementCorners);
+        });
         marker.on("drag", function (event) {
-          const dragged = event.target.getLatLng();
-          const current = placementBounds;
-          const north = name.startsWith("north") ? dragged.lat : current.getNorth();
-          const south = name.startsWith("south") ? dragged.lat : current.getSouth();
-          const east = name.endsWith("East") ? dragged.lng : current.getEast();
-          const west = name.endsWith("West") ? dragged.lng : current.getWest();
-          refreshEditor([[south, west], [north, east]], name);
+          const [horizontalSign, verticalSign] = cornerSigns[name];
+          const opposite = resizeStartGeometry.center
+            .subtract(resizeStartGeometry.unitX.multiplyBy(horizontalSign * resizeStartGeometry.halfWidth))
+            .subtract(resizeStartGeometry.unitY.multiplyBy(verticalSign * resizeStartGeometry.halfHeight));
+          const dragged = map.latLngToLayerPoint(event.target.getLatLng());
+          const diagonal = dragged.subtract(opposite);
+          const horizontalProjection = diagonal.x * resizeStartGeometry.unitX.x + diagonal.y * resizeStartGeometry.unitX.y;
+          const verticalProjection = diagonal.x * resizeStartGeometry.unitY.x + diagonal.y * resizeStartGeometry.unitY.y;
+          const halfWidth = Math.max(8, horizontalSign * horizontalProjection / 2);
+          const halfHeight = Math.max(8, verticalSign * verticalProjection / 2);
+          refreshEditor(cornersFromGeometry({
+            center: opposite.add(dragged).divideBy(2),
+            halfHeight,
+            halfWidth,
+            unitX: resizeStartGeometry.unitX,
+            unitY: resizeStartGeometry.unitY
+          }), name);
         });
         marker.on("dragend", function () {
-          refreshEditor(placementBounds);
+          finishHandleDrag();
+          refreshEditor(placementCorners);
         });
       });
 
-      let moveStartCenter;
-      let moveStartBounds;
+      let moveStartPoint;
+      let moveStartGeometry;
       moveMarker.on("dragstart", function () {
-        moveStartCenter = placementBounds.getCenter();
-        moveStartBounds = L.latLngBounds(placementBounds);
+        startHandleDrag();
+        moveStartPoint = map.latLngToLayerPoint(moveMarker.getLatLng());
+        moveStartGeometry = getPlacementGeometry(placementCorners);
       });
       moveMarker.on("drag", function (event) {
-        const nextCenter = event.target.getLatLng();
-        const latOffset = nextCenter.lat - moveStartCenter.lat;
-        const lngOffset = nextCenter.lng - moveStartCenter.lng;
-        refreshEditor([
-          [moveStartBounds.getSouth() + latOffset, moveStartBounds.getWest() + lngOffset],
-          [moveStartBounds.getNorth() + latOffset, moveStartBounds.getEast() + lngOffset]
-        ]);
+        const nextPoint = map.latLngToLayerPoint(event.target.getLatLng());
+        refreshEditor(cornersFromGeometry({
+          ...moveStartGeometry,
+          center: moveStartGeometry.center.add(nextPoint.subtract(moveStartPoint))
+        }), "move");
+      });
+      moveMarker.on("dragend", function () {
+        finishHandleDrag();
+        refreshEditor(placementCorners);
+      });
+
+      let rotateStartGeometry;
+      rotationMarker.on("dragstart", function () {
+        startHandleDrag();
+        rotateStartGeometry = getPlacementGeometry(placementCorners);
+      });
+      rotationMarker.on("drag", function (event) {
+        const pointer = map.latLngToLayerPoint(event.target.getLatLng());
+        const outward = pointer.subtract(rotateStartGeometry.center);
+        const distance = Math.max(1, Math.hypot(outward.x, outward.y));
+        const unitY = outward.divideBy(-distance);
+        const unitX = Leaflet.point(unitY.y, -unitY.x);
+        refreshEditor(cornersFromGeometry({
+          ...rotateStartGeometry,
+          unitX,
+          unitY
+        }), "rotate");
+      });
+      rotationMarker.on("dragend", function () {
+        finishHandleDrag();
+        refreshEditor(placementCorners);
       });
 
       greatFirePlacementEditor = {
-        bounds: placementBounds,
+        corners: placementCorners,
         cornerMarkers,
         guideLayer,
         moveMarker,
-        outline
+        outline,
+        rotationGuide,
+        rotationMarker
       };
+      refreshEditor(placementCorners);
     }
 
     function getComparablePointLayerDefinitions() {
@@ -3562,10 +3724,10 @@ image: /media/2026/09/maps-featured.png
       const greatFireDefinition = getGreatFireMapDefinition();
       if (greatFireDefinition && map.hasLayer(greatFireDefinition.layer)) {
         mapContextMenuElement.appendChild(createContextMenuButton(
-          greatFirePlacementEditor ? "Finish positioning Great Fire map" : "Move and resize Great Fire map",
+          greatFirePlacementEditor ? "Finish positioning Great Fire map" : "Move, resize, and rotate Great Fire map",
           greatFirePlacementEditor
             ? "Hide the Great Fire map placement handles"
-            : "Show handles for moving and independently resizing the Great Fire map",
+            : "Show handles for moving, independently resizing, and rotating the Great Fire map",
           () => {
             if (greatFirePlacementEditor) {
               stopGreatFirePlacementEditor();
@@ -3579,10 +3741,10 @@ image: /media/2026/09/maps-featured.png
           "Copy Great Fire placement coordinates",
           "Copy the rectangular bounds and four corner coordinates",
           (button) => {
-            const placementBounds = greatFirePlacementEditor
-              ? greatFirePlacementEditor.bounds
-              : getGreatFirePlacementBounds();
-            copyTextToClipboard(formatGreatFirePlacementCoordinates(placementBounds))
+            const placementCorners = greatFirePlacementEditor
+              ? greatFirePlacementEditor.corners
+              : getInitialGreatFirePlacement();
+            copyTextToClipboard(formatGreatFirePlacementCoordinates(placementCorners))
               .then(() => {
                 button.textContent = "Placement coordinates copied";
                 window.setTimeout(hideMapContextMenu, 650);
