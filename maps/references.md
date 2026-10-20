@@ -23,6 +23,15 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 - OpenFreeMap project documentation: [OpenFreeMap quick start](https://openfreemap.org/quick_start/) and [hyperknot/openfreemap](https://github.com/hyperknot/openfreemap)
 - Google Satellite: [Google satellite tile endpoint](https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z})
 
+## Historic Maps
+
+- Jacksonville Sanborn Fire Insurance Map, July 1884:
+  - Original eight-sheet volume and full-resolution IIIF scans: [Library of Congress Geography and Map Division](https://www.loc.gov/item/sanborn01286_001/)
+  - Seven detailed map sheets are displayed; the volume's index/key sheet remains available from the Library of Congress source page.
+  - Open georeferencing annotations and sheet masks: [mapsnap v1.3](https://data.mapsnap.org/runs/v1.3/)
+  - Rendering: [Allmaps Leaflet](https://github.com/allmaps/allmaps/tree/main/packages/leaflet), using visible IIIF image tiles rather than downloading complete sheets.
+  - The Library of Congress identifies its online Sanborn Maps Collection as public domain and free to use and reuse.
+
 ## Boundaries And Area Layers
 
 - [City of Jacksonville My Neighborhood](https://maps.coj.net/myneighborhood/)
