@@ -1727,10 +1727,12 @@ image: /media/2026/09/maps-featured.png
             L.DomUtil.removeClass(container, "following");
             L.DomUtil.removeClass(icon, "leaflet-control-locate-location-arrow");
             L.DomUtil.addClass(icon, "leaflet-control-locate-spinner");
+            map.stopLocate();
             map.locate({
               enableHighAccuracy: true,
               maxZoom: 16,
-              setView: true
+              setView: true,
+              watch: true
             });
           });
           L.DomEvent.disableClickPropagation(container);
@@ -1873,34 +1875,37 @@ image: /media/2026/09/maps-featured.png
       userLocationLatLng = event.latlng;
       updateLocationInfoControlVisibility();
 
-      if (userLocationMarker) {
-        map.removeLayer(userLocationMarker);
-      }
-      if (userAccuracyCircle) {
-        map.removeLayer(userAccuracyCircle);
-      }
-
-      const markerOptions = {
-        pane: "navigationMarkerPane",
-        title: "Your location"
-      };
-      if (isMobileLocationHeadingEnabled()) {
-        markerOptions.icon = createMobileUserLocationIcon();
-      }
       if (Number.isFinite(event.heading)) {
         userHeading = event.heading;
       }
-      userLocationMarker = L.marker(event.latlng, markerOptions)
-        .addTo(map)
-        .on("click", showYouAreHereCardInPanel);
+      if (userLocationMarker) {
+        userLocationMarker.setLatLng(event.latlng);
+      } else {
+        const markerOptions = {
+          pane: "navigationMarkerPane",
+          title: "Your location"
+        };
+        if (isMobileLocationHeadingEnabled()) {
+          markerOptions.icon = createMobileUserLocationIcon();
+        }
+        userLocationMarker = L.marker(event.latlng, markerOptions)
+          .addTo(map)
+          .on("click", showYouAreHereCardInPanel);
+      }
       updateUserLocationHeadingMarker();
-      userAccuracyCircle = L.circle(event.latlng, {
-        color: "#0969da",
-        fillColor: "#0969da",
-        fillOpacity: 0.12,
-        radius: event.accuracy || 0,
-        weight: 1
-      }).addTo(map);
+      if (userAccuracyCircle) {
+        userAccuracyCircle
+          .setLatLng(event.latlng)
+          .setRadius(event.accuracy || 0);
+      } else {
+        userAccuracyCircle = L.circle(event.latlng, {
+          color: "#0969da",
+          fillColor: "#0969da",
+          fillOpacity: 0.12,
+          radius: event.accuracy || 0,
+          weight: 1
+        }).addTo(map);
+      }
     });
 
     map.on("locationerror", function (error) {
