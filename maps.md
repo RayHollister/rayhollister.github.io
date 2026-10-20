@@ -388,6 +388,26 @@ image: /media/2026/09/maps-featured.png
     cursor: not-allowed;
   }
 
+  .maps-basemap-control .maps-layer-subheading {
+    border-top: 1px solid #d0d7de;
+    margin: 0;
+    padding: 0.45rem 0.6rem 0.2rem;
+  }
+
+  .maps-basemap-control .maps-historic-map-opacity-control {
+    box-sizing: border-box;
+    margin: 0.1rem 0.6rem 0.35rem;
+    width: calc(100% - 1.2rem);
+  }
+
+  .maps-basemap-control .maps-layer-control-row {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: 0.45rem;
+    padding: 0.35rem 0.6rem 0.5rem;
+  }
+
   .maps-leadership-locations-control .maps-control-panel__body {
     display: flex;
     flex-direction: column;
@@ -665,7 +685,7 @@ image: /media/2026/09/maps-featured.png
   .maps-basemap-control .maps-layer-opacity-control {
     align-items: center;
     display: flex;
-    flex: 1 1 7rem;
+    flex: 1 1 1rem;
     height: 30px;
     justify-content: center;
     min-width: 5rem;
@@ -1049,9 +1069,6 @@ image: /media/2026/09/maps-featured.png
       overflow: auto;
     }
 
-    .maps-pinned-card-panel {
-      display: none !important;
-    }
   }
 </style>
 
@@ -1083,8 +1100,11 @@ image: /media/2026/09/maps-featured.png
       smoothWheelZoom: true,
       smoothSensitivity: 1,
       zoomSnap: 0,
+      zoomAnimationThreshold: 1,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
+    const historicMapsPane = map.createPane("historicMapsPane");
+    historicMapsPane.style.zIndex = "350";
     const navigationMarkerPane = map.createPane("navigationMarkerPane");
     navigationMarkerPane.style.zIndex = "750";
 
@@ -1112,13 +1132,21 @@ image: /media/2026/09/maps-featured.png
         url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
       }
     };
-    let activeBaseMapKey = "positron";
+    const createMapLibreLayer = typeof L.maplibreGL === "function"
+      ? L.maplibreGL.bind(L)
+      : null;
+    const defaultBaseMapKey = "positron";
+    let activeBaseMapKey = defaultBaseMapKey;
     let baseMapControlElement;
     let baseMapLayer;
     let baseMapOpacityInput;
     let baseMapOpacityLabel;
     let baseMapTileOpacity = 1;
     let baseMapRequestId = 0;
+    const defaultHistoricMapOpacity = 1;
+    let historicMapOpacity = defaultHistoricMapOpacity;
+    let historicMapOpacityInput;
+    let historicMapOpacityLabel;
     let zoomHomeControl;
     const censusReporterGeographyPromises = new Map();
     const squareMetersPerSquareMile = 2589988.110336;
@@ -1126,12 +1154,25 @@ image: /media/2026/09/maps-featured.png
       ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
       : true;
 
+    function getBaseMapQueryKey() {
+      const requestedBaseMap = new URLSearchParams(window.location.search).get("basemap");
+      return Object.prototype.hasOwnProperty.call(baseMapStyles, requestedBaseMap)
+        ? requestedBaseMap
+        : defaultBaseMapKey;
+    }
+
+    function updateBaseMapQueryUrl() {
+      const url = new URL(window.location.href);
+      url.searchParams.set("basemap", activeBaseMapKey);
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
     async function setBaseMap(baseMapKey, options) {
       const config = baseMapStyles[baseMapKey];
       const settings = options || {};
       const requestId = ++baseMapRequestId;
       if (!config) return false;
-      if (config.type !== "tile" && (!window.maplibregl || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true })))) {
+      if (config.type !== "tile" && (!window.maplibregl || !createMapLibreLayer || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true })))) {
         return false;
       }
       if (requestId !== baseMapRequestId) {
@@ -1155,13 +1196,16 @@ image: /media/2026/09/maps-featured.png
           }
           return false;
         }
-        baseMapLayer = L.maplibreGL({
+        baseMapLayer = createMapLibreLayer({
           style: nextStyle
         }).addTo(map);
       }
       activeBaseMapKey = baseMapKey;
       applyBaseMapTileOpacity();
       updateBaseMapControl();
+      if (settings.updateUrl !== false) {
+        updateBaseMapQueryUrl();
+      }
       return true;
     }
 
@@ -1185,8 +1229,8 @@ image: /media/2026/09/maps-featured.png
     }
 
     function refreshActiveBaseMap() {
-      if (activeBaseMapKey === "positron") {
-        setBaseMap("positron", { quiet: true });
+      if (baseMapStyles[activeBaseMapKey] && baseMapStyles[activeBaseMapKey].type !== "tile") {
+        setBaseMap(activeBaseMapKey, { quiet: true, updateUrl: false });
       }
     }
 
@@ -1225,6 +1269,46 @@ image: /media/2026/09/maps-featured.png
 
     function updateBaseMapTileOpacityControl() {
       updateOpacityRangeVisual(baseMapOpacityInput, baseMapOpacityLabel, baseMapTileOpacity, "Map tile opacity");
+    }
+
+    function updateHistoricMapOpacityControl() {
+      updateOpacityRangeVisual(historicMapOpacityInput, historicMapOpacityLabel, historicMapOpacity, "Historic map opacity");
+    }
+
+    function updateHistoricMapOpacityQueryUrl() {
+      const url = new URL(window.location.href);
+      url.searchParams.set("hm-opacity", String(Math.round(historicMapOpacity * 100)));
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function setHistoricMapOpacity(value, options) {
+      const settings = options || {};
+      historicMapOpacity = Math.max(0, Math.min(1, Number.isFinite(value) ? value : defaultHistoricMapOpacity));
+      jacksonville1884HistoricMapLayer.setOpacity(historicMapOpacity);
+      updateHistoricMapOpacityControl();
+      if (settings.updateUrl) {
+        updateHistoricMapOpacityQueryUrl();
+      }
+    }
+
+    function createHistoricMapOpacityControl() {
+      const opacityLabel = document.createElement("label");
+      const opacityInput = document.createElement("input");
+
+      opacityLabel.className = "maps-layer-opacity-control maps-historic-map-opacity-control";
+      opacityInput.type = "range";
+      opacityInput.min = "0";
+      opacityInput.max = "100";
+      opacityInput.step = "1";
+      opacityInput.setAttribute("aria-label", "Historic map opacity");
+      opacityInput.addEventListener("input", function () {
+        setHistoricMapOpacity(Number(opacityInput.value) / 100, { updateUrl: true });
+      });
+      opacityLabel.appendChild(opacityInput);
+      historicMapOpacityInput = opacityInput;
+      historicMapOpacityLabel = opacityLabel;
+      updateHistoricMapOpacityControl();
+      return opacityLabel;
     }
 
     function setupCollapsibleMapControl(container, label, body, options) {
@@ -1304,6 +1388,15 @@ image: /media/2026/09/maps-featured.png
             });
             body.appendChild(button);
           });
+          body.appendChild(createLayerSubheading("Historic Maps"));
+          body.appendChild(createHistoricMapOpacityControl());
+          const historicMapControl = createBoundaryLayerInput(
+            "1884 Jacksonville",
+            jacksonville1884HistoricMapLayer,
+            { countable: false, geometryType: "polygon", querySlug: "historic1884" }
+          );
+          historicMapControl.input.checked = map.hasLayer(jacksonville1884HistoricMapLayer);
+          body.appendChild(historicMapControl.labelElement);
           controlApi = setupCollapsibleMapControl(container, "Basemap", body, {
             headerAction: createBaseMapHeaderActions(),
             iconPath: "M576 112C576 103.7 571.7 96 564.7 91.6C557.7 87.2 548.8 86.8 541.4 90.5L416.5 152.1L244 93.4C230.3 88.7 215.3 89.6 202.1 95.7L77.8 154.3C69.4 158.2 64 166.7 64 176L64 528C64 536.2 68.2 543.9 75.1 548.3C82 552.7 90.7 553.2 98.2 549.7L225.5 489.8L396.2 546.7C409.9 551.3 424.7 550.4 437.8 544.2L562.2 485.7C570.6 481.7 576 473.3 576 464L576 112zM208 146.1L208 445.1L112 490.3L112 191.3L208 146.1zM256 449.4L256 148.3L384 191.8L384 492.1L256 449.4zM432 198L528 150.6L528 448.8L432 494L432 198z"
@@ -1833,6 +1926,109 @@ image: /media/2026/09/maps-featured.png
     const activePlaceLayer = L.layerGroup().addTo(map);
     const archivedPlaceLayer = L.layerGroup();
     const leadershipJaxLocationsLayer = L.layerGroup().addTo(map);
+    const historicMapAttribution = '<a href="https://www.loc.gov/item/sanborn01286_001/" target="_blank" rel="noopener">Library of Congress, 1884 Sanborn Map</a> · Georeferencing: <a href="https://mapsnap.org/" target="_blank" rel="noopener">mapsnap</a>';
+    const HistoricMapLayer = L.Layer.extend({
+      initialize: function (annotationUrl, bounds) {
+        this._annotationUrl = annotationUrl;
+        this._bounds = L.latLngBounds(bounds);
+        this._loadRequest = 0;
+        this._opacity = historicMapOpacity;
+      },
+
+      onAdd: function (targetMap) {
+        this._map = targetMap;
+        this._loadRequest += 1;
+        const loadRequest = this._loadRequest;
+        initialVisibleLayerFitComplete = true;
+        targetMap.attributionControl.addAttribution(historicMapAttribution);
+        this._load(loadRequest);
+      },
+
+      onRemove: function (targetMap) {
+        this._loadRequest += 1;
+        if (this._warpedLayer && targetMap.hasLayer(this._warpedLayer)) {
+          targetMap.removeLayer(this._warpedLayer);
+        }
+        targetMap.attributionControl.removeAttribution(historicMapAttribution);
+        this._map = null;
+      },
+
+      getBounds: function () {
+        return this._bounds;
+      },
+
+      setOpacity: function (opacity) {
+        this._opacity = opacity;
+        if (this._warpedLayer && this._warpedLayer.setOpacity) {
+          this._warpedLayer.setOpacity(opacity);
+        }
+        return this;
+      },
+
+      bringToBack: function () {
+        if (this._warpedLayer && this._warpedLayer.bringToBack) {
+          this._warpedLayer.bringToBack();
+        }
+        return this;
+      },
+
+      _load: async function (loadRequest) {
+        try {
+          if (!this._warpedLayer) {
+            const allmaps = await import("https://cdn.jsdelivr.net/npm/@allmaps/leaflet@1.0.0-beta.55/+esm");
+            if (loadRequest !== this._loadRequest || !this._map) return;
+            this._warpedLayer = new allmaps.WarpedMapLayer(undefined, {
+              opacity: this._opacity,
+              pane: "historicMapsPane"
+            });
+            this._map.addLayer(this._warpedLayer);
+            const annotationResponse = await fetch(this._annotationUrl);
+            if (!annotationResponse.ok) {
+              throw new Error(`Historic map annotation request failed: ${annotationResponse.status}`);
+            }
+            const annotation = await annotationResponse.json();
+            (annotation.items || []).forEach((item) => {
+              const source = item && item.target && item.target.source;
+              if (source && typeof source.id === "string") {
+                const sheetMatch = source.id.match(/(01286_1884-\d{4})(?:\/info\.json)?\/?$/);
+                if (sheetMatch) {
+                  source.id = new URL(`/data/historic-maps/iiif/${sheetMatch[1]}`, window.location.origin).href;
+                }
+              }
+            });
+            const imageInfos = await Promise.all((annotation.items || []).map(async (item) => {
+              const source = item && item.target && item.target.source;
+              const response = await fetch(`${source.id}/info.json`);
+              if (!response.ok) {
+                throw new Error(`Historic map image information request failed: ${response.status}`);
+              }
+              const imageInfo = await response.json();
+              imageInfo["@id"] = source.id;
+              return imageInfo;
+            }));
+            this._warpedLayer.addImageInfos(imageInfos);
+            this._warpedLayer.addGeoreferenceAnnotation(annotation);
+          } else if (!this._map.hasLayer(this._warpedLayer)) {
+            this._map.addLayer(this._warpedLayer);
+          }
+          if (loadRequest !== this._loadRequest || !this._map) return;
+          this._warpedLayer.setOpacity(this._opacity);
+          if (this._warpedLayer.nativeUpdate) {
+            this._warpedLayer.nativeUpdate();
+          }
+          this.bringToBack();
+        } catch (error) {
+          console.error("Could not load the 1884 historic map layer.", error);
+          if (loadRequest === this._loadRequest && this._map) {
+            window.alert("The 1884 historic map layer could not be loaded. Please try again.");
+          }
+        }
+      }
+    });
+    const jacksonville1884HistoricMapLayer = new HistoricMapLayer(
+      "/data/historic-maps/jacksonville-sanborn-1884-georeference.json",
+      [[30.323807908372586, -81.6642101], [30.3315704, -81.6514076150357]]
+    );
     const councilDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getCouncilDistrictStyle(feature, "fill"),
       onEachFeature: (feature, layer) => addCouncilDistrictInteractivity(feature, layer, "fill")
@@ -2239,6 +2435,9 @@ image: /media/2026/09/maps-featured.png
       ];
 
       polygonLayers.forEach((layer) => moveLayerGroup(layer, "bringToBack"));
+      if (map.hasLayer(jacksonville1884HistoricMapLayer)) {
+        jacksonville1884HistoricMapLayer.bringToBack();
+      }
       lineLayers.forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       pointLayers.forEach((layer) => moveLayerGroup(layer, "bringToFront"));
       moveLayerGroup(busStopsLayer, "bringToFront");
@@ -3200,6 +3399,12 @@ image: /media/2026/09/maps-featured.png
     function setBoundaryLayer(control, enabled, allowMultiple) {
       clearMapFocus();
       if (enabled) {
+        const councilDistrictQuerySlug = queryLayerSlugsByLayer.get(councilDistrictFillLayer);
+        if (control.layer !== councilDistrictFillLayer &&
+            map.hasLayer(councilDistrictFillLayer) &&
+            !explicitQueryLayerSlugs.has(councilDistrictQuerySlug)) {
+          map.removeLayer(councilDistrictFillLayer);
+        }
         if (!map.hasLayer(control.layer)) map.addLayer(control.layer);
         restoreBoundaryLayerFeatures(control.layer);
         trackBoundaryLayerStackSelection(control.layer);
@@ -3288,23 +3493,27 @@ image: /media/2026/09/maps-featured.png
       setGovernmentOverlayOpacity(opacity / 100);
     }
 
-    function hasBoundaryLayerQuery(tokens) {
-      return tokens.some((token) => {
-        const control = queryLayerControls.get(token);
-        return control && control.group === "boundaries";
-      });
+    function activateHistoricMapOpacityQuery() {
+      const params = new URLSearchParams(window.location.search);
+      if (!params.has("hm-opacity")) return;
+      const opacity = Number(params.get("hm-opacity"));
+      if (!Number.isFinite(opacity)) return;
+      setHistoricMapOpacity(opacity / 100);
     }
 
     function activateQueryLayers() {
       const tokens = getQueryLayerTokens();
       if (!tokens.length) return;
 
-      const includesBoundaryLayer = hasBoundaryLayerQuery(tokens);
       const includesDefaultCouncilDistrict = tokens.some((token) => {
         const control = queryLayerControls.get(token);
         return control && control.layer === councilDistrictFillLayer;
       });
-      if (includesBoundaryLayer && !includesDefaultCouncilDistrict && map.hasLayer(councilDistrictFillLayer)) {
+      const includesOtherLayer = tokens.some((token) => {
+        const control = queryLayerControls.get(token);
+        return control && control.layer !== councilDistrictFillLayer;
+      });
+      if (includesOtherLayer && !includesDefaultCouncilDistrict && map.hasLayer(councilDistrictFillLayer)) {
         map.removeLayer(councilDistrictFillLayer);
         orderMapLayers();
         syncDistrictLayerInputs();
@@ -3374,7 +3583,12 @@ image: /media/2026/09/maps-featured.png
       const labelElement = document.createElement("label");
       const input = document.createElement("input");
       const settings = options || {};
-      const control = { input, layer, group: settings.group || "" };
+      const control = {
+        input,
+        layer,
+        group: settings.group || "",
+        querySlug: settings.querySlug || queryLayerSlugsByLayer.get(layer) || ""
+      };
       let allowMultipleOnNextChange = false;
 
       labelElement.className = "maps-layer-control-row";
@@ -4282,6 +4496,7 @@ image: /media/2026/09/maps-featured.png
     }
 
     function registerMapQueryLayers() {
+      registerQueryLayer(["historic1884", "jacksonville1884", "sanborn1884"], jacksonville1884HistoricMapLayer, { slug: "historic1884" });
       registerQueryLayer(["councildistrict", "councildistricts", "citycouncildistrict", "citycouncildistricts"], councilDistrictFillLayer, { group: "boundaries", slug: "citycouncildistrict", alternateLayers: [councilDistrictBorderLayer] });
       registerQueryLayer(["councilatlarge", "councildistrictatlarge", "citycouncilatlarge", "citycouncildistrictatlarge"], councilAtLargeFillLayer, { group: "boundaries", slug: "citycouncilatlarge", alternateLayers: [councilAtLargeBorderLayer] });
       registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries", slug: "schoolboarddistricts", alternateLayers: [schoolBoardDistrictBorderLayer] });
@@ -6534,9 +6749,11 @@ image: /media/2026/09/maps-featured.png
         bounds.extend([place.lat, place.lng]);
       });
 
-      if (visiblePlaces.length > 1) {
+      if (!initialVisibleLayerFitComplete && visiblePlaces.length > 1) {
+        initialVisibleLayerFitComplete = true;
         map.fitBounds(bounds, { padding: [24, 24] });
-      } else if (visiblePlaces.length === 1) {
+      } else if (!initialVisibleLayerFitComplete && visiblePlaces.length === 1) {
+        initialVisibleLayerFitComplete = true;
         map.setView([visiblePlaces[0].lat, visiblePlaces[0].lng], visiblePlaces[0].zoom || 14);
       }
       updateZoomHomeDefaultBounds();
@@ -6558,7 +6775,8 @@ image: /media/2026/09/maps-featured.png
           councilDistrictBorderLayer.addData(districts);
           orderMapLayers();
           updateZoomHomeDefaultBounds();
-          if (!places.length && councilDistrictFillLayer.getLayers().length) {
+          if (!initialVisibleLayerFitComplete && !places.length && councilDistrictFillLayer.getLayers().length) {
+            initialVisibleLayerFitComplete = true;
             map.fitBounds(councilDistrictFillLayer.getBounds(), {
               padding: [24, 24]
             });
@@ -6940,16 +7158,12 @@ image: /media/2026/09/maps-featured.png
     addMapContextMenuHandlers();
     registerMapQueryLayers();
     activateOpacityQuery();
+    activateHistoricMapOpacityQuery();
     activateQueryLayers();
     addBaseMapControl();
     addLocateControl();
     
-    setBaseMap("positron", { quiet: true });
-
-    new MutationObserver(refreshActiveBaseMap).observe(document.body, {
-      attributes: true,
-      attributeFilter: ["class"]
-    });
+    setBaseMap(getBaseMapQueryKey(), { quiet: true, updateUrl: false });
 
     if (window.matchMedia) {
       const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");

@@ -23,6 +23,15 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 - OpenFreeMap project documentation: [OpenFreeMap quick start](https://openfreemap.org/quick_start/) and [hyperknot/openfreemap](https://github.com/hyperknot/openfreemap)
 - Google Satellite: [Google satellite tile endpoint](https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z})
 
+## Historic Maps
+
+- Sanborn Map Company. (1884, July). *Sanborn fire insurance map from Jacksonville, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_001/](https://www.loc.gov/item/sanborn01286_001/)
+  - Seven detailed map sheets are displayed; the volume's index/key sheet remains available from the Library of Congress source page.
+  - Vanderkam, D. (2026). *mapsnap* (Version 1.3) [Data set and computer software]. [https://data.mapsnap.org/runs/v1.3/](https://data.mapsnap.org/runs/v1.3/)
+  - Allmaps. (2026). *@allmaps/leaflet* [Computer software]. GitHub. [https://github.com/allmaps/allmaps/tree/main/packages/leaflet](https://github.com/allmaps/allmaps/tree/main/packages/leaflet)
+  - The Allmaps renderer requests only visible IIIF image tiles rather than downloading complete sheets.
+  - The Library of Congress identifies its online Sanborn Maps Collection as public domain and free to use and reuse.
+
 ## Boundaries And Area Layers
 
 - [City of Jacksonville My Neighborhood](https://maps.coj.net/myneighborhood/)
