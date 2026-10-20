@@ -27,10 +27,23 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 
 - Sanborn Map Company. (1884, July). *Sanborn fire insurance map from Jacksonville, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_001/](https://www.loc.gov/item/sanborn01286_001/)
   - Seven detailed map sheets are displayed; the volume's index/key sheet remains available from the Library of Congress source page.
-  - Vanderkam, D. (2026). *mapsnap* (Version 1.3) [Data set and computer software]. [https://data.mapsnap.org/runs/v1.3/](https://data.mapsnap.org/runs/v1.3/)
-  - Allmaps. (2026). *@allmaps/leaflet* [Computer software]. GitHub. [https://github.com/allmaps/allmaps/tree/main/packages/leaflet](https://github.com/allmaps/allmaps/tree/main/packages/leaflet)
-  - The Allmaps renderer requests only visible IIIF image tiles rather than downloading complete sheets.
-  - The Library of Congress identifies its online Sanborn Maps Collection as public domain and free to use and reuse.
+- Sanborn Map Company. (1887). *Sanborn fire insurance map from Jacksonville, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_002/](https://www.loc.gov/item/sanborn01286_002/)
+- Sanborn Map Company. (1891). *Sanborn fire insurance map from Jacksonville, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_003/](https://www.loc.gov/item/sanborn01286_003/)
+- Sanborn Map Company. (1897). *Sanborn fire insurance map from Jacksonville, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_004/](https://www.loc.gov/item/sanborn01286_004/)
+- Sanborn Map Company. (1903). *Sanborn fire insurance map from Jacksonville, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_005/](https://www.loc.gov/item/sanborn01286_005/)
+- Sanborn Map Company. (1903). *Sanborn fire insurance map from Pablo Beach, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01324_001/](https://www.loc.gov/item/sanborn01324_001/)
+- Sanborn Map Company. (1909). *Sanborn fire insurance map from Pablo Beach, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01324_002/](https://www.loc.gov/item/sanborn01324_002/)
+- Sanborn Map Company. (1913). *Sanborn fire insurance map from Jacksonville, Duval County, Florida: Volume 1* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_006/](https://www.loc.gov/item/sanborn01286_006/)
+- Sanborn Map Company. (1913). *Sanborn fire insurance map from Jacksonville, Duval County, Florida: Volume 2* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_007/](https://www.loc.gov/item/sanborn01286_007/)
+- Sanborn Map Company. (1917). *Sanborn fire insurance map from Pablo Beach, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01324_003/](https://www.loc.gov/item/sanborn01324_003/)
+- Sanborn Map Company. (1921). *Sanborn fire insurance map from Mayport, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01307_002/](https://www.loc.gov/item/sanborn01307_002/)
+- Sanborn Map Company. (1924). *Sanborn fire insurance map from Pablo Beach, Duval County, Florida* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01324_004/](https://www.loc.gov/item/sanborn01324_004/)
+- Sanborn Map Company. (1949). *Sanborn fire insurance map from Jacksonville, Duval County, Florida: Volume 1A* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_008/](https://www.loc.gov/item/sanborn01286_008/)
+- Sanborn Map Company. (1949). *Sanborn fire insurance map from Jacksonville, Duval County, Florida: Volume 4* [Map]. Library of Congress, Geography and Map Division. [https://www.loc.gov/item/sanborn01286_010/](https://www.loc.gov/item/sanborn01286_010/)
+- Vanderkam, D. (2026). *mapsnap* (Version 1.3) [Data set and computer software]. [https://mapsnap.org/runs/v1.3/](https://mapsnap.org/runs/v1.3/)
+- Allmaps. (2026). *@allmaps/leaflet* [Computer software]. GitHub. [https://github.com/allmaps/allmaps/tree/main/packages/leaflet](https://github.com/allmaps/allmaps/tree/main/packages/leaflet)
+- The Allmaps renderer requests only visible IIIF image tiles rather than downloading complete sheets. Added volumes use mapsnap's quarter-resolution Chronoscope IIIF mirrors to reduce transfer size and avoid placing hundreds of full-resolution scans in the site repository.
+- The Library of Congress identifies its online Sanborn Maps Collection as public domain and free to use and reuse.
 
 ## Boundaries And Area Layers
 
