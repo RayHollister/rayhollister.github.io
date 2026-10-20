@@ -1319,7 +1319,7 @@ image: /media/2026/09/maps-featured.png
           });
           body.appendChild(createLayerSubheading("Historic Maps"));
           const historicMapControl = createBoundaryLayerInput(
-            "Jacksonville Sanborn — 1884",
+            "1884 Jacksonville",
             jacksonville1884HistoricMapLayer,
             { countable: false, geometryType: "polygon" }
           );
@@ -1926,7 +1926,7 @@ image: /media/2026/09/maps-featured.png
       }
     });
     const jacksonville1884HistoricMapLayer = new HistoricMapLayer(
-      "https://data.mapsnap.org/runs/v1.3/iiif/loc/sanborn01286_001.main.iiif.json",
+      "/data/historic-maps/jacksonville-sanborn-1884-georeference.json",
       [[30.323807908372586, -81.6642101], [30.3315704, -81.6514076150357]]
     );
     const councilDistrictFillLayer = L.geoJSON(null, {
