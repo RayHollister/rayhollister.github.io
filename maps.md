@@ -388,6 +388,20 @@ image: /media/2026/09/maps-featured.png
     cursor: not-allowed;
   }
 
+  .maps-basemap-control .maps-layer-subheading {
+    border-top: 1px solid #d0d7de;
+    margin: 0;
+    padding: 0.45rem 0.6rem 0.2rem;
+  }
+
+  .maps-basemap-control .maps-layer-control-row {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: 0.45rem;
+    padding: 0.35rem 0.6rem 0.5rem;
+  }
+
   .maps-leadership-locations-control .maps-control-panel__body {
     display: flex;
     flex-direction: column;
@@ -1303,6 +1317,14 @@ image: /media/2026/09/maps-featured.png
             });
             body.appendChild(button);
           });
+          body.appendChild(createLayerSubheading("Historic Maps"));
+          const historicMapControl = createBoundaryLayerInput(
+            "Jacksonville Sanborn — 1884",
+            jacksonville1884HistoricMapLayer,
+            { countable: false, geometryType: "polygon" }
+          );
+          historicMapControl.input.checked = map.hasLayer(jacksonville1884HistoricMapLayer);
+          body.appendChild(historicMapControl.labelElement);
           controlApi = setupCollapsibleMapControl(container, "Basemap", body, {
             headerAction: createBaseMapHeaderActions(),
             iconPath: "M576 112C576 103.7 571.7 96 564.7 91.6C557.7 87.2 548.8 86.8 541.4 90.5L416.5 152.1L244 93.4C230.3 88.7 215.3 89.6 202.1 95.7L77.8 154.3C69.4 158.2 64 166.7 64 176L64 528C64 536.2 68.2 543.9 75.1 548.3C82 552.7 90.7 553.2 98.2 549.7L225.5 489.8L396.2 546.7C409.9 551.3 424.7 550.4 437.8 544.2L562.2 485.7C570.6 481.7 576 473.3 576 464L576 112zM208 146.1L208 445.1L112 490.3L112 191.3L208 146.1zM256 449.4L256 148.3L384 191.8L384 492.1L256 449.4zM432 198L528 150.6L528 448.8L432 494L432 198z"
@@ -3365,23 +3387,19 @@ image: /media/2026/09/maps-featured.png
       setGovernmentOverlayOpacity(opacity / 100);
     }
 
-    function hasBoundaryLayerQuery(tokens) {
-      return tokens.some((token) => {
-        const control = queryLayerControls.get(token);
-        return control && control.group === "boundaries";
-      });
-    }
-
     function activateQueryLayers() {
       const tokens = getQueryLayerTokens();
       if (!tokens.length) return;
 
-      const includesBoundaryLayer = hasBoundaryLayerQuery(tokens);
       const includesDefaultCouncilDistrict = tokens.some((token) => {
         const control = queryLayerControls.get(token);
         return control && control.layer === councilDistrictFillLayer;
       });
-      if (includesBoundaryLayer && !includesDefaultCouncilDistrict && map.hasLayer(councilDistrictFillLayer)) {
+      const includesOtherLayer = tokens.some((token) => {
+        const control = queryLayerControls.get(token);
+        return control && control.layer !== councilDistrictFillLayer;
+      });
+      if (includesOtherLayer && !includesDefaultCouncilDistrict && map.hasLayer(councilDistrictFillLayer)) {
         map.removeLayer(councilDistrictFillLayer);
         orderMapLayers();
         syncDistrictLayerInputs();
@@ -3465,9 +3483,7 @@ image: /media/2026/09/maps-featured.png
         allowMultipleOnNextChange = false;
       });
 
-      appendLayerLabelContents(labelElement, input, label, settings.geometryType || "point", {
-        href: settings.href
-      });
+      appendLayerLabelContents(labelElement, input, label, settings.geometryType || "point");
       registerCountablePointLayer(label, layer, settings);
       boundaryLayerControls.push(control);
       return { input, labelElement, control };
@@ -4210,14 +4226,6 @@ image: /media/2026/09/maps-featured.png
           const overlays = L.DomUtil.create("div", "leaflet-control-layers-overlays", list);
           layersControlElement = container;
           overlays.appendChild(createLocationInfoHeader());
-          overlays.appendChild(createLayerHeading("Historic Maps"));
-          appendLayerControls(overlays, [
-            createBoundaryLayerInput("Jacksonville Sanborn — 1884", jacksonville1884HistoricMapLayer, {
-              countable: false,
-              geometryType: "polygon",
-              href: "https://www.loc.gov/item/sanborn01286_001/"
-            })
-          ]);
           overlays.appendChild(createLayerHeading("Government"));
           appendGeographyLayerRow(overlays, "City Council District", councilDistrictFillLayer, councilDistrictBorderLayer, { locationLayerType: "district" });
           appendGeographyLayerRow(overlays, "City Council District At Large", councilAtLargeFillLayer, councilAtLargeBorderLayer, { locationLayerType: "atLarge" });
