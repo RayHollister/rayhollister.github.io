@@ -1155,7 +1155,7 @@ image: /media/2026/09/maps-featured.png
       const settings = options || {};
       const requestId = ++baseMapRequestId;
       if (!config) return false;
-      if (config.type !== "tile" && (!window.maplibregl || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true })))) {
+      if (config.type !== "tile" && (!window.maplibregl || typeof L.maplibreGL !== "function" || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true })))) {
         return false;
       }
       if (requestId !== baseMapRequestId) {
@@ -1373,7 +1373,7 @@ image: /media/2026/09/maps-featured.png
           const historicMapControl = createBoundaryLayerInput(
             "1884 Jacksonville",
             jacksonville1884HistoricMapLayer,
-            { countable: false, geometryType: "polygon" }
+            { countable: false, geometryType: "polygon", querySlug: "historic1884" }
           );
           historicMapControl.input.checked = map.hasLayer(jacksonville1884HistoricMapLayer);
           body.appendChild(historicMapControl.labelElement);
@@ -1962,7 +1962,18 @@ image: /media/2026/09/maps-featured.png
               pane: "historicMapsPane"
             });
             this._map.addLayer(this._warpedLayer);
-            await this._warpedLayer.addGeoreferenceAnnotationByUrl(this._annotationUrl);
+            const annotationResponse = await fetch(this._annotationUrl);
+            if (!annotationResponse.ok) {
+              throw new Error(`Historic map annotation request failed: ${annotationResponse.status}`);
+            }
+            const annotation = await annotationResponse.json();
+            (annotation.items || []).forEach((item) => {
+              const source = item && item.target && item.target.source;
+              if (source && typeof source.id === "string") {
+                source.id = source.id.replace(/\/info\.json\/?$/, "");
+              }
+            });
+            this._warpedLayer.addGeoreferenceAnnotation(annotation);
           } else if (!this._map.hasLayer(this._warpedLayer)) {
             this._map.addLayer(this._warpedLayer);
           }
@@ -3532,7 +3543,12 @@ image: /media/2026/09/maps-featured.png
       const labelElement = document.createElement("label");
       const input = document.createElement("input");
       const settings = options || {};
-      const control = { input, layer, group: settings.group || "" };
+      const control = {
+        input,
+        layer,
+        group: settings.group || "",
+        querySlug: settings.querySlug || queryLayerSlugsByLayer.get(layer) || ""
+      };
       let allowMultipleOnNextChange = false;
 
       labelElement.className = "maps-layer-control-row";
