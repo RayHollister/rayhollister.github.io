@@ -1,0 +1,71 @@
+{
+  "id": "/data/historic-maps/annotations/great-fire-1901-map.json",
+  "type": "AnnotationPage",
+  "@context": ["http://www.w3.org/ns/anno.jsonld"],
+  "label": "Map of district burned May 3, 1901",
+  "creator": {
+    "type": "Person",
+    "name": "T. Frederick Davis"
+  },
+  "items": [
+    {
+      "id": "/data/historic-maps/annotations/great-fire-1901-map/georef",
+      "type": "Annotation",
+      "@context": [
+        "http://iiif.io/api/extension/georef/1/context.json",
+        "http://iiif.io/api/presentation/3/context.json"
+      ],
+      "label": "Jacksonville Great Fire district map, published 1925",
+      "motivation": "georeferencing",
+      "target": {
+        "id": "https://local.invalid/great-fire-1901-map/selector",
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://local.invalid/great-fire-1901-map",
+          "type": "ImageService2",
+          "width": 2645,
+          "height": 1580
+        },
+        "selector": {
+          "type": "SvgSelector",
+          "value": "<svg><polygon points=\"0,0 2645,0 2645,1580 0,1580\" /></svg>"
+        }
+      },
+      "body": {
+        "id": "/data/historic-maps/annotations/great-fire-1901-map/gcps",
+        "type": "FeatureCollection",
+        "transformation": {
+          "type": "polynomial",
+          "options": {"order": 1}
+        },
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {"resourceCoords": [1419, 1025], "type": "gcp"},
+            "geometry": {"type": "Point", "coordinates": [-81.657707980675, 30.327002001147]}
+          },
+          {
+            "type": "Feature",
+            "properties": {"resourceCoords": [1419, 667], "type": "gcp"},
+            "geometry": {"type": "Point", "coordinates": [-81.656220025223, 30.33222698622]}
+          },
+          {
+            "type": "Feature",
+            "properties": {"resourceCoords": [1310, 1098], "type": "gcp"},
+            "geometry": {"type": "Point", "coordinates": [-81.659453009097, 30.326575990918]}
+          },
+          {
+            "type": "Feature",
+            "properties": {"resourceCoords": [1954, 818], "type": "gcp"},
+            "geometry": {"type": "Point", "coordinates": [-81.650527288043, 30.32862838373]}
+          },
+          {
+            "type": "Feature",
+            "properties": {"resourceCoords": [671, 725], "type": "gcp"},
+            "geometry": {"type": "Point", "coordinates": [-81.664950028837, 30.333320992223]}
+          }
+        ]
+      }
+    }
+  ]
+}

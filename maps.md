@@ -1935,7 +1935,9 @@ image: /media/2026/09/maps-featured.png
         this._bounds = L.latLngBounds(bounds);
         this._label = settings.label || "Historic map";
         this._localIiifPattern = settings.localIiifPattern || null;
-        this._attribution = `<a href="${settings.sourceUrl}" target="_blank" rel="noopener">Library of Congress, ${this._label} Sanborn Map</a> · Georeferencing: <a href="https://mapsnap.org/" target="_blank" rel="noopener">mapsnap</a>`;
+        const attributionLabel = settings.attributionLabel || `Library of Congress, ${this._label} Sanborn Map`;
+        const georeferenceCredit = settings.georeferenceCredit || '<a href="https://mapsnap.org/" target="_blank" rel="noopener">mapsnap</a>';
+        this._attribution = `<a href="${settings.sourceUrl}" target="_blank" rel="noopener">${attributionLabel}</a> · Georeferencing: ${georeferenceCredit}`;
         this._loadRequest = 0;
         this._opacity = historicMapOpacity;
       },
@@ -2054,6 +2056,7 @@ image: /media/2026/09/maps-featured.png
       { label: "1917 Pablo Beach", slug: "historic1917pablobeach", aliases: ["pablobeach1917"], itemId: "sanborn01324_003", annotationUrl: "/data/historic-maps/annotations/sanborn01324_003.json", coastal: true },
       { label: "1921 Mayport", slug: "historic1921mayport", aliases: ["mayport1921"], itemId: "sanborn01307_002", annotationUrl: "/data/historic-maps/annotations/sanborn01307_002.json", mayport: true },
       { label: "1924 Pablo Beach", slug: "historic1924pablobeach", aliases: ["pablobeach1924"], itemId: "sanborn01324_004", annotationUrl: "/data/historic-maps/annotations/sanborn01324_004.json", coastal: true },
+      { label: "1925 Great Fire of 1901", slug: "historic1901fire", aliases: ["greatfire1901", "jacksonvillefire1901", "historic1925fire"], sourceUrl: "https://libapps.s3.amazonaws.com/accounts/29813/images/1925_Map_of_District_Burned_May_3_1901_-_TFD.jpg", attributionLabel: "T. Frederick Davis, Map of district burned May 3, 1901", annotationUrl: "/data/historic-maps/annotations/great-fire-1901-map.json", localIiifPattern: /(great-fire-1901-map)(?:\/info\.json)?\/?$/, bounds: [[30.325, -81.666], [30.335, -81.649]], georeferenceCredit: "Ray Hollister" },
       { label: "1949 Jacksonville — Volume 1A", slug: "historic1949v1a", aliases: ["jacksonville1949v1a", "sanborn1949v1a"], itemId: "sanborn01286_008", annotationUrl: "/data/historic-maps/annotations/sanborn01286_008.json" },
       { label: "1949 Jacksonville — Volume 4", slug: "historic1949v4", aliases: ["jacksonville1949v4", "sanborn1949v4"], itemId: "sanborn01286_010", annotationUrl: "/data/historic-maps/annotations/sanborn01286_010.json" }
     ];
@@ -2065,8 +2068,10 @@ image: /media/2026/09/maps-featured.png
           : definition.bounds || [[30.20, -81.85], [30.50, -81.45]];
       definition.layer = new HistoricMapLayer(definition.annotationUrl, bounds, {
         label: definition.label,
-        sourceUrl: `https://www.loc.gov/item/${definition.itemId}/`,
-        localIiifPattern: definition.localIiifPattern
+        sourceUrl: definition.sourceUrl || `https://www.loc.gov/item/${definition.itemId}/`,
+        attributionLabel: definition.attributionLabel,
+        localIiifPattern: definition.localIiifPattern,
+        georeferenceCredit: definition.georeferenceCredit
       });
     });
     const historicMapLayers = historicMapDefinitions.map((definition) => definition.layer);
