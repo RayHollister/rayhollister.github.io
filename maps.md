@@ -1132,7 +1132,11 @@ image: /media/2026/09/maps-featured.png
         url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
       }
     };
-    let activeBaseMapKey = "positron";
+    const createMapLibreLayer = typeof L.maplibreGL === "function"
+      ? L.maplibreGL.bind(L)
+      : null;
+    const defaultBaseMapKey = "positron";
+    let activeBaseMapKey = defaultBaseMapKey;
     let baseMapControlElement;
     let baseMapLayer;
     let baseMapOpacityInput;
@@ -1150,12 +1154,25 @@ image: /media/2026/09/maps-featured.png
       ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
       : true;
 
+    function getBaseMapQueryKey() {
+      const requestedBaseMap = new URLSearchParams(window.location.search).get("basemap");
+      return Object.prototype.hasOwnProperty.call(baseMapStyles, requestedBaseMap)
+        ? requestedBaseMap
+        : defaultBaseMapKey;
+    }
+
+    function updateBaseMapQueryUrl() {
+      const url = new URL(window.location.href);
+      url.searchParams.set("basemap", activeBaseMapKey);
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
     async function setBaseMap(baseMapKey, options) {
       const config = baseMapStyles[baseMapKey];
       const settings = options || {};
       const requestId = ++baseMapRequestId;
       if (!config) return false;
-      if (config.type !== "tile" && (!window.maplibregl || typeof L.maplibreGL !== "function" || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true })))) {
+      if (config.type !== "tile" && (!window.maplibregl || !createMapLibreLayer || /HeadlessChrome/.test(window.navigator.userAgent) || (maplibregl.supported && !maplibregl.supported({ failIfMajorPerformanceCaveat: true })))) {
         return false;
       }
       if (requestId !== baseMapRequestId) {
@@ -1179,13 +1196,16 @@ image: /media/2026/09/maps-featured.png
           }
           return false;
         }
-        baseMapLayer = L.maplibreGL({
+        baseMapLayer = createMapLibreLayer({
           style: nextStyle
         }).addTo(map);
       }
       activeBaseMapKey = baseMapKey;
       applyBaseMapTileOpacity();
       updateBaseMapControl();
+      if (settings.updateUrl !== false) {
+        updateBaseMapQueryUrl();
+      }
       return true;
     }
 
@@ -1209,8 +1229,8 @@ image: /media/2026/09/maps-featured.png
     }
 
     function refreshActiveBaseMap() {
-      if (activeBaseMapKey === "positron") {
-        setBaseMap("positron", { quiet: true });
+      if (baseMapStyles[activeBaseMapKey] && baseMapStyles[activeBaseMapKey].type !== "tile") {
+        setBaseMap(activeBaseMapKey, { quiet: true, updateUrl: false });
       }
     }
 
@@ -7148,12 +7168,7 @@ image: /media/2026/09/maps-featured.png
     addBaseMapControl();
     addLocateControl();
     
-    setBaseMap("positron", { quiet: true });
-
-    new MutationObserver(refreshActiveBaseMap).observe(document.body, {
-      attributes: true,
-      attributeFilter: ["class"]
-    });
+    setBaseMap(getBaseMapQueryKey(), { quiet: true, updateUrl: false });
 
     if (window.matchMedia) {
       const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
