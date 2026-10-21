@@ -1158,8 +1158,10 @@ image: /media/2026/09/maps-featured.png
     const mapLibrePane = map.createPane("mapLibrePane", map.getContainer());
     mapLibrePane.style.zIndex = "0";
     map._mapPane.style.zIndex = "1";
-    const historicMapsPane = map.createPane("historicMapsPane", map._rotatePane);
+    const historicMapsPane = map.createPane("historicMapsPane", map._norotatePane);
     historicMapsPane.style.zIndex = "350";
+    const historicPlacementPane = map.createPane("historicPlacementPane", map._rotatePane);
+    historicPlacementPane.style.zIndex = "350";
     const navigationMarkerPane = map.createPane("navigationMarkerPane", map._norotatePane);
     navigationMarkerPane.style.zIndex = "750";
 
@@ -1319,6 +1321,24 @@ image: /media/2026/09/maps-featured.png
       };
 
       return layer;
+    }
+
+    function addLiveRotatedLayerUpdates() {
+      let frame;
+      function updateLayers() {
+        frame = null;
+        const renderers = new Set();
+        map.eachLayer((layer) => {
+          if (layer._renderer) renderers.add(layer._renderer);
+        });
+        renderers.forEach((renderer) => {
+          if (renderer._reset) renderer._reset();
+        });
+      }
+      function scheduleUpdate() {
+        if (!frame) frame = L.Util.requestAnimFrame(updateLayers);
+      }
+      map.on("move zoom rotate", scheduleUpdate);
     }
 
     function getBaseMapQueryKey() {
@@ -2184,7 +2204,7 @@ image: /media/2026/09/maps-featured.png
             {
             interactive: false,
             opacity: this._opacity,
-            pane: "historicMapsPane"
+            pane: "historicPlacementPane"
             }
           );
         } else {
@@ -2211,7 +2231,10 @@ image: /media/2026/09/maps-featured.png
             const leafletNamespace = window.L;
             let allmaps;
             try {
-              allmaps = await import("https://cdn.jsdelivr.net/npm/@allmaps/leaflet@1.0.0-beta.55/+esm");
+              [allmaps, this._allmapsRender] = await Promise.all([
+                import("https://cdn.jsdelivr.net/npm/@allmaps/leaflet@1.0.0-beta.55/+esm"),
+                import("https://cdn.jsdelivr.net/npm/@allmaps/render@1.0.0-beta.84/+esm")
+              ]);
             } finally {
               window.L = leafletNamespace;
             }
@@ -2258,6 +2281,41 @@ image: /media/2026/09/maps-featured.png
                 opacity: this._opacity,
                 pane: "historicMapsPane"
               });
+              const renderHistoricMap = (view) => {
+                if (!layer._map || !layer.renderer || !layer.canvas) return;
+                const target = view || {};
+                const center = target.center || layer._map.getCenter();
+                const zoom = Number.isFinite(target.zoom) ? target.zoom : layer._map.getZoom();
+                const crs = layer._map.options.crs;
+                const projectedCenter = crs.project(center);
+                const centerPixel = layer._map.project(center, zoom);
+                const adjacentLatLng = layer._map.unproject(centerPixel.add([1, 0]), zoom);
+                const adjacentProjected = crs.project(adjacentLatLng);
+                const projectedUnitsPerPixel = Math.hypot(
+                  adjacentProjected.x - projectedCenter.x,
+                  adjacentProjected.y - projectedCenter.y
+                );
+                const size = layer._map.getSize();
+                const mapPanePosition = layer._map._getMapPanePos();
+                L.DomUtil.setPosition(layer.canvas, mapPanePosition.multiplyBy(-1));
+                layer.canvas.style.transform = layer.canvas.style.transform.replace(/\s*scale\([^)]*\)/, "");
+                layer.renderer.render(new this._allmapsRender.Viewport(
+                  [size.x, size.y],
+                  [projectedCenter.x, projectedCenter.y],
+                  projectedUnitsPerPixel,
+                  {
+                    devicePixelRatio: window.devicePixelRatio,
+                    rotation: layer._map._bearing
+                  }
+                ));
+              };
+              layer._update = function () {
+                renderHistoricMap();
+                return this.container;
+              };
+              layer._animateZoom = function (event) {
+                renderHistoricMap(event);
+              };
               this._map.addLayer(layer);
               layer.addImageInfos(imageInfos);
               layer.addGeoreferenceAnnotation({ ...annotation, items });
@@ -7774,6 +7832,7 @@ image: /media/2026/09/maps-featured.png
     addCompareKeyboardShortcut();
     addMapContextMenuHandlers();
     addModifierDragRotation();
+    addLiveRotatedLayerUpdates();
     registerMapQueryLayers();
     activateOpacityQuery();
     activateHistoricMapOpacityQuery();
