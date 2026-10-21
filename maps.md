@@ -1155,9 +1155,12 @@ image: /media/2026/09/maps-featured.png
       bearing: 0,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
-    const historicMapsPane = map.createPane("historicMapsPane");
+    const mapLibrePane = map.createPane("mapLibrePane", map.getContainer());
+    mapLibrePane.style.zIndex = "0";
+    map._mapPane.style.zIndex = "1";
+    const historicMapsPane = map.createPane("historicMapsPane", map._rotatePane);
     historicMapsPane.style.zIndex = "350";
-    const navigationMarkerPane = map.createPane("navigationMarkerPane");
+    const navigationMarkerPane = map.createPane("navigationMarkerPane", map._norotatePane);
     navigationMarkerPane.style.zIndex = "750";
 
     const openFreeMapStyles = {
@@ -1247,6 +1250,77 @@ image: /media/2026/09/maps-featured.png
       container.addEventListener("pointercancel", stopModifierDragRotation, true);
     }
 
+    function createBearingAwareMapLibreLayer(options) {
+      const layer = createMapLibreLayer({
+        ...options,
+        pane: "mapLibrePane",
+        padding: 0
+      });
+
+      layer._resizeContainer = function () {
+        if (!this._container || !this._map) return;
+        const size = this._map.getSize();
+        this._container.style.width = `${size.x}px`;
+        this._container.style.height = `${size.y}px`;
+      };
+
+      layer._initContainer = function () {
+        this._container = L.DomUtil.create("div", "leaflet-gl-layer maps-maplibre-bearing-layer");
+        this._resizeContainer();
+        L.DomUtil.setPosition(this._container, L.point(0, 0));
+      };
+
+      layer._transformGL = function (gl, view) {
+        const target = view || {};
+        const center = target.center || this._map.getCenter();
+        const zoom = Number.isFinite(target.zoom) ? target.zoom : this._map.getZoom();
+        gl.jumpTo({
+          center: [center.lng, center.lat],
+          zoom: zoom - 1,
+          // Leaflet Rotate applies positive angles clockwise in screen space;
+          // MapLibre bearings rotate the rendered map in the opposite direction.
+          bearing: -this._map.getBearing()
+        });
+      };
+
+      layer._update = function () {
+        if (!this._map || !this._glMap) return;
+        this._resizeContainer();
+        L.DomUtil.setPosition(this._container, L.point(0, 0));
+        this._transformGL(this._glMap);
+      };
+
+      layer._animateZoom = function (event) {
+        if (!this._glMap) return;
+        this._transformGL(this._glMap, event);
+      };
+
+      layer._pinchZoom = layer._animateZoom;
+      layer._zoomStart = function () {};
+      layer._zoomEnd = function () {
+        this._update();
+      };
+      layer._transitionEnd = function () {
+        this._update();
+      };
+      layer._resize = function () {
+        this._resizeContainer();
+        if (this._glMap) this._glMap.resize();
+        this._update();
+      };
+      layer._throttledUpdate = L.Util.throttle(layer._update, layer.options.updateInterval, layer);
+
+      const originalGetEvents = layer.getEvents;
+      layer.getEvents = function () {
+        return {
+          ...originalGetEvents.call(this),
+          rotate: this._throttledUpdate
+        };
+      };
+
+      return layer;
+    }
+
     function getBaseMapQueryKey() {
       const requestedBaseMap = new URLSearchParams(window.location.search).get("basemap");
       return Object.prototype.hasOwnProperty.call(baseMapStyles, requestedBaseMap)
@@ -1289,7 +1363,7 @@ image: /media/2026/09/maps-featured.png
           }
           return false;
         }
-        baseMapLayer = createMapLibreLayer({
+        baseMapLayer = createBearingAwareMapLibreLayer({
           style: nextStyle
         }).addTo(map);
       }
