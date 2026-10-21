@@ -7844,6 +7844,7 @@ image: /media/2026/09/maps-featured.png
     activateQueryLayers();
     addBaseMapControl();
     addLocateControl();
+    map.rotateControl.setPosition("topleft");
     
     setBaseMap(getBaseMapQueryKey(), { quiet: true, updateUrl: false });
 
