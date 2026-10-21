@@ -1324,21 +1324,19 @@ image: /media/2026/09/maps-featured.png
     }
 
     function addLiveRotatedLayerUpdates() {
-      let frame;
       function updateLayers() {
-        frame = null;
         const renderers = new Set();
         map.eachLayer((layer) => {
           if (layer._renderer) renderers.add(layer._renderer);
         });
         renderers.forEach((renderer) => {
+          if (renderer._container) {
+            renderer._container.classList.remove("leaflet-zoom-animated");
+          }
           if (renderer._reset) renderer._reset();
         });
       }
-      function scheduleUpdate() {
-        if (!frame) frame = L.Util.requestAnimFrame(updateLayers);
-      }
-      map.on("move zoom rotate", scheduleUpdate);
+      map.on("move zoom rotate", updateLayers);
     }
 
     function getBaseMapQueryKey() {
@@ -2281,6 +2279,7 @@ image: /media/2026/09/maps-featured.png
                 opacity: this._opacity,
                 pane: "historicMapsPane"
               });
+              layer.canvas.classList.remove("leaflet-zoom-animated");
               const renderHistoricMap = (view) => {
                 if (!layer._map || !layer.renderer || !layer.canvas) return;
                 const target = view || {};
