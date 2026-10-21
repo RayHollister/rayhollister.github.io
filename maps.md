@@ -2298,6 +2298,12 @@ image: /media/2026/09/maps-featured.png
                 const mapPanePosition = layer._map._getMapPanePos();
                 L.DomUtil.setPosition(layer.canvas, mapPanePosition.multiplyBy(-1));
                 layer.canvas.style.transform = layer.canvas.style.transform.replace(/\s*scale\([^)]*\)/, "");
+                layer.gl.clearColor(0, 0, 0, 0);
+                layer.gl.clear(
+                  layer.gl.COLOR_BUFFER_BIT |
+                  layer.gl.DEPTH_BUFFER_BIT |
+                  layer.gl.STENCIL_BUFFER_BIT
+                );
                 layer.renderer.render(new this._allmapsRender.Viewport(
                   [size.x, size.y],
                   [projectedCenter.x, projectedCenter.y],
