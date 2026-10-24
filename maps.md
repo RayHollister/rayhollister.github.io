@@ -402,7 +402,8 @@ image: /media/2026/09/maps-featured.png
     overflow: auto;
   }
 
-  .maps-layers-control .maps-control-panel__body {
+  .maps-layers-control .maps-control-panel__body,
+  .maps-basemap-control .maps-control-panel__body {
     max-height: calc(var(--maps-control-panel-max-height) - var(--maps-control-panel-header-height));
     overflow-y: auto;
   }
@@ -410,6 +411,7 @@ image: /media/2026/09/maps-featured.png
   .maps-basemap-control .maps-control-panel__body {
     display: flex;
     flex-direction: column;
+    max-height: calc(var(--maps-open-control-max-height, var(--maps-control-panel-max-height)) - var(--maps-control-panel-header-height));
   }
 
   .maps-basemap-control button[data-base-map] {
@@ -735,6 +737,10 @@ image: /media/2026/09/maps-featured.png
   .maps-layers-control.is-open,
   .maps-pinned-card-panel {
     max-height: var(--maps-control-panel-max-height);
+  }
+
+  .maps-basemap-control.is-open {
+    max-height: var(--maps-open-control-max-height, var(--maps-control-panel-max-height));
   }
 
   .maps-layers-control .maps-layer-opacity-control,
@@ -1584,9 +1590,22 @@ image: /media/2026/09/maps-featured.png
         container.insertBefore(toggle, body);
       }
 
+      function updateViewportMaxHeight() {
+        if (!container.classList.contains("maps-basemap-control") || !container.classList.contains("is-open")) return;
+        const mapBounds = map.getContainer().getBoundingClientRect();
+        const controlBounds = container.getBoundingClientRect();
+        const availableHeight = Math.max(70, Math.floor(mapBounds.bottom - controlBounds.top - 10));
+        container.style.setProperty("--maps-open-control-max-height", `${availableHeight}px`);
+      }
+
       function setOpen(open) {
         container.classList.toggle("is-open", open);
         toggle.setAttribute("aria-expanded", String(open));
+        if (open) {
+          window.requestAnimationFrame(updateViewportMaxHeight);
+        } else {
+          container.style.removeProperty("--maps-open-control-max-height");
+        }
       }
 
       toggle.addEventListener("click", function () {
@@ -1597,6 +1616,10 @@ image: /media/2026/09/maps-featured.png
           setOpen(false);
         }
       });
+      if (container.classList.contains("maps-basemap-control")) {
+        window.addEventListener("resize", updateViewportMaxHeight);
+        map.on("resize", updateViewportMaxHeight);
+      }
       setOpen(false);
       return { setOpen };
     }
