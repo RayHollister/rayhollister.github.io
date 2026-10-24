@@ -1261,7 +1261,7 @@ image: /media/2026/09/maps-featured.png
     historicPlacementPane.style.zIndex = "350";
     const navigationMarkerPane = map.createPane("navigationMarkerPane", map._norotatePane);
     navigationMarkerPane.style.zIndex = "750";
-    const pollingLocationPointerPane = map.createPane("pollingLocationPointerPane", map._rotatePane);
+    const pollingLocationPointerPane = map.createPane("pollingLocationPointerPane", map._norotatePane);
     pollingLocationPointerPane.style.pointerEvents = "none";
     pollingLocationPointerPane.style.zIndex = "850";
 
