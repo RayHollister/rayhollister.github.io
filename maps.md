@@ -202,6 +202,28 @@ image: /media/2026/09/maps-featured.png
     width: 26px;
   }
 
+  #ray-map .leaflet-top.leaflet-left.maps-top-left-menu:not(.is-open) > .leaflet-control:not(.maps-top-left-menu-toggle) {
+    display: none;
+  }
+
+  .maps-top-left-menu-toggle {
+    background: #fff;
+  }
+
+  .maps-top-left-menu-toggle button {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: #24292f;
+    cursor: pointer;
+    display: flex;
+    font: 700 20px/1 sans-serif;
+    height: 30px;
+    justify-content: center;
+    padding: 0;
+    width: 30px;
+  }
+
   .maps-district-popup > .maps-senator-card {
     border-top: 1px solid #d0d7de;
     margin-top: 0.5rem;
@@ -8017,6 +8039,55 @@ image: /media/2026/09/maps-featured.png
     addBaseMapControl();
     addLocateControl();
     map.rotateControl.setPosition("topleft");
+
+    function addTopLeftMenuToggle() {
+      const TopLeftMenuToggleControl = L.Control.extend({
+        options: {
+          position: "topleft"
+        },
+        onAdd: function () {
+          const container = L.DomUtil.create("div", "leaflet-bar leaflet-control maps-top-left-menu-toggle");
+          const button = L.DomUtil.create("button", "", container);
+
+          button.type = "button";
+          button.textContent = "☰";
+          button.title = "Open map controls";
+          button.setAttribute("aria-label", "Open map controls");
+          button.setAttribute("aria-expanded", "false");
+
+          function setOpen(open) {
+            const corner = container.parentElement;
+            if (!corner) return;
+            corner.classList.toggle("is-open", open);
+            button.textContent = open ? "×" : "☰";
+            button.title = open ? "Close map controls" : "Open map controls";
+            button.setAttribute("aria-label", open ? "Close map controls" : "Open map controls");
+            button.setAttribute("aria-expanded", String(open));
+          }
+
+          button.addEventListener("click", function () {
+            setOpen(!container.parentElement.classList.contains("is-open"));
+          });
+          map.on("click", function () {
+            setOpen(false);
+          });
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") setOpen(false);
+          });
+          L.DomEvent.disableClickPropagation(container);
+          L.DomEvent.disableScrollPropagation(container);
+          return container;
+        }
+      });
+
+      const toggleControl = new TopLeftMenuToggleControl();
+      map.addControl(toggleControl);
+      const corner = toggleControl.getContainer().parentElement;
+      corner.classList.add("maps-top-left-menu");
+      corner.insertBefore(toggleControl.getContainer(), corner.firstChild);
+    }
+
+    addTopLeftMenuToggle();
     
     setBaseMap(getBaseMapQueryKey(), { quiet: true, updateUrl: false });
 
