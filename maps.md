@@ -17,6 +17,9 @@ image: /media/2026/09/maps-featured.png
   .leaflet-container {
     background: #ffffff;
   }
+  .leaflet-container.maps-modifier-rotating {
+    cursor: grabbing;
+  }
   .leaflet-top .leaflet-control {
     margin-bottom: 10px;
   }
@@ -1118,6 +1121,7 @@ image: /media/2026/09/maps-featured.png
 
 <script src="/leaflet/leaflet.js"></script>
 <script src="/leaflet/imageoverlay-rotated/Leaflet.ImageOverlay.Rotated.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-rotate@0.2.8/dist/leaflet-rotate-src.js"></script>
 <script src="/leaflet/smoothwheelzoom/SmoothWheelZoom.js"></script>
 <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.js"></script>
@@ -1142,11 +1146,23 @@ image: /media/2026/09/maps-featured.png
       smoothSensitivity: 1,
       zoomSnap: 0,
       zoomAnimationThreshold: 1,
+      rotate: true,
+      rotateControl: {
+        closeOnZeroBearing: false,
+        position: "topleft"
+      },
+      touchRotate: true,
+      bearing: 0,
       fullscreenControl: false
     }).setView([30.3322, -81.6557], 11);
-    const historicMapsPane = map.createPane("historicMapsPane");
+    const mapLibrePane = map.createPane("mapLibrePane", map.getContainer());
+    mapLibrePane.style.zIndex = "0";
+    map._mapPane.style.zIndex = "1";
+    const historicMapsPane = map.createPane("historicMapsPane", map._norotatePane);
     historicMapsPane.style.zIndex = "350";
-    const navigationMarkerPane = map.createPane("navigationMarkerPane");
+    const historicPlacementPane = map.createPane("historicPlacementPane", map._rotatePane);
+    historicPlacementPane.style.zIndex = "350";
+    const navigationMarkerPane = map.createPane("navigationMarkerPane", map._norotatePane);
     navigationMarkerPane.style.zIndex = "750";
 
     const openFreeMapStyles = {
@@ -1195,6 +1211,134 @@ image: /media/2026/09/maps-featured.png
       ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
       : true;
 
+    function addModifierDragRotation() {
+      const container = map.getContainer();
+      let activePointerId = null;
+      let startingBearing = 0;
+      let startingX = 0;
+
+      container.addEventListener("pointerdown", function (event) {
+        if (!event.metaKey || event.button !== 0 || event.target.closest(".leaflet-control")) return;
+        activePointerId = event.pointerId;
+        startingBearing = map.getBearing();
+        startingX = event.clientX;
+        map.dragging.disable();
+        container.classList.add("maps-modifier-rotating");
+        container.setPointerCapture(activePointerId);
+        event.preventDefault();
+        event.stopPropagation();
+      }, true);
+
+      container.addEventListener("pointermove", function (event) {
+        if (event.pointerId !== activePointerId) return;
+        map.setBearing(startingBearing + ((event.clientX - startingX) * 0.4));
+        event.preventDefault();
+        event.stopPropagation();
+      }, true);
+
+      function stopModifierDragRotation(event) {
+        if (event.pointerId !== activePointerId) return;
+        if (container.hasPointerCapture(activePointerId)) {
+          container.releasePointerCapture(activePointerId);
+        }
+        activePointerId = null;
+        container.classList.remove("maps-modifier-rotating");
+        map.dragging.enable();
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      container.addEventListener("pointerup", stopModifierDragRotation, true);
+      container.addEventListener("pointercancel", stopModifierDragRotation, true);
+    }
+
+    function createBearingAwareMapLibreLayer(options) {
+      const layer = createMapLibreLayer({
+        ...options,
+        pane: "mapLibrePane",
+        padding: 0
+      });
+
+      layer._resizeContainer = function () {
+        if (!this._container || !this._map) return;
+        const size = this._map.getSize();
+        this._container.style.width = `${size.x}px`;
+        this._container.style.height = `${size.y}px`;
+      };
+
+      layer._initContainer = function () {
+        this._container = L.DomUtil.create("div", "leaflet-gl-layer maps-maplibre-bearing-layer");
+        this._resizeContainer();
+        L.DomUtil.setPosition(this._container, L.point(0, 0));
+      };
+
+      layer._transformGL = function (gl, view) {
+        const target = view || {};
+        const center = target.center || this._map.getCenter();
+        const zoom = Number.isFinite(target.zoom) ? target.zoom : this._map.getZoom();
+        gl.jumpTo({
+          center: [center.lng, center.lat],
+          zoom: zoom - 1,
+          // Leaflet Rotate applies positive angles clockwise in screen space;
+          // MapLibre bearings rotate the rendered map in the opposite direction.
+          bearing: -this._map.getBearing()
+        });
+      };
+
+      layer._update = function () {
+        if (!this._map || !this._glMap) return;
+        this._resizeContainer();
+        L.DomUtil.setPosition(this._container, L.point(0, 0));
+        this._transformGL(this._glMap);
+      };
+
+      layer._animateZoom = function (event) {
+        if (!this._glMap) return;
+        this._transformGL(this._glMap, event);
+      };
+
+      layer._pinchZoom = layer._animateZoom;
+      layer._zoomStart = function () {};
+      layer._zoomEnd = function () {
+        this._update();
+      };
+      layer._transitionEnd = function () {
+        this._update();
+      };
+      layer._resize = function () {
+        this._resizeContainer();
+        if (this._glMap) this._glMap.resize();
+        this._update();
+      };
+      layer._throttledUpdate = L.Util.throttle(layer._update, layer.options.updateInterval, layer);
+
+      const originalGetEvents = layer.getEvents;
+      layer.getEvents = function () {
+        return {
+          ...originalGetEvents.call(this),
+          rotate: this._throttledUpdate
+        };
+      };
+
+      return layer;
+    }
+
+    function addLiveRotatedLayerUpdates() {
+      function updateLayers() {
+        const renderers = new Set();
+        map.eachLayer((layer) => {
+          if (layer._renderer) renderers.add(layer._renderer);
+        });
+        renderers.forEach((renderer) => {
+          if (renderer._container) {
+            renderer._container.classList.remove("leaflet-zoom-animated");
+          }
+          if (renderer._reset) renderer._reset();
+        });
+      }
+      map.on("move zoom rotate", updateLayers);
+    }
+
     function getBaseMapQueryKey() {
       const requestedBaseMap = new URLSearchParams(window.location.search).get("basemap");
       return Object.prototype.hasOwnProperty.call(baseMapStyles, requestedBaseMap)
@@ -1237,7 +1381,7 @@ image: /media/2026/09/maps-featured.png
           }
           return false;
         }
-        baseMapLayer = createMapLibreLayer({
+        baseMapLayer = createBearingAwareMapLibreLayer({
           style: nextStyle
         }).addTo(map);
       }
@@ -2058,7 +2202,7 @@ image: /media/2026/09/maps-featured.png
             {
             interactive: false,
             opacity: this._opacity,
-            pane: "historicMapsPane"
+            pane: "historicPlacementPane"
             }
           );
         } else {
@@ -2082,7 +2226,16 @@ image: /media/2026/09/maps-featured.png
       _load: async function (loadRequest) {
         try {
           if (!this._warpedLayers) {
-            const allmaps = await import("https://cdn.jsdelivr.net/npm/@allmaps/leaflet@1.0.0-beta.55/+esm");
+            const leafletNamespace = window.L;
+            let allmaps;
+            try {
+              [allmaps, this._allmapsRender] = await Promise.all([
+                import("https://cdn.jsdelivr.net/npm/@allmaps/leaflet@1.0.0-beta.55/+esm"),
+                import("https://cdn.jsdelivr.net/npm/@allmaps/render@1.0.0-beta.84/+esm")
+              ]);
+            } finally {
+              window.L = leafletNamespace;
+            }
             if (loadRequest !== this._loadRequest || !this._map) return;
             const annotationResponse = await fetch(this._annotationUrl);
             if (!annotationResponse.ok) {
@@ -2126,6 +2279,48 @@ image: /media/2026/09/maps-featured.png
                 opacity: this._opacity,
                 pane: "historicMapsPane"
               });
+              layer.canvas.classList.remove("leaflet-zoom-animated");
+              const renderHistoricMap = (view) => {
+                if (!layer._map || !layer.renderer || !layer.canvas) return;
+                const target = view || {};
+                const center = target.center || layer._map.getCenter();
+                const zoom = Number.isFinite(target.zoom) ? target.zoom : layer._map.getZoom();
+                const crs = layer._map.options.crs;
+                const projectedCenter = crs.project(center);
+                const centerPixel = layer._map.project(center, zoom);
+                const adjacentLatLng = layer._map.unproject(centerPixel.add([1, 0]), zoom);
+                const adjacentProjected = crs.project(adjacentLatLng);
+                const projectedUnitsPerPixel = Math.hypot(
+                  adjacentProjected.x - projectedCenter.x,
+                  adjacentProjected.y - projectedCenter.y
+                );
+                const size = layer._map.getSize();
+                const mapPanePosition = layer._map._getMapPanePos();
+                L.DomUtil.setPosition(layer.canvas, mapPanePosition.multiplyBy(-1));
+                layer.canvas.style.transform = layer.canvas.style.transform.replace(/\s*scale\([^)]*\)/, "");
+                layer.gl.clearColor(0, 0, 0, 0);
+                layer.gl.clear(
+                  layer.gl.COLOR_BUFFER_BIT |
+                  layer.gl.DEPTH_BUFFER_BIT |
+                  layer.gl.STENCIL_BUFFER_BIT
+                );
+                layer.renderer.render(new this._allmapsRender.Viewport(
+                  [size.x, size.y],
+                  [projectedCenter.x, projectedCenter.y],
+                  projectedUnitsPerPixel,
+                  {
+                    devicePixelRatio: window.devicePixelRatio,
+                    rotation: layer._map._bearing
+                  }
+                ));
+              };
+              layer._update = function () {
+                renderHistoricMap();
+                return this.container;
+              };
+              layer._animateZoom = function (event) {
+                renderHistoricMap(event);
+              };
               this._map.addLayer(layer);
               layer.addImageInfos(imageInfos);
               layer.addGeoreferenceAnnotation({ ...annotation, items });
@@ -2312,6 +2507,22 @@ image: /media/2026/09/maps-featured.png
     const healthZoneByZipCodeLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "healthZone"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "healthZone")
+    });
+    const floodZoneFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "floodZone"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "floodZone")
+    });
+    const floodZoneBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "floodZone"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "floodZone")
+    });
+    const evacuationZoneFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "evacuationZone"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "evacuationZone")
+    });
+    const evacuationZoneBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "evacuationZone"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "evacuationZone")
     });
     const jsoDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "jsoDistrict"),
@@ -2549,6 +2760,10 @@ image: /media/2026/09/maps-featured.png
         healthZoneFillLayer,
         healthZoneBorderLayer,
         healthZoneByZipCodeLayer,
+        floodZoneFillLayer,
+        floodZoneBorderLayer,
+        evacuationZoneFillLayer,
+        evacuationZoneBorderLayer,
         jsoDistrictFillLayer,
         jsoDistrictBorderLayer,
         jsoSubsectionFillLayer,
@@ -2645,6 +2860,10 @@ image: /media/2026/09/maps-featured.png
         healthZoneFillLayer,
         healthZoneBorderLayer,
         healthZoneByZipCodeLayer,
+        floodZoneFillLayer,
+        floodZoneBorderLayer,
+        evacuationZoneFillLayer,
+        evacuationZoneBorderLayer,
         jsoDistrictFillLayer,
         jsoDistrictBorderLayer,
         jsoSubsectionFillLayer,
@@ -2846,6 +3065,10 @@ image: /media/2026/09/maps-featured.png
         healthZoneFillLayer,
         healthZoneBorderLayer,
         healthZoneByZipCodeLayer,
+        floodZoneFillLayer,
+        floodZoneBorderLayer,
+        evacuationZoneFillLayer,
+        evacuationZoneBorderLayer,
         jsoDistrictFillLayer,
         jsoDistrictBorderLayer,
         jsoSubsectionFillLayer,
@@ -2911,6 +3134,8 @@ image: /media/2026/09/maps-featured.png
         congressionalDistrictFillLayer,
         healthZoneFillLayer,
         healthZoneByZipCodeLayer,
+        floodZoneFillLayer,
+        evacuationZoneFillLayer,
         jsoDistrictFillLayer,
         jsoSubsectionFillLayer
       ].forEach(restoreBoundaryLayerFeatures);
@@ -4850,6 +5075,15 @@ image: /media/2026/09/maps-featured.png
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JSO Substations", jsoPoliceStationsLayer)
           ]);
+          overlays.appendChild(createLayerHeading("Emergency Management"));
+          appendGeographyLayerRow(overlays, "Flood Zones", floodZoneFillLayer, floodZoneBorderLayer, {
+            href: "/maps/references/#emergency-management",
+            locationLayerType: "floodZone"
+          });
+          appendGeographyLayerRow(overlays, "Evacuation Zones", evacuationZoneFillLayer, evacuationZoneBorderLayer, {
+            href: "/maps/references/#emergency-management",
+            locationLayerType: "evacuationZone"
+          });
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer, { geometryType: "line" })
@@ -4996,6 +5230,8 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["cpac", "cpacs", "planningdistricts"], cpacFillLayer, { group: "boundaries", slug: "cpacs", alternateLayers: [cpacBorderLayer] });
       registerQueryLayer(["health", "healthzone", "healthzones"], healthZoneFillLayer, { group: "boundaries", slug: "healthzones", alternateLayers: [healthZoneBorderLayer] });
       registerQueryLayer(["healthzones-byzipcodes", "healthzonesbyzipcodes", "healthzonesbyzip", "healthzoneslistedzips"], healthZoneByZipCodeLayer, { group: "boundaries", slug: "healthzones-byzipcodes" });
+      registerQueryLayer(["flood", "floodzone", "floodzones", "fema"], floodZoneFillLayer, { group: "boundaries", slug: "floodzones", alternateLayers: [floodZoneBorderLayer] });
+      registerQueryLayer(["evacuation", "evacuationzone", "evacuationzones", "evaczones"], evacuationZoneFillLayer, { group: "boundaries", slug: "evacuationzones", alternateLayers: [evacuationZoneBorderLayer] });
       registerQueryLayer(["jsodistrict", "jsodistricts", "sheriffdistricts"], jsoDistrictFillLayer, { group: "boundaries", slug: "jsodistricts", alternateLayers: [jsoDistrictBorderLayer] });
       registerQueryLayer(["jsosubsection", "jsosubsections", "jsosubsector", "jsosubsectors"], jsoSubsectionFillLayer, { group: "boundaries", slug: "jsosubsections", alternateLayers: [jsoSubsectionBorderLayer] });
       registerQueryLayer(["neighborhoodorganizations", "neighborhoodorgs", "neighborhoodpoints"], neighborhoodOrganizationsLayer, { slug: "neighborhoodorganizations" });
@@ -5148,6 +5384,26 @@ image: /media/2026/09/maps-featured.png
 
     function getBoundaryColor(feature, layerType) {
       const properties = feature.properties || {};
+      if (layerType === "floodZone") {
+        const zone = String(properties.FLD_ZONE || "").trim().toUpperCase();
+        if (zone === "VE") return "#d7191c";
+        if (zone === "A" || zone === "AE") return "#2c7bb6";
+        if (zone === "AH" || zone === "AO") return "#00a6ca";
+        if (zone.startsWith("0.2 PCT")) return "#fdae61";
+        if (zone === "OPEN WATER") return "#74add1";
+        return "#abd9e9";
+      }
+      if (layerType === "evacuationZone") {
+        const colorsByZone = {
+          "ZONE A": "#ff0000",
+          "ZONE B": "#ffaa00",
+          "ZONE C": "#ffff00",
+          "ZONE D": "#55ff00",
+          "ZONE E": "#c500ff",
+          "ZONE F": "#ffbee8"
+        };
+        return colorsByZone[String(properties.EVAC_TYPE || "").trim().toUpperCase()] || "#ffbee8";
+      }
       if (layerType === "healthZone" && properties.excluded_health_zone) {
         return "#000000";
       }
@@ -5220,6 +5476,12 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "healthZone") {
         return mode === "border" ? healthZoneBorderLayer : healthZoneFillLayer;
       }
+      if (layerType === "floodZone") {
+        return mode === "border" ? floodZoneBorderLayer : floodZoneFillLayer;
+      }
+      if (layerType === "evacuationZone") {
+        return mode === "border" ? evacuationZoneBorderLayer : evacuationZoneFillLayer;
+      }
       if (layerType === "jsoDistrict") {
         return mode === "border" ? jsoDistrictBorderLayer : jsoDistrictFillLayer;
       }
@@ -5269,6 +5531,14 @@ image: /media/2026/09/maps-featured.png
           return properties.label || "Excluded from Health Zones";
         }
         return properties.label || (properties.health_zone ? `Health Zone ${properties.health_zone}` : "Health Zone");
+      }
+      if (layerType === "floodZone") {
+        const zone = String(properties.FLD_ZONE || "").trim();
+        return zone ? `Flood Zone ${zone}` : "Flood Zone";
+      }
+      if (layerType === "evacuationZone") {
+        const zone = String(properties.EVAC_TYPE || "").trim();
+        return zone ? `Evacuation ${zone.replace(/^ZONE\s+/i, "Zone ")}` : "Evacuation Zone";
       }
       if (layerType === "jsoDistrict") {
         return properties.DISTRICT ? `JSO District ${properties.DISTRICT}` : "JSO District";
@@ -5340,6 +5610,13 @@ image: /media/2026/09/maps-featured.png
           return properties.excluded_group_label || "Excluded from Health Zones";
         }
         return properties.zip_codes_label ? `ZIP Codes: ${properties.zip_codes_label}` : "";
+      }
+      if (layerType === "floodZone") {
+        const subtype = String(properties.ZONE_SUBTY || "").trim();
+        return subtype && subtype !== String(properties.FLD_ZONE || "").trim() ? subtype : "FEMA flood hazard area";
+      }
+      if (layerType === "evacuationZone") {
+        return "Duval County hurricane evacuation zone";
       }
       if (layerType === "jsoDistrict") {
         return "Jacksonville Sheriff's Office";
@@ -7579,6 +7856,18 @@ image: /media/2026/09/maps-featured.png
       "Duval County health zones"
     );
     loadGeoJsonLayer("/data/duval-health-zones-by-zipcodes.geojson", healthZoneByZipCodeLayer, "Duval County health zones by listed ZIP codes");
+    loadBoundaryLayers(
+      "/data/duval-flood-zones.geojson",
+      floodZoneFillLayer,
+      floodZoneBorderLayer,
+      "Duval County flood zones"
+    );
+    loadBoundaryLayers(
+      "/data/duval-evacuation-zones.geojson",
+      evacuationZoneFillLayer,
+      evacuationZoneBorderLayer,
+      "Duval County evacuation zones"
+    );
     loadInterstateLayers("/data/florida-interstates.geojson");
     loadGeoJsonLayer("/data/train-tracks.geojson", trainTracksLayer, "train tracks");
     loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
@@ -7641,12 +7930,15 @@ image: /media/2026/09/maps-featured.png
     addFocusKeyboardShortcut();
     addCompareKeyboardShortcut();
     addMapContextMenuHandlers();
+    addModifierDragRotation();
+    addLiveRotatedLayerUpdates();
     registerMapQueryLayers();
     activateOpacityQuery();
     activateHistoricMapOpacityQuery();
     activateQueryLayers();
     addBaseMapControl();
     addLocateControl();
+    map.rotateControl.setPosition("topleft");
     
     setBaseMap(getBaseMapQueryKey(), { quiet: true, updateUrl: false });
 

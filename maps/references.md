@@ -125,6 +125,20 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 - [Jacksonville Sheriff's Office Your Neighborhood](https://www.jaxsheriff.org/Your-Neighborhood.aspx)
   - Substations
 
+## Emergency Management
+
+- Flood Zones:
+  - Geometry source: [City of Jacksonville GIS Flood Zones January 2021](https://maps.coj.net/coj/rest/services/msmp/FloodZones/MapServer/0), derived from FEMA Digital Flood Insurance Rate Map data.
+  - The local map copy groups adjacent polygons by FEMA flood-zone designation and subtype, then simplifies the geometry for browser performance. Use the official source or a current flood determination for property-level decisions.
+  - Flood Zones Overlays
+  - Flood Zones Borders
+- Evacuation Zones:
+  - Geometry source: [City of Jacksonville / JaxReady Evacuation Zone service](https://maps.coj.net/coj/rest/services/JaxReady/EvacuationZonesProd/MapServer/0).
+  - Preparedness guidance and address lookup: [JaxReady Know Your Zone](https://www.jaxready.com/alerts/evacuation-zones).
+  - Evacuation zones and flood zones describe different hazards and should not be treated as interchangeable.
+  - Evacuation Zones Overlays
+  - Evacuation Zones Borders
+
 ## Transportation
 
 - Interstates:
