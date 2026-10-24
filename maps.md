@@ -1772,6 +1772,7 @@ image: /media/2026/09/maps-featured.png
     let userLocationLatLng;
     let locateControlContainer;
     let locateControlIcon;
+    let locateShouldSetInitialView = false;
     let layersControlApi;
     let layersControlElement;
     const locationInfoControls = [];
@@ -1871,11 +1872,11 @@ image: /media/2026/09/maps-featured.png
             L.DomUtil.removeClass(container, "following");
             L.DomUtil.removeClass(icon, "leaflet-control-locate-location-arrow");
             L.DomUtil.addClass(icon, "leaflet-control-locate-spinner");
+            locateShouldSetInitialView = true;
             map.stopLocate();
             map.locate({
               enableHighAccuracy: true,
-              maxZoom: 16,
-              setView: true,
+              setView: false,
               watch: true
             });
           });
@@ -2015,6 +2016,10 @@ image: /media/2026/09/maps-featured.png
     }
 
     map.on("locationfound", function (event) {
+      if (locateShouldSetInitialView) {
+        locateShouldSetInitialView = false;
+        map.setView(event.latlng, Math.min(16, map.getMaxZoom()));
+      }
       setLocateControlState("following");
       userLocationLatLng = event.latlng;
       updateLocationInfoControlVisibility();
@@ -2053,6 +2058,7 @@ image: /media/2026/09/maps-featured.png
     });
 
     map.on("locationerror", function (error) {
+      locateShouldSetInitialView = false;
       setLocateControlState();
       if (isLocalGeolocationBlocked(error)) {
         console.warn(error.message || "Geolocation requires HTTPS or localhost.");
