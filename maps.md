@@ -469,6 +469,10 @@ image: /media/2026/09/maps-featured.png
     text-transform: uppercase;
   }
 
+  .maps-layer-heading--emergency-management {
+    margin-bottom: 0.15rem;
+  }
+
   .leaflet-control-layers-overlays > .maps-layer-heading:first-child {
     border-top: 0;
     margin-top: 0;
@@ -5081,7 +5085,9 @@ image: /media/2026/09/maps-featured.png
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JSO Substations", jsoPoliceStationsLayer)
           ]);
-          overlays.appendChild(createLayerHeading("Emergency Management"));
+          const emergencyManagementHeading = createLayerHeading("Emergency Management");
+          emergencyManagementHeading.classList.add("maps-layer-heading--emergency-management");
+          overlays.appendChild(emergencyManagementHeading);
           appendGeographyLayerRow(overlays, "Flood Zones", floodZoneFillLayer, floodZoneBorderLayer, {
             href: "/maps/references/#emergency-management",
             locationLayerType: "floodZone"
