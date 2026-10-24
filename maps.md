@@ -1887,7 +1887,7 @@ image: /media/2026/09/maps-featured.png
       const headingElement = markerElement && markerElement.querySelector(".maps-user-location-marker");
       if (!headingElement) return;
       const mapBearing = Number.isFinite(map.getBearing()) ? map.getBearing() : 0;
-      const mapRelativeHeading = ((userHeading - mapBearing) % 360 + 360) % 360;
+      const mapRelativeHeading = ((userHeading + mapBearing) % 360 + 360) % 360;
       if (Number.isFinite(userHeadingDisplayRotation)) {
         const shortestTurn = ((mapRelativeHeading - userHeadingDisplayRotation + 540) % 360) - 180;
         userHeadingDisplayRotation += shortestTurn;
