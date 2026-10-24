@@ -1109,7 +1109,7 @@ image: /media/2026/09/maps-featured.png
     top: 0;
     transform: rotate(var(--maps-user-heading, 0deg));
     transform-origin: 44px 44px;
-    transition: transform 120ms linear;
+    transition: transform 250ms ease-out;
     width: 88px;
   }
 
@@ -1850,6 +1850,7 @@ image: /media/2026/09/maps-featured.png
 
     let userAccuracyCircle;
     let userHeading;
+    let userHeadingDisplayRotation;
     let userHeadingTrackingStarted = false;
     let userLocationMarker;
     let userLocationLatLng;
@@ -1885,9 +1886,19 @@ image: /media/2026/09/maps-featured.png
       const markerElement = userLocationMarker.getElement();
       const headingElement = markerElement && markerElement.querySelector(".maps-user-location-marker");
       if (!headingElement) return;
+      const mapBearing = Number.isFinite(map.getBearing()) ? map.getBearing() : 0;
+      const mapRelativeHeading = ((userHeading - mapBearing) % 360 + 360) % 360;
+      if (Number.isFinite(userHeadingDisplayRotation)) {
+        const shortestTurn = ((mapRelativeHeading - userHeadingDisplayRotation + 540) % 360) - 180;
+        userHeadingDisplayRotation += shortestTurn;
+      } else {
+        userHeadingDisplayRotation = mapRelativeHeading;
+      }
       headingElement.classList.add("has-heading");
-      headingElement.style.setProperty("--maps-user-heading", `${userHeading}deg`);
+      headingElement.style.setProperty("--maps-user-heading", `${userHeadingDisplayRotation}deg`);
     }
+
+    map.on("rotate", updateUserLocationHeadingMarker);
 
     function handleDeviceOrientation(event) {
       let heading;
