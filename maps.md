@@ -5089,11 +5089,9 @@ image: /media/2026/09/maps-featured.png
           emergencyManagementHeading.classList.add("maps-layer-heading--emergency-management");
           overlays.appendChild(emergencyManagementHeading);
           appendGeographyLayerRow(overlays, "Flood Zones", floodZoneFillLayer, floodZoneBorderLayer, {
-            href: "/maps/references/#emergency-management",
             locationLayerType: "floodZone"
           });
           appendGeographyLayerRow(overlays, "Evacuation Zones", evacuationZoneFillLayer, evacuationZoneBorderLayer, {
-            href: "/maps/references/#emergency-management",
             locationLayerType: "evacuationZone"
           });
           overlays.appendChild(createLayerHeading("Transportation"));
