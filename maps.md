@@ -6510,7 +6510,7 @@ image: /media/2026/09/maps-featured.png
       const pointerIcon = L.divIcon({
         className: "maps-polling-location-pointer-icon",
         html: '<span class="maps-polling-location-pointer" aria-hidden="true"></span>',
-        iconAnchor: [14, 28],
+        iconAnchor: [14, 36],
         iconSize: [28, 28]
       });
       votingPrecinctPollingPointer = L.marker([coordinates[1], coordinates[0]], {
