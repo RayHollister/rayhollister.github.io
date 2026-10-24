@@ -175,6 +175,33 @@ image: /media/2026/09/maps-featured.png
     max-width: none;
   }
 
+  #ray-map .leaflet-control-attribution {
+    display: none;
+    max-width: min(36rem, calc(100vw - 5rem));
+  }
+
+  #ray-map.maps-attribution-expanded .leaflet-control-attribution {
+    display: block;
+  }
+
+  .maps-attribution-toggle {
+    background: #fff;
+  }
+
+  .maps-attribution-toggle button {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: #24292f;
+    cursor: pointer;
+    display: flex;
+    font: 700 13px/1 sans-serif;
+    height: 26px;
+    justify-content: center;
+    padding: 0;
+    width: 26px;
+  }
+
   .maps-district-popup > .maps-senator-card {
     border-top: 1px solid #d0d7de;
     margin-top: 0.5rem;
@@ -2089,6 +2116,47 @@ image: /media/2026/09/maps-featured.png
     map.attributionControl.addAttribution(
       '<a href="/maps/references/">Disclaimer and Data Sources</a>'
     );
+
+    function addAttributionToggleControl() {
+      const AttributionToggleControl = L.Control.extend({
+        options: {
+          position: "bottomright"
+        },
+        onAdd: function () {
+          const container = L.DomUtil.create("div", "leaflet-bar leaflet-control maps-attribution-toggle");
+          const button = L.DomUtil.create("button", "", container);
+          const mapContainer = map.getContainer();
+
+          button.type = "button";
+          button.textContent = "©";
+          button.title = "Map credits and data sources";
+          button.setAttribute("aria-label", "Show map credits and data sources");
+          button.setAttribute("aria-expanded", "false");
+
+          function setOpen(open) {
+            mapContainer.classList.toggle("maps-attribution-expanded", open);
+            button.textContent = open ? "×" : "©";
+            button.title = open ? "Hide map credits and data sources" : "Map credits and data sources";
+            button.setAttribute("aria-label", open ? "Hide map credits and data sources" : "Show map credits and data sources");
+            button.setAttribute("aria-expanded", String(open));
+          }
+
+          button.addEventListener("click", function () {
+            setOpen(!mapContainer.classList.contains("maps-attribution-expanded"));
+          });
+          map.on("click", function () {
+            setOpen(false);
+          });
+          L.DomEvent.disableClickPropagation(container);
+          L.DomEvent.disableScrollPropagation(container);
+          return container;
+        }
+      });
+
+      map.addControl(new AttributionToggleControl());
+    }
+
+    addAttributionToggleControl();
 
     const markerIcon = window.L.ExtraMarkers ? L.ExtraMarkers.icon({
       icon: "fa-map-marker-alt",
