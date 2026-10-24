@@ -1139,6 +1139,35 @@ image: /media/2026/09/maps-featured.png
     width: 32px;
   }
 
+  .maps-polling-location-pointer-icon {
+    background: transparent;
+    border: 0;
+  }
+
+  .maps-polling-location-pointer {
+    background: #7c3aed;
+    border: 3px solid #fff;
+    border-radius: 50% 50% 50% 0;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 45%);
+    box-sizing: border-box;
+    display: block;
+    height: 28px;
+    position: relative;
+    transform: rotate(-45deg);
+    width: 28px;
+  }
+
+  .maps-polling-location-pointer::after {
+    background: #fff;
+    border-radius: 50%;
+    content: "";
+    height: 8px;
+    left: 7px;
+    position: absolute;
+    top: 7px;
+    width: 8px;
+  }
+
   @keyframes leaflet-control-locate-spin {
     0% {
       transform: rotate(0deg);
@@ -2821,6 +2850,8 @@ image: /media/2026/09/maps-featured.png
     let mapInteractionMode = "browse";
     let focusToggleButton;
     let focusedBoundary;
+    let votingPrecinctPollingPointer;
+    let votingPrecinctPollingPointerPrecinct = "";
     const focusLayerStates = new Map();
     let compareModeEnabled = false;
     let compareToggleButton;
@@ -6437,10 +6468,14 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
-    function appendVotingPrecinctPollingLocation(popup, feature) {
-      const precinct = String((feature.properties || {}).GEOID || "").replace(/^12031-/, "");
+    function getVotingPrecinctNumber(feature) {
+      return String((feature.properties || {}).GEOID || "").replace(/^12031-/, "");
+    }
+
+    function findPollingLocationForPrecinct(feature) {
+      const precinct = getVotingPrecinctNumber(feature);
       let pollingFeature;
-      if (!precinct) return;
+      if (!precinct) return pollingFeature;
 
       pollingLocationsLayer.eachLayer((layer) => {
         const candidate = layer.feature;
@@ -6451,6 +6486,43 @@ image: /media/2026/09/maps-featured.png
           pollingFeature = candidate;
         }
       });
+      return pollingFeature;
+    }
+
+    function clearVotingPrecinctPollingPointer(precinct) {
+      if (precinct && precinct !== votingPrecinctPollingPointerPrecinct) return;
+      if (votingPrecinctPollingPointer) {
+        map.removeLayer(votingPrecinctPollingPointer);
+      }
+      votingPrecinctPollingPointer = undefined;
+      votingPrecinctPollingPointerPrecinct = "";
+    }
+
+    function showVotingPrecinctPollingPointer(feature) {
+      const pollingFeature = findPollingLocationForPrecinct(feature);
+      const coordinates = pollingFeature && pollingFeature.geometry && pollingFeature.geometry.coordinates;
+      clearVotingPrecinctPollingPointer();
+      if (!coordinates || coordinates.length < 2) return;
+
+      const pointerIcon = L.divIcon({
+        className: "maps-polling-location-pointer-icon",
+        html: '<span class="maps-polling-location-pointer" aria-hidden="true"></span>',
+        iconAnchor: [14, 28],
+        iconSize: [28, 28]
+      });
+      votingPrecinctPollingPointer = L.marker([coordinates[1], coordinates[0]], {
+        icon: pointerIcon,
+        interactive: false,
+        keyboard: false,
+        zIndexOffset: 1000
+      }).addTo(map);
+      votingPrecinctPollingPointerPrecinct = getVotingPrecinctNumber(feature);
+    }
+
+    function appendVotingPrecinctPollingLocation(popup, feature) {
+      const precinct = getVotingPrecinctNumber(feature);
+      const pollingFeature = findPollingLocationForPrecinct(feature);
+      if (!precinct) return;
 
       const heading = document.createElement("strong");
       heading.textContent = "Polling location:";
@@ -6787,11 +6859,19 @@ image: /media/2026/09/maps-featured.png
       layer.options.boundaryType = layerType;
       layer.bindPopup(() => createBoundaryPopup(feature, layerType), { maxWidth: 10000 });
       layer.on("click", function () {
+        if (layerType === "votingPrecinct") {
+          showVotingPrecinctPollingPointer(feature);
+        }
         if (mapInteractionMode === "focus") {
           focusBoundaryFeature(feature, layer, mode, layerType);
         }
         if (compareModeEnabled) {
           pinBoundaryFeature(feature, layerType);
+        }
+      });
+      layer.on("popupclose", function () {
+        if (layerType === "votingPrecinct") {
+          clearVotingPrecinctPollingPointer(getVotingPrecinctNumber(feature));
         }
       });
       layer.on("contextmenu", function (event) {
