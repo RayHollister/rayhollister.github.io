@@ -8085,6 +8085,16 @@ image: /media/2026/09/maps-featured.png
       const corner = toggleControl.getContainer().parentElement;
       corner.classList.add("maps-top-left-menu");
       corner.insertBefore(toggleControl.getContainer(), corner.firstChild);
+
+      const locateControl = corner.querySelector(".leaflet-control-locate");
+      if (locateControl) {
+        corner.insertBefore(locateControl, toggleControl.getContainer().nextSibling);
+      }
+
+      const attributionToggle = corner.querySelector(".maps-attribution-toggle");
+      if (attributionToggle) {
+        corner.appendChild(attributionToggle);
+      }
     }
 
     addTopLeftMenuToggle();
