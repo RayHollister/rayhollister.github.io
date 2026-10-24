@@ -1107,9 +1107,8 @@ image: /media/2026/09/maps-featured.png
     opacity: 0;
     position: absolute;
     top: 0;
-    transform: rotate(var(--maps-user-heading, 0deg));
+    transform: rotate(var(--maps-user-map-bearing, 0deg));
     transform-origin: 44px 44px;
-    transition: transform 250ms ease-out;
     width: 88px;
   }
 
@@ -1121,6 +1120,9 @@ image: /media/2026/09/maps-featured.png
     display: block;
     filter: blur(0.35px);
     height: 88px;
+    transform: rotate(var(--maps-user-heading, 0deg));
+    transform-origin: 44px 44px;
+    transition: transform 250ms ease-out;
     width: 88px;
   }
 
@@ -1887,14 +1889,14 @@ image: /media/2026/09/maps-featured.png
       const headingElement = markerElement && markerElement.querySelector(".maps-user-location-marker");
       if (!headingElement) return;
       const mapBearing = Number.isFinite(map.getBearing()) ? map.getBearing() : 0;
-      const mapRelativeHeading = ((userHeading + mapBearing) % 360 + 360) % 360;
       if (Number.isFinite(userHeadingDisplayRotation)) {
-        const shortestTurn = ((mapRelativeHeading - userHeadingDisplayRotation + 540) % 360) - 180;
+        const shortestTurn = ((userHeading - userHeadingDisplayRotation + 540) % 360) - 180;
         userHeadingDisplayRotation += shortestTurn;
       } else {
-        userHeadingDisplayRotation = mapRelativeHeading;
+        userHeadingDisplayRotation = userHeading;
       }
       headingElement.classList.add("has-heading");
+      headingElement.style.setProperty("--maps-user-map-bearing", `${mapBearing}deg`);
       headingElement.style.setProperty("--maps-user-heading", `${userHeadingDisplayRotation}deg`);
     }
 
