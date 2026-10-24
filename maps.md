@@ -2142,7 +2142,7 @@ image: /media/2026/09/maps-featured.png
     function addAttributionToggleControl() {
       const AttributionToggleControl = L.Control.extend({
         options: {
-          position: "bottomright"
+          position: "topleft"
         },
         onAdd: function () {
           const container = L.DomUtil.create("div", "leaflet-bar leaflet-control maps-attribution-toggle");
