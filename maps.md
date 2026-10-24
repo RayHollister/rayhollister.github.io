@@ -1261,6 +1261,9 @@ image: /media/2026/09/maps-featured.png
     historicPlacementPane.style.zIndex = "350";
     const navigationMarkerPane = map.createPane("navigationMarkerPane", map._norotatePane);
     navigationMarkerPane.style.zIndex = "750";
+    const pollingLocationPointerPane = map.createPane("pollingLocationPointerPane", map._rotatePane);
+    pollingLocationPointerPane.style.pointerEvents = "none";
+    pollingLocationPointerPane.style.zIndex = "850";
 
     const openFreeMapStyles = {
       positron: "https://tiles.openfreemap.org/styles/positron",
@@ -6514,6 +6517,7 @@ image: /media/2026/09/maps-featured.png
         icon: pointerIcon,
         interactive: false,
         keyboard: false,
+        pane: "pollingLocationPointerPane",
         zIndexOffset: 1000
       }).addTo(map);
       votingPrecinctPollingPointerPrecinct = getVotingPrecinctNumber(feature);
