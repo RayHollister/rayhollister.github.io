@@ -35,6 +35,10 @@ image: /media/2026/09/maps-featured.png
     z-index: 0;
   }
 
+  .maps-page:has(#ray-map.leaflet-pseudo-fullscreen) {
+    z-index: 1300;
+  }
+
   body {
     overflow: hidden;
   }
