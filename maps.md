@@ -1096,20 +1096,20 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-user-location-marker {
-    height: 44px;
+    height: 88px;
     position: relative;
-    width: 44px;
+    width: 88px;
   }
 
   .maps-user-location-marker__heading {
-    height: 44px;
+    height: 88px;
     left: 0;
     opacity: 0;
     position: absolute;
     top: 0;
-    transform: rotate(var(--maps-user-heading, 0deg));
-    transition: transform 120ms linear;
-    width: 44px;
+    transform: rotate(var(--maps-user-map-bearing, 0deg));
+    transform-origin: 44px 44px;
+    width: 88px;
   }
 
   .maps-user-location-marker.has-heading .maps-user-location-marker__heading {
@@ -1118,20 +1118,25 @@ image: /media/2026/09/maps-featured.png
 
   .maps-user-location-marker__heading svg {
     display: block;
-    height: 44px;
-    width: 44px;
+    filter: blur(0.35px);
+    height: 88px;
+    transform: rotate(var(--maps-user-heading, 0deg));
+    transform-origin: 44px 44px;
+    transition: transform 250ms ease-out;
+    width: 88px;
   }
 
   .maps-user-location-marker__dot {
-    background: #2074b6;
-    border: 3px solid #fff;
+    background: #146ff5;
+    border: 6px solid #fff;
     border-radius: 50%;
-    box-shadow: 0 1px 4px rgb(0 0 0 / 45%);
-    height: 14px;
-    left: 12px;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 42%);
+    box-sizing: border-box;
+    height: 32px;
+    left: 28px;
     position: absolute;
-    top: 12px;
-    width: 14px;
+    top: 28px;
+    width: 32px;
   }
 
   @keyframes leaflet-control-locate-spin {
@@ -1847,6 +1852,7 @@ image: /media/2026/09/maps-featured.png
 
     let userAccuracyCircle;
     let userHeading;
+    let userHeadingDisplayRotation;
     let userHeadingTrackingStarted = false;
     let userLocationMarker;
     let userLocationLatLng;
@@ -1882,9 +1888,19 @@ image: /media/2026/09/maps-featured.png
       const markerElement = userLocationMarker.getElement();
       const headingElement = markerElement && markerElement.querySelector(".maps-user-location-marker");
       if (!headingElement) return;
+      const mapBearing = Number.isFinite(map.getBearing()) ? map.getBearing() : 0;
+      if (Number.isFinite(userHeadingDisplayRotation)) {
+        const shortestTurn = ((userHeading - userHeadingDisplayRotation + 540) % 360) - 180;
+        userHeadingDisplayRotation += shortestTurn;
+      } else {
+        userHeadingDisplayRotation = userHeading;
+      }
       headingElement.classList.add("has-heading");
-      headingElement.style.setProperty("--maps-user-heading", `${userHeading}deg`);
+      headingElement.style.setProperty("--maps-user-map-bearing", `${mapBearing}deg`);
+      headingElement.style.setProperty("--maps-user-heading", `${userHeadingDisplayRotation}deg`);
     }
+
+    map.on("rotate", updateUserLocationHeadingMarker);
 
     function handleDeviceOrientation(event) {
       let heading;
@@ -1921,13 +1937,13 @@ image: /media/2026/09/maps-featured.png
       }
     }
 
-    function createMobileUserLocationIcon() {
+    function createUserLocationIcon() {
       return L.divIcon({
         className: "maps-user-location-icon",
-        html: '<div class="maps-user-location-marker"><div class="maps-user-location-marker__heading"><svg viewBox="0 0 44 44" aria-hidden="true"><path fill="rgb(32, 116, 182)" fill-opacity="0.32" d="M22 0 34 28 22 22 10 28Z"/></svg></div><span class="maps-user-location-marker__dot"></span></div>',
-        iconAnchor: [22, 22],
-        iconSize: [44, 44],
-        popupAnchor: [0, -18]
+        html: '<div class="maps-user-location-marker"><div class="maps-user-location-marker__heading"><svg viewBox="0 0 88 88" aria-hidden="true"><defs><linearGradient id="maps-user-heading-gradient" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="rgb(20, 111, 245)" stop-opacity="0.3"/><stop offset="1" stop-color="rgb(92, 92, 246)" stop-opacity="0"/></linearGradient></defs><path fill="url(#maps-user-heading-gradient)" d="M44 44 L20 0 H68 Z"/></svg></div><span class="maps-user-location-marker__dot"></span></div>',
+        iconAnchor: [44, 44],
+        iconSize: [88, 88],
+        popupAnchor: [0, -22]
       });
     }
 
@@ -2114,9 +2130,7 @@ image: /media/2026/09/maps-featured.png
           pane: "navigationMarkerPane",
           title: "Your location"
         };
-        if (isMobileLocationHeadingEnabled()) {
-          markerOptions.icon = createMobileUserLocationIcon();
-        }
+        markerOptions.icon = createUserLocationIcon();
         userLocationMarker = L.marker(event.latlng, markerOptions)
           .addTo(map)
           .on("click", showYouAreHereCardInPanel);
