@@ -6409,9 +6409,10 @@ image: /media/2026/09/maps-featured.png
       return feature;
     }
 
-    function appendActivePointCounts(popup, feature, boundaryTitle) {
+    function appendActivePointCounts(popup, feature, boundaryTitle, excludedLayers) {
+      const excluded = excludedLayers || [];
       const activeCounts = countablePointLayers
-        .filter((pointLayer) => map.hasLayer(pointLayer.layer))
+        .filter((pointLayer) => map.hasLayer(pointLayer.layer) && !excluded.includes(pointLayer.layer))
         .map((pointLayer) => ({
           label: pointLayer.label,
           count: countLayerPointsInFeature(pointLayer.layer, feature)
@@ -6434,6 +6435,48 @@ image: /media/2026/09/maps-featured.png
         line.textContent = `${pointLayer.label}: ${pointLayer.count.toLocaleString()}`;
         popup.appendChild(line);
       });
+    }
+
+    function appendVotingPrecinctPollingLocation(popup, feature) {
+      const precinct = String((feature.properties || {}).GEOID || "").replace(/^12031-/, "");
+      let pollingFeature;
+      if (!precinct) return;
+
+      pollingLocationsLayer.eachLayer((layer) => {
+        const candidate = layer.feature;
+        const candidatePrecincts = String((candidate && candidate.properties || {}).precinct || "")
+          .split(",")
+          .map((value) => value.trim());
+        if (!pollingFeature && candidatePrecincts.includes(precinct)) {
+          pollingFeature = candidate;
+        }
+      });
+
+      const heading = document.createElement("strong");
+      heading.textContent = "Polling location:";
+      popup.appendChild(heading);
+
+      if (!pollingFeature) {
+        const unavailable = document.createElement("span");
+        unavailable.textContent = "No current polling location is listed for this precinct.";
+        popup.appendChild(unavailable);
+        return;
+      }
+
+      const properties = pollingFeature.properties || {};
+      [properties.name, properties.address].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+      if (properties.source_url) {
+        const sourceLink = document.createElement("a");
+        sourceLink.href = properties.source_url;
+        sourceLink.target = "_blank";
+        sourceLink.rel = "noopener";
+        sourceLink.textContent = "Verify polling location";
+        popup.appendChild(sourceLink);
+      }
     }
 
     function createBoundaryPopup(feature, layerType) {
@@ -6496,8 +6539,17 @@ image: /media/2026/09/maps-featured.png
         appendZipCodePopupDetails(popup, feature.properties || {});
       }
 
+      if (layerType === "votingPrecinct") {
+        appendVotingPrecinctPollingLocation(popup, feature);
+      }
+
       if (layerType !== "zipCode") {
-        appendActivePointCounts(popup, pointCountFeature, boundaryTitle);
+        appendActivePointCounts(
+          popup,
+          pointCountFeature,
+          boundaryTitle,
+          layerType === "votingPrecinct" ? [pollingLocationsLayer] : []
+        );
       }
 
       return popup;
