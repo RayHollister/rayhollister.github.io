@@ -6547,7 +6547,7 @@ image: /media/2026/09/maps-featured.png
       });
       if (properties.source_url) {
         const sourceLink = document.createElement("a");
-        sourceLink.href = properties.source_url;
+        sourceLink.href = "https://www.duvalelections.gov/204/Polling-Location-Finder";
         sourceLink.target = "_blank";
         sourceLink.rel = "noopener";
         sourceLink.textContent = "Verify polling location";
@@ -7300,7 +7300,7 @@ image: /media/2026/09/maps-featured.png
       });
       if (properties.source_url) {
         const sourceLink = document.createElement("a");
-        sourceLink.href = properties.source_url;
+        sourceLink.href = "https://www.duvalelections.gov/204/Polling-Location-Finder";
         sourceLink.target = "_blank";
         sourceLink.rel = "noopener";
         sourceLink.textContent = "Verify polling location";
