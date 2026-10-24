@@ -196,10 +196,10 @@ image: /media/2026/09/maps-featured.png
     cursor: pointer;
     display: flex;
     font: 700 13px/1 sans-serif;
-    height: 26px;
+    height: 30px;
     justify-content: center;
     padding: 0;
-    width: 26px;
+    width: 30px;
   }
 
   #ray-map .leaflet-top.leaflet-left.maps-top-left-menu:not(.is-open) > .leaflet-control:not(.maps-top-left-menu-toggle) {
@@ -8089,6 +8089,12 @@ image: /media/2026/09/maps-featured.png
       const locateControl = corner.querySelector(".leaflet-control-locate");
       if (locateControl) {
         corner.insertBefore(locateControl, toggleControl.getContainer().nextSibling);
+      }
+
+      const layersControl = corner.querySelector(".maps-layers-control");
+      const baseMapControl = corner.querySelector(".maps-basemap-control");
+      if (layersControl && baseMapControl) {
+        corner.insertBefore(baseMapControl, layersControl.nextSibling);
       }
 
       const attributionToggle = corner.querySelector(".maps-attribution-toggle");
