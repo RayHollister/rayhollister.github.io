@@ -2577,6 +2577,18 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "border", "county"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "county")
     });
+    const votingPrecinctFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "votingPrecinct"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "votingPrecinct")
+    });
+    const votingPrecinctBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "votingPrecinct"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "votingPrecinct")
+    });
+    const pollingLocationsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getPollingLocationStyle()),
+      onEachFeature: (feature, layer) => addPollingLocationInteractivity(feature, layer)
+    });
     const neighborhoodFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "neighborhood"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "neighborhood")
@@ -2884,6 +2896,10 @@ image: /media/2026/09/maps-featured.png
         cityBorderLayer,
         countyFillLayer,
         countyBorderLayer,
+        votingPrecinctFillLayer,
+        votingPrecinctBorderLayer,
+        votingPrecinctFillLayer,
+        votingPrecinctBorderLayer,
         neighborhoodFillLayer,
         neighborhoodBorderLayer,
         cpacFillLayer,
@@ -2936,6 +2952,8 @@ image: /media/2026/09/maps-featured.png
         archivedPlaceLayer,
         jsoPoliceStationsLayer,
         neighborhoodOrganizationsLayer,
+        pollingLocationsLayer,
+        pollingLocationsLayer,
         busStopsLayer,
         skywayStationsLayer,
         ferryLandingsLayer,
@@ -5204,6 +5222,11 @@ image: /media/2026/09/maps-featured.png
           appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer, { locationLayerType: "city" });
           appendGeographyLayerRow(overlays, "Counties", countyFillLayer, countyBorderLayer, { locationLayerType: "county" });
           appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer, { locationLayerType: "zipCode" });
+          overlays.appendChild(createLayerSubheading("Elections"));
+          appendGeographyLayerRow(overlays, "Voting Precincts", votingPrecinctFillLayer, votingPrecinctBorderLayer, { locationLayerType: "votingPrecinct" });
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("Polling Locations", pollingLocationsLayer)
+          ]);
           overlays.appendChild(createLayerHeading("Neighborhood"));
           appendGeographyLayerRow(overlays, "Neighborhoods", neighborhoodFillLayer, neighborhoodBorderLayer, { locationLayerType: "neighborhood" });
           appendLayerControls(overlays, [
@@ -5362,6 +5385,8 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries", slug: "schoolboarddistricts", alternateLayers: [schoolBoardDistrictBorderLayer] });
       registerQueryLayer(["cities", "cityboundaries"], cityFillLayer, { group: "boundaries", slug: "cities", alternateLayers: [cityBorderLayer] });
       registerQueryLayer(["county", "counties", "countyboundaries", "duvalcounty", "duvalcountyboundary", "countyboundary"], countyFillLayer, { group: "boundaries", slug: "counties", alternateLayers: [countyBorderLayer] });
+      registerQueryLayer(["votingprecinct", "votingprecincts", "precinct", "precincts"], votingPrecinctFillLayer, { group: "boundaries", slug: "votingprecincts", alternateLayers: [votingPrecinctBorderLayer] });
+      registerQueryLayer(["pollinglocation", "pollinglocations", "polls"], pollingLocationsLayer, { slug: "pollinglocations" });
       registerQueryLayer(["floridahouse", "house", "statehouse"], floridaHouseFillLayer, { group: "boundaries", slug: "floridahouse", alternateLayers: [floridaHouseBorderLayer] });
       registerQueryLayer(["floridasenate", "senate", "statesenate"], floridaSenateFillLayer, { group: "boundaries", slug: "floridasenate", alternateLayers: [floridaSenateBorderLayer] });
       registerQueryLayer(["zip", "zips", "zipcode", "zipcodes", "zcta", "zctas"], zipCodeFillLayer, { group: "boundaries", slug: "zipcodes", alternateLayers: [zipCodeBorderLayer] });
@@ -5446,6 +5471,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "county") {
         return getStringColorNumber(properties.geoid || properties.GEOID || properties.name || "County");
+      }
+      if (layerType === "votingPrecinct") {
+        return getStringColorNumber(String(properties.GEOID || "").replace(/^12031-/, ""));
       }
       if (layerType === "schoolBoard") {
         return Number.parseInt(properties.school_board_district || properties.SB, 10);
@@ -5590,6 +5618,9 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "county") {
         return mode === "border" ? countyBorderLayer : countyFillLayer;
       }
+      if (layerType === "votingPrecinct") {
+        return mode === "border" ? votingPrecinctBorderLayer : votingPrecinctFillLayer;
+      }
       if (layerType === "schoolBoard") {
         return mode === "border" ? schoolBoardDistrictBorderLayer : schoolBoardDistrictFillLayer;
       }
@@ -5642,6 +5673,10 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "county") {
         return properties.label || properties.name || properties.NAME || "County";
+      }
+      if (layerType === "votingPrecinct") {
+        const precinct = String(properties.GEOID || "").replace(/^12031-/, "");
+        return precinct ? `Voting Precinct ${precinct}` : "Voting Precinct";
       }
       if (layerType === "schoolBoard") {
         return properties.label || (properties.school_board_district ? `Duval County School Board District ${properties.school_board_district}` : "Duval County School Board District");
@@ -6819,6 +6854,17 @@ image: /media/2026/09/maps-featured.png
       };
     }
 
+    function getPollingLocationStyle() {
+      return {
+        color: "#ffffff",
+        fillColor: "#7c3aed",
+        fillOpacity: 0.95,
+        opacity: 1,
+        radius: 6,
+        weight: 1.5
+      };
+    }
+
     function getNeighborhoodOrganizationStyle() {
       return {
         color: "#ffffff",
@@ -7101,6 +7147,32 @@ image: /media/2026/09/maps-featured.png
       return popup;
     }
 
+    function createPollingLocationPopup(feature) {
+      const properties = feature.properties || {};
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+      popup.className = "maps-district-popup";
+      title.textContent = properties.name || "Polling Location";
+      popup.appendChild(title);
+      [
+        properties.precinct ? `Precinct ${properties.precinct}` : "",
+        properties.address
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+      if (properties.source_url) {
+        const sourceLink = document.createElement("a");
+        sourceLink.href = properties.source_url;
+        sourceLink.target = "_blank";
+        sourceLink.rel = "noopener";
+        sourceLink.textContent = "Verify polling location";
+        popup.appendChild(sourceLink);
+      }
+      return popup;
+    }
+
     function addBusRouteInteractivity(feature, layer) {
       const name = getBusRouteTitle(feature);
       registerBusRouteFeature(feature, layer);
@@ -7335,6 +7407,17 @@ image: /media/2026/09/maps-featured.png
         layer.bindTooltip(properties.name || "Neighborhood Organization", {
           sticky: true
         });
+      }
+    }
+
+    function addPollingLocationInteractivity(feature, layer) {
+      const properties = feature.properties || {};
+      layer.bindPopup(createPollingLocationPopup(feature));
+      layer.on("contextmenu", function (event) {
+        showMapContextMenu(event, { feature, layer, layerType: "pollingLocation" });
+      });
+      if (supportsPointerHover) {
+        layer.bindTooltip(properties.name || "Polling Location", { sticky: true });
       }
     }
 
@@ -7933,6 +8016,13 @@ image: /media/2026/09/maps-featured.png
       countyBorderLayer,
       "county boundaries"
     );
+    loadBoundaryLayers(
+      "/data/duval-voting-precincts.geojson",
+      votingPrecinctFillLayer,
+      votingPrecinctBorderLayer,
+      "Duval County voting precincts"
+    );
+    loadGeoJsonLayer("/data/duval-polling-locations.geojson", pollingLocationsLayer, "Duval County polling locations");
     loadBoundaryLayers(
       "https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson",
       neighborhoodFillLayer,

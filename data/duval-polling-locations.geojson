@@ -1,0 +1,2855 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -82.005441999844336,
+          30.199775999888715,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1204",
+        "name": "Maxville Community Center",
+        "address": "18065 Pennsylvania Ave, Jacksonville, FL 32234",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.975821999999695,
+          30.302770000064957,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1207",
+        "name": "Baldwin Town Hall",
+        "address": "10 U S Hwy 90 W, Baldwin, FL 32234",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.869284999915649,
+          30.322907000302244,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "810",
+        "name": "Temple Baptist Church",
+        "address": "485 Halsema Rd N, Jacksonville, FL 32220",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.848471999573206,
+          30.295364000173493,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1212",
+        "name": "West Regional Library",
+        "address": "1425 Chaffee Rd S, Jacksonville, FL 32221",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.844499999729805,
+          30.315646000074953,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1209",
+        "name": "Whitehouse Baptist Church",
+        "address": "24 Celery Ave N, Jacksonville, FL 32220",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.831667999782439,
+          30.276745000184665,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1206",
+        "name": "Promise Land Baptist Church",
+        "address": "2197 Blair Rd, Jacksonville, FL 32221",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.821675000424705,
+          30.201533999657709,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1403",
+        "name": "Argyle Branch Library",
+        "address": "7973 Old Middleburg Rd S, Jacksonville, FL 32222",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.816945000347914,
+          30.217253000070613,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1211",
+        "name": "Christian Family Fellowship",
+        "address": "7216 Old Middleburg Rd S, Jacksonville, FL 32222",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.803289999869847,
+          30.302226000109329,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1202",
+        "name": "Woodstock Baptist Church",
+        "address": "9120 Crystal Springs Rd, Jacksonville, FL 32221",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.79809899966061,
+          30.298287999707664,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1205",
+        "name": "Midnight Cry Ministries",
+        "address": "1371 Hammond Blvd, Jacksonville, FL 32221",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.798083999592009,
+          30.217741000206036,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1210",
+        "name": "Shindler Dr Baptist Church",
+        "address": "7100 Shindler Dr, Jacksonville, FL 32222",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.79735700021908,
+          30.198263000107396,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1402",
+        "name": "Kirkwood Presbyterian Church",
+        "address": "8701 Argyle Forest Blvd, Jacksonville, FL 32244",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.785792000318111,
+          30.323460999993095,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1203",
+        "name": "Leroy D Clemons Senior Center",
+        "address": "55 Jackson Ave N, Jacksonville, FL 32220",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.782913000443813,
+          30.313495999666149,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1201",
+        "name": "Church of God Marietta",
+        "address": "8076 Ramona Blvd W, Jacksonville, FL 32221",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.781433999786998,
+          30.273944999786917,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1208",
+        "name": "Harvest Ministries",
+        "address": "2550 Fouraker Rd, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.780724000132523,
+          30.261756000203757,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1009",
+        "name": "Oak Hill Church of the Nazarene",
+        "address": "4151 Old Middleburg Rd N, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.777702999968014,
+          30.262418999975278,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1012",
+        "name": "Gregory West Apartments",
+        "address": "7844 Gregory Dr, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.775086000034548,
+          30.203931999951251,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1406",
+        "name": "Hillcrest Baptist",
+        "address": "7673 Collins Rd, Jacksonville, FL 32244",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.760852000321563,
+          30.270078999922884,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1010",
+        "name": "Sweetwater Church of Christ",
+        "address": "7009 Wilson Blvd, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.759196999937657,
+          30.269942000026283,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1008",
+        "name": "Mary Lena Gibbs Center",
+        "address": "6974 Wilson Blvd, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.757293000031709,
+          30.248463999655886,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "905",
+        "name": "Webb Wesconnett Regional Library",
+        "address": "6887 103rd St, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.756765999777031,
+          30.192799000277947,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1401",
+        "name": "Church at Argyle",
+        "address": "6823 Argyle Forest Blvd, Jacksonville, FL 32244",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.755328999851315,
+          30.281868999746433,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "903",
+        "name": "Redemption Church",
+        "address": "2000 Lane Ave S, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.752157999898969,
+          30.338982999675782,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1011",
+        "name": "Teamsters 512",
+        "address": "1210 Lane Ave N, Jacksonville, FL 32254",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.751686999720761,
+          30.359059000058764,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1006",
+        "name": "Church of God - N Lane Ave",
+        "address": "2956 Lane Ave N, Jacksonville, FL 32254",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.74691399998629,
+          30.314207000042433,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1007",
+        "name": "Evangel Temple Assembly of God",
+        "address": "5755 Ramona Blvd, Jacksonville, FL 32205",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.74571499971195,
+          30.248491000101307,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "906",
+        "name": "St Andrews Presbyterian Church",
+        "address": "6317 103rd St, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.744426999749152,
+          30.308185000140767,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "908",
+        "name": "West Jacksonville Baptist Church",
+        "address": "5634 Normandy Blvd, Jacksonville, FL 32205",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.739227000217397,
+          30.249908999614679,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "907",
+        "name": "Wesconnett Church of Christ",
+        "address": "5223 Wesconnett Blvd, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.731183000073145,
+          30.382845999676601,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1004",
+        "name": "St Paul A M E Church",
+        "address": "6910 New Kings Rd, Jacksonville, FL 32219",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.729983999798819,
+          30.398613000017203,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1001",
+        "name": "Charles Clark Community Center",
+        "address": "8793 Sibbald Rd, Jacksonville, FL 32208",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.727687000430805,
+          30.395076999789083,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1005",
+        "name": "Legends Community Center",
+        "address": "5130 Soutel Dr, Jacksonville, FL 32208",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.720885000218587,
+          30.309944000008503,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1405",
+        "name": "Murray Hill Baptist Church",
+        "address": "4300 Post St, Jacksonville, FL 32205",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.720071999733619,
+          30.200348000357678,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1410",
+        "name": "Fleet Reserve",
+        "address": "5391 Collins Rd, Jacksonville, FL 32244",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.719420999630358,
+          30.320107999840989,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "901",
+        "name": "CWA AFL-CIO Local #3106",
+        "address": "4076 Union Hall Pl, Jacksonville, FL 32205",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.717069999835687,
+          30.379197000210578,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1002",
+        "name": "Woodlawn Presbyterian Church",
+        "address": "3026 Woodlawn Rd, Jacksonville, FL 32209",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.715062000172665,
+          30.330216000060886,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "911",
+        "name": "Edith Brown Ford Community Center",
+        "address": "2839 W Beaver St, Jacksonville, FL 32254",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.713395000093186,
+          30.283820000246163,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1408",
+        "name": "St. Johns Presbyterian Church",
+        "address": "4275 Herschel St, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.712389000162702,
+          30.247377999646211,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1409",
+        "name": "St. Peters Episcopal Church",
+        "address": "5042 Timuquana Rd, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.711844000364664,
+          30.269572000120363,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1411",
+        "name": "Ortega United Methodist Church",
+        "address": "4807 Roosevelt Blvd, Jacksonville, FL 32210",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.710251999729934,
+          30.377443000069384,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1003",
+        "name": "Zion Hope Missionary Baptist Church",
+        "address": "2803 Edgewood Ave W, Jacksonville, FL 32209",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.709768000031261,
+          30.436968000378343,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "803",
+        "name": "New Life Community Church",
+        "address": "11100 Wingate Rd, Jacksonville, FL 32218",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.707527999666354,
+          30.389015000137988,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "802",
+        "name": "St Paul Missionary Baptist Church",
+        "address": "3738 Winton Dr, Jacksonville, FL 32208",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.705566999858988,
+          30.323830999785535,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "909",
+        "name": "City Rescue Mission",
+        "address": "426 McDuff Ave S, Jacksonville, FL 32254",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.704694999822806,
+          30.300636999818451,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1404",
+        "name": "Grace Church of Avondale",
+        "address": "1656 Edgewood Ave S, Jacksonville, FL 32205",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.701762000420146,
+          30.355793999694761,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "904",
+        "name": "Johnnie W. Walker  Community Center",
+        "address": "2500 W 20th St, Jacksonville, FL 32209",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.699529999552837,
+          30.438757999830464,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "705",
+        "name": "Garden City United Methodist Church",
+        "address": "3057 Dunn Ave, Jacksonville, FL 32218",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.697147999796002,
+          30.339091000239396,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "910",
+        "name": "Wallace Small Seniors Citizen Center",
+        "address": "1083 Line St, Jacksonville, FL 32209",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.695704000197594,
+          30.364769000181671,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "811",
+        "name": "Police Athletic League of Jacksonville, Inc",
+        "address": "2165 W 33rd St, Jacksonville, FL 32209",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.690870000363745,
+          30.319698000144918,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1407",
+        "name": "Jacksonville Association of Fire Fighters",
+        "address": "618 Stockton St, Jacksonville, FL 32204",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.689947000273918,
+          30.414111000116268,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "805",
+        "name": "Riverview Community Center",
+        "address": "9620 Water St, Jacksonville, FL 32208",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.686761000252986,
+          30.386670999671598,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "807",
+        "name": "Bradham Brooks Library",
+        "address": "1755 Edgewood Ave W, Jacksonville, FL 32208",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.683689999859752,
+          30.344070999833566,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "902",
+        "name": "Schell-Sweet Resource Wellness Center",
+        "address": "1697 Kings Rd, Jacksonville, FL 32209",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.680754999908956,
+          30.373049000016096,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "808",
+        "name": "Fairway Oaks",
+        "address": "5570 Golfbrook Dr, Jacksonville, FL 32208",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.680183000346744,
+          30.36586000026065,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "806",
+        "name": "Clanzel T. Brown Community Center",
+        "address": "4415 Moncrief Rd, Jacksonville, FL 32209",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.676947999921993,
+          30.361092999855963,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "809",
+        "name": "Simonds-Johnson Community Center",
+        "address": "3730 Moncrief Rd, Jacksonville, FL 32209",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.674982999916679,
+          30.434517999692421,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "710",
+        "name": "Highlands Regional Library",
+        "address": "1826 Dunn Ave, Jacksonville, FL 32218",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.669566999576546,
+          30.451290999758548,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "709",
+        "name": "First Timothy Baptist Church",
+        "address": "12103 Biscayne Blvd, Jacksonville, FL 32218",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.665162000088074,
+          30.391245000078271,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "801",
+        "name": "North Jacksonville Church of God",
+        "address": "7600 Kenya St, Jacksonville, FL 32208",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.657605999840456,
+          30.370638000212598,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "707",
+        "name": "Joseph Lee Community Center",
+        "address": "5120 Perry St, Jacksonville, FL 32208",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.654753999730346,
+          30.345913999734762,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "704",
+        "name": "Westside Church of Christ",
+        "address": "23 W 8th St, Jacksonville, FL 32206",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.654475999896007,
+          30.308921999945557,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "501",
+        "name": "Balis Community Center",
+        "address": "1513 La Salle St, Jacksonville, FL 32207",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.652613999822847,
+          30.336193999669383,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "712",
+        "name": "Mary Singleton Senior Citizen Center",
+        "address": "150 E 1st St, Jacksonville, FL 32206",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.65251099989068,
+          30.162563000214394,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "605",
+        "name": "Episcopal Church of Our Saviour",
+        "address": "12236 Mandarin Rd, Jacksonville, FL 32223",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.65106200026942,
+          30.281019000073861,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "505",
+        "name": "Saint Mark's Lutheran Church-ELCA",
+        "address": "3976 Hendricks Ave, Jacksonville, FL 32207",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.65073300038145,
+          30.279951000075567,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "507",
+        "name": "Hendricks Avenue Baptist Church",
+        "address": "4001 Hendricks Ave, Jacksonville, FL 32207",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.649155999815335,
+          30.383996999741377,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "804",
+        "name": "N Main St Baptist Church",
+        "address": "7137 N Main St, Jacksonville, FL 32208",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.648438999589843,
+          30.292396999988689,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "504",
+        "name": "Southside United Methodist Church",
+        "address": "3120 Hendricks Ave, Jacksonville, FL 32207",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.64661900024781,
+          30.372748000013733,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "702",
+        "name": "Unity Missionary Baptist Church",
+        "address": "281 E 44th St, Jacksonville, FL 32208",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.646286000161865,
+          30.164780999639305,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "604",
+        "name": "Mandarin Presbyterian Church",
+        "address": "12001 Mandarin Rd, Jacksonville, FL 32223",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.643336000142455,
+          30.257784999622373,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "508",
+        "name": "San Jose Church of Christ",
+        "address": "6233 San Jose Blvd, Jacksonville, FL 32217",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.641059999792532,
+          30.38287199986204,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "701",
+        "name": "Charlie T. Joseph Community Center",
+        "address": "6943 Buffalo Ave, Jacksonville, FL 32208",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.640371000054444,
+          30.339823000316169,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "708",
+        "name": "Brown Eastside Branch Library",
+        "address": "1390 Harrison St, Jacksonville, FL 32206",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.639592999729587,
+          30.335757000169853,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "711",
+        "name": "Eastside Community Center, PAL",
+        "address": "1050 Franklin St, Jacksonville, FL 32206",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.639498000193356,
+          30.446351000058037,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "204",
+        "name": "Cedar Bay Baptist Church",
+        "address": "11553 N Main St, Jacksonville, FL 32218",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.63935199970517,
+          30.363325000264634,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "706",
+        "name": "Long Branch Senior Center",
+        "address": "4110 Franklin St, Jacksonville, FL 32206",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.636042999660575,
+          30.139553999904926,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "601",
+        "name": "The Italian American Club",
+        "address": "2838 Westberry Rd, Jacksonville, FL 32223",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.63301700037151,
+          30.459081000232338,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "703",
+        "name": "Oceanway Community Center",
+        "address": "12215 Sago Ave W, Jacksonville, FL 32218",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.632526000101834,
+          30.151005000080492,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "606",
+        "name": "South Mandarin Regional Library",
+        "address": "12125 San Jose Blvd, Jacksonville, FL 32223",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.632229999825825,
+          30.304155000000371,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "502",
+        "name": "St. Nicholas Park Christian Church",
+        "address": "3226 Beach Blvd, Jacksonville, FL 32207",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.626595000100863,
+          30.306203999673308,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "506",
+        "name": "St. John the Divine Greek Orthodox Church",
+        "address": "3850 Atlantic Blvd, Jacksonville, FL 32207",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.624382000398441,
+          30.240629999916159,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "509",
+        "name": "Christ The Messiah Church",
+        "address": "7576 San Jose Blvd, Jacksonville, FL 32217",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.621604999733094,
+          30.159970999912339,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "608",
+        "name": "Freedom Christian Fellowship",
+        "address": "3423 Loretto Rd, Jacksonville, FL 32223",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.620679000168536,
+          30.203727000260482,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "603",
+        "name": "Mandarin Regional  Library",
+        "address": "3330 Kori Rd, Jacksonville, FL 32257",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.620673000320764,
+          30.289466000337075,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "511",
+        "name": "Cuba Hunter Community Center",
+        "address": "3620 Bedford Rd, Jacksonville, FL 32207",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.617769000332117,
+          30.177257999664199,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "609",
+        "name": "Burnett Park Recreation Center",
+        "address": "3740 Burnett Park Rd, Jacksonville, FL 32257",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.614098999714173,
+          30.184731000326043,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "611",
+        "name": "Mandarin Senior Center",
+        "address": "3848 Hartley Rd, Jacksonville, FL 32257",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.610398999857338,
+          30.184016999928271,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "602",
+        "name": "All Souls Anglican Church",
+        "address": "4042 Hartley Rd, Jacksonville, FL 32257",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.610146999962254,
+          30.193089000091707,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "607",
+        "name": "Augustine Landing",
+        "address": "10141 Old St Augustine Rd, Jacksonville, FL 32257",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.607437000142369,
+          30.374277999662695,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "106",
+        "name": "Blue Cypress Community Center",
+        "address": "4012 University Blvd N, Jacksonville, FL 32277",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.607251000369516,
+          30.220112000209625,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "510",
+        "name": "Wayman Chapel AME Church",
+        "address": "8855 Sanchez Rd, Jacksonville, FL 32217",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.605770000062876,
+          30.361083999963746,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "102",
+        "name": "University Park Library",
+        "address": "3435 University Blvd N, Jacksonville, FL 32277",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.605426000106291,
+          30.311839000217415,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "110",
+        "name": "St. Pauls Episcopal Church",
+        "address": "5616 Atlantic Blvd, Jacksonville, FL 32216",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.604593000428153,
+          30.323381000315262,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "109",
+        "name": "Arlington Congregation Church",
+        "address": "431 University Blvd N, Jacksonville, FL 32211",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.602754999746139,
+          30.343477000282181,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "108",
+        "name": "The Central Church of the Nazarene",
+        "address": "2130 University Blvd N, Jacksonville, FL 32211",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.602368000131861,
+          30.23287299977801,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "503",
+        "name": "Jacksonville Community Church",
+        "address": "8111 Old Kings Rd S, Jacksonville, FL 32217",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.596856000430563,
+          30.333661999930904,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "107",
+        "name": "Arlington Baptist Church",
+        "address": "6009 Arlington Rd, Jacksonville, FL 32211",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.596833999790945,
+          30.36763599997543,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "111",
+        "name": "Fort Caroline Presbyterian Church",
+        "address": "3754 Univ Club Blvd, Jacksonville, FL 32277",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.59535099983448,
+          30.29074199962885,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "401",
+        "name": "Glendale Community Church",
+        "address": "6411 Beach Blvd, Jacksonville, FL 32216",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.592144999722038,
+          30.285642000197338,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "408",
+        "name": "Dean Rd Church of Christ",
+        "address": "1968 Dean Rd, Jacksonville, FL 32216",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.591984000063562,
+          30.48512100019958,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "205",
+        "name": "Dunns Creek Baptist Church",
+        "address": "1425 Starratt Rd, Jacksonville, FL 32218",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.591926000337253,
+          30.268573999996409,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "409",
+        "name": "Ramallah Club Of Jacksonville",
+        "address": "3130 Parental Home Rd, Jacksonville, FL 32216",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.586663999982903,
+          30.464318000046273,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "211",
+        "name": "Spirit of Life Lutheran Church",
+        "address": "2636 New Berlin Rd, Jacksonville, FL 32226",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.583882000192972,
+          30.509547000212741,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "208",
+        "name": "Fire Station #49",
+        "address": "14880 Yellow Bluff Rd, Jacksonville, FL 32226",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.582000000028344,
+          30.151059999787957,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "610",
+        "name": "St. Justin Martyr",
+        "address": "12460 Old St Augustine Rd, Jacksonville, FL 32258",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.581553000139607,
+          30.265279000217191,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "407",
+        "name": "Southpoint Baptist Church",
+        "address": "3335 Tiger Hole Rd, Jacksonville, FL 32216",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.581215000030809,
+          30.301032999916298,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "404",
+        "name": "Holiday Hill Baptist Church",
+        "address": "730 Mandalay Rd, Jacksonville, FL 32216",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.580702999844732,
+          30.351908999624275,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "105",
+        "name": "Terry Parker Baptist Church",
+        "address": "7024 Merrill Rd, Jacksonville, FL 32277",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.578891000000283,
+          30.312573999668938,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "405",
+        "name": "Harvest Time Christian Fellowship",
+        "address": "33 Arlington Rd S, Jacksonville, FL 32211",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.577115000140864,
+          30.337312999929896,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "101",
+        "name": "Saint Andrews Episcopal Church",
+        "address": "7801 Lone Star Rd, Jacksonville, FL 32211",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.57621799999032,
+          30.461484999881272,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "201",
+        "name": "Victory Celebration Church",
+        "address": "3220 New Berlin Rd, Jacksonville, FL 32226",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.57481799987454,
+          30.148593999644625,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "612",
+        "name": "Mandarin Church of Christ",
+        "address": "12791 Old St Augustine Rd, Jacksonville, FL 32258",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.5718379997179,
+          30.337728000247235,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "104",
+        "name": "Arlington Christian Church",
+        "address": "8075 Lone Star Rd, Jacksonville, FL 32211",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.569869000412936,
+          30.337570999751151,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "103",
+        "name": "River Reach Baptist Church",
+        "address": "8150 Lone Star Rd, Jacksonville, FL 32211",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.558708999669633,
+          30.315064000061572,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "403",
+        "name": "Restoration Church",
+        "address": "1677 Southside Blvd, Jacksonville, FL 32216",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.552063999816241,
+          30.228824000155207,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1111",
+        "name": "Shepherd of the Woods Lutheran Church",
+        "address": "7860 Southside Blvd, Jacksonville, FL 32256",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.551215000244568,
+          30.210004000230775,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1108",
+        "name": "Park at Polenza Apartments",
+        "address": "10023 Belle Rive Blvd, Jacksonville, FL 32256",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.550298999827461,
+          30.198151999756472,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1101",
+        "name": "Elm Croft of Timberlin Parc",
+        "address": "7620 Timberlin Park Blvd, Jacksonville, FL 32256",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.546661999719788,
+          30.227904000311856,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1109",
+        "name": "Deerwood Country Club",
+        "address": "10239 Golf Club Dr, Jacksonville, FL 32256",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.539359000090471,
+          30.155069000100454,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1104",
+        "name": "Shepherd of the Woods Lutheran",
+        "address": "6595 Columbia Park Ct, Jacksonville, FL 32258",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.539015999958806,
+          30.186472000174597,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1107",
+        "name": "Deer Creek Country Club",
+        "address": "7816 Mc Laurin Rd N, Jacksonville, FL 32256",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.538631999819245,
+          30.247751000211878,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1112",
+        "name": "Southeast Regional Library",
+        "address": "10599 Deerwood Park Blvd, Jacksonville, FL 32256",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.536915000409365,
+          30.332146999883285,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "203",
+        "name": "Faith Chapel Free Will Baptist Church",
+        "address": "635 Lee Rd, Jacksonville, FL 32225",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.532111999639326,
+          30.140895999946633,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1110",
+        "name": "Courtyard Marriott",
+        "address": "14402 Old St Augustine Rd, Jacksonville, FL 32256",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.531157999587379,
+          30.306457000031024,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "402",
+        "name": "Iglesia Pentecostal Presencia De Dios",
+        "address": "2361 Cortez Rd, Jacksonville, FL 32246",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.525379999747315,
+          30.311551999887893,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "410",
+        "name": "St. Barnabas Anglican Church",
+        "address": "2140 St Johns Bluff Rd S, Jacksonville, FL 32246",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.516399999992771,
+          30.219155000115549,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1106",
+        "name": "Church of Eleven 22",
+        "address": "8133 Point Meadows Dr, Jacksonville, FL 32256",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.502987000262337,
+          30.367692000017904,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "207",
+        "name": "Police Athletic League",
+        "address": "3450 Monument Rd, Jacksonville, FL 32225",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.501548999613405,
+          30.37947800003009,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "206",
+        "name": "Resurrection Episcopal",
+        "address": "12355 Ft Caroline Rd, Jacksonville, FL 32225",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.493402000435296,
+          30.277751000058139,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1105",
+        "name": "Kernan Blvd Baptist Church",
+        "address": "4000 Kernan Blvd S, Jacksonville, FL 32224",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.489622000212506,
+          30.329848000018465,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "306",
+        "name": "East Point Baptist Church",
+        "address": "270 Kernan Blvd N, Jacksonville, FL 32225",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.483601999624781,
+          30.261628000051829,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1102",
+        "name": "Glen Kernan Golf and Country Club",
+        "address": "4590 Glen Kernan Pkwy E, Jacksonville, FL 32224",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.483266000064134,
+          30.362782999991811,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "209",
+        "name": "Monument Pointe Fellowship",
+        "address": "13720 Mt Pleasant Rd, Jacksonville, FL 32225",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.482410999746378,
+          30.359243000380346,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "202",
+        "name": "Faith Bridge Church",
+        "address": "13720 McCormick Rd, Jacksonville, FL 32225",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.482004999865524,
+          30.523724000325092,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "212",
+        "name": "Black Hammock Island Community Center",
+        "address": "15770 Sawpit Rd, Jacksonville, FL 32226",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.470542999896708,
+          30.287632999851599,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "307",
+        "name": "Pablo Creek Library",
+        "address": "13295 Beach Blvd, Jacksonville, FL 32246",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.468840999657132,
+          30.272514000117518,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "304",
+        "name": "Jacksonville Golf and Country Club",
+        "address": "3985 Hunt Club Rd, Jacksonville, FL 32224",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.466379000432653,
+          30.319792000385661,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "309",
+        "name": "Watson Realty, Inc",
+        "address": "13001 Atlantic Blvd, Jacksonville, FL 32225",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.464761999683589,
+          30.26750500026645,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "305",
+        "name": "Chets Creek Church",
+        "address": "4420 Hodges Blvd, Jacksonville, FL 32224",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.464305999574009,
+          30.314551000161448,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "308",
+        "name": "The Woods Community Center",
+        "address": "2130 The Woods Dr E, Jacksonville, FL 32246",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.463759000126146,
+          30.397313000331543,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "210",
+        "name": "Sisters Creek Marina",
+        "address": "8203 Heckscher Dr, Jacksonville, FL 32226",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.460424999967188,
+          30.325154999737016,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "302",
+        "name": "Fire Station #58",
+        "address": "251 Joeandy Rd, Jacksonville, FL 32225",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.451694999559592,
+          30.344044000108322,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "301",
+        "name": "Queen's Harbour Yacht and Country Club",
+        "address": "1131 Queens Harbor Blvd, Jacksonville, FL 32225",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.448774999677411,
+          30.316556999813933,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "311",
+        "name": "Isle of Faith United Methodist Church",
+        "address": "1821 San Pablo Rd S, Jacksonville, FL 32224",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.448125000297395,
+          30.314283999867349,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "303",
+        "name": "Center For Spirituality Christ Episcopal Ch",
+        "address": "2002 San Pablo Rd S, Jacksonville, FL 32224",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.440820000119913,
+          30.273948999849971,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "310",
+        "name": "The Windsor at San Pablo",
+        "address": "4000 San Pablo Pkwy, Jacksonville, FL 32224",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.419180999772053,
+          30.332258000048466,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1312",
+        "name": "Oceanside Church of Christ",
+        "address": "1025 Snug Harbor Ct, Atlantic Beach, FL 32233",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.408749999848098,
+          30.321413000075836,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1309",
+        "name": "Christ United Methodist Church",
+        "address": "400 Penman Rd, Neptune Beach, FL 32266",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.406151000356274,
+          30.295311000032932,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1302",
+        "name": "Bethlehem Lutheran Church",
+        "address": "1423 8th Ave N, Jacksonville Beach, FL 32250",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.402684999952839,
+          30.331981000274663,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1306",
+        "name": "Atlantic Beach City Hall",
+        "address": "800 Seminole Rd, Atlantic Beach, FL 32233",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.400006999920009,
+          30.32643999973309,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1308",
+        "name": "Community Presbyterian Church",
+        "address": "150 Sherry Dr, Atlantic Beach, FL 32233",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.398241999931244,
+          30.25590100016862,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1311",
+        "name": "Hampton Inn",
+        "address": "1220 Marsh Landing Pkwy, Jacksonville Beach, FL 32250",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.397467999804348,
+          30.319936000381638,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1305",
+        "name": "Beaches Regional Library",
+        "address": "600 3rd St, Neptune Beach, FL 32266",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.397247999696333,
+          30.331996000162146,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1307",
+        "name": "Adele Grage Cultural Center",
+        "address": "716 Ocean Blvd, Atlantic Beach, FL 32233",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.392757999819054,
+          30.308236000194185,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1310",
+        "name": "First Christian Church of the Beaches",
+        "address": "2125 Strand St, Neptune Beach, FL 32266",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.391731999797074,
+          30.288496000231142,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1304",
+        "name": "Jacksonville Beach City Hall",
+        "address": "11 3rd St N, Jacksonville Beach, FL 32250",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.390687000406842,
+          30.277290000263321,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1303",
+        "name": "American Legion Post 129",
+        "address": "1151 4th St S, Jacksonville Beach, FL 32250",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.38831499979743,
+          30.271197000160605,
+          0,
+          null
+        ]
+      },
+      "properties": {
+        "precinct": "1301",
+        "name": "Bennie Furlong Senior Center",
+        "address": "281 19th Ave S, Jacksonville Beach, FL 32250",
+        "source_url": "https://www.duvalelections.gov/204/Polling-Location-Finder"
+      }
+    }
+  ]
+}
