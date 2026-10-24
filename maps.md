@@ -2508,6 +2508,22 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "fill", "healthZone"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "healthZone")
     });
+    const floodZoneFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "floodZone"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "floodZone")
+    });
+    const floodZoneBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "floodZone"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "floodZone")
+    });
+    const evacuationZoneFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "evacuationZone"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "evacuationZone")
+    });
+    const evacuationZoneBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "evacuationZone"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "evacuationZone")
+    });
     const jsoDistrictFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "jsoDistrict"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "jsoDistrict")
@@ -2744,6 +2760,10 @@ image: /media/2026/09/maps-featured.png
         healthZoneFillLayer,
         healthZoneBorderLayer,
         healthZoneByZipCodeLayer,
+        floodZoneFillLayer,
+        floodZoneBorderLayer,
+        evacuationZoneFillLayer,
+        evacuationZoneBorderLayer,
         jsoDistrictFillLayer,
         jsoDistrictBorderLayer,
         jsoSubsectionFillLayer,
@@ -2840,6 +2860,10 @@ image: /media/2026/09/maps-featured.png
         healthZoneFillLayer,
         healthZoneBorderLayer,
         healthZoneByZipCodeLayer,
+        floodZoneFillLayer,
+        floodZoneBorderLayer,
+        evacuationZoneFillLayer,
+        evacuationZoneBorderLayer,
         jsoDistrictFillLayer,
         jsoDistrictBorderLayer,
         jsoSubsectionFillLayer,
@@ -3041,6 +3065,10 @@ image: /media/2026/09/maps-featured.png
         healthZoneFillLayer,
         healthZoneBorderLayer,
         healthZoneByZipCodeLayer,
+        floodZoneFillLayer,
+        floodZoneBorderLayer,
+        evacuationZoneFillLayer,
+        evacuationZoneBorderLayer,
         jsoDistrictFillLayer,
         jsoDistrictBorderLayer,
         jsoSubsectionFillLayer,
@@ -3106,6 +3134,8 @@ image: /media/2026/09/maps-featured.png
         congressionalDistrictFillLayer,
         healthZoneFillLayer,
         healthZoneByZipCodeLayer,
+        floodZoneFillLayer,
+        evacuationZoneFillLayer,
         jsoDistrictFillLayer,
         jsoSubsectionFillLayer
       ].forEach(restoreBoundaryLayerFeatures);
@@ -5045,6 +5075,15 @@ image: /media/2026/09/maps-featured.png
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JSO Substations", jsoPoliceStationsLayer)
           ]);
+          overlays.appendChild(createLayerHeading("Emergency Management"));
+          appendGeographyLayerRow(overlays, "Flood Zones", floodZoneFillLayer, floodZoneBorderLayer, {
+            href: "/maps/references/#emergency-management",
+            locationLayerType: "floodZone"
+          });
+          appendGeographyLayerRow(overlays, "Evacuation Zones", evacuationZoneFillLayer, evacuationZoneBorderLayer, {
+            href: "/maps/references/#emergency-management",
+            locationLayerType: "evacuationZone"
+          });
           overlays.appendChild(createLayerHeading("Transportation"));
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JTA Bus Routes", busRoutesLayer, { geometryType: "line" })
@@ -5191,6 +5230,8 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["cpac", "cpacs", "planningdistricts"], cpacFillLayer, { group: "boundaries", slug: "cpacs", alternateLayers: [cpacBorderLayer] });
       registerQueryLayer(["health", "healthzone", "healthzones"], healthZoneFillLayer, { group: "boundaries", slug: "healthzones", alternateLayers: [healthZoneBorderLayer] });
       registerQueryLayer(["healthzones-byzipcodes", "healthzonesbyzipcodes", "healthzonesbyzip", "healthzoneslistedzips"], healthZoneByZipCodeLayer, { group: "boundaries", slug: "healthzones-byzipcodes" });
+      registerQueryLayer(["flood", "floodzone", "floodzones", "fema"], floodZoneFillLayer, { group: "boundaries", slug: "floodzones", alternateLayers: [floodZoneBorderLayer] });
+      registerQueryLayer(["evacuation", "evacuationzone", "evacuationzones", "evaczones"], evacuationZoneFillLayer, { group: "boundaries", slug: "evacuationzones", alternateLayers: [evacuationZoneBorderLayer] });
       registerQueryLayer(["jsodistrict", "jsodistricts", "sheriffdistricts"], jsoDistrictFillLayer, { group: "boundaries", slug: "jsodistricts", alternateLayers: [jsoDistrictBorderLayer] });
       registerQueryLayer(["jsosubsection", "jsosubsections", "jsosubsector", "jsosubsectors"], jsoSubsectionFillLayer, { group: "boundaries", slug: "jsosubsections", alternateLayers: [jsoSubsectionBorderLayer] });
       registerQueryLayer(["neighborhoodorganizations", "neighborhoodorgs", "neighborhoodpoints"], neighborhoodOrganizationsLayer, { slug: "neighborhoodorganizations" });
@@ -5343,6 +5384,26 @@ image: /media/2026/09/maps-featured.png
 
     function getBoundaryColor(feature, layerType) {
       const properties = feature.properties || {};
+      if (layerType === "floodZone") {
+        const zone = String(properties.FLD_ZONE || "").trim().toUpperCase();
+        if (zone === "VE") return "#d7191c";
+        if (zone === "A" || zone === "AE") return "#2c7bb6";
+        if (zone === "AH" || zone === "AO") return "#00a6ca";
+        if (zone.startsWith("0.2 PCT")) return "#fdae61";
+        if (zone === "OPEN WATER") return "#74add1";
+        return "#abd9e9";
+      }
+      if (layerType === "evacuationZone") {
+        const colorsByZone = {
+          "ZONE A": "#ff0000",
+          "ZONE B": "#ffaa00",
+          "ZONE C": "#ffff00",
+          "ZONE D": "#55ff00",
+          "ZONE E": "#c500ff",
+          "ZONE F": "#ffbee8"
+        };
+        return colorsByZone[String(properties.EVAC_TYPE || "").trim().toUpperCase()] || "#ffbee8";
+      }
       if (layerType === "healthZone" && properties.excluded_health_zone) {
         return "#000000";
       }
@@ -5415,6 +5476,12 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "healthZone") {
         return mode === "border" ? healthZoneBorderLayer : healthZoneFillLayer;
       }
+      if (layerType === "floodZone") {
+        return mode === "border" ? floodZoneBorderLayer : floodZoneFillLayer;
+      }
+      if (layerType === "evacuationZone") {
+        return mode === "border" ? evacuationZoneBorderLayer : evacuationZoneFillLayer;
+      }
       if (layerType === "jsoDistrict") {
         return mode === "border" ? jsoDistrictBorderLayer : jsoDistrictFillLayer;
       }
@@ -5464,6 +5531,14 @@ image: /media/2026/09/maps-featured.png
           return properties.label || "Excluded from Health Zones";
         }
         return properties.label || (properties.health_zone ? `Health Zone ${properties.health_zone}` : "Health Zone");
+      }
+      if (layerType === "floodZone") {
+        const zone = String(properties.FLD_ZONE || "").trim();
+        return zone ? `Flood Zone ${zone}` : "Flood Zone";
+      }
+      if (layerType === "evacuationZone") {
+        const zone = String(properties.EVAC_TYPE || "").trim();
+        return zone ? `Evacuation ${zone.replace(/^ZONE\s+/i, "Zone ")}` : "Evacuation Zone";
       }
       if (layerType === "jsoDistrict") {
         return properties.DISTRICT ? `JSO District ${properties.DISTRICT}` : "JSO District";
@@ -5535,6 +5610,13 @@ image: /media/2026/09/maps-featured.png
           return properties.excluded_group_label || "Excluded from Health Zones";
         }
         return properties.zip_codes_label ? `ZIP Codes: ${properties.zip_codes_label}` : "";
+      }
+      if (layerType === "floodZone") {
+        const subtype = String(properties.ZONE_SUBTY || "").trim();
+        return subtype && subtype !== String(properties.FLD_ZONE || "").trim() ? subtype : "FEMA flood hazard area";
+      }
+      if (layerType === "evacuationZone") {
+        return "Duval County hurricane evacuation zone";
       }
       if (layerType === "jsoDistrict") {
         return "Jacksonville Sheriff's Office";
@@ -7774,6 +7856,18 @@ image: /media/2026/09/maps-featured.png
       "Duval County health zones"
     );
     loadGeoJsonLayer("/data/duval-health-zones-by-zipcodes.geojson", healthZoneByZipCodeLayer, "Duval County health zones by listed ZIP codes");
+    loadBoundaryLayers(
+      "/data/duval-flood-zones.geojson",
+      floodZoneFillLayer,
+      floodZoneBorderLayer,
+      "Duval County flood zones"
+    );
+    loadBoundaryLayers(
+      "/data/duval-evacuation-zones.geojson",
+      evacuationZoneFillLayer,
+      evacuationZoneBorderLayer,
+      "Duval County evacuation zones"
+    );
     loadInterstateLayers("/data/florida-interstates.geojson");
     loadGeoJsonLayer("/data/train-tracks.geojson", trainTracksLayer, "train tracks");
     loadGeoJsonLayer("/data/jta-bus-routes.geojson", busRoutesLayer, "JTA bus routes");
