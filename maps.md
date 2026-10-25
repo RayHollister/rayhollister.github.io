@@ -2369,7 +2369,14 @@ image: /media/2026/09/maps-featured.png
             searchResultMarker = L.marker(latLng).addTo(map);
             const popupContent = document.createElement("span");
             popupContent.textContent = candidate.address || "Search result";
-            searchResultMarker.bindPopup(popupContent).openPopup();
+            searchResultMarker
+              .bindPopup(popupContent)
+              .on("click", function () {
+                userLocationLatLng = latLng;
+                updateLocationInfoControlVisibility();
+                showYouAreHereCardInPanel();
+              })
+              .openPopup();
             map.setView(latLng, Math.max(map.getZoom(), 16));
             setOpen(false);
           }
