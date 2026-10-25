@@ -101,38 +101,41 @@ exclude: true
     border: 1px solid rgba(127, 127, 127, 0.35);
     border-radius: 10px;
     background: rgba(127, 127, 127, 0.06);
-    padding: 1rem;
+    padding: 0.85rem 1rem;
+    line-height: 1.3;
   }
   .vote-card--primary {
     border-color: #7c3aed;
     box-shadow: inset 0 0 0 1px #7c3aed;
   }
   .vote-card h2 {
-    margin: 0 0 0.7rem;
+    margin: 0 0 0.5rem;
     font-size: 1.12rem;
+    line-height: 1.2;
   }
   .vote-card h3 {
-    margin: 0.85rem 0 0.35rem;
+    margin: 0.65rem 0 0.2rem;
     font-size: 1rem;
+    line-height: 1.2;
   }
   .vote-person {
     align-items: start;
-    column-gap: 0.6rem;
+    column-gap: 0.55rem;
     display: grid;
-    grid-template-columns: 72px minmax(0, 1fr);
-    padding-top: 0.15rem;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    line-height: 1.25;
   }
   .vote-person + .vote-person {
     border-top: 1px solid rgba(127, 127, 127, 0.25);
-    margin-top: 0.8rem;
-    padding-top: 0.8rem;
+    margin-top: 0.55rem;
+    padding-top: 0.55rem;
   }
   .vote-person img {
-    border-radius: 4px;
+    border-radius: 50%;
     grid-column: 1;
     grid-row: 1 / span 20;
-    width: 72px;
-    height: 72px;
+    width: 2.25rem;
+    height: 2.25rem;
     margin: 0;
     object-fit: cover;
   }
@@ -146,13 +149,16 @@ exclude: true
   .vote-card a {
     display: block;
   }
+  .vote-person strong {
+    line-height: 1.2;
+  }
   .vote-card address {
     margin: 0;
     font-style: normal;
   }
   .vote-card a {
     overflow-wrap: anywhere;
-    padding-block: 0.18rem;
+    padding-block: 0.08rem;
   }
   .vote-note {
     font-size: 0.92rem;
@@ -192,7 +198,7 @@ exclude: true
       padding-block: 0.7rem;
     }
     .vote-card {
-      padding: 0.9rem;
+      padding: 0.8rem;
     }
     .vote-card--primary {
       border-width: 2px;
@@ -200,15 +206,7 @@ exclude: true
     }
     .vote-card h2 {
       font-size: 1.15rem;
-      line-height: 1.3;
-    }
-    .vote-person {
-      grid-template-columns: 56px minmax(0, 1fr);
-      column-gap: 0.7rem;
-    }
-    .vote-person img {
-      width: 56px;
-      height: 56px;
+      line-height: 1.2;
     }
     .vote-card a {
       min-height: 24px;
