@@ -3050,7 +3050,7 @@ image: /media/2026/09/maps-featured.png
       opacity: 0.35,
       pane: "elevationPane",
       updateWhenIdle: false,
-      updateWhenZooming: false
+      updateWhenZooming: true
     });
     const elevationContoursOverviewLayer = new RegionalElevationGridLayer({
       attribution: elevationAttribution,
@@ -3062,7 +3062,7 @@ image: /media/2026/09/maps-featured.png
       opacity: 0.35,
       pane: "elevationPane",
       updateWhenIdle: false,
-      updateWhenZooming: false
+      updateWhenZooming: true
     });
     const elevationContoursDetailLayer = new RegionalElevationGridLayer({
       attribution: elevationAttribution,
@@ -3074,7 +3074,7 @@ image: /media/2026/09/maps-featured.png
       opacity: 0.35,
       pane: "elevationPane",
       updateWhenIdle: false,
-      updateWhenZooming: false
+      updateWhenZooming: true
     });
     const elevationContoursLayer = L.layerGroup([
       elevationContoursOverviewLayer,
