@@ -1891,6 +1891,7 @@ image: /media/2026/09/maps-featured.png
     let locateControlContainer;
     let locateControlIcon;
     let locateShouldSetInitialView = false;
+    let showYouAreHereCardWhenLocated = false;
     let layersControlApi;
     let layersControlElement;
     const locationInfoControls = [];
@@ -2002,9 +2003,10 @@ image: /media/2026/09/maps-featured.png
 
     function activateLocateQuery() {
       const params = new URLSearchParams(window.location.search);
-      if (!params.has("locate")) return;
-      const value = String(params.get("locate") || "").trim().toLowerCase();
-      if (value !== "yes") return;
+      const locateRequested = String(params.get("locate") || "").trim().toLowerCase() === "yes";
+      const youAreHereRequested = String(params.get("yah") || "").trim().toLowerCase() === "yes";
+      if (!locateRequested && !youAreHereRequested) return;
+      showYouAreHereCardWhenLocated = youAreHereRequested;
       startUserLocationTracking();
     }
 
@@ -2201,6 +2203,10 @@ image: /media/2026/09/maps-featured.png
           radius: event.accuracy || 0,
           weight: 1
         }).addTo(map);
+      }
+      if (showYouAreHereCardWhenLocated) {
+        showYouAreHereCardWhenLocated = false;
+        showYouAreHereCardInPanel();
       }
     });
 
