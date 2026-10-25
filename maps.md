@@ -1895,6 +1895,7 @@ image: /media/2026/09/maps-featured.png
     let layersControlElement;
     const locationInfoControls = [];
     const selectedLocationInfoLayerTypes = new Set([
+      "votingPrecinct",
       "district",
       "atLarge",
       "schoolBoard",
@@ -2069,9 +2070,13 @@ image: /media/2026/09/maps-featured.png
     function createYouAreHereCard() {
       const popup = document.createElement("div");
       const title = document.createElement("strong");
-      const selectedControls = locationInfoControls.filter((control) => {
-        return selectedLocationInfoLayerTypes.has(control.layerType);
-      });
+      const selectedControls = locationInfoControls
+        .filter((control) => selectedLocationInfoLayerTypes.has(control.layerType))
+        .sort((left, right) => {
+          if (left.layerType === "votingPrecinct") return -1;
+          if (right.layerType === "votingPrecinct") return 1;
+          return 0;
+        });
 
       popup.className = "maps-district-popup maps-you-are-here-card";
       title.textContent = "You are here";
@@ -6446,7 +6451,11 @@ image: /media/2026/09/maps-featured.png
     function appendActivePointCounts(popup, feature, boundaryTitle, excludedLayers) {
       const excluded = excludedLayers || [];
       const activeCounts = countablePointLayers
-        .filter((pointLayer) => map.hasLayer(pointLayer.layer) && !excluded.includes(pointLayer.layer))
+        .filter((pointLayer) => (
+          pointLayer.layer !== pollingLocationsLayer &&
+          map.hasLayer(pointLayer.layer) &&
+          !excluded.includes(pointLayer.layer)
+        ))
         .map((pointLayer) => ({
           label: pointLayer.label,
           count: countLayerPointsInFeature(pointLayer.layer, feature)
