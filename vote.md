@@ -28,7 +28,12 @@ exclude: true
     align-items: center;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin: 1rem 0;
+    max-width: 46rem;
+    margin: 0 0 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(9, 105, 218, 0.3);
+    border-radius: 10px;
+    background: rgba(9, 105, 218, 0.06);
   }
   .vote-locate {
     min-height: 44px;
@@ -52,15 +57,40 @@ exclude: true
   .vote-status {
     flex: 1 1 16rem;
     margin: 0;
+    padding: 0.65rem 0.8rem 0.65rem 2rem;
+    border-left: 4px solid #0969da;
+    border-radius: 5px;
+    background: rgba(127, 127, 127, 0.1);
+    color: #4b5563;
+    font-size: 0.92rem;
+    font-weight: 600;
     line-height: 1.4;
+    position: relative;
+  }
+  .vote-status::before {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: #0969da;
+    content: "";
+    left: 0.75rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
   .vote-status[role="alert"] {
     color: #b42318;
+    border-left-color: #b42318;
+    background: rgba(180, 35, 24, 0.08);
+  }
+  .vote-status[role="alert"]::before {
+    background: #b42318;
   }
   .vote-results {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
+    max-width: 46rem;
   }
   .vote-card {
     min-width: 0;
@@ -121,12 +151,10 @@ exclude: true
     padding-block: 0.18rem;
   }
   .vote-note {
-    grid-column: 1 / -1;
-    margin-top: 1.25rem;
+    margin: 0.25rem 0;
     font-size: 0.92rem;
   }
   .vote-section-heading {
-    grid-column: 1 / -1;
     margin: 0.75rem 0 0;
   }
   @media screen and (max-width: 599px) {
@@ -149,7 +177,8 @@ exclude: true
       align-items: stretch;
       display: grid;
       gap: 0.65rem;
-      margin: 1rem 0 0;
+      margin: 0 -0.35rem 1rem;
+      padding: 1rem;
     }
     .vote-locate {
       width: 100%;
@@ -157,13 +186,7 @@ exclude: true
       padding: 0.8rem 1rem;
     }
     .vote-status {
-      border-radius: 5px;
-      background: rgba(127, 127, 127, 0.1);
-      padding: 0.7rem 0.8rem;
-      font-size: 0.92rem;
-    }
-    .vote-results {
-      display: block;
+      padding-block: 0.7rem;
     }
     .vote-card {
       margin-bottom: 0.85rem;
@@ -201,14 +224,15 @@ exclude: true
   }
 </style>
 
+<div class="vote-actions">
+  <button class="vote-locate" id="vote-locate" type="button">Find my voting information</button>
+  <p class="vote-status" id="vote-status" aria-live="polite">Location has not been requested.</p>
+</div>
+
 <div class="vote-intro">
   <p>Find your Jacksonville voting precinct, assigned Duval County polling place, and elected representatives using your current location.</p>
   <p>The results include your Jacksonville City Council district, at-large council members, Duval County School Board district, Florida House and Senate districts, U.S. House district, and Florida’s U.S. senators.</p>
   <p>Your coordinates stay in your browser and are only compared with the local Jacksonville and Duval County boundary data used by the <a href="/maps/">Maps</a> page.</p>
-  <div class="vote-actions">
-    <button class="vote-locate" id="vote-locate" type="button">Find my voting information</button>
-    <p class="vote-status" id="vote-status" aria-live="polite">Location has not been requested.</p>
-  </div>
 </div>
 
 <section class="vote-results" id="vote-results" aria-label="Voting and representation information"></section>
