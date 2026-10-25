@@ -105,6 +105,7 @@ exclude: true
     overflow-wrap: anywhere;
   }
   .vote-note {
+    grid-column: 1 / -1;
     margin-top: 1.25rem;
     font-size: 0.92rem;
   }
@@ -125,7 +126,9 @@ exclude: true
 
 <section class="vote-results" id="vote-results" aria-label="Voting and representation information"></section>
 
-<p class="vote-note">Boundary and polling-place information can change. Always confirm your assignment with the <a href="https://www.duvalelections.gov/204/Polling-Location-Finder" target="_blank" rel="noopener">Duval County Supervisor of Elections polling-location finder</a>. See <a href="/maps/references/">Maps References</a> for sources and limitations.</p>
+<template id="vote-note-template">
+  <p class="vote-note">Boundary and polling-place information can change. Always confirm your assignment with the <a href="https://www.duvalelections.gov/204/Polling-Location-Finder" target="_blank" rel="noopener">Duval County Supervisor of Elections polling-location finder</a>. See <a href="/maps/references/">Maps References</a> for sources and limitations.</p>
+</template>
 
 <script>
   (function () {
@@ -134,6 +137,7 @@ exclude: true
     const locateButton = document.getElementById("vote-locate");
     const status = document.getElementById("vote-status");
     const results = document.getElementById("vote-results");
+    const noteTemplate = document.getElementById("vote-note-template");
     const pollingFinderUrl = "https://www.duvalelections.gov/204/Polling-Location-Finder";
     const dataUrls = {
       precincts: "/data/duval-voting-precincts.geojson",
@@ -320,6 +324,8 @@ exclude: true
         appendPollingDirections(card, pollingFeature);
         results.appendChild(card);
       }
+
+      results.appendChild(noteTemplate.content.cloneNode(true));
 
       const representativesHeading = document.createElement("h2");
       representativesHeading.className = "vote-section-heading";
