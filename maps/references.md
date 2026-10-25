@@ -206,7 +206,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Charter Public Middle
   - Charter Public High
   - Charter Public Combination
-  - Neighborhood Public includes non-magnet, non-alternative district schools. Magnet Public includes FLDOE Magnet School and Magnet Program records. Alternative Public includes FLDOE Alternative Education Center, DJJ School, and ESE Center records, including alternative charter schools. Charter Public excludes records shown under Alternative Public so schools are not duplicated between menu groups.
+  - Neighborhood Public includes non-alternative district schools coded by FLDOE as either Non-Magnet or Magnet Program. A Magnet Program is offered within an otherwise neighborhood school. Magnet Public includes only records coded as Magnet School, identifying dedicated magnet schools. Alternative Public includes FLDOE Alternative Education Center, DJJ School, and ESE Center records, including alternative charter schools. Charter Public excludes records shown under Alternative Public so schools are not duplicated between menu groups.
 - [Florida Department of Education Private School Directory spreadsheet](https://www.floridaschoolchoice.org/information/privateschooldirectory/DownloadExcelFile.aspx)
   - Private Schools Elementary
   - Private Schools Middle

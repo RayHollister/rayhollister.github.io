@@ -3254,10 +3254,10 @@ image: /media/2026/09/maps-featured.png
     const fldoeTraditionalMiddleSchoolsLayer = createFilteredFldoeSchoolLayer("middle", isNeighborhoodPublicSchool);
     const fldoeTraditionalHighSchoolsLayer = createFilteredFldoeSchoolLayer("high", isNeighborhoodPublicSchool);
     const fldoeTraditionalCombinationSchoolsLayer = createFilteredFldoeSchoolLayer("combination", isNeighborhoodPublicSchool);
-    const fldoeMagnetElementarySchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => getFldoeSchoolType(feature) === "Elementary School");
-    const fldoeMagnetMiddleSchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => getFldoeSchoolType(feature) === "Middle School");
-    const fldoeMagnetHighSchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => getFldoeSchoolType(feature) === "High School");
-    const fldoeMagnetCombinationSchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => getFldoeSchoolType(feature) === "Combination School");
+    const fldoeMagnetElementarySchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => isDedicatedMagnetPublicSchool(feature) && getFldoeSchoolType(feature) === "Elementary School");
+    const fldoeMagnetMiddleSchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => isDedicatedMagnetPublicSchool(feature) && getFldoeSchoolType(feature) === "Middle School");
+    const fldoeMagnetHighSchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => isDedicatedMagnetPublicSchool(feature) && getFldoeSchoolType(feature) === "High School");
+    const fldoeMagnetCombinationSchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => isDedicatedMagnetPublicSchool(feature) && getFldoeSchoolType(feature) === "Combination School");
     const fldoeAlternativeHighSchoolsLayer = createFilteredFldoeSchoolLayer("high", (feature) => getFldoeSchoolType(feature) === "High School");
     const fldoeAlternativeCombinationSchoolsLayer = createFilteredFldoeSchoolLayer("combination", (feature) => getFldoeSchoolType(feature) === "Combination School");
     const fldoeCharterElementarySchoolsLayer = createFilteredFldoeSchoolLayer("elementary", isNonAlternativePublicSchool);
@@ -8357,7 +8357,12 @@ image: /media/2026/09/maps-featured.png
 
     function isNeighborhoodPublicSchool(feature) {
       const properties = feature.properties || {};
-      return properties.alt_school === "N" && properties.magnet_status === "Z";
+      return properties.alt_school === "N" && ["P", "Z"].includes(properties.magnet_status);
+    }
+
+    function isDedicatedMagnetPublicSchool(feature) {
+      const properties = feature.properties || {};
+      return properties.alt_school === "N" && properties.magnet_status === "S";
     }
 
     function createFilteredFldoeSchoolLayer(type, filter) {
