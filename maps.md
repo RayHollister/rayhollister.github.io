@@ -1515,34 +1515,6 @@ image: /media/2026/09/maps-featured.png
       return layer;
     }
 
-    function addLiveRotatedLayerUpdates() {
-      let updateFrame;
-
-      function updateLayers() {
-        updateFrame = null;
-        const renderers = new Set();
-        map.eachLayer((layer) => {
-          if (layer._renderer) renderers.add(layer._renderer);
-        });
-        renderers.forEach((renderer) => {
-          if (renderer._container) {
-            renderer._container.classList.remove("leaflet-zoom-animated");
-            renderer._container.style.transform = "none";
-          }
-          if (renderer._update) renderer._update();
-          Object.values(renderer._layers || {}).forEach((layer) => {
-            if (layer._reset) layer._reset();
-          });
-        });
-      }
-
-      function scheduleLayerUpdate() {
-        if (!updateFrame) updateFrame = L.Util.requestAnimFrame(updateLayers);
-      }
-
-      map.on("move zoom rotate", scheduleLayerUpdate);
-    }
-
     function getBaseMapQueryKey() {
       const requestedBaseMap = new URLSearchParams(window.location.search).get("basemap");
       return Object.prototype.hasOwnProperty.call(baseMapStyles, requestedBaseMap)
@@ -8816,7 +8788,6 @@ image: /media/2026/09/maps-featured.png
     addCompareKeyboardShortcut();
     addMapContextMenuHandlers();
     addModifierDragRotation();
-    addLiveRotatedLayerUpdates();
     registerMapQueryLayers();
     activateOpacityQuery();
     activateHistoricMapOpacityQuery();
