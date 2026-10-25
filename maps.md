@@ -1931,6 +1931,17 @@ image: /media/2026/09/maps-featured.png
       return link;
     }
 
+    function appendDirectionsLinks(container, coordinates) {
+      if (!coordinates || coordinates.length < 2) return;
+      const destination = `${coordinates[1]},${coordinates[0]}`;
+      const directionsLabel = document.createElement("strong");
+      directionsLabel.textContent = "Get directions";
+      container.appendChild(directionsLabel);
+      container.appendChild(createDirectionsLink("Google Maps", `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`));
+      container.appendChild(createDirectionsLink("Apple Maps", `https://maps.apple.com/?daddr=${encodeURIComponent(destination)}&dirflg=d`));
+      container.appendChild(createDirectionsLink("Waze", `https://www.waze.com/ul?ll=${encodeURIComponent(destination)}&navigate=yes`));
+    }
+
     function createLeadershipLocationPopup(location) {
       const popup = document.createElement("div");
       const date = document.createElement("span");
@@ -7733,6 +7744,7 @@ image: /media/2026/09/maps-featured.png
         sourceLink.textContent = "Verify polling location";
         popup.appendChild(sourceLink);
       }
+      appendDirectionsLinks(popup, pollingFeature.geometry && pollingFeature.geometry.coordinates);
     }
 
     function createBoundaryPopup(feature, layerType) {
@@ -8471,6 +8483,7 @@ image: /media/2026/09/maps-featured.png
 
     function createPollingLocationPopup(feature) {
       const properties = feature.properties || {};
+      const coordinates = feature.geometry && feature.geometry.coordinates;
       const popup = document.createElement("div");
       const title = document.createElement("strong");
       popup.className = "maps-district-popup";
@@ -8492,6 +8505,7 @@ image: /media/2026/09/maps-featured.png
         sourceLink.textContent = "Verify polling location";
         popup.appendChild(sourceLink);
       }
+      appendDirectionsLinks(popup, coordinates);
       return popup;
     }
 
