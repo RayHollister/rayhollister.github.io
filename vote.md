@@ -93,6 +93,9 @@ exclude: true
   .vote-results > * {
     margin-block: 0;
   }
+  .post-content .vote-results h2 {
+    margin-top: 0;
+  }
   .vote-card {
     min-width: 0;
     border: 1px solid rgba(127, 127, 127, 0.35);
@@ -223,7 +226,7 @@ exclude: true
 
 <div class="vote-actions">
   <button class="vote-locate" id="vote-locate" type="button">Find my voting information</button>
-  <p class="vote-status" id="vote-status" aria-live="polite">Click the button to the left to find your voting precinct, polling location and your current elected representatives.</p>
+  <p class="vote-status" id="vote-status" aria-live="polite">Click the button to find your voting precinct, polling location and your current elected representatives.</p>
 </div>
 
 <section class="vote-results" id="vote-results" aria-label="Voting and representation information"></section>
