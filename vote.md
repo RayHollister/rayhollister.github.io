@@ -3,6 +3,7 @@ layout: page
 title: Jacksonville Voting Precinct & Polling Place Finder
 permalink: /vote/
 description: "Find your Jacksonville and Duval County voting precinct, assigned polling place, City Council district, School Board district, and elected representatives using your current location."
+image: /media/2026/10/jacksonville-voting-finder-social.png
 exclude: true
 ---
 
