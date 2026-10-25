@@ -7,6 +7,9 @@ exclude: true
 ---
 
 <style>
+  :root {
+    --mobile-photo: 100px;
+  }
   .vote-intro {
     max-width: 46rem;
     margin: 1rem 0;
@@ -209,13 +212,13 @@ exclude: true
       line-height: 1.2;
     }
     .vote-person {
-      grid-template-columns: 72px minmax(0, 1fr);
+      grid-template-columns: var(--mobile-photo) minmax(0, 1fr);
       column-gap: 0.7rem;
       font-size: 0.9rem;
     }
     .vote-person img {
-      width: 72px;
-      height: 72px;
+      width: var(--mobile-photo);
+      height: var(--mobile-photo);
     }
     .vote-card a {
       min-height: 24px;
