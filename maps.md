@@ -2758,6 +2758,11 @@ image: /media/2026/09/maps-featured.png
     const elevationWmsUrl = "https://elevation.nationalmap.gov/arcgis/services/3DEPElevation/ImageServer/WMSServer";
     const elevationImageServerUrl = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage";
     const elevationAttribution = '<a href="https://www.usgs.gov/programs/national-geospatial-program/national-map" target="_blank" rel="noopener">USGS The National Map</a> · <a href="https://www.usgs.gov/3d-elevation-program" target="_blank" rel="noopener">3DEP</a>';
+    let resolveRegionalElevationMask;
+    let regionalElevationMaskFeatures = [];
+    const regionalElevationMaskReady = new Promise((resolve) => {
+      resolveRegionalElevationMask = resolve;
+    });
     const elevationColorRenderingRule = JSON.stringify({
       rasterFunction: "Colormap",
       rasterFunctionArguments: {
@@ -2780,50 +2785,172 @@ image: /media/2026/09/maps-featured.png
         }
       }
     });
-    const ElevationColorTileLayer = L.TileLayer.extend({
-      getTileUrl: function (coords) {
-        const bounds = this._tileCoordsToBounds(coords);
-        const northWest = this._map.options.crs.project(bounds.getNorthWest());
-        const southEast = this._map.options.crs.project(bounds.getSouthEast());
-        const tileSize = this.getTileSize();
-        const params = new URLSearchParams({
-          bbox: `${northWest.x},${southEast.y},${southEast.x},${northWest.y}`,
-          bboxSR: "3857",
-          f: "image",
-          format: "png32",
-          imageSR: "3857",
-          renderingRule: elevationColorRenderingRule,
-          size: `${tileSize.x},${tileSize.y}`,
-          transparent: "true"
+    function getSquaredSegmentDistance(point, start, end) {
+      let x = start[0];
+      let y = start[1];
+      let dx = end[0] - x;
+      let dy = end[1] - y;
+      if (dx !== 0 || dy !== 0) {
+        const offset = ((point[0] - x) * dx + (point[1] - y) * dy) / (dx * dx + dy * dy);
+        if (offset > 1) {
+          x = end[0];
+          y = end[1];
+        } else if (offset > 0) {
+          x += dx * offset;
+          y += dy * offset;
+        }
+      }
+      dx = point[0] - x;
+      dy = point[1] - y;
+      return dx * dx + dy * dy;
+    }
+
+    function simplifyRegionalMaskRing(points, tolerance) {
+      if (!points || points.length <= 4) return points || [];
+      const openPoints = points.slice(0, -1);
+      const squaredTolerance = tolerance * tolerance;
+      const markers = new Uint8Array(openPoints.length);
+      const stack = [[0, openPoints.length - 1]];
+      markers[0] = 1;
+      markers[openPoints.length - 1] = 1;
+      while (stack.length) {
+        const [first, last] = stack.pop();
+        let maximumDistance = squaredTolerance;
+        let index = 0;
+        for (let pointIndex = first + 1; pointIndex < last; pointIndex += 1) {
+          const distance = getSquaredSegmentDistance(openPoints[pointIndex], openPoints[first], openPoints[last]);
+          if (distance > maximumDistance) {
+            index = pointIndex;
+            maximumDistance = distance;
+          }
+        }
+        if (index) {
+          markers[index] = 1;
+          stack.push([first, index], [index, last]);
+        }
+      }
+      const simplified = openPoints.filter((point, index) => markers[index]);
+      simplified.push(simplified[0]);
+      return simplified;
+    }
+
+    function setRegionalElevationMask(geojson) {
+      regionalElevationMaskFeatures = (geojson.features || []).map((feature) => ({
+        type: feature.geometry.type,
+        coordinates: feature.geometry.coordinates.map((polygonOrRing) => {
+          if (feature.geometry.type === "Polygon") {
+            return simplifyRegionalMaskRing(polygonOrRing, 0.0005);
+          }
+          return polygonOrRing.map((ring) => simplifyRegionalMaskRing(ring, 0.0005));
+        })
+      }));
+      resolveRegionalElevationMask();
+      elevationColorLayer.redraw();
+      elevationContoursOverviewLayer.redraw();
+      elevationContoursDetailLayer.redraw();
+    }
+
+    function appendRegionalElevationMaskPath(context, coords, tileSize) {
+      const tileOrigin = L.point(coords.x * tileSize.x, coords.y * tileSize.y);
+      const appendRing = (ring) => {
+        ring.forEach(([longitude, latitude], index) => {
+          const point = map.project(L.latLng(latitude, longitude), coords.z).subtract(tileOrigin);
+          if (index === 0) context.moveTo(point.x, point.y);
+          else context.lineTo(point.x, point.y);
         });
-        return `${elevationImageServerUrl}?${params}`;
+        context.closePath();
+      };
+      regionalElevationMaskFeatures.forEach((geometry) => {
+        if (geometry.type === "Polygon") geometry.coordinates.forEach(appendRing);
+        else geometry.coordinates.forEach((polygon) => polygon.forEach(appendRing));
+      });
+    }
+
+    const RegionalElevationGridLayer = L.GridLayer.extend({
+      createTile: function (coords, done) {
+        const tile = document.createElement("canvas");
+        const tileSize = this.getTileSize();
+        tile.width = tileSize.x;
+        tile.height = tileSize.y;
+        regionalElevationMaskReady.then(() => {
+          const image = new Image();
+          image.crossOrigin = "anonymous";
+          image.onload = () => {
+            const context = tile.getContext("2d");
+            context.beginPath();
+            appendRegionalElevationMaskPath(context, coords, tileSize);
+            context.clip("evenodd");
+            context.drawImage(image, 0, 0, tileSize.x, tileSize.y);
+            done(null, tile);
+          };
+          image.onerror = (error) => done(error, tile);
+          image.src = this.options.getImageUrl.call(this, coords, tileSize);
+        });
+        return tile;
       }
     });
-    const elevationColorLayer = new ElevationColorTileLayer("", {
+
+    function getRegionalElevationTileBounds(layer, coords) {
+      const bounds = layer._tileCoordsToBounds(coords);
+      const northWest = map.options.crs.project(bounds.getNorthWest());
+      const southEast = map.options.crs.project(bounds.getSouthEast());
+      return `${northWest.x},${southEast.y},${southEast.x},${northWest.y}`;
+    }
+
+    function getElevationColorImageUrl(coords, tileSize) {
+      const params = new URLSearchParams({
+        bbox: getRegionalElevationTileBounds(this, coords),
+        bboxSR: "3857",
+        f: "image",
+        format: "png32",
+        imageSR: "3857",
+        renderingRule: elevationColorRenderingRule,
+        size: `${tileSize.x},${tileSize.y}`,
+        transparent: "true"
+      });
+      return `${elevationImageServerUrl}?${params}`;
+    }
+
+    function getElevationContourImageUrl(layerName, coords, tileSize) {
+      const params = new URLSearchParams({
+        bbox: getRegionalElevationTileBounds(this, coords),
+        crs: "EPSG:3857",
+        format: "image/png",
+        height: String(tileSize.y),
+        layers: layerName,
+        request: "GetMap",
+        service: "WMS",
+        styles: "default",
+        transparent: "true",
+        version: "1.3.0",
+        width: String(tileSize.x)
+      });
+      return `${elevationWmsUrl}?${params}`;
+    }
+
+    const elevationColorLayer = new RegionalElevationGridLayer({
       attribution: elevationAttribution,
-      crossOrigin: true,
-      opacity: 0.82,
+      getImageUrl: getElevationColorImageUrl,
+      opacity: 0.35,
       pane: "elevationPane"
     });
-    const elevationContoursOverviewLayer = L.tileLayer.wms(elevationWmsUrl, {
+    const elevationContoursOverviewLayer = new RegionalElevationGridLayer({
       attribution: elevationAttribution,
-      format: "image/png",
-      layers: "3DEPElevation:Preset 10ft Contour Interval",
+      getImageUrl: function (coords, tileSize) {
+        return getElevationContourImageUrl.call(this, "3DEPElevation:Preset 10ft Contour Interval", coords, tileSize);
+      },
       maxZoom: 12,
-      opacity: 0.85,
-      pane: "elevationPane",
-      transparent: true,
-      version: "1.3.0"
+      opacity: 0.35,
+      pane: "elevationPane"
     });
-    const elevationContoursDetailLayer = L.tileLayer.wms(elevationWmsUrl, {
+    const elevationContoursDetailLayer = new RegionalElevationGridLayer({
       attribution: elevationAttribution,
-      format: "image/png",
-      layers: "3DEPElevation:Preset 5ft Contour Interval",
+      getImageUrl: function (coords, tileSize) {
+        return getElevationContourImageUrl.call(this, "3DEPElevation:Preset 5ft Contour Interval", coords, tileSize);
+      },
       minZoom: 13,
-      opacity: 0.85,
-      pane: "elevationPane",
-      transparent: true,
-      version: "1.3.0"
+      opacity: 0.35,
+      pane: "elevationPane"
     });
     const elevationContoursLayer = L.layerGroup([
       elevationContoursOverviewLayer,
@@ -5259,6 +5386,9 @@ image: /media/2026/09/maps-featured.png
       const nextOpacity = Math.max(0, Math.min(1, Number.isFinite(value) ? value : 1));
       governmentOverlayOpacity = nextOpacity;
       governmentLayerMode = "fill";
+      elevationColorLayer.setOpacity(nextOpacity);
+      elevationContoursOverviewLayer.setOpacity(nextOpacity);
+      elevationContoursDetailLayer.setOpacity(nextOpacity);
       updateGovernmentLayerOpacityControl();
       geographyLayerControls.forEach((geographyControl) => {
         const nextControl = geographyControl.overlayControl;
@@ -8257,6 +8387,7 @@ image: /media/2026/09/maps-featured.png
           }
           fillLayer.addData(geojson);
           borderLayer.addData(geojson);
+          if (settings.onLoad) settings.onLoad(geojson);
           orderMapLayers();
           if (focusedBoundary) {
             applyFocusToBoundaryLayer(focusedBoundary.sourceLayer, focusedBoundary);
@@ -8391,7 +8522,8 @@ image: /media/2026/09/maps-featured.png
       "/data/counties.geojson",
       countyFillLayer,
       countyBorderLayer,
-      "county boundaries"
+      "county boundaries",
+      { onLoad: setRegionalElevationMask }
     );
     loadBoundaryLayers(
       "/data/duval-voting-precincts.geojson",
