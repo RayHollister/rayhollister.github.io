@@ -215,8 +215,9 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 
 - [Duval County Public Schools lookup map](https://jacobs.maps.arcgis.com/apps/instant/lookup/index.html?appid=d9d3f3b133fb4c30b00886006f4aa0ed#find=30.306646122101068%2C-81.65127371701966)
   - The Elementary School, Middle School, and High School attendance-zone layers use the app's [DCPS School Boundaries SY 2026–27 feature service](https://services9.arcgis.com/eNX73FDxjlKFtCtH/arcgis/rest/services/DCPS_School_Boundaries_SY2627/FeatureServer/0).
-  - The You Are Here card identifies the elementary, middle, and high school attendance zones containing the reported location.
-  - Attendance zones apply to the 2026–27 school year and can change. Confirm an assignment with Duval County Public Schools before making enrollment or housing decisions.
+  - Future-year layers use the separate [DCPS School Boundaries SY 2027–28 feature service](https://services9.arcgis.com/eNX73FDxjlKFtCtH/arcgis/rest/services/DCPS_School_Boundaries_SY2728/FeatureServer/0).
+  - The You Are Here card can identify the elementary, middle, and high school attendance zones containing the reported location for either school year.
+  - Each layer and card result is labeled by school year because assignments change between the two datasets. Confirm an assignment with Duval County Public Schools before making enrollment or housing decisions.
   - Elementary Schools
   - Middle Schools
   - High Schools
