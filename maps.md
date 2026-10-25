@@ -408,7 +408,7 @@ image: /media/2026/09/maps-featured.png
 
   .maps-layers-control .maps-control-panel__body,
   .maps-basemap-control .maps-control-panel__body {
-    max-height: calc(var(--maps-control-panel-max-height) - var(--maps-control-panel-header-height));
+    max-height: calc(var(--maps-open-control-max-height, var(--maps-control-panel-max-height)) - var(--maps-control-panel-header-height));
     overflow-y: auto;
   }
 
@@ -740,7 +740,7 @@ image: /media/2026/09/maps-featured.png
 
   .maps-layers-control.is-open,
   .maps-pinned-card-panel {
-    max-height: var(--maps-control-panel-max-height);
+    max-height: var(--maps-open-control-max-height, var(--maps-control-panel-max-height));
   }
 
   .maps-basemap-control.is-open {
@@ -1632,7 +1632,7 @@ image: /media/2026/09/maps-featured.png
       }
 
       function updateViewportMaxHeight() {
-        if (!container.classList.contains("maps-basemap-control") || !container.classList.contains("is-open")) return;
+        if (!container.classList.contains("is-open")) return;
         const mapBounds = map.getContainer().getBoundingClientRect();
         const controlBounds = container.getBoundingClientRect();
         const availableHeight = Math.max(70, Math.floor(mapBounds.bottom - controlBounds.top - 10));
@@ -1657,10 +1657,8 @@ image: /media/2026/09/maps-featured.png
           setOpen(false);
         }
       });
-      if (container.classList.contains("maps-basemap-control")) {
-        window.addEventListener("resize", updateViewportMaxHeight);
-        map.on("resize", updateViewportMaxHeight);
-      }
+      window.addEventListener("resize", updateViewportMaxHeight);
+      map.on("resize", updateViewportMaxHeight);
       setOpen(false);
       return { setOpen };
     }
