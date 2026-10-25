@@ -112,19 +112,6 @@ exclude: true
     grid-column: 1 / -1;
     margin: 0.75rem 0 0;
   }
-  @media (max-width: 760px) {
-    .vote-person {
-      grid-template-columns: 1fr;
-    }
-    .vote-person img,
-    .vote-person > :not(img) {
-      grid-column: 1;
-      grid-row: auto;
-    }
-    .vote-person img {
-      margin-bottom: 0.4rem;
-    }
-  }
 </style>
 
 <div class="vote-intro">
@@ -152,7 +139,6 @@ exclude: true
       precincts: "/data/duval-voting-precincts.geojson",
       pollingLocations: "/data/duval-polling-locations.geojson",
       councilDistricts: "/data/city-council-districts.geojson",
-      councilAtLarge: "/data/city-council-at-large-districts.geojson",
       councilMembers: "/data/jacksonville-city-council-members.json",
       schoolBoardDistricts: "/data/duval-county-school-board-districts.geojson",
       schoolBoardMembers: "/data/duval-school-board-members.json",
@@ -290,7 +276,6 @@ exclude: true
       const point = [longitude, latitude];
       const precinctFeature = findFeature(data.precincts, point);
       const councilFeature = findFeature(data.councilDistricts, point);
-      const councilAtLargeFeature = findFeature(data.councilAtLarge, point);
       const schoolFeature = findFeature(data.schoolBoardDistricts, point);
       const houseFeature = findFeature(data.floridaHouseDistricts, point);
       const senateFeature = findFeature(data.floridaSenateDistricts, point);
@@ -335,12 +320,11 @@ exclude: true
         results.appendChild(card);
       }
 
-      if (councilAtLargeFeature) {
-        const group = (councilAtLargeFeature.properties || {}).CCAL;
-        const card = createCard(`City Council At Large Group ${group}`);
-        appendPerson(card, findMember(data.councilMembers, "number", group, "at_large"));
-        results.appendChild(card);
-      }
+      const atLargeCard = createCard("City Council At Large");
+      (data.councilMembers || []).filter((member) => member.type === "at_large").forEach((member) => {
+        appendPerson(atLargeCard, member, `Group ${member.number}: `);
+      });
+      results.appendChild(atLargeCard);
 
       if (schoolFeature) {
         const district = (schoolFeature.properties || {}).school_board_district;
