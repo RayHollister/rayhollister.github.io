@@ -1989,6 +1989,9 @@ image: /media/2026/09/maps-featured.png
       "district",
       "atLarge",
       "schoolBoard",
+      "schoolAttendanceElementary",
+      "schoolAttendanceMiddle",
+      "schoolAttendanceHigh",
       "floridaHouse",
       "floridaSenate",
       "congressional",
@@ -2768,6 +2771,25 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "border", "schoolBoard"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "schoolBoard")
     });
+    function createSchoolAttendanceZoneLayer(level, mode) {
+      const layerType = `schoolAttendance${level}`;
+      const schoolType = {
+        Elementary: "ES",
+        Middle: "MS",
+        High: "HS"
+      }[level];
+      return L.geoJSON(null, {
+        filter: (feature) => (feature.properties || {}).SchoolType === schoolType,
+        style: (feature) => getBoundaryStyle(feature, mode, layerType),
+        onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, mode, layerType)
+      });
+    }
+    const elementaryAttendanceZoneFillLayer = createSchoolAttendanceZoneLayer("Elementary", "fill");
+    const elementaryAttendanceZoneBorderLayer = createSchoolAttendanceZoneLayer("Elementary", "border");
+    const middleAttendanceZoneFillLayer = createSchoolAttendanceZoneLayer("Middle", "fill");
+    const middleAttendanceZoneBorderLayer = createSchoolAttendanceZoneLayer("Middle", "border");
+    const highAttendanceZoneFillLayer = createSchoolAttendanceZoneLayer("High", "fill");
+    const highAttendanceZoneBorderLayer = createSchoolAttendanceZoneLayer("High", "border");
     const cityFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "city"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "city")
@@ -3314,6 +3336,12 @@ image: /media/2026/09/maps-featured.png
         councilAtLargeBorderLayer,
         schoolBoardDistrictFillLayer,
         schoolBoardDistrictBorderLayer,
+        elementaryAttendanceZoneFillLayer,
+        elementaryAttendanceZoneBorderLayer,
+        middleAttendanceZoneFillLayer,
+        middleAttendanceZoneBorderLayer,
+        highAttendanceZoneFillLayer,
+        highAttendanceZoneBorderLayer,
         cityFillLayer,
         cityBorderLayer,
         countyFillLayer,
@@ -3420,6 +3448,12 @@ image: /media/2026/09/maps-featured.png
         councilAtLargeBorderLayer,
         schoolBoardDistrictFillLayer,
         schoolBoardDistrictBorderLayer,
+        elementaryAttendanceZoneFillLayer,
+        elementaryAttendanceZoneBorderLayer,
+        middleAttendanceZoneFillLayer,
+        middleAttendanceZoneBorderLayer,
+        highAttendanceZoneFillLayer,
+        highAttendanceZoneBorderLayer,
         cityFillLayer,
         cityBorderLayer,
         countyFillLayer,
@@ -3625,6 +3659,12 @@ image: /media/2026/09/maps-featured.png
         councilAtLargeBorderLayer,
         schoolBoardDistrictFillLayer,
         schoolBoardDistrictBorderLayer,
+        elementaryAttendanceZoneFillLayer,
+        elementaryAttendanceZoneBorderLayer,
+        middleAttendanceZoneFillLayer,
+        middleAttendanceZoneBorderLayer,
+        highAttendanceZoneFillLayer,
+        highAttendanceZoneBorderLayer,
         cityFillLayer,
         cityBorderLayer,
         countyFillLayer,
@@ -3704,6 +3744,9 @@ image: /media/2026/09/maps-featured.png
         councilDistrictFillLayer,
         councilAtLargeFillLayer,
         schoolBoardDistrictFillLayer,
+        elementaryAttendanceZoneFillLayer,
+        middleAttendanceZoneFillLayer,
+        highAttendanceZoneFillLayer,
         cityFillLayer,
         countyFillLayer,
         neighborhoodFillLayer,
@@ -5742,6 +5785,17 @@ image: /media/2026/09/maps-featured.png
           const fldoeSchoolControls = traditionalPublicSchoolControls.concat(charterPublicSchoolControls, privateSchoolControls, postSecondarySchoolControls);
 
           overlays.appendChild(createLayerHeading("Education"));
+          overlays.appendChild(createLayerSubheading("Attendance Zones (2026–27)"));
+          appendGeographyLayerRow(overlays, "Elementary School", elementaryAttendanceZoneFillLayer, elementaryAttendanceZoneBorderLayer, {
+            locationLayerType: "schoolAttendanceElementary"
+          });
+          appendGeographyLayerRow(overlays, "Middle School", middleAttendanceZoneFillLayer, middleAttendanceZoneBorderLayer, {
+            locationLayerType: "schoolAttendanceMiddle"
+          });
+          appendGeographyLayerRow(overlays, "High School", highAttendanceZoneFillLayer, highAttendanceZoneBorderLayer, {
+            locationLayerType: "schoolAttendanceHigh"
+          });
+          overlays.appendChild(createLayerSubheading("School Locations"));
           appendLayerControls(overlays, [
             createLayerGroupToggle("All Schools", fldoeSchoolControls)
           ]);
@@ -5910,6 +5964,9 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["councildistrict", "councildistricts", "citycouncildistrict", "citycouncildistricts"], councilDistrictFillLayer, { group: "boundaries", slug: "citycouncildistrict", alternateLayers: [councilDistrictBorderLayer] });
       registerQueryLayer(["councilatlarge", "councildistrictatlarge", "citycouncilatlarge", "citycouncildistrictatlarge"], councilAtLargeFillLayer, { group: "boundaries", slug: "citycouncilatlarge", alternateLayers: [councilAtLargeBorderLayer] });
       registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries", slug: "schoolboarddistricts", alternateLayers: [schoolBoardDistrictBorderLayer] });
+      registerQueryLayer(["elementaryattendancezones", "elementaryschoolzones", "elementaryzones"], elementaryAttendanceZoneFillLayer, { group: "boundaries", slug: "elementaryattendancezones", alternateLayers: [elementaryAttendanceZoneBorderLayer] });
+      registerQueryLayer(["middleattendancezones", "middleschoolzones", "middlezones"], middleAttendanceZoneFillLayer, { group: "boundaries", slug: "middleattendancezones", alternateLayers: [middleAttendanceZoneBorderLayer] });
+      registerQueryLayer(["highattendancezones", "highschoolzones", "highzones"], highAttendanceZoneFillLayer, { group: "boundaries", slug: "highattendancezones", alternateLayers: [highAttendanceZoneBorderLayer] });
       registerQueryLayer(["cities", "cityboundaries"], cityFillLayer, { group: "boundaries", slug: "cities", alternateLayers: [cityBorderLayer] });
       registerQueryLayer(["county", "counties", "countyboundaries", "duvalcounty", "duvalcountyboundary", "countyboundary"], countyFillLayer, { group: "boundaries", slug: "counties", alternateLayers: [countyBorderLayer] });
       registerQueryLayer(["votingprecinct", "votingprecincts", "precinct", "precincts"], votingPrecinctFillLayer, { group: "boundaries", slug: "votingprecincts", alternateLayers: [votingPrecinctBorderLayer] });
@@ -6006,6 +6063,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "schoolBoard") {
         return Number.parseInt(properties.school_board_district || properties.SB, 10);
+      }
+      if (layerType.startsWith("schoolAttendance")) {
+        return getStringColorNumber(properties.Nameshort || properties.School_ID || "School attendance zone");
       }
       if (layerType === "neighborhood") {
         return getStringColorNumber(properties.NAME || properties.NUM_NAME || "Neighborhoods");
@@ -6153,6 +6213,15 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "schoolBoard") {
         return mode === "border" ? schoolBoardDistrictBorderLayer : schoolBoardDistrictFillLayer;
       }
+      if (layerType === "schoolAttendanceElementary") {
+        return mode === "border" ? elementaryAttendanceZoneBorderLayer : elementaryAttendanceZoneFillLayer;
+      }
+      if (layerType === "schoolAttendanceMiddle") {
+        return mode === "border" ? middleAttendanceZoneBorderLayer : middleAttendanceZoneFillLayer;
+      }
+      if (layerType === "schoolAttendanceHigh") {
+        return mode === "border" ? highAttendanceZoneBorderLayer : highAttendanceZoneFillLayer;
+      }
       if (layerType === "neighborhood") {
         return mode === "border" ? neighborhoodBorderLayer : neighborhoodFillLayer;
       }
@@ -6209,6 +6278,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "schoolBoard") {
         return properties.label || (properties.school_board_district ? `Duval County School Board District ${properties.school_board_district}` : "Duval County School Board District");
+      }
+      if (layerType.startsWith("schoolAttendance")) {
+        return properties.Nameshort || properties.School_Name_Number || "School attendance zone";
       }
       if (layerType === "neighborhood") {
         return properties.NAME || properties.NUM_NAME || "Neighborhoods";
@@ -6279,6 +6351,10 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "schoolBoard") {
         return properties.member_name || "";
+      }
+      if (layerType.startsWith("schoolAttendance")) {
+        const level = layerType.replace("schoolAttendance", "");
+        return `2026–27 ${level} School attendance zone`;
       }
       if (layerType === "neighborhood") {
         return properties.NUM_NAME && properties.NUM_NAME !== properties.NAME ? properties.NUM_NAME : "";
@@ -8639,6 +8715,24 @@ image: /media/2026/09/maps-featured.png
         metadataKey: (member) => member.district,
         mapProperties: getSchoolBoardMemberProperties
       }
+    );
+    loadBoundaryLayers(
+      "/data/duval-school-attendance-zones-2026-27.geojson",
+      elementaryAttendanceZoneFillLayer,
+      elementaryAttendanceZoneBorderLayer,
+      "Duval County elementary school attendance zones"
+    );
+    loadBoundaryLayers(
+      "/data/duval-school-attendance-zones-2026-27.geojson",
+      middleAttendanceZoneFillLayer,
+      middleAttendanceZoneBorderLayer,
+      "Duval County middle school attendance zones"
+    );
+    loadBoundaryLayers(
+      "/data/duval-school-attendance-zones-2026-27.geojson",
+      highAttendanceZoneFillLayer,
+      highAttendanceZoneBorderLayer,
+      "Duval County high school attendance zones"
     );
     loadBoundaryLayers(
       "/data/city-boundaries.geojson",
