@@ -67,7 +67,10 @@ exclude: true
     font-size: 1rem;
   }
   .vote-person {
-    display: flow-root;
+    align-items: start;
+    column-gap: 0.6rem;
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
     padding-top: 0.15rem;
   }
   .vote-person + .vote-person {
@@ -76,12 +79,17 @@ exclude: true
     padding-top: 0.8rem;
   }
   .vote-person img {
-    float: right;
-    width: 3.4rem;
-    height: 3.4rem;
-    margin: 0 0 0.5rem 0.7rem;
-    border-radius: 50%;
+    border-radius: 4px;
+    grid-column: 1;
+    grid-row: 1 / span 20;
+    width: 72px;
+    height: 72px;
+    margin: 0;
     object-fit: cover;
+  }
+  .vote-person > :not(img) {
+    grid-column: 2;
+    min-width: 0;
   }
   .vote-person strong,
   .vote-card span,
@@ -100,10 +108,27 @@ exclude: true
     margin-top: 1.25rem;
     font-size: 0.92rem;
   }
+  .vote-section-heading {
+    grid-column: 1 / -1;
+    margin: 0.75rem 0 0;
+  }
+  @media (max-width: 760px) {
+    .vote-person {
+      grid-template-columns: 1fr;
+    }
+    .vote-person img,
+    .vote-person > :not(img) {
+      grid-column: 1;
+      grid-row: auto;
+    }
+    .vote-person img {
+      margin-bottom: 0.4rem;
+    }
+  }
 </style>
 
 <div class="vote-intro">
-  <p>Use your current location to find your voting precinct, assigned polling place, and representatives—without loading the map.</p>
+  <p>Use your current location to find your voting precinct, assigned polling place, and representatives.</p>
   <p>Your coordinates stay in your browser and are only compared with the same local boundary data used by the <a href="/maps/">Maps</a> page.</p>
   <div class="vote-actions">
     <button class="vote-locate" id="vote-locate" type="button">Use my location</button>
@@ -127,6 +152,7 @@ exclude: true
       precincts: "/data/duval-voting-precincts.geojson",
       pollingLocations: "/data/duval-polling-locations.geojson",
       councilDistricts: "/data/city-council-districts.geojson",
+      councilAtLarge: "/data/city-council-at-large-districts.geojson",
       councilMembers: "/data/jacksonville-city-council-members.json",
       schoolBoardDistricts: "/data/duval-county-school-board-districts.geojson",
       schoolBoardMembers: "/data/duval-school-board-members.json",
@@ -264,6 +290,7 @@ exclude: true
       const point = [longitude, latitude];
       const precinctFeature = findFeature(data.precincts, point);
       const councilFeature = findFeature(data.councilDistricts, point);
+      const councilAtLargeFeature = findFeature(data.councilAtLarge, point);
       const schoolFeature = findFeature(data.schoolBoardDistricts, point);
       const houseFeature = findFeature(data.floridaHouseDistricts, point);
       const senateFeature = findFeature(data.floridaSenateDistricts, point);
@@ -296,6 +323,11 @@ exclude: true
         results.appendChild(card);
       }
 
+      const representativesHeading = document.createElement("h2");
+      representativesHeading.className = "vote-section-heading";
+      representativesHeading.textContent = "Your elected representatives";
+      results.appendChild(representativesHeading);
+
       if (councilFeature) {
         const district = (councilFeature.properties || {}).CC || (councilFeature.properties || {}).DISTRICT;
         const card = createCard(`City Council District ${district}`);
@@ -303,11 +335,12 @@ exclude: true
         results.appendChild(card);
       }
 
-      const atLargeCard = createCard("City Council At Large");
-      (data.councilMembers || []).filter((member) => member.type === "at_large").forEach((member) => {
-        appendPerson(atLargeCard, member, `Group ${member.number}: `);
-      });
-      results.appendChild(atLargeCard);
+      if (councilAtLargeFeature) {
+        const group = (councilAtLargeFeature.properties || {}).CCAL;
+        const card = createCard(`City Council At Large Group ${group}`);
+        appendPerson(card, findMember(data.councilMembers, "number", group, "at_large"));
+        results.appendChild(card);
+      }
 
       if (schoolFeature) {
         const district = (schoolFeature.properties || {}).school_board_district;
