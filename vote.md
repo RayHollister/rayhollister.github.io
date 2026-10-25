@@ -225,6 +225,18 @@ exclude: true
       parent.appendChild(link);
     }
 
+    function appendPollingDirections(card, pollingFeature) {
+      const coordinates = pollingFeature && pollingFeature.geometry && pollingFeature.geometry.coordinates;
+      if (!coordinates || coordinates.length < 2) return;
+      const destination = `${coordinates[1]},${coordinates[0]}`;
+      const heading = document.createElement("h3");
+      heading.textContent = "Get directions";
+      card.appendChild(heading);
+      appendLink(card, "Google Maps", `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`);
+      appendLink(card, "Apple Maps", `https://maps.apple.com/?daddr=${encodeURIComponent(destination)}&dirflg=d`);
+      appendLink(card, "Waze", `https://www.waze.com/ul?ll=${encodeURIComponent(destination)}&navigate=yes`);
+    }
+
     function partyAbbreviation(party) {
       const normalized = String(party || "").toLowerCase();
       if (normalized === "republican" || normalized === "r") return "R";
@@ -305,6 +317,7 @@ exclude: true
           card.appendChild(address);
         }
         appendLink(card, "Verify polling location", pollingFinderUrl);
+        appendPollingDirections(card, pollingFeature);
         results.appendChild(card);
       }
 
