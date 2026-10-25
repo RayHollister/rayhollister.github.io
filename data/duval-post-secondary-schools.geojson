@@ -7,15 +7,15 @@
         "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
         "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
         "category": "Post-Secondary School",
-        "school_name": "Cda Technical Institute",
+        "school_name": "CDA Technical Institute",
         "federal_id": "447874",
         "address": "91 Trout River Drive, Jacksonville, FL, 32208",
         "school_type": "College/university",
         "operating": "Private",
         "operator_class": "Private",
-        "owner": "Cda Technical Institute INC",
+        "owner": "CDA Technical Institute Inc.",
         "enrollment": "0",
-        "description": "Cda Technical Institute",
+        "description": "CDA Technical Institute",
         "google_map_url": "https://www.google.com/maps/place/17RMP3773462359"
       },
       "geometry": {
@@ -639,13 +639,13 @@
         "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
         "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
         "category": "Post-Secondary School",
-        "school_name": "Stenotype Institute of Jacksonville INC-Jacksonville",
+        "school_name": "Stenotype Institute of Jacksonville Inc. - Jacksonville",
         "address": "3563 Phillips Highway Building E Suite 501, Jacksonville, FL, 32207",
         "school_type": "College/university",
         "operating": "Private",
         "operator_class": "Private",
         "enrollment": "0",
-        "description": "Stenotype Institute of Jacksonville INC-Jacksonville",
+        "description": "Stenotype Institute of Jacksonville Inc. - Jacksonville",
         "google_map_url": "https://www.google.com/maps/place/17RMP3907851126"
       },
       "geometry": {
@@ -693,7 +693,7 @@
         "school_type": "College/university",
         "operating": "Private",
         "operator_class": "Private",
-        "owner": "Compass Rose Foundation INC",
+        "owner": "Compass Rose Foundation Inc.",
         "enrollment": "0",
         "description": "Sunstate Academy - Jones Technical Institute",
         "google_map_url": "https://www.google.com/maps/place/17RMP4594841985"
