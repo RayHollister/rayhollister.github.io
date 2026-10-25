@@ -11,7 +11,7 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
 
 This map is provided as is, with no guarantee of accuracy, completeness, or currentness. It is a personal passion project and should not be considered canonical information.
 
-The information shown on the map is based on the sources listed below, using data available as of October 24, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
+The information shown on the map is based on the sources listed below, using data available as of October 25, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
 
 If you appreciate this project, you can [buy me a coffee! ☕️](https://buymeacoffee.com/rayhollister).
 
@@ -131,7 +131,13 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 - [Jacksonville Sheriff's Office Your Neighborhood](https://www.jaxsheriff.org/Your-Neighborhood.aspx)
   - Substations
 
-## Emergency Management
+## Terrain And Hazards
+
+- Elevation (Shaded Relief):
+  - Map service: [USGS Shaded Relief from The National Map](https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer).
+  - The service uses U.S. Geological Survey 3D Elevation Program (3DEP) data at large and medium scales and displays terrain with multidirectional hillshading. The service metadata reports resolutions from 1 meter through 30 meters for the conterminous United States, depending on source availability and scale.
+  - The map displays the cached shaded-relief visualization at 65% opacity so labels and other layers remain visible. It represents terrain shape, not exact elevation readings, surveyed property grades, flood depth, or flood risk.
+  - Program and accuracy context: [USGS 3D Elevation Program](https://www.usgs.gov/3d-elevation-program) and [3DEP DEM vertical accuracy](https://www.usgs.gov/faqs/what-vertical-accuracy-3d-elevation-program-3dep-dems).
 
 - Flood Zones:
   - Geometry source: [City of Jacksonville GIS Flood Zones January 2021](https://maps.coj.net/coj/rest/services/msmp/FloodZones/MapServer/0), derived from FEMA Digital Flood Insurance Rate Map data.

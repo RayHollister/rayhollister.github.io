@@ -524,7 +524,7 @@ image: /media/2026/09/maps-featured.png
     text-transform: uppercase;
   }
 
-  .maps-layer-heading--emergency-management {
+  .maps-layer-heading--terrain-hazards {
     margin-bottom: 0.15rem;
   }
 
@@ -1257,6 +1257,9 @@ image: /media/2026/09/maps-featured.png
     map._mapPane.style.zIndex = "1";
     const historicMapsPane = map.createPane("historicMapsPane", map._norotatePane);
     historicMapsPane.style.zIndex = "350";
+    const elevationPane = map.createPane("elevationPane", map._rotatePane);
+    elevationPane.style.pointerEvents = "none";
+    elevationPane.style.zIndex = "250";
     const historicPlacementPane = map.createPane("historicPlacementPane", map._rotatePane);
     historicPlacementPane.style.zIndex = "350";
     const navigationMarkerPane = map.createPane("navigationMarkerPane", map._norotatePane);
@@ -2718,6 +2721,16 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "fill", "healthZone"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "healthZone")
     });
+    const elevationShadedReliefLayer = L.tileLayer(
+      "https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/tile/{z}/{y}/{x}",
+      {
+        attribution: '<a href="https://www.usgs.gov/programs/national-geospatial-program/national-map" target="_blank" rel="noopener">USGS The National Map</a> · <a href="https://www.usgs.gov/3d-elevation-program" target="_blank" rel="noopener">3DEP</a>',
+        maxNativeZoom: 16,
+        maxZoom: 20,
+        opacity: 0.65,
+        pane: "elevationPane"
+      }
+    );
     const floodZoneFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "floodZone"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "floodZone")
@@ -5298,9 +5311,15 @@ image: /media/2026/09/maps-featured.png
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JSO Substations", jsoPoliceStationsLayer)
           ]);
-          const emergencyManagementHeading = createLayerHeading("Emergency Management");
-          emergencyManagementHeading.classList.add("maps-layer-heading--emergency-management");
-          overlays.appendChild(emergencyManagementHeading);
+          const terrainHazardsHeading = createLayerHeading("Terrain & Hazards");
+          terrainHazardsHeading.classList.add("maps-layer-heading--terrain-hazards");
+          overlays.appendChild(terrainHazardsHeading);
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("Elevation (Shaded Relief)", elevationShadedReliefLayer, {
+              countable: false,
+              geometryType: "polygon"
+            })
+          ]);
           appendGeographyLayerRow(overlays, "Flood Zones", floodZoneFillLayer, floodZoneBorderLayer, {
             locationLayerType: "floodZone"
           });
@@ -5455,6 +5474,7 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["cpac", "cpacs", "planningdistricts"], cpacFillLayer, { group: "boundaries", slug: "cpacs", alternateLayers: [cpacBorderLayer] });
       registerQueryLayer(["health", "healthzone", "healthzones"], healthZoneFillLayer, { group: "boundaries", slug: "healthzones", alternateLayers: [healthZoneBorderLayer] });
       registerQueryLayer(["healthzones-byzipcodes", "healthzonesbyzipcodes", "healthzonesbyzip", "healthzoneslistedzips"], healthZoneByZipCodeLayer, { group: "boundaries", slug: "healthzones-byzipcodes" });
+      registerQueryLayer(["elevation", "terrain", "shadedrelief", "hillshade", "3dep"], elevationShadedReliefLayer, { slug: "elevation" });
       registerQueryLayer(["flood", "floodzone", "floodzones", "fema"], floodZoneFillLayer, { group: "boundaries", slug: "floodzones", alternateLayers: [floodZoneBorderLayer] });
       registerQueryLayer(["evacuation", "evacuationzone", "evacuationzones", "evaczones"], evacuationZoneFillLayer, { group: "boundaries", slug: "evacuationzones", alternateLayers: [evacuationZoneBorderLayer] });
       registerQueryLayer(["jsodistrict", "jsodistricts", "sheriffdistricts"], jsoDistrictFillLayer, { group: "boundaries", slug: "jsodistricts", alternateLayers: [jsoDistrictBorderLayer] });
