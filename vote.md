@@ -3,24 +3,46 @@ layout: page
 title: Jacksonville Voting Precinct & Polling Place Finder
 permalink: /vote/
 description: "Find your Jacksonville and Duval County voting precinct, assigned polling place, City Council district, School Board district, and elected representatives using your current location."
+image: /media/2026/10/jacksonville-voting-finder-social.png
 exclude: true
 ---
 
 <style>
+  :root {
+    --mobile-photo: 100px;
+  }
   .vote-intro {
     max-width: 46rem;
-    margin-bottom: 1.5rem;
+    margin: 1rem 0;
+    padding: 1.25rem;
+    border: 1px solid rgba(127, 127, 127, 0.3);
+    border-radius: 10px;
+    background: rgba(127, 127, 127, 0.06);
+  }
+  .vote-intro > p:first-child {
+    margin-top: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .vote-intro > p:last-of-type {
+    margin-bottom: 0;
   }
   .vote-actions {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin: 1rem 0;
+    max-width: 46rem;
+    margin: 0 0 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(9, 105, 218, 0.3);
+    border-radius: 10px;
+    background: rgba(9, 105, 218, 0.06);
   }
   .vote-locate {
-    border: 0;
-    border-radius: 0.45rem;
+    min-height: 44px;
+    border: 1px solid #0969da;
+    border-radius: 5px;
     background: #0969da;
     color: #fff;
     cursor: pointer;
@@ -37,53 +59,87 @@ exclude: true
     opacity: 0.65;
   }
   .vote-status {
+    flex: 1 1 16rem;
     margin: 0;
+    padding: 0.65rem 0.8rem 0.65rem 2rem;
+    border-radius: 5px;
+    background: rgba(127, 127, 127, 0.1);
+    color: #4b5563;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.4;
+    position: relative;
+  }
+  .vote-status::before {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: #0969da;
+    content: "";
+    left: 0.75rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
   .vote-status[role="alert"] {
     color: #b42318;
+    background: rgba(180, 35, 24, 0.08);
+  }
+  .vote-status[role="alert"]::before {
+    background: #b42318;
   }
   .vote-results {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
+    max-width: 46rem;
+  }
+  .vote-results > * {
+    margin-block: 0;
+  }
+  .post-content .vote-results h2 {
+    margin-top: 0;
   }
   .vote-card {
     min-width: 0;
     border: 1px solid rgba(127, 127, 127, 0.35);
-    border-radius: 0.65rem;
+    border-radius: 10px;
     background: rgba(127, 127, 127, 0.06);
-    padding: 1rem;
+    padding: 0.85rem 1rem;
+    line-height: 1.3;
   }
   .vote-card--primary {
     border-color: #7c3aed;
     box-shadow: inset 0 0 0 1px #7c3aed;
   }
   .vote-card h2 {
-    margin: 0 0 0.7rem;
+    margin: 0 0 0.5rem;
     font-size: 1.12rem;
+    line-height: 1.2;
   }
   .vote-card h3 {
-    margin: 0.85rem 0 0.35rem;
+    margin: 0.65rem 0 0.2rem;
     font-size: 1rem;
+    line-height: 1.2;
   }
   .vote-person {
     align-items: start;
-    column-gap: 0.6rem;
+    column-gap: 1rem;
     display: grid;
-    grid-template-columns: 72px minmax(0, 1fr);
-    padding-top: 0.15rem;
+    grid-template-columns: 115px minmax(0, 1fr);
+    line-height: 1.25;
   }
   .vote-person + .vote-person {
     border-top: 1px solid rgba(127, 127, 127, 0.25);
-    margin-top: 0.8rem;
-    padding-top: 0.8rem;
+    margin-top: 0.55rem;
+    padding-top: 0.55rem;
   }
   .vote-person img {
-    border-radius: 4px;
+    border-radius: 5px;
     grid-column: 1;
     grid-row: 1 / span 20;
-    width: 72px;
-    height: 72px;
+    width: 115px;
+    height: 115px;
     margin: 0;
     object-fit: cover;
   }
@@ -97,35 +153,100 @@ exclude: true
   .vote-card a {
     display: block;
   }
+  .vote-person strong {
+    line-height: 1.2;
+  }
   .vote-card address {
     margin: 0;
     font-style: normal;
   }
   .vote-card a {
     overflow-wrap: anywhere;
+    padding-block: 0.08rem;
   }
   .vote-note {
-    grid-column: 1 / -1;
-    margin-top: 1.25rem;
     font-size: 0.92rem;
   }
   .vote-section-heading {
-    grid-column: 1 / -1;
-    margin: 0.75rem 0 0;
+    margin-block: 0;
+  }
+  @media screen and (max-width: 599px) {
+    .post-header {
+      margin-bottom: 1rem;
+    }
+    .post-title {
+      font-size: clamp(1.75rem, 8vw, 2.25rem);
+      line-height: 1.12;
+    }
+    .vote-intro {
+      margin-inline: -0.35rem;
+      padding: 1rem;
+    }
+    .vote-intro p {
+      margin-bottom: 0.85rem;
+      line-height: 1.5;
+    }
+    .vote-actions {
+      align-items: stretch;
+      display: grid;
+      gap: 0.65rem;
+      margin: 0 -0.35rem 1rem;
+      padding: 1rem;
+    }
+    .vote-locate {
+      width: 100%;
+      min-height: 50px;
+      padding: 0.8rem 1rem;
+    }
+    .vote-status {
+      padding-block: 0.7rem;
+    }
+    .vote-card {
+      padding: 0.8rem;
+    }
+    .vote-card--primary {
+      border-width: 2px;
+      box-shadow: none;
+    }
+    .vote-card h2 {
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+    .vote-person {
+      grid-template-columns: var(--mobile-photo) minmax(0, 1fr);
+      column-gap: 0.7rem;
+      font-size: 0.9rem;
+    }
+    .vote-person img {
+      width: var(--mobile-photo);
+      height: var(--mobile-photo);
+    }
+    .vote-card a {
+      min-height: 24px;
+    }
+    .vote-note {
+      padding-inline: 0.2rem;
+      line-height: 1.45;
+    }
+    .vote-section-heading {
+      font-size: 1.45rem;
+      line-height: 1.25;
+    }
   }
 </style>
+
+<div class="vote-actions">
+  <button class="vote-locate" id="vote-locate" type="button">Find my voting information</button>
+  <p class="vote-status" id="vote-status" aria-live="polite">Click the button to find your voting precinct, polling location and your current elected representatives.</p>
+</div>
+
+<section class="vote-results" id="vote-results" aria-label="Voting and representation information"></section>
 
 <div class="vote-intro">
   <p>Find your Jacksonville voting precinct, assigned Duval County polling place, and elected representatives using your current location.</p>
   <p>The results include your Jacksonville City Council district, at-large council members, Duval County School Board district, Florida House and Senate districts, U.S. House district, and Florida’s U.S. senators.</p>
   <p>Your coordinates stay in your browser and are only compared with the local Jacksonville and Duval County boundary data used by the <a href="/maps/">Maps</a> page.</p>
-  <div class="vote-actions">
-    <button class="vote-locate" id="vote-locate" type="button">Find my voting information</button>
-    <p class="vote-status" id="vote-status" aria-live="polite">Location has not been requested.</p>
-  </div>
 </div>
-
-<section class="vote-results" id="vote-results" aria-label="Voting and representation information"></section>
 
 <template id="vote-note-template">
   <p class="vote-note">Boundary and polling-place information can change. Always confirm your assignment with the <a href="https://www.duvalelections.gov/204/Polling-Location-Finder" target="_blank" rel="noopener">Duval County Supervisor of Elections polling-location finder</a>. See <a href="/maps/references/">Maps References</a> for sources and limitations.</p>
