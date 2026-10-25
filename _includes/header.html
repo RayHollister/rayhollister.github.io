@@ -16,7 +16,6 @@
     {%- if titles_size > 0 -%}
       <nav class="site-nav">
         <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="site-navigation-links">
-          <span class="site-nav__toggle-label">Menu</span>
           <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
         </button>
 
@@ -53,6 +52,7 @@
                     <button class="nav-dropdown__toggle" type="button" aria-expanded="false" aria-label="Show {{ my_page.title | escape }} links"></button>
                   </div>
                   <div class="nav-dropdown__menu">
+                    <a class="nav-dropdown__link" href="{{ '/maps/?layer=votingprecincts,pollinglocations' | relative_url }}">Voting Precincts &amp; Polling Locations</a>
                     {%- for dropdown_url in maps_dropdown_urls -%}
                       {%- assign dropdown_page = site.pages | where: "url", dropdown_url | first -%}
                       {%- if dropdown_page and dropdown_page.title -%}

@@ -92,17 +92,17 @@ a.white:visited, a.white:hover {
         appearance: none;
         background: #fff;
         border: 1px solid #d0d7de;
-        border-radius: 10px;
+        border-radius: 5px;
         color: #24292f;
         cursor: pointer;
         display: flex;
         font: inherit;
         font-size: 0.875rem;
         font-weight: 600;
-        gap: 9px;
         height: 44px;
         justify-content: center;
-        padding: 0 12px;
+        padding: 0;
+        width: 44px;
     }
 
     .site-nav__toggle:focus-visible,
@@ -123,7 +123,7 @@ a.white:visited, a.white:hover {
 
     .site-nav .menu-icon span {
         background: currentColor;
-        border-radius: 999px;
+        border-radius: 5px;
         display: block;
         height: 2px;
         transform-origin: center;
@@ -146,11 +146,12 @@ a.white:visited, a.white:hover {
     .site-nav .trigger {
         background: #fff;
         border: 1px solid #d0d7de;
-        border-radius: 14px;
-        box-shadow: 0 12px 32px rgb(27 31 36 / 20%);
+        border-radius: 5px;
+        box-shadow: none;
         display: none;
         max-height: calc(100dvh - 76px);
         overflow-y: auto;
+        overflow-x: hidden;
         overscroll-behavior: contain;
         padding: 8px;
         position: absolute;
@@ -164,15 +165,17 @@ a.white:visited, a.white:hover {
         display: block;
     }
 
-    .site-nav .page-link {
-        border-radius: 8px;
+    .site-nav a.page-link {
+        border-radius: 5px;
         box-sizing: border-box;
         display: flex;
         font-size: 1rem;
         line-height: 1.3;
         margin: 0;
+        margin-left: 0;
         min-height: 44px;
         padding: 11px 12px;
+        padding-left: 0;
         text-align: left;
         width: 100%;
     }
@@ -205,7 +208,7 @@ a.white:visited, a.white:hover {
         appearance: none;
         background: transparent;
         border: 0;
-        border-radius: 8px;
+        border-radius: 5px;
         color: #57606a;
         cursor: pointer;
         display: block;
@@ -233,7 +236,7 @@ a.white:visited, a.white:hover {
 
     .site-nav .nav-dropdown__menu {
         background: #f6f8fa;
-        border-radius: 8px;
+        border-radius: 5px;
         display: none;
         position: static;
         border: none;
@@ -249,7 +252,7 @@ a.white:visited, a.white:hover {
     }
 
     .site-nav .nav-dropdown__link {
-        border-radius: 6px;
+        border-radius: 5px;
         line-height: 1.35;
         min-height: 40px;
         padding: 9px 12px 9px 24px;
