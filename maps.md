@@ -1984,6 +1984,7 @@ image: /media/2026/09/maps-featured.png
     let layersControlApi;
     let layersControlElement;
     const locationInfoControls = [];
+    const locationInfoGroupControls = [];
     const selectedLocationInfoLayerTypes = new Set([
       "votingPrecinct",
       "district",
@@ -2223,6 +2224,7 @@ image: /media/2026/09/maps-featured.png
       locationInfoControls.forEach((control) => {
         control.input.checked = selectedLocationInfoLayerTypes.has(control.layerType);
       });
+      locationInfoGroupControls.forEach((control) => control.syncInput());
     }
 
     function openLayersMenuForLocationInfo() {
@@ -5179,6 +5181,83 @@ image: /media/2026/09/maps-featured.png
       return heading;
     }
 
+    function appendSchoolAttendanceZoneGroup(parent, label, definitions) {
+      const heading = document.createElement("div");
+      const layerLabel = document.createElement("label");
+      const layerInput = document.createElement("input");
+      const headingText = document.createElement("span");
+      const locationLabel = document.createElement("label");
+      const locationInput = document.createElement("input");
+
+      heading.className = "maps-layer-subheading maps-layer-group-row maps-school-attendance-group";
+      layerLabel.className = "maps-layer-group-row__name";
+      layerInput.type = "checkbox";
+      layerInput.className = "leaflet-control-layers-selector";
+      layerInput.setAttribute("aria-label", `Show all ${label}`);
+      headingText.textContent = label;
+      layerLabel.appendChild(layerInput);
+      layerLabel.appendChild(headingText);
+
+      locationLabel.className = "maps-location-info-column";
+      locationInput.type = "checkbox";
+      locationInput.className = "leaflet-control-layers-selector";
+      locationInput.setAttribute("aria-label", `Show all ${label} on You are here card`);
+      locationLabel.appendChild(locationInput);
+      heading.appendChild(layerLabel);
+      heading.appendChild(locationLabel);
+      parent.appendChild(heading);
+
+      const rowControls = definitions.map((definition) => appendGeographyLayerRow(
+        parent,
+        definition.name,
+        definition.overlayLayer,
+        definition.borderLayer,
+        { locationLayerType: definition.layerType }
+      ));
+
+      function syncLayerInput() {
+        const states = rowControls.map((control) => (
+          map.hasLayer(control.overlayControl.layer) || map.hasLayer(control.borderControl.layer)
+        ));
+        layerInput.checked = states.every(Boolean);
+        layerInput.indeterminate = states.some(Boolean) && !layerInput.checked;
+      }
+
+      function syncLocationInput() {
+        const states = definitions.map((definition) => selectedLocationInfoLayerTypes.has(definition.layerType));
+        locationInput.checked = states.every(Boolean);
+        locationInput.indeterminate = states.some(Boolean) && !locationInput.checked;
+      }
+
+      layerInput.addEventListener("change", function () {
+        const enabled = layerInput.checked;
+        rowControls.forEach((control) => {
+          if (enabled) {
+            setBoundaryLayer(getSelectedGeographyControl(control.geographyControl), true, true);
+          } else {
+            setBoundaryLayer(control.overlayControl, false, true);
+            setBoundaryLayer(control.borderControl, false, true);
+          }
+        });
+        syncLayerInput();
+      });
+      locationInput.addEventListener("change", function () {
+        definitions.forEach((definition) => {
+          if (locationInput.checked) {
+            selectedLocationInfoLayerTypes.add(definition.layerType);
+          } else {
+            selectedLocationInfoLayerTypes.delete(definition.layerType);
+          }
+        });
+        updateYouAreHereCard();
+      });
+
+      boundaryLayerControls.push({ syncInput: syncLayerInput });
+      locationInfoGroupControls.push({ syncInput: syncLocationInput });
+      syncLayerInput();
+      syncLocationInput();
+    }
+
     function appendLayerControls(parent, controls) {
       controls.forEach((control) => {
         parent.appendChild(control.labelElement);
@@ -5704,6 +5783,14 @@ image: /media/2026/09/maps-featured.png
         row.appendChild(locationLabel);
       }
       parent.appendChild(row);
+      return {
+        borderControl,
+        geographyControl,
+        layerInput,
+        locationInput,
+        overlayControl,
+        row
+      };
     }
 
     function addDistrictLayerControl() {
@@ -5823,26 +5910,16 @@ image: /media/2026/09/maps-featured.png
           const fldoeSchoolControls = traditionalPublicSchoolControls.concat(charterPublicSchoolControls, privateSchoolControls, postSecondarySchoolControls);
 
           overlays.appendChild(createLayerHeading("Education"));
-          overlays.appendChild(createLayerSubheading("Attendance Zones (2026–27)"));
-          appendGeographyLayerRow(overlays, "Elementary School", elementaryAttendanceZoneFillLayer, elementaryAttendanceZoneBorderLayer, {
-            locationLayerType: "schoolAttendanceElementary"
-          });
-          appendGeographyLayerRow(overlays, "Middle School", middleAttendanceZoneFillLayer, middleAttendanceZoneBorderLayer, {
-            locationLayerType: "schoolAttendanceMiddle"
-          });
-          appendGeographyLayerRow(overlays, "High School", highAttendanceZoneFillLayer, highAttendanceZoneBorderLayer, {
-            locationLayerType: "schoolAttendanceHigh"
-          });
-          overlays.appendChild(createLayerSubheading("Attendance Zones (2027–28)"));
-          appendGeographyLayerRow(overlays, "Elementary School", futureElementaryAttendanceZoneFillLayer, futureElementaryAttendanceZoneBorderLayer, {
-            locationLayerType: "schoolAttendanceFutureElementary"
-          });
-          appendGeographyLayerRow(overlays, "Middle School", futureMiddleAttendanceZoneFillLayer, futureMiddleAttendanceZoneBorderLayer, {
-            locationLayerType: "schoolAttendanceFutureMiddle"
-          });
-          appendGeographyLayerRow(overlays, "High School", futureHighAttendanceZoneFillLayer, futureHighAttendanceZoneBorderLayer, {
-            locationLayerType: "schoolAttendanceFutureHigh"
-          });
+          appendSchoolAttendanceZoneGroup(overlays, "Attendance Zones (2026–27)", [
+            { name: "Elementary School", overlayLayer: elementaryAttendanceZoneFillLayer, borderLayer: elementaryAttendanceZoneBorderLayer, layerType: "schoolAttendanceElementary" },
+            { name: "Middle School", overlayLayer: middleAttendanceZoneFillLayer, borderLayer: middleAttendanceZoneBorderLayer, layerType: "schoolAttendanceMiddle" },
+            { name: "High School", overlayLayer: highAttendanceZoneFillLayer, borderLayer: highAttendanceZoneBorderLayer, layerType: "schoolAttendanceHigh" }
+          ]);
+          appendSchoolAttendanceZoneGroup(overlays, "Attendance Zones (2027–28)", [
+            { name: "Elementary School", overlayLayer: futureElementaryAttendanceZoneFillLayer, borderLayer: futureElementaryAttendanceZoneBorderLayer, layerType: "schoolAttendanceFutureElementary" },
+            { name: "Middle School", overlayLayer: futureMiddleAttendanceZoneFillLayer, borderLayer: futureMiddleAttendanceZoneBorderLayer, layerType: "schoolAttendanceFutureMiddle" },
+            { name: "High School", overlayLayer: futureHighAttendanceZoneFillLayer, borderLayer: futureHighAttendanceZoneBorderLayer, layerType: "schoolAttendanceFutureHigh" }
+          ]);
           overlays.appendChild(createLayerSubheading("School Locations"));
           appendLayerControls(overlays, [
             createLayerGroupToggle("All Schools", fldoeSchoolControls)
