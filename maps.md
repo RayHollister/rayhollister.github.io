@@ -9572,54 +9572,58 @@ image: /media/2026/09/maps-featured.png
           control.style.transform = "";
         });
 
-        controls.forEach((control) => {
-          let dragState;
-          let suppressClick = false;
+        let dragState;
+        let suppressClick = false;
 
-          control.addEventListener("pointerdown", function (event) {
-            if (!corner.classList.contains("is-open") || control.classList.contains("is-open")) return;
-            if (!event.metaKey || (event.button !== undefined && event.button !== 0)) return;
-            dragState = {
-              pointerId: event.pointerId,
-              x: event.clientX,
-              y: event.clientY,
-              active: false
-            };
-            control.setPointerCapture(event.pointerId);
-          });
+        corner.addEventListener("pointerdown", function (event) {
+          const control = event.target.closest(".leaflet-control");
+          if (!corner.classList.contains("is-open") || !control || control.parentElement !== corner) return;
+          if (control === toggleControl.getContainer() || control.classList.contains("is-open")) return;
+          if (!event.metaKey || (event.button !== undefined && event.button !== 0)) return;
+          dragState = {
+            control,
+            pointerId: event.pointerId,
+            x: event.clientX,
+            y: event.clientY,
+            active: false
+          };
+        }, true);
 
-          control.addEventListener("pointermove", function (event) {
-            if (!dragState || event.pointerId !== dragState.pointerId) return;
-            if (!event.metaKey) {
-              control.releasePointerCapture(event.pointerId);
-              dragState = null;
-              return;
-            }
-            if (!dragState.active && Math.hypot(event.clientX - dragState.x, event.clientY - dragState.y) < 6) return;
-            event.preventDefault();
-            dragState.active = true;
-            suppressClick = true;
-            control.classList.add("maps-control-reordering");
-            const target = document.elementFromPoint(event.clientX, event.clientY)?.closest(".leaflet-control");
-            if (!target || target === control || target === toggleControl.getContainer() || target.parentElement !== corner) return;
-            const targetBounds = target.getBoundingClientRect();
-            corner.insertBefore(control, event.clientY < targetBounds.top + targetBounds.height / 2 ? target : target.nextSibling);
-          });
+        document.addEventListener("pointermove", function (event) {
+          if (!dragState || event.pointerId !== dragState.pointerId) return;
+          if (!dragState.active && Math.hypot(event.clientX - dragState.x, event.clientY - dragState.y) < 6) return;
+          event.preventDefault();
+          dragState.active = true;
+          suppressClick = true;
+          dragState.control.classList.add("maps-control-reordering");
+          const target = document.elementFromPoint(event.clientX, event.clientY)?.closest(".leaflet-control");
+          if (!target || target === dragState.control || target === toggleControl.getContainer() || target.parentElement !== corner) return;
+          const targetBounds = target.getBoundingClientRect();
+          corner.insertBefore(
+            dragState.control,
+            event.clientY < targetBounds.top + targetBounds.height / 2 ? target : target.nextSibling
+          );
+        }, true);
 
-          function finishDrag(event) {
-            if (!dragState || event.pointerId !== dragState.pointerId) return;
-            control.classList.remove("maps-control-reordering");
-            dragState = null;
-          }
-
-          control.addEventListener("pointerup", finishDrag);
-          control.addEventListener("pointercancel", finishDrag);
-          control.addEventListener("click", function (event) {
-            if (!suppressClick) return;
-            event.preventDefault();
-            event.stopImmediatePropagation();
+        function finishDrag(event) {
+          if (!dragState || event.pointerId !== dragState.pointerId) return;
+          dragState.control.classList.remove("maps-control-reordering");
+          dragState = null;
+          window.setTimeout(() => {
             suppressClick = false;
-          }, true);
+          }, 0);
+        }
+
+        document.addEventListener("pointerup", finishDrag, true);
+        document.addEventListener("pointercancel", finishDrag, true);
+        corner.addEventListener("click", function (event) {
+          if (!suppressClick) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          suppressClick = false;
+        }, true);
+
+        controls.forEach((control) => {
           control.addEventListener("dragstart", function (event) {
             event.preventDefault();
           });
