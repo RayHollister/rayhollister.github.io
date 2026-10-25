@@ -32,6 +32,10 @@ image: /media/2026/09/maps-featured.png
   #ray-map .leaflet-top.leaflet-left.maps-top-left-menu {
     z-index: 1000;
   }
+
+  #ray-map .leaflet-top.leaflet-left.maps-top-left-menu.maps-controls-dragging {
+    transition: none;
+  }
   .maps-page {
     --maps-control-panel-header-height: 2.05rem;
     --maps-control-panel-max-height: calc(100vh - 6rem);
@@ -235,6 +239,119 @@ image: /media/2026/09/maps-featured.png
     justify-content: center;
     padding: 0;
     width: 30px;
+  }
+
+  .maps-top-left-menu-toggle button {
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .maps-controls-dragging .maps-top-left-menu-toggle button {
+    cursor: grabbing;
+  }
+
+  .maps-search-control {
+    background: #fff;
+    position: relative;
+  }
+
+  .maps-search-control__button {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: #24292f;
+    cursor: pointer;
+    display: flex;
+    height: 30px;
+    justify-content: center;
+    padding: 0;
+    width: 30px;
+  }
+
+  .maps-search-control__button svg {
+    fill: currentColor;
+    height: 15px;
+    width: 15px;
+  }
+
+  .maps-search-control__panel {
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+    display: none;
+    left: 40px;
+    padding: 0.5rem;
+    position: absolute;
+    top: 0;
+    width: min(20rem, calc(100vw - 5.5rem));
+  }
+
+  .maps-search-control.is-open .maps-search-control__panel {
+    display: block;
+  }
+
+  .maps-search-control.opens-left .maps-search-control__panel {
+    left: auto;
+    right: 40px;
+  }
+
+  .maps-search-control__form {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .maps-search-control__input {
+    border: 1px solid #8c959f;
+    border-radius: 3px;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    font: inherit;
+    min-width: 0;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .maps-search-control__submit {
+    background: #0969da;
+    border: 1px solid #0969da;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    padding: 0.4rem 0.65rem;
+  }
+
+  .maps-search-control__status {
+    color: #57606a;
+    font-size: 0.8rem;
+    line-height: 1.25;
+    margin: 0.4rem 0 0;
+  }
+
+  .maps-search-control__results {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 0.4rem;
+    max-height: min(15rem, calc(100dvh - 10rem));
+    overflow-y: auto;
+  }
+
+  .maps-search-control__result {
+    background: #fff;
+    border: 1px solid #d0d7de;
+    border-radius: 3px;
+    color: #24292f;
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.25;
+    padding: 0.4rem 0.5rem;
+    text-align: left;
+  }
+
+  .maps-search-control__result:hover,
+  .maps-search-control__result:focus-visible {
+    background: #f6f8fa;
+    border-color: #0969da;
   }
 
   .maps-district-popup > .maps-senator-card {
@@ -1326,6 +1443,7 @@ image: /media/2026/09/maps-featured.png
       bearing: initialMapRotation,
       fullscreenControl: false
     }).setView(initialMapCenter, initialMapZoom);
+    let searchResultMarker;
     const mapLibrePane = map.createPane("mapLibrePane", map.getContainer());
     mapLibrePane.style.zIndex = "0";
     map._mapPane.style.zIndex = "1";
@@ -2182,6 +2300,149 @@ image: /media/2026/09/maps-featured.png
       });
 
       map.addControl(new LocateControl());
+    }
+
+    function addSearchControl() {
+      const SearchControl = L.Control.extend({
+        options: {
+          position: "topleft"
+        },
+        onAdd: function () {
+          const container = L.DomUtil.create("div", "leaflet-bar leaflet-control maps-search-control");
+          const button = L.DomUtil.create("button", "maps-search-control__button", container);
+          const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          const panel = L.DomUtil.create("div", "maps-search-control__panel", container);
+          const form = L.DomUtil.create("form", "maps-search-control__form", panel);
+          const input = L.DomUtil.create("input", "maps-search-control__input", form);
+          const submit = L.DomUtil.create("button", "maps-search-control__submit", form);
+          const status = L.DomUtil.create("p", "maps-search-control__status", panel);
+          const results = L.DomUtil.create("div", "maps-search-control__results", panel);
+          let requestController;
+
+          button.type = "button";
+          button.title = "Search addresses and places";
+          button.setAttribute("aria-label", "Search addresses and places");
+          button.setAttribute("aria-expanded", "false");
+          icon.setAttribute("viewBox", "0 0 24 24");
+          icon.setAttribute("aria-hidden", "true");
+          path.setAttribute("d", "M10.5 3a7.5 7.5 0 1 0 4.73 13.32l4.72 4.73 1.42-1.42-4.73-4.72A7.5 7.5 0 0 0 10.5 3Zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Z");
+          icon.appendChild(path);
+          button.appendChild(icon);
+          input.type = "search";
+          input.name = "map-search";
+          input.placeholder = "Address or place";
+          input.autocomplete = "street-address";
+          input.setAttribute("aria-label", "Address or place");
+          submit.type = "submit";
+          submit.textContent = "Search";
+          status.hidden = true;
+          status.setAttribute("aria-live", "polite");
+          results.setAttribute("role", "list");
+
+          function setOpen(open) {
+            container.classList.toggle("is-open", open);
+            button.setAttribute("aria-expanded", String(open));
+            if (open) {
+              window.requestAnimationFrame(() => {
+                const mapBounds = map.getContainer().getBoundingClientRect();
+                const buttonBounds = button.getBoundingClientRect();
+                const panelBounds = panel.getBoundingClientRect();
+                container.classList.toggle("opens-left", buttonBounds.right + 40 + panelBounds.width > mapBounds.right);
+                const adjustedPanelBounds = panel.getBoundingClientRect();
+                const overflowBottom = adjustedPanelBounds.bottom - mapBounds.bottom + 10;
+                panel.style.top = `${Math.min(0, -overflowBottom)}px`;
+                input.focus();
+              });
+            } else {
+              container.classList.remove("opens-left");
+              panel.style.top = "";
+            }
+          }
+
+          function setStatus(message, isError) {
+            status.hidden = !message;
+            status.textContent = message || "";
+            status.style.color = isError ? "#cf222e" : "";
+          }
+
+          function selectCandidate(candidate) {
+            const location = candidate && candidate.location;
+            if (!location || !Number.isFinite(location.y) || !Number.isFinite(location.x)) return;
+            const latLng = L.latLng(location.y, location.x);
+            if (searchResultMarker) map.removeLayer(searchResultMarker);
+            searchResultMarker = L.marker(latLng).addTo(map);
+            const popupContent = document.createElement("span");
+            popupContent.textContent = candidate.address || "Search result";
+            searchResultMarker.bindPopup(popupContent).openPopup();
+            map.setView(latLng, Math.max(map.getZoom(), 16));
+            setOpen(false);
+          }
+
+          button.addEventListener("click", function () {
+            setOpen(!container.classList.contains("is-open"));
+          });
+
+          form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const query = input.value.trim();
+            if (!query) {
+              setStatus("Enter an address or place to search.", true);
+              return;
+            }
+            if (requestController) requestController.abort();
+            requestController = new AbortController();
+            results.replaceChildren();
+            setStatus("Searching…", false);
+            submit.disabled = true;
+            try {
+              const params = new URLSearchParams({
+                SingleLine: query,
+                f: "json",
+                outFields: "Match_addr,Addr_type",
+                maxLocations: "6",
+                location: "-81.6557,30.3322",
+                searchExtent: "-82.15,29.85,-81.15,30.75"
+              });
+              const response = await fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?${params}`, {
+                signal: requestController.signal
+              });
+              if (!response.ok) throw new Error(`Search returned ${response.status}`);
+              const data = await response.json();
+              const candidates = Array.isArray(data.candidates) ? data.candidates : [];
+              if (!candidates.length) {
+                setStatus("No matching locations found.", true);
+                return;
+              }
+              setStatus(`${candidates.length} result${candidates.length === 1 ? "" : "s"}`, false);
+              candidates.forEach((candidate) => {
+                const result = document.createElement("button");
+                result.type = "button";
+                result.className = "maps-search-control__result";
+                result.setAttribute("role", "listitem");
+                result.textContent = candidate.address || "Search result";
+                result.addEventListener("click", () => selectCandidate(candidate));
+                results.appendChild(result);
+              });
+            } catch (error) {
+              if (error.name !== "AbortError") {
+                setStatus("Search is temporarily unavailable. Please try again.", true);
+              }
+            } finally {
+              submit.disabled = false;
+            }
+          });
+
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") setOpen(false);
+          });
+          L.DomEvent.disableClickPropagation(container);
+          L.DomEvent.disableScrollPropagation(container);
+          return container;
+        }
+      });
+
+      map.addControl(new SearchControl());
     }
 
     function setLocateControlState(state) {
@@ -9224,6 +9485,7 @@ image: /media/2026/09/maps-featured.png
     activateQueryLayers();
     addBaseMapControl();
     addLocateControl();
+    addSearchControl();
     activateLocateQuery();
     map.rotateControl.setPosition("topleft");
 
@@ -9241,6 +9503,93 @@ image: /media/2026/09/maps-featured.png
           button.title = "Open map controls";
           button.setAttribute("aria-label", "Open map controls");
           button.setAttribute("aria-expanded", "false");
+
+          function makeControlsDraggable() {
+            const corner = container.parentElement;
+            const storageKey = "ray-maps-control-position";
+            let offset = { x: 0, y: 0 };
+            let dragStart;
+            let dragged = false;
+
+            function clampPosition(position) {
+              const mapBounds = map.getContainer().getBoundingClientRect();
+              const cornerBounds = corner.getBoundingClientRect();
+              const width = Math.max(30, cornerBounds.width);
+              const height = Math.max(30, cornerBounds.height);
+              return {
+                x: Math.max(0, Math.min(position.x, mapBounds.width - width - 10)),
+                y: Math.max(0, Math.min(position.y, mapBounds.height - height - 10))
+              };
+            }
+
+            function applyPosition(position, save) {
+              offset = clampPosition(position);
+              corner.style.transform = `translate(${Math.round(offset.x)}px, ${Math.round(offset.y)}px)`;
+              if (save) {
+                try {
+                  window.localStorage.setItem(storageKey, JSON.stringify(offset));
+                } catch (error) {
+                  // Storage can be unavailable in private browsing modes.
+                }
+              }
+            }
+
+            try {
+              const saved = JSON.parse(window.localStorage.getItem(storageKey) || "null");
+              if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
+                applyPosition(saved, false);
+              }
+            } catch (error) {
+              // Ignore invalid or unavailable saved positions.
+            }
+
+            button.addEventListener("pointerdown", function (event) {
+              if (event.button !== undefined && event.button !== 0) return;
+              dragStart = {
+                pointerId: event.pointerId,
+                x: event.clientX,
+                y: event.clientY,
+                offsetX: offset.x,
+                offsetY: offset.y
+              };
+              dragged = false;
+              button.setPointerCapture(event.pointerId);
+            });
+            button.addEventListener("pointermove", function (event) {
+              if (!dragStart || event.pointerId !== dragStart.pointerId) return;
+              const deltaX = event.clientX - dragStart.x;
+              const deltaY = event.clientY - dragStart.y;
+              if (!dragged && Math.hypot(deltaX, deltaY) < 5) return;
+              dragged = true;
+              corner.classList.add("maps-controls-dragging");
+              applyPosition({
+                x: dragStart.offsetX + deltaX,
+                y: dragStart.offsetY + deltaY
+              }, false);
+            });
+
+            function finishDrag(event) {
+              if (!dragStart || event.pointerId !== dragStart.pointerId) return;
+              if (dragged) applyPosition(offset, true);
+              dragStart = null;
+              corner.classList.remove("maps-controls-dragging");
+            }
+
+            button.addEventListener("pointerup", finishDrag);
+            button.addEventListener("pointercancel", finishDrag);
+            button.addEventListener("click", function (event) {
+              if (!dragged) return;
+              event.preventDefault();
+              event.stopImmediatePropagation();
+              dragged = false;
+            }, true);
+            map.on("resize", function () {
+              applyPosition(offset, true);
+            });
+            window.addEventListener("resize", function () {
+              applyPosition(offset, true);
+            });
+          }
 
           function setOpen(open) {
             const corner = container.parentElement;
@@ -9263,6 +9612,7 @@ image: /media/2026/09/maps-featured.png
           });
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
+          window.requestAnimationFrame(makeControlsDraggable);
           return container;
         }
       });
@@ -9276,6 +9626,11 @@ image: /media/2026/09/maps-featured.png
       const locateControl = corner.querySelector(".leaflet-control-locate");
       if (locateControl) {
         corner.insertBefore(locateControl, toggleControl.getContainer().nextSibling);
+      }
+
+      const searchControl = corner.querySelector(".maps-search-control");
+      if (searchControl && locateControl) {
+        corner.insertBefore(searchControl, locateControl.nextSibling);
       }
 
       const layersControl = corner.querySelector(".maps-layers-control");
