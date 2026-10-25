@@ -303,10 +303,9 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-search-control__input:focus {
-    border-color: #57606a;
+    border-color: #8c959f;
     box-shadow: none;
-    outline: 2px solid #57606a;
-    outline-offset: 1px;
+    outline: none;
   }
 
   .maps-search-control__submit {
