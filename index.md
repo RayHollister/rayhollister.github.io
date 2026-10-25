@@ -25,6 +25,7 @@ exclude: true
 <link rel="apple-touch-icon" sizes="152x152" href="/media/apple-touch-icon-152x152.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon-180x180.png" />
 <link href='/businesscard-style.css' rel='stylesheet' type='text/css'>
+{::nomarkdown}
 <div id="centered">
     <h2 id="h2-wjct">Digital Media Director<br /><a href="https://wjct.org">WJCT Public Media</a></h2>
     <div id="bc-wjct" class="a2hs-container"></div>
@@ -374,3 +375,4 @@ exclude: true
     }
 })();
 </script>
+{:/nomarkdown}
