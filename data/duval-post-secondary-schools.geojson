@@ -788,7 +788,7 @@
         "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
         "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
         "category": "Post-Secondary School",
-        "school_name": "University OF Florida - Health Science Center",
+        "school_name": "University of Florida - Health Science Center",
         "address": "655 W 8th ST, Jacksonville, FL, 32209",
         "phone_number": "904-244-3145",
         "school_type": "College/university",
@@ -796,7 +796,7 @@
         "operator_class": "Public",
         "owner": "Duval County Hospital Authorit",
         "enrollment": "0",
-        "description": "University OF Florida - Health Science Center",
+        "description": "University of Florida - Health Science Center",
         "google_map_url": "https://www.google.com/maps/place/17RMP3615857574"
       },
       "geometry": {
@@ -813,7 +813,7 @@
         "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
         "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
         "category": "Post-Secondary School",
-        "school_name": "University OF Florida - Pediatric Center",
+        "school_name": "University of Florida - Pediatric Center",
         "address": "6271 ST Augustine Rd, Jacksonville, FL, 32217",
         "phone_number": "904-737-5239",
         "school_type": "College/university",
@@ -821,7 +821,7 @@
         "operator_class": "Public",
         "owner": "Kessell Derrick L Trust",
         "enrollment": "0",
-        "description": "University OF Florida - Pediatric Center",
+        "description": "University of Florida - Pediatric Center",
         "google_map_url": "https://www.google.com/maps/place/17RMP3984347434"
       },
       "geometry": {
@@ -838,15 +838,15 @@
         "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
         "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
         "category": "Post-Secondary School",
-        "school_name": "University OF Florida - Whitney Marine Lab",
+        "school_name": "University of Florida - Whitney Marine Lab",
         "address": "9505 Ocean Shore Blvd, Jacksonville, FL, 32080",
         "phone_number": "904-461-4000",
         "school_type": "College/university",
         "operating": "State",
         "operator_class": "Public",
-        "owner": "University OF Florida",
+        "owner": "University of Florida",
         "enrollment": "0",
-        "description": "University OF Florida - Whitney Marine Lab",
+        "description": "University of Florida - Whitney Marine Lab",
         "google_map_url": "https://www.google.com/maps/place/17RMN7924082264"
       },
       "geometry": {
@@ -863,15 +863,15 @@
         "source": "University of Florida GeoPlan Center FGDL GEOPLAN_Points",
         "source_url": "https://sagittarius.at.geoplan.ufl.edu/arcgis/rest/services/fgdl/GEOPLAN_Points/MapServer/14",
         "category": "Post-Secondary School",
-        "school_name": "University OF North Florida - Main Campus",
+        "school_name": "University of North Florida - Main Campus",
         "federal_id": "136172",
         "address": "1 UNF Dr, Jacksonville, FL, 32224",
         "school_type": "College/university",
         "operating": "State",
         "operator_class": "Public",
-        "owner": "Tiitf-University OF N Florida",
+        "owner": "Tiitf-University of N Florida",
         "enrollment": "0",
-        "description": "University OF North Florida - Main Campus",
+        "description": "University of North Florida - Main Campus",
         "google_map_url": "https://www.google.com/maps/place/17RMP5105648694"
       },
       "geometry": {
