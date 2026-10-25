@@ -122,7 +122,7 @@ exclude: true
     align-items: start;
     column-gap: 0.55rem;
     display: grid;
-    grid-template-columns: 2.25rem minmax(0, 1fr);
+    grid-template-columns: 115px minmax(0, 1fr);
     line-height: 1.25;
   }
   .vote-person + .vote-person {
@@ -131,11 +131,11 @@ exclude: true
     padding-top: 0.55rem;
   }
   .vote-person img {
-    border-radius: 50%;
+    border-radius: 5px;
     grid-column: 1;
     grid-row: 1 / span 20;
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 115px;
+    height: 115px;
     margin: 0;
     object-fit: cover;
   }
