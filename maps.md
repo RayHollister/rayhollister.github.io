@@ -1139,6 +1139,35 @@ image: /media/2026/09/maps-featured.png
     width: 32px;
   }
 
+  .maps-polling-location-pointer-icon {
+    background: transparent;
+    border: 0;
+  }
+
+  .maps-polling-location-pointer {
+    background: #7c3aed;
+    border: 3px solid #fff;
+    border-radius: 50% 50% 50% 0;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 45%);
+    box-sizing: border-box;
+    display: block;
+    height: 28px;
+    position: relative;
+    transform: rotate(-45deg);
+    width: 28px;
+  }
+
+  .maps-polling-location-pointer::after {
+    background: #fff;
+    border-radius: 50%;
+    content: "";
+    height: 8px;
+    left: 7px;
+    position: absolute;
+    top: 7px;
+    width: 8px;
+  }
+
   @keyframes leaflet-control-locate-spin {
     0% {
       transform: rotate(0deg);
@@ -1232,6 +1261,9 @@ image: /media/2026/09/maps-featured.png
     historicPlacementPane.style.zIndex = "350";
     const navigationMarkerPane = map.createPane("navigationMarkerPane", map._norotatePane);
     navigationMarkerPane.style.zIndex = "750";
+    const pollingLocationPointerPane = map.createPane("pollingLocationPointerPane", map._norotatePane);
+    pollingLocationPointerPane.style.pointerEvents = "none";
+    pollingLocationPointerPane.style.zIndex = "850";
 
     const openFreeMapStyles = {
       positron: "https://tiles.openfreemap.org/styles/positron",
@@ -2577,6 +2609,18 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "border", "county"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "county")
     });
+    const votingPrecinctFillLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "fill", "votingPrecinct"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "votingPrecinct")
+    });
+    const votingPrecinctBorderLayer = L.geoJSON(null, {
+      style: (feature) => getBoundaryStyle(feature, "border", "votingPrecinct"),
+      onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "votingPrecinct")
+    });
+    const pollingLocationsLayer = L.geoJSON(null, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, getPollingLocationStyle()),
+      onEachFeature: (feature, layer) => addPollingLocationInteractivity(feature, layer)
+    });
     const neighborhoodFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "neighborhood"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "neighborhood")
@@ -2809,6 +2853,8 @@ image: /media/2026/09/maps-featured.png
     let mapInteractionMode = "browse";
     let focusToggleButton;
     let focusedBoundary;
+    let votingPrecinctPollingPointer;
+    let votingPrecinctPollingPointerPrecinct = "";
     const focusLayerStates = new Map();
     let compareModeEnabled = false;
     let compareToggleButton;
@@ -2884,6 +2930,10 @@ image: /media/2026/09/maps-featured.png
         cityBorderLayer,
         countyFillLayer,
         countyBorderLayer,
+        votingPrecinctFillLayer,
+        votingPrecinctBorderLayer,
+        votingPrecinctFillLayer,
+        votingPrecinctBorderLayer,
         neighborhoodFillLayer,
         neighborhoodBorderLayer,
         cpacFillLayer,
@@ -2936,6 +2986,8 @@ image: /media/2026/09/maps-featured.png
         archivedPlaceLayer,
         jsoPoliceStationsLayer,
         neighborhoodOrganizationsLayer,
+        pollingLocationsLayer,
+        pollingLocationsLayer,
         busStopsLayer,
         skywayStationsLayer,
         ferryLandingsLayer,
@@ -5204,6 +5256,11 @@ image: /media/2026/09/maps-featured.png
           appendGeographyLayerRow(overlays, "Cities", cityFillLayer, cityBorderLayer, { locationLayerType: "city" });
           appendGeographyLayerRow(overlays, "Counties", countyFillLayer, countyBorderLayer, { locationLayerType: "county" });
           appendGeographyLayerRow(overlays, "Zip Codes", zipCodeFillLayer, zipCodeBorderLayer, { locationLayerType: "zipCode" });
+          overlays.appendChild(createLayerSubheading("Elections"));
+          appendGeographyLayerRow(overlays, "Voting Precincts", votingPrecinctFillLayer, votingPrecinctBorderLayer, { locationLayerType: "votingPrecinct" });
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("Polling Locations", pollingLocationsLayer)
+          ]);
           overlays.appendChild(createLayerHeading("Neighborhood"));
           appendGeographyLayerRow(overlays, "Neighborhoods", neighborhoodFillLayer, neighborhoodBorderLayer, { locationLayerType: "neighborhood" });
           appendLayerControls(overlays, [
@@ -5362,6 +5419,8 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries", slug: "schoolboarddistricts", alternateLayers: [schoolBoardDistrictBorderLayer] });
       registerQueryLayer(["cities", "cityboundaries"], cityFillLayer, { group: "boundaries", slug: "cities", alternateLayers: [cityBorderLayer] });
       registerQueryLayer(["county", "counties", "countyboundaries", "duvalcounty", "duvalcountyboundary", "countyboundary"], countyFillLayer, { group: "boundaries", slug: "counties", alternateLayers: [countyBorderLayer] });
+      registerQueryLayer(["votingprecinct", "votingprecincts", "precinct", "precincts"], votingPrecinctFillLayer, { group: "boundaries", slug: "votingprecincts", alternateLayers: [votingPrecinctBorderLayer] });
+      registerQueryLayer(["pollinglocation", "pollinglocations", "polls"], pollingLocationsLayer, { slug: "pollinglocations" });
       registerQueryLayer(["floridahouse", "house", "statehouse"], floridaHouseFillLayer, { group: "boundaries", slug: "floridahouse", alternateLayers: [floridaHouseBorderLayer] });
       registerQueryLayer(["floridasenate", "senate", "statesenate"], floridaSenateFillLayer, { group: "boundaries", slug: "floridasenate", alternateLayers: [floridaSenateBorderLayer] });
       registerQueryLayer(["zip", "zips", "zipcode", "zipcodes", "zcta", "zctas"], zipCodeFillLayer, { group: "boundaries", slug: "zipcodes", alternateLayers: [zipCodeBorderLayer] });
@@ -5446,6 +5505,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "county") {
         return getStringColorNumber(properties.geoid || properties.GEOID || properties.name || "County");
+      }
+      if (layerType === "votingPrecinct") {
+        return getStringColorNumber(String(properties.GEOID || "").replace(/^12031-/, ""));
       }
       if (layerType === "schoolBoard") {
         return Number.parseInt(properties.school_board_district || properties.SB, 10);
@@ -5590,6 +5652,9 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "county") {
         return mode === "border" ? countyBorderLayer : countyFillLayer;
       }
+      if (layerType === "votingPrecinct") {
+        return mode === "border" ? votingPrecinctBorderLayer : votingPrecinctFillLayer;
+      }
       if (layerType === "schoolBoard") {
         return mode === "border" ? schoolBoardDistrictBorderLayer : schoolBoardDistrictFillLayer;
       }
@@ -5642,6 +5707,10 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "county") {
         return properties.label || properties.name || properties.NAME || "County";
+      }
+      if (layerType === "votingPrecinct") {
+        const precinct = String(properties.GEOID || "").replace(/^12031-/, "");
+        return precinct ? `Voting Precinct ${precinct}` : "Voting Precinct";
       }
       if (layerType === "schoolBoard") {
         return properties.label || (properties.school_board_district ? `Duval County School Board District ${properties.school_board_district}` : "Duval County School Board District");
@@ -6374,9 +6443,10 @@ image: /media/2026/09/maps-featured.png
       return feature;
     }
 
-    function appendActivePointCounts(popup, feature, boundaryTitle) {
+    function appendActivePointCounts(popup, feature, boundaryTitle, excludedLayers) {
+      const excluded = excludedLayers || [];
       const activeCounts = countablePointLayers
-        .filter((pointLayer) => map.hasLayer(pointLayer.layer))
+        .filter((pointLayer) => map.hasLayer(pointLayer.layer) && !excluded.includes(pointLayer.layer))
         .map((pointLayer) => ({
           label: pointLayer.label,
           count: countLayerPointsInFeature(pointLayer.layer, feature)
@@ -6399,6 +6469,90 @@ image: /media/2026/09/maps-featured.png
         line.textContent = `${pointLayer.label}: ${pointLayer.count.toLocaleString()}`;
         popup.appendChild(line);
       });
+    }
+
+    function getVotingPrecinctNumber(feature) {
+      return String((feature.properties || {}).GEOID || "").replace(/^12031-/, "");
+    }
+
+    function findPollingLocationForPrecinct(feature) {
+      const precinct = getVotingPrecinctNumber(feature);
+      let pollingFeature;
+      if (!precinct) return pollingFeature;
+
+      pollingLocationsLayer.eachLayer((layer) => {
+        const candidate = layer.feature;
+        const candidatePrecincts = String((candidate && candidate.properties || {}).precinct || "")
+          .split(",")
+          .map((value) => value.trim());
+        if (!pollingFeature && candidatePrecincts.includes(precinct)) {
+          pollingFeature = candidate;
+        }
+      });
+      return pollingFeature;
+    }
+
+    function clearVotingPrecinctPollingPointer(precinct) {
+      if (precinct && precinct !== votingPrecinctPollingPointerPrecinct) return;
+      if (votingPrecinctPollingPointer) {
+        map.removeLayer(votingPrecinctPollingPointer);
+      }
+      votingPrecinctPollingPointer = undefined;
+      votingPrecinctPollingPointerPrecinct = "";
+    }
+
+    function showVotingPrecinctPollingPointer(feature) {
+      const pollingFeature = findPollingLocationForPrecinct(feature);
+      const coordinates = pollingFeature && pollingFeature.geometry && pollingFeature.geometry.coordinates;
+      clearVotingPrecinctPollingPointer();
+      if (!coordinates || coordinates.length < 2) return;
+
+      const pointerIcon = L.divIcon({
+        className: "maps-polling-location-pointer-icon",
+        html: '<span class="maps-polling-location-pointer" aria-hidden="true"></span>',
+        iconAnchor: [14, 36],
+        iconSize: [28, 28]
+      });
+      votingPrecinctPollingPointer = L.marker([coordinates[1], coordinates[0]], {
+        icon: pointerIcon,
+        interactive: false,
+        keyboard: false,
+        pane: "pollingLocationPointerPane",
+        zIndexOffset: 1000
+      }).addTo(map);
+      votingPrecinctPollingPointerPrecinct = getVotingPrecinctNumber(feature);
+    }
+
+    function appendVotingPrecinctPollingLocation(popup, feature) {
+      const precinct = getVotingPrecinctNumber(feature);
+      const pollingFeature = findPollingLocationForPrecinct(feature);
+      if (!precinct) return;
+
+      const heading = document.createElement("strong");
+      heading.textContent = "Polling location:";
+      popup.appendChild(heading);
+
+      if (!pollingFeature) {
+        const unavailable = document.createElement("span");
+        unavailable.textContent = "No current polling location is listed for this precinct.";
+        popup.appendChild(unavailable);
+        return;
+      }
+
+      const properties = pollingFeature.properties || {};
+      [properties.name, properties.address].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+      if (properties.source_url) {
+        const sourceLink = document.createElement("a");
+        sourceLink.href = "https://www.duvalelections.gov/204/Polling-Location-Finder";
+        sourceLink.target = "_blank";
+        sourceLink.rel = "noopener";
+        sourceLink.textContent = "Verify polling location";
+        popup.appendChild(sourceLink);
+      }
     }
 
     function createBoundaryPopup(feature, layerType) {
@@ -6461,8 +6615,17 @@ image: /media/2026/09/maps-featured.png
         appendZipCodePopupDetails(popup, feature.properties || {});
       }
 
+      if (layerType === "votingPrecinct") {
+        appendVotingPrecinctPollingLocation(popup, feature);
+      }
+
       if (layerType !== "zipCode") {
-        appendActivePointCounts(popup, pointCountFeature, boundaryTitle);
+        appendActivePointCounts(
+          popup,
+          pointCountFeature,
+          boundaryTitle,
+          layerType === "votingPrecinct" ? [pollingLocationsLayer] : []
+        );
       }
 
       return popup;
@@ -6700,11 +6863,19 @@ image: /media/2026/09/maps-featured.png
       layer.options.boundaryType = layerType;
       layer.bindPopup(() => createBoundaryPopup(feature, layerType), { maxWidth: 10000 });
       layer.on("click", function () {
+        if (layerType === "votingPrecinct") {
+          showVotingPrecinctPollingPointer(feature);
+        }
         if (mapInteractionMode === "focus") {
           focusBoundaryFeature(feature, layer, mode, layerType);
         }
         if (compareModeEnabled) {
           pinBoundaryFeature(feature, layerType);
+        }
+      });
+      layer.on("popupclose", function () {
+        if (layerType === "votingPrecinct") {
+          clearVotingPrecinctPollingPointer(getVotingPrecinctNumber(feature));
         }
       });
       layer.on("contextmenu", function (event) {
@@ -6812,6 +6983,17 @@ image: /media/2026/09/maps-featured.png
       return {
         color: "#ffffff",
         fillColor: "#1d4ed8",
+        fillOpacity: 0.95,
+        opacity: 1,
+        radius: 6,
+        weight: 1.5
+      };
+    }
+
+    function getPollingLocationStyle() {
+      return {
+        color: "#ffffff",
+        fillColor: "#7c3aed",
         fillOpacity: 0.95,
         opacity: 1,
         radius: 6,
@@ -7101,6 +7283,32 @@ image: /media/2026/09/maps-featured.png
       return popup;
     }
 
+    function createPollingLocationPopup(feature) {
+      const properties = feature.properties || {};
+      const popup = document.createElement("div");
+      const title = document.createElement("strong");
+      popup.className = "maps-district-popup";
+      title.textContent = properties.name || "Polling Location";
+      popup.appendChild(title);
+      [
+        properties.precinct ? `Precinct ${properties.precinct}` : "",
+        properties.address
+      ].filter(Boolean).forEach((value) => {
+        const line = document.createElement("span");
+        line.textContent = value;
+        popup.appendChild(line);
+      });
+      if (properties.source_url) {
+        const sourceLink = document.createElement("a");
+        sourceLink.href = "https://www.duvalelections.gov/204/Polling-Location-Finder";
+        sourceLink.target = "_blank";
+        sourceLink.rel = "noopener";
+        sourceLink.textContent = "Verify polling location";
+        popup.appendChild(sourceLink);
+      }
+      return popup;
+    }
+
     function addBusRouteInteractivity(feature, layer) {
       const name = getBusRouteTitle(feature);
       registerBusRouteFeature(feature, layer);
@@ -7335,6 +7543,17 @@ image: /media/2026/09/maps-featured.png
         layer.bindTooltip(properties.name || "Neighborhood Organization", {
           sticky: true
         });
+      }
+    }
+
+    function addPollingLocationInteractivity(feature, layer) {
+      const properties = feature.properties || {};
+      layer.bindPopup(createPollingLocationPopup(feature));
+      layer.on("contextmenu", function (event) {
+        showMapContextMenu(event, { feature, layer, layerType: "pollingLocation" });
+      });
+      if (supportsPointerHover) {
+        layer.bindTooltip(properties.name || "Polling Location", { sticky: true });
       }
     }
 
@@ -7933,6 +8152,13 @@ image: /media/2026/09/maps-featured.png
       countyBorderLayer,
       "county boundaries"
     );
+    loadBoundaryLayers(
+      "/data/duval-voting-precincts.geojson",
+      votingPrecinctFillLayer,
+      votingPrecinctBorderLayer,
+      "Duval County voting precincts"
+    );
+    loadGeoJsonLayer("/data/duval-polling-locations.geojson", pollingLocationsLayer, "Duval County polling locations");
     loadBoundaryLayers(
       "https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson",
       neighborhoodFillLayer,

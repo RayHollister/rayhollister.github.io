@@ -11,7 +11,7 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
 
 This map is provided as is, with no guarantee of accuracy, completeness, or currentness. It is a personal passion project and should not be considered canonical information.
 
-The information shown on the map is based on the sources listed below, using data available as of October 20, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
+The information shown on the map is based on the sources listed below, using data available as of October 24, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
 
 If you appreciate this project, you can [buy me a coffee! ☕️](https://buymeacoffee.com/rayhollister).
 
@@ -105,6 +105,12 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
   - Note: USPS is authoritative for ZIP Codes as mail-routing data, but USPS does not publish official ZIP Code polygon boundaries. The map uses Census ZIP Code Tabulation Areas (ZCTAs), which are public statistical approximations of USPS ZIP Code service areas, clipped to Duval County.
   - Zip Codes Overlays
   - Zip Codes Borders
+- Elections:
+  - Voting Precinct geometry: [The New York Times 2024 presidential precinct map data](https://github.com/nytimes/presidential-precinct-map-2024), filtered to Duval County features identified by the source as official boundaries. The geometry is from the 2024 election cycle; verify current boundaries with the [Duval County Supervisor of Elections countywide maps](https://www.duvalelections.gov/275/Countywide-Maps).
+  - Polling-location names and addresses: [Duval County Supervisor of Elections 2026 Polling Locations](https://www.duvalelections.gov/DocumentCenter/View/1539/2026-Polling-Locations-PDF). The list contains 159 precinct assignments at 157 physical locations because precincts 604/605 and 611/1110 share locations.
+  - Polling-location coordinates were geocoded from those official public addresses with the [U.S. Census Geocoder](https://geocoding.geo.census.gov/geocoder/) and OpenStreetMap's [Nominatim](https://nominatim.org/) where Census matching was unavailable.
+  - Voting Precincts
+  - Polling Locations
 - Neighborhood Overlays and Neighborhood Borders:
   - Source repository: [RayHollister/JacksonvilleNeighborhoods](https://github.com/RayHollister/JacksonvilleNeighborhoods)
   - Runtime data URL: [neighborhoods.geojson](https://raw.githubusercontent.com/RayHollister/JacksonvilleNeighborhoods/main/neighborhoods.geojson)
