@@ -602,9 +602,11 @@ svg.hero-content-start-button-icon {
         margin-bottom: 10px;
     }
 
-    h2 {
-        font-size: 6vw;
-        line-height: 8vw;
+    #centered #h2-wjct,
+    #centered #h2-jaxplays {
+        font-size: clamp(1.35rem, 6vw, 1.75rem);
+        line-height: 1.3;
+        letter-spacing: 2px;
     }
 
     h2 a.wjctlogo {
