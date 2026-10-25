@@ -58,7 +58,6 @@ exclude: true
     flex: 1 1 16rem;
     margin: 0;
     padding: 0.65rem 0.8rem 0.65rem 2rem;
-    border-left: 4px solid #0969da;
     border-radius: 5px;
     background: rgba(127, 127, 127, 0.1);
     color: #4b5563;
@@ -80,7 +79,6 @@ exclude: true
   }
   .vote-status[role="alert"] {
     color: #b42318;
-    border-left-color: #b42318;
     background: rgba(180, 35, 24, 0.08);
   }
   .vote-status[role="alert"]::before {
@@ -91,6 +89,9 @@ exclude: true
     flex-direction: column;
     gap: 1rem;
     max-width: 46rem;
+  }
+  .vote-results:not(:empty) {
+    margin-bottom: 1.5rem;
   }
   .vote-card {
     min-width: 0;
@@ -226,16 +227,16 @@ exclude: true
 
 <div class="vote-actions">
   <button class="vote-locate" id="vote-locate" type="button">Find my voting information</button>
-  <p class="vote-status" id="vote-status" aria-live="polite">Location has not been requested.</p>
+  <p class="vote-status" id="vote-status" aria-live="polite">Click the button to the left to find your voting precinct, polling location and your current elected representatives.</p>
 </div>
+
+<section class="vote-results" id="vote-results" aria-label="Voting and representation information"></section>
 
 <div class="vote-intro">
   <p>Find your Jacksonville voting precinct, assigned Duval County polling place, and elected representatives using your current location.</p>
   <p>The results include your Jacksonville City Council district, at-large council members, Duval County School Board district, Florida House and Senate districts, U.S. House district, and Florida’s U.S. senators.</p>
   <p>Your coordinates stay in your browser and are only compared with the local Jacksonville and Duval County boundary data used by the <a href="/maps/">Maps</a> page.</p>
 </div>
-
-<section class="vote-results" id="vote-results" aria-label="Voting and representation information"></section>
 
 <template id="vote-note-template">
   <p class="vote-note">Boundary and polling-place information can change. Always confirm your assignment with the <a href="https://www.duvalelections.gov/204/Polling-Location-Finder" target="_blank" rel="noopener">Duval County Supervisor of Elections polling-location finder</a>. See <a href="/maps/references/">Maps References</a> for sources and limitations.</p>
