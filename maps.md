@@ -987,7 +987,8 @@ image: /media/2026/09/maps-featured.png
 
   /* Smooth-wheel zoom already supplies every intermediate transform. Do not
      let Leaflet's 250ms discrete-zoom transition replay the final SVG scale. */
-  #ray-map.maps-smooth-wheel-zooming .leaflet-pane > svg.leaflet-zoom-animated {
+  #ray-map.maps-smooth-wheel-zooming .leaflet-pane > svg.leaflet-zoom-animated,
+  #ray-map.maps-smooth-wheel-zooming .leaflet-elevation-pane .leaflet-zoom-animated {
     transition: none;
   }
 
