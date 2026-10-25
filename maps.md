@@ -524,7 +524,7 @@ image: /media/2026/09/maps-featured.png
     text-transform: uppercase;
   }
 
-  .maps-layer-heading--emergency-management {
+  .maps-layer-heading--terrain-hazards {
     margin-bottom: 0.15rem;
   }
 
@@ -1016,6 +1016,40 @@ image: /media/2026/09/maps-featured.png
     outline: 0;
   }
 
+  .maps-elevation-legend {
+    background: rgba(255, 255, 255, 0.94);
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+    color: #24292f;
+    display: none;
+    font-size: 0.72rem;
+    line-height: 1.2;
+    padding: 0.45rem 0.55rem;
+  }
+
+  .maps-elevation-legend.is-visible {
+    display: block;
+  }
+
+  .maps-elevation-legend strong {
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .maps-elevation-legend__row {
+    align-items: center;
+    display: flex;
+    gap: 0.35rem;
+    margin-top: 0.12rem;
+  }
+
+  .maps-elevation-legend__swatch {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    height: 0.65rem;
+    width: 0.9rem;
+  }
+
   .maps-historic-placement-handle {
     align-items: center;
     background: #fff;
@@ -1257,6 +1291,9 @@ image: /media/2026/09/maps-featured.png
     map._mapPane.style.zIndex = "1";
     const historicMapsPane = map.createPane("historicMapsPane", map._norotatePane);
     historicMapsPane.style.zIndex = "350";
+    const elevationPane = map.createPane("elevationPane", map._rotatePane);
+    elevationPane.style.pointerEvents = "none";
+    elevationPane.style.zIndex = "250";
     const historicPlacementPane = map.createPane("historicPlacementPane", map._rotatePane);
     historicPlacementPane.style.zIndex = "350";
     const navigationMarkerPane = map.createPane("navigationMarkerPane", map._norotatePane);
@@ -2718,6 +2755,207 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "fill", "healthZone"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "healthZone")
     });
+    const elevationWmsUrl = "https://elevation.nationalmap.gov/arcgis/services/3DEPElevation/ImageServer/WMSServer";
+    const elevationImageServerUrl = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage";
+    const elevationAttribution = '<a href="https://www.usgs.gov/programs/national-geospatial-program/national-map" target="_blank" rel="noopener">USGS The National Map</a> · <a href="https://www.usgs.gov/3d-elevation-program" target="_blank" rel="noopener">3DEP</a>';
+    let resolveRegionalElevationMask;
+    let regionalElevationMaskFeatures = [];
+    const regionalElevationMaskReady = new Promise((resolve) => {
+      resolveRegionalElevationMask = resolve;
+    });
+    const elevationColorRenderingRule = JSON.stringify({
+      rasterFunction: "Colormap",
+      rasterFunctionArguments: {
+        Colormap: [
+          [0, 49, 130, 189],
+          [1, 107, 174, 214],
+          [2, 166, 219, 160],
+          [3, 255, 255, 179],
+          [4, 254, 204, 92],
+          [5, 253, 141, 60],
+          [6, 215, 48, 39]
+        ],
+        Raster: {
+          rasterFunction: "Remap",
+          rasterFunctionArguments: {
+            InputRanges: [-1000, 0, 0, 1.524, 1.524, 3.048, 3.048, 6.096, 6.096, 9.144, 9.144, 15.24, 15.24, 1000],
+            OutputValues: [0, 1, 2, 3, 4, 5, 6],
+            Raster: "$$"
+          }
+        }
+      }
+    });
+    function getSquaredSegmentDistance(point, start, end) {
+      let x = start[0];
+      let y = start[1];
+      let dx = end[0] - x;
+      let dy = end[1] - y;
+      if (dx !== 0 || dy !== 0) {
+        const offset = ((point[0] - x) * dx + (point[1] - y) * dy) / (dx * dx + dy * dy);
+        if (offset > 1) {
+          x = end[0];
+          y = end[1];
+        } else if (offset > 0) {
+          x += dx * offset;
+          y += dy * offset;
+        }
+      }
+      dx = point[0] - x;
+      dy = point[1] - y;
+      return dx * dx + dy * dy;
+    }
+
+    function simplifyRegionalMaskRing(points, tolerance) {
+      if (!points || points.length <= 4) return points || [];
+      const openPoints = points.slice(0, -1);
+      const squaredTolerance = tolerance * tolerance;
+      const markers = new Uint8Array(openPoints.length);
+      const stack = [[0, openPoints.length - 1]];
+      markers[0] = 1;
+      markers[openPoints.length - 1] = 1;
+      while (stack.length) {
+        const [first, last] = stack.pop();
+        let maximumDistance = squaredTolerance;
+        let index = 0;
+        for (let pointIndex = first + 1; pointIndex < last; pointIndex += 1) {
+          const distance = getSquaredSegmentDistance(openPoints[pointIndex], openPoints[first], openPoints[last]);
+          if (distance > maximumDistance) {
+            index = pointIndex;
+            maximumDistance = distance;
+          }
+        }
+        if (index) {
+          markers[index] = 1;
+          stack.push([first, index], [index, last]);
+        }
+      }
+      const simplified = openPoints.filter((point, index) => markers[index]);
+      simplified.push(simplified[0]);
+      return simplified;
+    }
+
+    function setRegionalElevationMask(geojson) {
+      regionalElevationMaskFeatures = (geojson.features || []).map((feature) => ({
+        type: feature.geometry.type,
+        coordinates: feature.geometry.coordinates.map((polygonOrRing) => {
+          if (feature.geometry.type === "Polygon") {
+            return simplifyRegionalMaskRing(polygonOrRing, 0.0005);
+          }
+          return polygonOrRing.map((ring) => simplifyRegionalMaskRing(ring, 0.0005));
+        })
+      }));
+      resolveRegionalElevationMask();
+      elevationColorLayer.redraw();
+      elevationContoursOverviewLayer.redraw();
+      elevationContoursDetailLayer.redraw();
+    }
+
+    function appendRegionalElevationMaskPath(context, coords, tileSize) {
+      const tileOrigin = L.point(coords.x * tileSize.x, coords.y * tileSize.y);
+      const appendRing = (ring) => {
+        ring.forEach(([longitude, latitude], index) => {
+          const point = map.project(L.latLng(latitude, longitude), coords.z).subtract(tileOrigin);
+          if (index === 0) context.moveTo(point.x, point.y);
+          else context.lineTo(point.x, point.y);
+        });
+        context.closePath();
+      };
+      regionalElevationMaskFeatures.forEach((geometry) => {
+        if (geometry.type === "Polygon") geometry.coordinates.forEach(appendRing);
+        else geometry.coordinates.forEach((polygon) => polygon.forEach(appendRing));
+      });
+    }
+
+    const RegionalElevationGridLayer = L.GridLayer.extend({
+      createTile: function (coords, done) {
+        const tile = document.createElement("canvas");
+        const tileSize = this.getTileSize();
+        tile.width = tileSize.x;
+        tile.height = tileSize.y;
+        regionalElevationMaskReady.then(() => {
+          const image = new Image();
+          image.crossOrigin = "anonymous";
+          image.onload = () => {
+            const context = tile.getContext("2d");
+            context.beginPath();
+            appendRegionalElevationMaskPath(context, coords, tileSize);
+            context.clip("evenodd");
+            context.drawImage(image, 0, 0, tileSize.x, tileSize.y);
+            done(null, tile);
+          };
+          image.onerror = (error) => done(error, tile);
+          image.src = this.options.getImageUrl.call(this, coords, tileSize);
+        });
+        return tile;
+      }
+    });
+
+    function getRegionalElevationTileBounds(layer, coords) {
+      const bounds = layer._tileCoordsToBounds(coords);
+      const northWest = map.options.crs.project(bounds.getNorthWest());
+      const southEast = map.options.crs.project(bounds.getSouthEast());
+      return `${northWest.x},${southEast.y},${southEast.x},${northWest.y}`;
+    }
+
+    function getElevationColorImageUrl(coords, tileSize) {
+      const params = new URLSearchParams({
+        bbox: getRegionalElevationTileBounds(this, coords),
+        bboxSR: "3857",
+        f: "image",
+        format: "png32",
+        imageSR: "3857",
+        renderingRule: elevationColorRenderingRule,
+        size: `${tileSize.x},${tileSize.y}`,
+        transparent: "true"
+      });
+      return `${elevationImageServerUrl}?${params}`;
+    }
+
+    function getElevationContourImageUrl(layerName, coords, tileSize) {
+      const params = new URLSearchParams({
+        bbox: getRegionalElevationTileBounds(this, coords),
+        crs: "EPSG:3857",
+        format: "image/png",
+        height: String(tileSize.y),
+        layers: layerName,
+        request: "GetMap",
+        service: "WMS",
+        styles: "default",
+        transparent: "true",
+        version: "1.3.0",
+        width: String(tileSize.x)
+      });
+      return `${elevationWmsUrl}?${params}`;
+    }
+
+    const elevationColorLayer = new RegionalElevationGridLayer({
+      attribution: elevationAttribution,
+      getImageUrl: getElevationColorImageUrl,
+      opacity: 0.35,
+      pane: "elevationPane"
+    });
+    const elevationContoursOverviewLayer = new RegionalElevationGridLayer({
+      attribution: elevationAttribution,
+      getImageUrl: function (coords, tileSize) {
+        return getElevationContourImageUrl.call(this, "3DEPElevation:Preset 10ft Contour Interval", coords, tileSize);
+      },
+      maxZoom: 12,
+      opacity: 0.35,
+      pane: "elevationPane"
+    });
+    const elevationContoursDetailLayer = new RegionalElevationGridLayer({
+      attribution: elevationAttribution,
+      getImageUrl: function (coords, tileSize) {
+        return getElevationContourImageUrl.call(this, "3DEPElevation:Preset 5ft Contour Interval", coords, tileSize);
+      },
+      minZoom: 13,
+      opacity: 0.35,
+      pane: "elevationPane"
+    });
+    const elevationContoursLayer = L.layerGroup([
+      elevationContoursOverviewLayer,
+      elevationContoursDetailLayer
+    ]);
     const floodZoneFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "floodZone"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "floodZone")
@@ -5148,6 +5386,9 @@ image: /media/2026/09/maps-featured.png
       const nextOpacity = Math.max(0, Math.min(1, Number.isFinite(value) ? value : 1));
       governmentOverlayOpacity = nextOpacity;
       governmentLayerMode = "fill";
+      elevationColorLayer.setOpacity(nextOpacity);
+      elevationContoursOverviewLayer.setOpacity(nextOpacity);
+      elevationContoursDetailLayer.setOpacity(nextOpacity);
       updateGovernmentLayerOpacityControl();
       geographyLayerControls.forEach((geographyControl) => {
         const nextControl = geographyControl.overlayControl;
@@ -5298,9 +5539,19 @@ image: /media/2026/09/maps-featured.png
           appendLayerControls(overlays, [
             createBoundaryLayerInput("JSO Substations", jsoPoliceStationsLayer)
           ]);
-          const emergencyManagementHeading = createLayerHeading("Emergency Management");
-          emergencyManagementHeading.classList.add("maps-layer-heading--emergency-management");
-          overlays.appendChild(emergencyManagementHeading);
+          const terrainHazardsHeading = createLayerHeading("Terrain & Hazards");
+          terrainHazardsHeading.classList.add("maps-layer-heading--terrain-hazards");
+          overlays.appendChild(terrainHazardsHeading);
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("Elevation (Color)", elevationColorLayer, {
+              countable: false,
+              geometryType: "polygon"
+            }),
+            createBoundaryLayerInput("Elevation Contours", elevationContoursLayer, {
+              countable: false,
+              geometryType: "line"
+            })
+          ]);
           appendGeographyLayerRow(overlays, "Flood Zones", floodZoneFillLayer, floodZoneBorderLayer, {
             locationLayerType: "floodZone"
           });
@@ -5413,6 +5664,95 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function addElevationClickHandler() {
+      let elevationRequestId = 0;
+
+      map.on("click", async function (event) {
+        if (!map.hasLayer(elevationColorLayer) && !map.hasLayer(elevationContoursLayer)) return;
+        const target = event.originalEvent && event.originalEvent.target;
+        if (target && target.closest && target.closest(".leaflet-interactive, .leaflet-marker-icon, .leaflet-control")) return;
+
+        const requestId = ++elevationRequestId;
+        const popup = L.popup({ maxWidth: 260 })
+          .setLatLng(event.latlng)
+          .setContent("Looking up elevation…")
+          .openOn(map);
+        const params = new URLSearchParams({
+          includeDate: "false",
+          units: "Feet",
+          wkid: "4326",
+          x: String(event.latlng.lng),
+          y: String(event.latlng.lat)
+        });
+
+        try {
+          const response = await fetch(`https://epqs.nationalmap.gov/v1/json?${params}`);
+          if (!response.ok) throw new Error(`Elevation query returned ${response.status}`);
+          const result = await response.json();
+          if (requestId !== elevationRequestId || popup !== map._popup) return;
+          const elevation = Number(result && result.value);
+          if (!Number.isFinite(elevation)) throw new Error("Elevation query returned no value");
+
+          const content = document.createElement("div");
+          const heading = document.createElement("strong");
+          const value = document.createElement("div");
+          const note = document.createElement("small");
+          heading.textContent = "Approximate elevation";
+          value.textContent = `${elevation.toFixed(1)} feet`;
+          note.textContent = "USGS 3DEP interpolated ground elevation; not a surveyed measurement.";
+          content.append(heading, value, note);
+          popup.setContent(content).update();
+        } catch (error) {
+          if (requestId !== elevationRequestId || popup !== map._popup) return;
+          popup.setContent("Elevation is temporarily unavailable.").update();
+          console.warn(error);
+        }
+      });
+    }
+
+    function addElevationLegend() {
+      const legendItems = [
+        ["rgb(49 130 189)", "Below 0 ft"],
+        ["rgb(107 174 214)", "0–5 ft"],
+        ["rgb(166 219 160)", "5–10 ft"],
+        ["rgb(255 255 179)", "10–20 ft"],
+        ["rgb(254 204 92)", "20–30 ft"],
+        ["rgb(253 141 60)", "30–50 ft"],
+        ["rgb(215 48 39)", "50+ ft"]
+      ];
+      const ElevationLegendControl = L.Control.extend({
+        options: { position: "bottomleft" },
+        onAdd: function () {
+          const container = L.DomUtil.create("div", "maps-elevation-legend");
+          const heading = document.createElement("strong");
+          heading.textContent = "Approximate elevation";
+          container.appendChild(heading);
+          legendItems.forEach(([color, label]) => {
+            const row = document.createElement("div");
+            const swatch = document.createElement("span");
+            const text = document.createElement("span");
+            row.className = "maps-elevation-legend__row";
+            swatch.className = "maps-elevation-legend__swatch";
+            swatch.style.background = color;
+            text.textContent = label;
+            row.append(swatch, text);
+            container.appendChild(row);
+          });
+          this._container = container;
+          return container;
+        },
+        update: function () {
+          if (this._container) {
+            this._container.classList.toggle("is-visible", map.hasLayer(elevationColorLayer));
+          }
+        }
+      });
+      const legend = new ElevationLegendControl();
+      legend.addTo(map);
+      map.on("layeradd layerremove", () => legend.update());
+      legend.update();
+    }
+
     function addMapContextMenuHandlers() {
       map.on("contextmenu", function (event) {
         if (event.originalEvent && event.originalEvent._mapsContextMenuHandled) return;
@@ -5455,6 +5795,8 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["cpac", "cpacs", "planningdistricts"], cpacFillLayer, { group: "boundaries", slug: "cpacs", alternateLayers: [cpacBorderLayer] });
       registerQueryLayer(["health", "healthzone", "healthzones"], healthZoneFillLayer, { group: "boundaries", slug: "healthzones", alternateLayers: [healthZoneBorderLayer] });
       registerQueryLayer(["healthzones-byzipcodes", "healthzonesbyzipcodes", "healthzonesbyzip", "healthzoneslistedzips"], healthZoneByZipCodeLayer, { group: "boundaries", slug: "healthzones-byzipcodes" });
+      registerQueryLayer(["elevation", "elevationcolor", "terrain", "tintedhillshade", "3dep"], elevationColorLayer, { slug: "elevation" });
+      registerQueryLayer(["elevationcontours", "contours", "5ftcontours", "terraincontours"], elevationContoursLayer, { slug: "elevationcontours" });
       registerQueryLayer(["flood", "floodzone", "floodzones", "fema"], floodZoneFillLayer, { group: "boundaries", slug: "floodzones", alternateLayers: [floodZoneBorderLayer] });
       registerQueryLayer(["evacuation", "evacuationzone", "evacuationzones", "evaczones"], evacuationZoneFillLayer, { group: "boundaries", slug: "evacuationzones", alternateLayers: [evacuationZoneBorderLayer] });
       registerQueryLayer(["jsodistrict", "jsodistricts", "sheriffdistricts"], jsoDistrictFillLayer, { group: "boundaries", slug: "jsodistricts", alternateLayers: [jsoDistrictBorderLayer] });
@@ -8045,6 +8387,7 @@ image: /media/2026/09/maps-featured.png
           }
           fillLayer.addData(geojson);
           borderLayer.addData(geojson);
+          if (settings.onLoad) settings.onLoad(geojson);
           orderMapLayers();
           if (focusedBoundary) {
             applyFocusToBoundaryLayer(focusedBoundary.sourceLayer, focusedBoundary);
@@ -8179,7 +8522,8 @@ image: /media/2026/09/maps-featured.png
       "/data/counties.geojson",
       countyFillLayer,
       countyBorderLayer,
-      "county boundaries"
+      "county boundaries",
+      { onLoad: setRegionalElevationMask }
     );
     loadBoundaryLayers(
       "/data/duval-voting-precincts.geojson",
@@ -8324,6 +8668,8 @@ image: /media/2026/09/maps-featured.png
     }).addTo(map);
     addPinnedCardPanel();
     addFocusKeyboardShortcut();
+    addElevationClickHandler();
+    addElevationLegend();
     addCompareKeyboardShortcut();
     addMapContextMenuHandlers();
     addModifierDragRotation();

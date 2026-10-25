@@ -11,7 +11,7 @@ This page lists the source references used for the layers on the [Maps](/maps/) 
 
 This map is provided as is, with no guarantee of accuracy, completeness, or currentness. It is a personal passion project and should not be considered canonical information.
 
-The information shown on the map is based on the sources listed below, using data available as of October 24, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
+The information shown on the map is based on the sources listed below, using data available as of October 25, 2026. For official decisions, current boundaries, service eligibility, representation, routing, or public records, consult the original source material and the responsible agency directly.
 
 If you appreciate this project, you can [buy me a coffee! ☕️](https://buymeacoffee.com/rayhollister).
 
@@ -131,7 +131,17 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 - [Jacksonville Sheriff's Office Your Neighborhood](https://www.jaxsheriff.org/Your-Neighborhood.aspx)
   - Substations
 
-## Emergency Management
+## Terrain And Hazards
+
+- Elevation:
+  - Raster and contour service: [USGS 3DEP Bare Earth DEM Dynamic Service](https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer).
+  - Elevation (Color) applies a Jacksonville-area color scale to the USGS bare-earth digital elevation model: below 0 feet, 0–5 feet, 5–10 feet, 10–20 feet, 20–30 feet, 30–50 feet, and above 50 feet. The colors are generated dynamically by the USGS image service.
+  - Elevation Contours uses 10-foot contours at overview zooms and switches to 5-foot contours at zoom level 13 for readable local detail. Both come from the service's preset contour raster functions.
+  - Both elevation layers are clipped in the browser to the county boundaries covered by this map: Alachua, Baker, Bradford, Clay, Duval, Flagler, Nassau, Putnam, and St. Johns counties in Florida, plus Camden and Charlton counties in Georgia.
+  - The Layers menu opacity slider controls both elevation layers as well as the boundary overlays.
+  - Tapping or clicking the map while either elevation layer is active queries the [USGS Elevation Point Query Service](https://epqs.nationalmap.gov/v1/docs) and reports the interpolated ground elevation in feet.
+  - The 3DEP service uses the best available DEM resolution for a location, including 1-meter lidar-derived data where available. Point-query elevations are approximate, are not official surveyed measurements, and should not be used for engineering, property grading, flood depth, or flood-risk decisions.
+  - Program and accuracy context: [USGS 3D Elevation Program](https://www.usgs.gov/3d-elevation-program) and [3DEP point elevation accuracy](https://www.usgs.gov/faqs/how-accurate-are-elevations-generated-elevation-point-query-service-national-map).
 
 - Flood Zones:
   - Geometry source: [City of Jacksonville GIS Flood Zones January 2021](https://maps.coj.net/coj/rest/services/msmp/FloodZones/MapServer/0), derived from FEMA Digital Flood Insurance Rate Map data.
