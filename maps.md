@@ -23,6 +23,14 @@ image: /media/2026/09/maps-featured.png
   .leaflet-top .leaflet-control {
     margin-bottom: 10px;
   }
+
+  #ray-map .leaflet-bottom.leaflet-right {
+    z-index: 800;
+  }
+
+  #ray-map .leaflet-top.leaflet-left.maps-top-left-menu {
+    z-index: 1000;
+  }
   .maps-page {
     --maps-control-panel-header-height: 2.05rem;
     --maps-control-panel-max-height: calc(100vh - 6rem);
@@ -2126,6 +2134,8 @@ image: /media/2026/09/maps-featured.png
       setLocateControlState();
       const url = new URL(window.location.href);
       url.searchParams.delete("locate");
+      url.searchParams.delete("navigation");
+      url.searchParams.delete("nav");
       url.searchParams.delete("yah");
       window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
     }
@@ -2133,8 +2143,11 @@ image: /media/2026/09/maps-featured.png
     function activateLocateQuery() {
       const params = new URLSearchParams(window.location.search);
       const locateRequested = String(params.get("locate") || "").trim().toLowerCase() === "yes";
+      const navigationRequested = ["navigation", "nav"].some((name) => (
+        String(params.get(name) || "").trim().toLowerCase() === "yes"
+      ));
       const youAreHereRequested = String(params.get("yah") || "").trim().toLowerCase() === "yes";
-      if (!locateRequested && !youAreHereRequested) return;
+      if (!locateRequested && !navigationRequested && !youAreHereRequested) return;
       showYouAreHereCardWhenLocated = youAreHereRequested;
       startUserLocationTracking();
     }
@@ -2142,7 +2155,7 @@ image: /media/2026/09/maps-featured.png
     function addLocateControl() {
       const LocateControl = L.Control.extend({
         options: {
-          position: "topleft"
+          position: "bottomright"
         },
         onAdd: function () {
           const container = L.DomUtil.create("div", "leaflet-control-locate leaflet-bar leaflet-control");
@@ -8836,11 +8849,6 @@ image: /media/2026/09/maps-featured.png
       const corner = toggleControl.getContainer().parentElement;
       corner.classList.add("maps-top-left-menu");
       corner.insertBefore(toggleControl.getContainer(), corner.firstChild);
-
-      const locateControl = corner.querySelector(".leaflet-control-locate");
-      if (locateControl) {
-        corner.insertBefore(locateControl, toggleControl.getContainer().nextSibling);
-      }
 
       const layersControl = corner.querySelector(".maps-layers-control");
       const baseMapControl = corner.querySelector(".maps-basemap-control");
