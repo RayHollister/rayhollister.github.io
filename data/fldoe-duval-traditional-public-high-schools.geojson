@@ -40,7 +40,9 @@
         "alt_school": "A",
         "alt_school_label": "Alternative Education Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0291&district=16",
-        "formatted_address": "2115 Commonwealth Ave, Jacksonville FL 32209-6919"
+        "formatted_address": "2115 Commonwealth Ave, Jacksonville FL 32209-6919",
+        "school_improvement_rating": "Commendable",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -81,7 +83,9 @@
         "alt_school": "A",
         "alt_school_label": "Alternative Education Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0321&district=16",
-        "formatted_address": "1347 Palmer St, Atlantic Beach FL 32233-1347"
+        "formatted_address": "1347 Palmer St, Atlantic Beach FL 32233-1347",
+        "school_improvement_rating": "Commendable",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -123,7 +127,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0331&district=16",
         "formatted_address": "1200 S. Mcduff Ave, Jacksonville FL 32205-8098",
-        "school_website": "https://dcps.duvalschools.org/o/rhs"
+        "school_website": "https://dcps.duvalschools.org/o/rhs",
+        "school_grade": "C",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -165,7 +171,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0351&district=16",
         "formatted_address": "3816 N. Main St, Jacksonville FL 32206-1450",
-        "school_website": "https://www.duvalschools.org/o/ajhs"
+        "school_website": "https://www.duvalschools.org/o/ajhs",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -207,7 +215,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0751&district=16",
         "formatted_address": "3239 Norman E. Thagard Blvd, Jacksonville FL 32254-1796",
-        "school_website": "https://www.duvalschools.org/o/psa"
+        "school_website": "https://www.duvalschools.org/o/psa",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -249,7 +259,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0861&district=16",
         "formatted_address": "7301 Parker School Rd, Jacksonville FL 32211-5198",
-        "school_website": "https://dcps.duvalschools.org/o/tphs"
+        "school_website": "https://dcps.duvalschools.org/o/tphs",
+        "school_grade": "C",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -291,7 +303,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0901&district=16",
         "formatted_address": "4412 Barnes Rd, Jacksonville FL 32207-7469",
-        "school_website": "https://dcps.duvalschools.org/o/ehs"
+        "school_website": "https://dcps.duvalschools.org/o/ehs",
+        "school_grade": "C",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -333,7 +347,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0961&district=16",
         "formatted_address": "3701 Winton Dr, Jacksonville FL 32208-2998",
-        "school_website": "https://dcps.duvalschools.org/o/jrhs"
+        "school_website": "https://dcps.duvalschools.org/o/jrhs",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -375,7 +391,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1073&district=16",
         "formatted_address": "2445 San Diego Rd, Jacksonville FL 32207-3630",
-        "school_website": "https://www.duvalschools.org/o/dahs"
+        "school_website": "https://www.duvalschools.org/o/dahs",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -417,7 +435,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1531&district=16",
         "formatted_address": "1149 W. 13th St, Jacksonville FL 32209-5699",
-        "school_website": "https://www.duvalschools.org/o/schs"
+        "school_website": "https://www.duvalschools.org/o/schs",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -459,7 +479,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1651&district=16",
         "formatted_address": "3663 Raines Ave, Jacksonville FL 32209-1999",
-        "school_website": "https://dcps.duvalschools.org/o/wehs"
+        "school_website": "https://dcps.duvalschools.org/o/wehs",
+        "school_grade": "B",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -500,7 +522,9 @@
         "alt_school": "A",
         "alt_school_label": "Alternative Education Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1761&district=16",
-        "formatted_address": "500 E. Adams St, Jacksonville FL 32202-2813"
+        "formatted_address": "500 E. Adams St, Jacksonville FL 32202-2813",
+        "school_improvement_rating": "Commendable",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -542,7 +566,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2231&district=16",
         "formatted_address": "700 Seagate Ave, Neptune Beach FL 32266-3505",
-        "school_website": "https://dcps.duvalschools.org/o/dfhs"
+        "school_website": "https://dcps.duvalschools.org/o/dfhs",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -584,7 +610,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2241&district=16",
         "formatted_address": "7000 Powers Ave, Jacksonville FL 32217-3398",
-        "school_website": "https://www.duvalschools.org/o/swhs"
+        "school_website": "https://www.duvalschools.org/o/swhs",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -626,7 +654,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2371&district=16",
         "formatted_address": "2750 John Prom Blvd, Jacksonville FL 32246-3999",
-        "school_website": "https://dcps.duvalschools.org/o/shs"
+        "school_website": "https://dcps.duvalschools.org/o/shs",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -668,7 +698,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2411&district=16",
         "formatted_address": "5530 Firestone Rd, Jacksonville FL 32244-1599",
-        "school_website": "https://dcps.duvalschools.org/o/wehs"
+        "school_website": "https://dcps.duvalschools.org/o/wehs",
+        "school_grade": "C",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -710,7 +742,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2481&district=16",
         "formatted_address": "1700 Old Middleburg Rd N., Jacksonville FL 32210-1232",
-        "school_website": "https://dcps.duvalschools.org/o/ewhs"
+        "school_website": "https://dcps.duvalschools.org/o/ewhs",
+        "school_grade": "B",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -751,7 +785,9 @@
         "alt_school": "E",
         "alt_school_label": "ESE Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2521&district=16",
-        "formatted_address": "11780 Alden Rd, Jacksonville FL 32246-2499"
+        "formatted_address": "11780 Alden Rd, Jacksonville FL 32246-2499",
+        "school_improvement_rating": "Maintaining",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -793,7 +829,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2601&district=16",
         "formatted_address": "4831 Greenland Rd, Jacksonville FL 32258-1517",
-        "school_website": "https://dcps.duvalschools.org/o/mhs"
+        "school_website": "https://dcps.duvalschools.org/o/mhs",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -835,7 +873,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2651&district=16",
         "formatted_address": "590 Duval Station Rd, Jacksonville FL 32218-1869",
-        "school_website": "https://dcps.duvalschools.org/o/fchs"
+        "school_website": "https://dcps.duvalschools.org/o/fchs",
+        "school_grade": "C",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -877,7 +917,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2681&district=16",
         "formatted_address": "9735 R. G. Skinner Pkwy, Jacksonville FL 32256-3979",
-        "school_website": "https://dcps.duvalschools.org/o/achs"
+        "school_website": "https://dcps.duvalschools.org/o/achs",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -919,7 +961,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2801&district=16",
         "formatted_address": "7450 Wilson Blvd, Jacksonville FL 32210-3523",
-        "school_website": "https://www.duvalschools.org/o/fhp"
+        "school_website": "https://www.duvalschools.org/o/fhp",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -961,7 +1005,9 @@
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2851&district=16",
         "formatted_address": "1157 Golfair Blvd, Jacksonville FL 32209-4037",
-        "school_website": "https://www.duvalschools.org/o/prhs"
+        "school_website": "https://www.duvalschools.org/o/prhs",
+        "school_grade": "B",
+        "school_grade_year": "2526"
       }
     }
   ]

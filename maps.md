@@ -8928,6 +8928,16 @@ image: /media/2026/09/maps-featured.png
       popup.appendChild(line);
     }
 
+    function formatFldoeSchoolGrade(properties) {
+      const gradeOrRating = properties.school_grade || properties.school_improvement_rating;
+      if (!gradeOrRating) return "";
+      const year = properties.school_grade_year || "";
+      const formattedYear = /^\d{4}$/.test(year)
+        ? `20${year.slice(0, 2)}–${year.slice(2)}`
+        : year;
+      return [gradeOrRating, formattedYear ? `(${formattedYear})` : ""].filter(Boolean).join(" ");
+    }
+
     function createFldoeSchoolPopup(feature) {
       const properties = feature.properties || {};
       const popup = document.createElement("div");
@@ -8943,17 +8953,28 @@ image: /media/2026/09/maps-featured.png
       }
       popup.appendChild(title);
 
+      appendFldoePopupLine(popup, "", formatFldoeAddress(properties));
       appendFldoePopupLine(popup, "", properties.public_school_type || properties.category);
       appendFldoePopupLine(popup, "School type", properties.school_type);
-      appendFldoePopupLine(popup, "Address", formatFldoeAddress(properties));
+      appendFldoePopupLine(
+        popup,
+        properties.school_grade ? "Latest school grade" : "School improvement rating",
+        formatFldoeSchoolGrade(properties)
+      );
       appendFldoePopupLine(popup, "Grade levels", properties.grade_levels);
-      appendFldoePopupLine(popup, "Students", properties.total_students || properties.enrollment);
-      appendFldoePopupLine(popup, "Teachers", properties.teacher_count);
+      const enrollment = properties.total_students || properties.enrollment;
+      const schoolPopulation = [
+        enrollment !== undefined && enrollment !== null && enrollment !== "" ? `Students: ${enrollment}` : "",
+        properties.teacher_count !== undefined && properties.teacher_count !== null && properties.teacher_count !== "" ? `Teachers: ${properties.teacher_count}` : ""
+      ].filter(Boolean).join(" · ");
+      appendFldoePopupLine(popup, "", schoolPopulation);
       appendFldoePopupLine(popup, "Community Eligibility Provision", properties.cep_percentage ? `${properties.cep_percentage}%` : "");
       appendFldoePopupLine(popup, "Title I", properties.title1);
       appendFldoePopupLine(popup, "Magnet status", properties.magnet_status_label);
       appendFldoePopupLine(popup, "Magnet specialty", properties.magnet_specialty_label);
-      appendFldoePopupLine(popup, "Alternative/ESE/DJJ", properties.alt_school_label);
+      if (["A", "E", "D"].includes(properties.alt_school)) {
+        appendFldoePopupLine(popup, "Alternative/ESE/DJJ", properties.alt_school_label);
+      }
       appendFldoePopupLine(popup, "Operating", properties.operating);
       appendFldoePopupLine(popup, "Operator class", properties.operator_class);
       appendFldoePopupLine(popup, "Owner", properties.owner);

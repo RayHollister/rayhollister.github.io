@@ -40,7 +40,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1021&district=16",
-        "formatted_address": "6974 Wilson Blvd, Jacksonville FL 32210-3663"
+        "formatted_address": "6974 Wilson Blvd, Jacksonville FL 32210-3663",
+        "school_grade": "B",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -81,7 +83,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1261&district=16",
-        "formatted_address": "2100 Dunn Ave, Jacksonville FL 32218-4754"
+        "formatted_address": "2100 Dunn Ave, Jacksonville FL 32218-4754",
+        "school_grade": "B",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -122,7 +126,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=5981&district=16",
-        "formatted_address": "7000 103rd St, Jacksonville FL 32210-6859"
+        "formatted_address": "7000 103rd St, Jacksonville FL 32210-6859",
+        "school_grade": "C",
+        "school_grade_year": "2526"
       }
     }
   ]

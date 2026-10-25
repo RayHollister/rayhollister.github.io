@@ -81,7 +81,9 @@
         "alt_school": "A",
         "alt_school_label": "Alternative Education Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0531&district=16",
-        "formatted_address": "1584 Normandy Village Pkwy Ste 25, Jacksonville FL 32221-6800"
+        "formatted_address": "1584 Normandy Village Pkwy Ste 25, Jacksonville FL 32221-6800",
+        "school_improvement_rating": "Commendable",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -122,7 +124,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1311&district=16",
-        "formatted_address": "7510 Baymeadows Way, Jacksonville FL 32256-6818"
+        "formatted_address": "7510 Baymeadows Way, Jacksonville FL 32256-6818",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -204,7 +208,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=5731&district=16",
-        "formatted_address": "1252 Fromage Way, Jacksonville FL 32225-9006"
+        "formatted_address": "1252 Fromage Way, Jacksonville FL 32225-9006",
+        "school_grade": "C",
+        "school_grade_year": "2526"
       }
     }
   ]

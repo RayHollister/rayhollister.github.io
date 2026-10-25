@@ -40,7 +40,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1131&district=16",
-        "formatted_address": "1176 Labelle St, Jacksonville FL 32205-6487"
+        "formatted_address": "1176 Labelle St, Jacksonville FL 32205-6487",
+        "school_grade": "D",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -81,7 +83,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1211&district=16",
-        "formatted_address": "6079 Bagley Rd, Jacksonville FL 32209-1805"
+        "formatted_address": "6079 Bagley Rd, Jacksonville FL 32209-1805",
+        "school_grade": "B",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -122,7 +126,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1251&district=16",
-        "formatted_address": "2100 Dunn Ave, Jacksonville FL 32218-4754"
+        "formatted_address": "2100 Dunn Ave, Jacksonville FL 32218-4754",
+        "school_grade": "C",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -163,7 +169,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1291&district=16",
-        "formatted_address": "7450 Beach Blvd, Jacksonville FL 32216-3002"
+        "formatted_address": "7450 Beach Blvd, Jacksonville FL 32216-3002",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -204,7 +212,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1371&district=16",
-        "formatted_address": "9570 Regency Square Blvd, Jacksonville FL 32225-9103"
+        "formatted_address": "9570 Regency Square Blvd, Jacksonville FL 32225-9103",
+        "school_grade": "C",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -245,7 +255,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=5761&district=16",
-        "formatted_address": "4072 Sunbeam Rd, Jacksonville FL 32257-8813"
+        "formatted_address": "4072 Sunbeam Rd, Jacksonville FL 32257-8813",
+        "school_grade": "D",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -286,7 +298,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=5871&district=16",
-        "formatted_address": "5258 Norwood Ave Unit 3, Jacksonville FL 32208-5017"
+        "formatted_address": "5258 Norwood Ave Unit 3, Jacksonville FL 32208-5017",
+        "school_grade": "C",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -327,7 +341,9 @@
         "alt_school": "N",
         "alt_school_label": "No",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=5961&district=16",
-        "formatted_address": "5900 Fort Caroline Rd, Jacksonville FL 32277-1806"
+        "formatted_address": "5900 Fort Caroline Rd, Jacksonville FL 32277-1806",
+        "school_grade": "A",
+        "school_grade_year": "2526"
       }
     }
   ]
