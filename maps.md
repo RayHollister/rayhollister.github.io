@@ -302,6 +302,13 @@ image: /media/2026/09/maps-featured.png
     padding: 0.4rem 0.5rem;
   }
 
+  .maps-search-control__input:focus {
+    border-color: #57606a;
+    box-shadow: none;
+    outline: 2px solid #57606a;
+    outline-offset: 1px;
+  }
+
   .maps-search-control__submit {
     background: #0969da;
     border: 1px solid #0969da;
