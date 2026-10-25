@@ -245,11 +245,6 @@ image: /media/2026/09/maps-featured.png
     width: 30px;
   }
 
-  #ray-map .maps-top-left-menu > .maps-control-reordering {
-    cursor: grabbing !important;
-    opacity: 0.55;
-  }
-
   .maps-search-control {
     background: #fff;
     position: relative;
@@ -9535,102 +9530,38 @@ image: /media/2026/09/maps-featured.png
       corner.classList.add("maps-top-left-menu");
       corner.insertBefore(toggleControl.getContainer(), corner.firstChild);
 
-      const locateControl = corner.querySelector(".leaflet-control-locate");
-      if (locateControl) {
-        corner.insertBefore(locateControl, toggleControl.getContainer().nextSibling);
-      }
-
-      const searchControl = corner.querySelector(".maps-search-control");
-      if (searchControl && locateControl) {
-        corner.insertBefore(searchControl, locateControl.nextSibling);
-      }
-
       const layersControl = corner.querySelector(".maps-layers-control");
       const baseMapControl = corner.querySelector(".maps-basemap-control");
-      if (layersControl && baseMapControl) {
-        corner.insertBefore(baseMapControl, layersControl.nextSibling);
-      }
+      const searchControl = corner.querySelector(".maps-search-control");
+      const locateControl = corner.querySelector(".leaflet-control-locate");
+      const rotateControl = map.rotateControl && map.rotateControl.getContainer
+        ? map.rotateControl.getContainer()
+        : corner.querySelector(".leaflet-control-rotate");
+      const leadershipControl = corner.querySelector(".maps-leadership-locations-control");
+
+      [layersControl, baseMapControl, searchControl, locateControl, rotateControl, leadershipControl]
+        .filter(Boolean)
+        .reverse()
+        .forEach((control) => {
+          corner.insertBefore(control, toggleControl.getContainer().nextSibling);
+        });
 
       const attributionToggle = corner.querySelector(".maps-attribution-toggle");
       if (attributionToggle) {
         corner.appendChild(attributionToggle);
       }
 
-      function makeMenuControlsReorderable() {
-        const controls = Array.from(corner.children).filter((control) => control !== toggleControl.getContainer());
-
-        try {
-          window.localStorage.removeItem("ray-maps-control-position");
-          window.localStorage.removeItem("ray-maps-control-offsets");
-          window.localStorage.removeItem("ray-maps-control-order");
-        } catch (error) {
-          // Storage can be unavailable in private browsing modes.
-        }
-        corner.style.transform = "";
-
-        controls.forEach((control) => {
-          control.style.transform = "";
-        });
-
-        let dragState;
-        let suppressClick = false;
-
-        corner.addEventListener("pointerdown", function (event) {
-          const control = event.target.closest(".leaflet-control");
-          if (!corner.classList.contains("is-open") || !control || control.parentElement !== corner) return;
-          if (control === toggleControl.getContainer() || control.classList.contains("is-open")) return;
-          if (!event.metaKey || (event.button !== undefined && event.button !== 0)) return;
-          dragState = {
-            control,
-            pointerId: event.pointerId,
-            x: event.clientX,
-            y: event.clientY,
-            active: false
-          };
-        }, true);
-
-        document.addEventListener("pointermove", function (event) {
-          if (!dragState || event.pointerId !== dragState.pointerId) return;
-          if (!dragState.active && Math.hypot(event.clientX - dragState.x, event.clientY - dragState.y) < 6) return;
-          event.preventDefault();
-          dragState.active = true;
-          suppressClick = true;
-          dragState.control.classList.add("maps-control-reordering");
-          const target = document.elementFromPoint(event.clientX, event.clientY)?.closest(".leaflet-control");
-          if (!target || target === dragState.control || target === toggleControl.getContainer() || target.parentElement !== corner) return;
-          const targetBounds = target.getBoundingClientRect();
-          corner.insertBefore(
-            dragState.control,
-            event.clientY < targetBounds.top + targetBounds.height / 2 ? target : target.nextSibling
-          );
-        }, true);
-
-        function finishDrag(event) {
-          if (!dragState || event.pointerId !== dragState.pointerId) return;
-          dragState.control.classList.remove("maps-control-reordering");
-          dragState = null;
-          window.setTimeout(() => {
-            suppressClick = false;
-          }, 0);
-        }
-
-        document.addEventListener("pointerup", finishDrag, true);
-        document.addEventListener("pointercancel", finishDrag, true);
-        corner.addEventListener("click", function (event) {
-          if (!suppressClick) return;
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          suppressClick = false;
-        }, true);
-
-        controls.forEach((control) => {
-          control.addEventListener("dragstart", function (event) {
-            event.preventDefault();
-          });
-        });
+      try {
+        window.localStorage.removeItem("ray-maps-control-position");
+        window.localStorage.removeItem("ray-maps-control-offsets");
+        window.localStorage.removeItem("ray-maps-control-order");
+      } catch (error) {
+        // Storage can be unavailable in private browsing modes.
       }
-
-      makeMenuControlsReorderable();
+      corner.style.transform = "";
+      Array.from(corner.children).forEach((control) => {
+        control.style.transform = "";
+      });
 
     }
 
