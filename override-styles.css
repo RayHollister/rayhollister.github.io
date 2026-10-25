@@ -111,7 +111,7 @@ a.white:visited, a.white:hover {
         outline-offset: 2px;
     }
 
-    .site-nav .menu-icon {
+    .site-nav .site-nav__toggle .menu-icon {
         display: block;
         float: none;
         height: auto;
