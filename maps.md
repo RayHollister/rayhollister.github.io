@@ -1201,7 +1201,7 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-polling-location-pointer {
-    background: #7c3aed;
+    background: var(--maps-pointer-color, #7c3aed);
     border: 3px solid #fff;
     border-radius: 50% 50% 50% 0;
     box-shadow: 0 2px 6px rgb(0 0 0 / 45%);
@@ -7295,7 +7295,8 @@ image: /media/2026/09/maps-featured.png
     function normalizeSchoolMatchName(value) {
       return String(value || "")
         .toLowerCase()
-        .replace(/\b(elementary|middle|high|school|academy|gifted|talented|and|the|of|at)\b/g, "")
+        .replace(/\br[\s.]*l\b/g, "rl")
+        .replace(/\b(elementary|middle|high|senior|school|academy|gifted|talented|boulevard|and|the|of|at|[a-z])\b/g, "")
         .replace(/[^a-z0-9]/g, "");
     }
 
@@ -7316,29 +7317,29 @@ image: /media/2026/09/maps-featured.png
         fldoeAlternativeHighSchoolsLayer,
         fldoeAlternativeCombinationSchoolsLayer
       ];
-      let schoolFeature;
+      let dcpsSchoolLayer;
+      let fldoeSchoolLayer;
 
       dcpsSchoolLayers.some((schoolLayer) => {
         schoolLayer.eachLayer((layer) => {
           const candidate = layer.feature;
           const candidateProperties = candidate && candidate.properties || {};
           const candidateId = String(candidateProperties.USER_SCL_ID || candidateProperties.USER_SCL_ID_TXT || "");
-          if (!schoolFeature && schoolId && candidateId === schoolId) schoolFeature = candidate;
+          if (!dcpsSchoolLayer && schoolId && candidateId === schoolId) dcpsSchoolLayer = layer;
         });
-        return Boolean(schoolFeature);
+        return Boolean(dcpsSchoolLayer);
       });
-      if (schoolFeature || !schoolName) return schoolFeature;
 
       fldoeSchoolLayers.some((schoolLayer) => {
         schoolLayer.eachLayer((layer) => {
           const candidate = layer.feature;
-          if (!schoolFeature && normalizeSchoolMatchName(getFldoeSchoolName(candidate)) === schoolName) {
-            schoolFeature = candidate;
+          if (!fldoeSchoolLayer && normalizeSchoolMatchName(getFldoeSchoolName(candidate)) === schoolName) {
+            fldoeSchoolLayer = layer;
           }
         });
-        return Boolean(schoolFeature);
+        return Boolean(fldoeSchoolLayer);
       });
-      return schoolFeature;
+      return fldoeSchoolLayer || dcpsSchoolLayer;
     }
 
     function clearSchoolAttendancePointer(pointerKey) {
@@ -7349,18 +7350,21 @@ image: /media/2026/09/maps-featured.png
     }
 
     function showSchoolAttendancePointer(feature, layerType) {
-      const schoolFeature = findSchoolForAttendanceZone(feature);
-      const coordinates = schoolFeature && schoolFeature.geometry && schoolFeature.geometry.coordinates;
+      const schoolLayer = findSchoolForAttendanceZone(feature);
+      const schoolLatLng = schoolLayer && schoolLayer.getLatLng && schoolLayer.getLatLng();
+      const schoolType = (feature.properties || {}).SchoolType;
+      const fallbackStyle = getSchoolStyle({ ES: "elementary", MS: "middle", HS: "high" }[schoolType]);
+      const pointerColor = schoolLayer && schoolLayer.options && schoolLayer.options.fillColor || fallbackStyle.fillColor;
       clearSchoolAttendancePointer();
-      if (!coordinates || coordinates.length < 2) return;
+      if (!schoolLatLng) return;
 
       const pointerIcon = L.divIcon({
         className: "maps-polling-location-pointer-icon",
-        html: '<span class="maps-polling-location-pointer" aria-hidden="true"></span>',
-        iconAnchor: [14, 36],
+        html: `<span class="maps-polling-location-pointer" style="--maps-pointer-color: ${pointerColor}" aria-hidden="true"></span>`,
+        iconAnchor: [14, 34],
         iconSize: [28, 28]
       });
-      schoolAttendancePointer = L.marker([coordinates[1], coordinates[0]], {
+      schoolAttendancePointer = L.marker(schoolLatLng, {
         icon: pointerIcon,
         interactive: false,
         keyboard: false,
