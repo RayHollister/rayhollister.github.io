@@ -90,8 +90,8 @@ a.white:visited, a.white:hover {
     .site-nav__toggle {
         align-items: center;
         appearance: none;
-        background: #fff;
-        border: 1px solid #d0d7de;
+        background: transparent;
+        border: 0;
         border-radius: 5px;
         color: #24292f;
         cursor: pointer;
@@ -99,10 +99,10 @@ a.white:visited, a.white:hover {
         font: inherit;
         font-size: 0.875rem;
         font-weight: 600;
-        height: 44px;
+        height: 36px;
         justify-content: center;
         padding: 0;
-        width: 44px;
+        width: 36px;
     }
 
     .site-nav__toggle:focus-visible,
@@ -112,35 +112,19 @@ a.white:visited, a.white:hover {
     }
 
     .site-nav .menu-icon {
-        display: flex;
-        flex-direction: column;
+        display: block;
         float: none;
-        gap: 4px;
         height: auto;
         padding: 0;
         width: 18px;
     }
 
-    .site-nav .menu-icon span {
-        background: currentColor;
-        border-radius: 5px;
+    .site-nav .menu-icon svg {
         display: block;
-        height: 2px;
-        transform-origin: center;
-        transition: opacity 160ms ease, transform 160ms ease;
-        width: 18px;
     }
 
-    .site-nav.is-open .menu-icon span:nth-child(1) {
-        transform: translateY(6px) rotate(45deg);
-    }
-
-    .site-nav.is-open .menu-icon span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .site-nav.is-open .menu-icon span:nth-child(3) {
-        transform: translateY(-6px) rotate(-45deg);
+    .site-nav .menu-icon path {
+        fill: #424242;
     }
 
     .site-nav .trigger {
@@ -159,6 +143,10 @@ a.white:visited, a.white:hover {
         text-align: left;
         top: 52px;
         width: min(360px, calc(100vw - 24px));
+    }
+
+    div#site-navigation-links {
+        padding-left: 1rem;
     }
 
     .site-nav.is-open .trigger {
