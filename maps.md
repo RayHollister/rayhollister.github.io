@@ -32,6 +32,14 @@ image: /media/2026/09/maps-featured.png
   #ray-map .leaflet-top.leaflet-left.maps-top-left-menu {
     z-index: 1000;
   }
+
+  #ray-map .leaflet-top.leaflet-left.maps-top-left-menu > .leaflet-control {
+    clear: both;
+    float: left;
+    margin-left: 10px !important;
+    transform: none !important;
+  }
+
   .maps-page {
     --maps-control-panel-header-height: 2.05rem;
     --maps-control-panel-max-height: calc(100vh - 6rem);
@@ -235,6 +243,116 @@ image: /media/2026/09/maps-featured.png
     justify-content: center;
     padding: 0;
     width: 30px;
+  }
+
+  .maps-search-control {
+    background: #fff;
+    position: relative;
+  }
+
+  .maps-search-control__button {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: #24292f;
+    cursor: pointer;
+    display: flex;
+    height: 30px;
+    justify-content: center;
+    padding: 0;
+    width: 30px;
+  }
+
+  .maps-search-control__button svg {
+    fill: currentColor;
+    height: 15px;
+    width: 15px;
+  }
+
+  .maps-search-control__content {
+    display: none;
+    left: 40px;
+    position: absolute;
+    top: 0;
+    width: min(20rem, calc(100vw - 5.5rem));
+  }
+
+  .maps-search-control.is-open .maps-search-control__content {
+    display: block;
+  }
+
+  .maps-search-control.opens-left .maps-search-control__content {
+    left: auto;
+    right: 40px;
+  }
+
+  .maps-search-control__form {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .maps-search-control__input {
+    background: #fff;
+    border: 1px solid #8c959f;
+    border-radius: 3px;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    font: inherit;
+    min-width: 0;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .maps-search-control__input:focus {
+    border-color: #8c959f;
+    box-shadow: none;
+    outline: none;
+  }
+
+  .maps-search-control__submit {
+    background: #0969da;
+    border: 1px solid #0969da;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    padding: 0.4rem 0.65rem;
+  }
+
+  .maps-search-control__status {
+    background: #fff;
+    border-radius: 3px;
+    color: #57606a;
+    font-size: 0.8rem;
+    line-height: 1.25;
+    margin: 0.25rem 0 0;
+    padding: 0.25rem 0.4rem;
+  }
+
+  .maps-search-control__results {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 0.4rem;
+    max-height: min(15rem, calc(100dvh - 10rem));
+    overflow-y: auto;
+  }
+
+  .maps-search-control__result {
+    background: #fff;
+    border: 1px solid #d0d7de;
+    border-radius: 3px;
+    color: #24292f;
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.25;
+    padding: 0.4rem 0.5rem;
+    text-align: left;
+  }
+
+  .maps-search-control__result:hover,
+  .maps-search-control__result:focus-visible {
+    background: #f6f8fa;
+    border-color: #0969da;
   }
 
   .maps-district-popup > .maps-senator-card {
@@ -1326,6 +1444,7 @@ image: /media/2026/09/maps-featured.png
       bearing: initialMapRotation,
       fullscreenControl: false
     }).setView(initialMapCenter, initialMapZoom);
+    let searchResultMarker;
     const mapLibrePane = map.createPane("mapLibrePane", map.getContainer());
     mapLibrePane.style.zIndex = "0";
     map._mapPane.style.zIndex = "1";
@@ -2182,6 +2301,216 @@ image: /media/2026/09/maps-featured.png
       });
 
       map.addControl(new LocateControl());
+    }
+
+    function addSearchControl() {
+      const SearchControl = L.Control.extend({
+        options: {
+          position: "topleft"
+        },
+        onAdd: function () {
+          const container = L.DomUtil.create("div", "leaflet-bar leaflet-control maps-search-control");
+          const button = L.DomUtil.create("button", "maps-search-control__button", container);
+          const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          const content = L.DomUtil.create("div", "maps-search-control__content", container);
+          const form = L.DomUtil.create("form", "maps-search-control__form", content);
+          const input = L.DomUtil.create("input", "maps-search-control__input", form);
+          const submit = L.DomUtil.create("button", "maps-search-control__submit", form);
+          const status = L.DomUtil.create("p", "maps-search-control__status", content);
+          const results = L.DomUtil.create("div", "maps-search-control__results", content);
+          let requestController;
+          let suggestionTimer;
+
+          button.type = "button";
+          button.title = "Search addresses and places";
+          button.setAttribute("aria-label", "Search addresses and places");
+          button.setAttribute("aria-expanded", "false");
+          icon.setAttribute("viewBox", "0 0 24 24");
+          icon.setAttribute("aria-hidden", "true");
+          path.setAttribute("d", "M10.5 3a7.5 7.5 0 1 0 4.73 13.32l4.72 4.73 1.42-1.42-4.73-4.72A7.5 7.5 0 0 0 10.5 3Zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Z");
+          icon.appendChild(path);
+          button.appendChild(icon);
+          input.type = "search";
+          input.name = "map-search";
+          input.placeholder = "Address or place";
+          input.autocomplete = "off";
+          input.setAttribute("aria-label", "Address or place");
+          input.setAttribute("aria-autocomplete", "list");
+          input.setAttribute("aria-controls", "maps-search-results");
+          submit.type = "submit";
+          submit.textContent = "Search";
+          status.hidden = true;
+          status.setAttribute("aria-live", "polite");
+          results.setAttribute("role", "list");
+          results.id = "maps-search-results";
+
+          function setOpen(open) {
+            container.classList.toggle("is-open", open);
+            button.setAttribute("aria-expanded", String(open));
+            if (open) {
+              window.requestAnimationFrame(() => {
+                const mapBounds = map.getContainer().getBoundingClientRect();
+                const buttonBounds = button.getBoundingClientRect();
+                const contentBounds = content.getBoundingClientRect();
+                container.classList.toggle("opens-left", buttonBounds.right + 40 + contentBounds.width > mapBounds.right);
+                const adjustedPanelBounds = content.getBoundingClientRect();
+                const overflowBottom = adjustedPanelBounds.bottom - mapBounds.bottom + 10;
+                content.style.top = `${Math.min(0, -overflowBottom)}px`;
+                input.focus();
+              });
+            } else {
+              container.classList.remove("opens-left");
+              content.style.top = "";
+            }
+          }
+
+          function setStatus(message, isError) {
+            status.hidden = !message;
+            status.textContent = message || "";
+            status.style.color = isError ? "#cf222e" : "";
+          }
+
+          function selectCandidate(candidate) {
+            const location = candidate && candidate.location;
+            if (!location || !Number.isFinite(location.y) || !Number.isFinite(location.x)) return;
+            const latLng = L.latLng(location.y, location.x);
+            if (searchResultMarker) map.removeLayer(searchResultMarker);
+            searchResultMarker = L.marker(latLng).addTo(map);
+            const popupContent = document.createElement("span");
+            popupContent.textContent = candidate.address || "Search result";
+            searchResultMarker
+              .bindPopup(popupContent)
+              .on("click", function () {
+                userLocationLatLng = latLng;
+                updateLocationInfoControlVisibility();
+                showYouAreHereCardInPanel();
+              })
+              .openPopup();
+            map.setView(latLng, Math.max(map.getZoom(), 16));
+            setOpen(false);
+          }
+
+          function createResultButton(label, onClick) {
+            const result = document.createElement("button");
+            result.type = "button";
+            result.className = "maps-search-control__result";
+            result.setAttribute("role", "listitem");
+            result.textContent = label;
+            result.addEventListener("click", onClick);
+            results.appendChild(result);
+          }
+
+          async function findCandidates(query, magicKey, selectFirst) {
+            if (requestController) requestController.abort();
+            requestController = new AbortController();
+            results.replaceChildren();
+            setStatus("Searching…", false);
+            submit.disabled = true;
+            try {
+              const params = new URLSearchParams({
+                SingleLine: query,
+                f: "json",
+                outFields: "Match_addr,Addr_type",
+                maxLocations: selectFirst ? "1" : "6",
+                location: "-81.6557,30.3322",
+                searchExtent: "-82.15,29.85,-81.15,30.75"
+              });
+              if (magicKey) params.set("magicKey", magicKey);
+              const response = await fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?${params}`, {
+                signal: requestController.signal
+              });
+              if (!response.ok) throw new Error(`Search returned ${response.status}`);
+              const data = await response.json();
+              const candidates = Array.isArray(data.candidates) ? data.candidates : [];
+              if (!candidates.length) {
+                setStatus("No matching locations found.", true);
+                return;
+              }
+              if (selectFirst) {
+                selectCandidate(candidates[0]);
+                return;
+              }
+              setStatus(`${candidates.length} result${candidates.length === 1 ? "" : "s"}`, false);
+              candidates.forEach((candidate) => {
+                createResultButton(candidate.address || "Search result", () => selectCandidate(candidate));
+              });
+            } catch (error) {
+              if (error.name !== "AbortError") {
+                setStatus("Search is temporarily unavailable. Please try again.", true);
+              }
+            } finally {
+              submit.disabled = false;
+            }
+          }
+
+          async function showSuggestions(query) {
+            if (requestController) requestController.abort();
+            requestController = new AbortController();
+            try {
+              const params = new URLSearchParams({
+                text: query,
+                f: "json",
+                maxSuggestions: "6",
+                location: "-81.6557,30.3322",
+                searchExtent: "-82.15,29.85,-81.15,30.75"
+              });
+              const response = await fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest?${params}`, {
+                signal: requestController.signal
+              });
+              if (!response.ok) throw new Error(`Suggestions returned ${response.status}`);
+              const data = await response.json();
+              const suggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
+              results.replaceChildren();
+              setStatus("", false);
+              suggestions.forEach((suggestion) => {
+                createResultButton(suggestion.text, () => {
+                  input.value = suggestion.text;
+                  findCandidates(suggestion.text, suggestion.magicKey, true);
+                });
+              });
+            } catch (error) {
+              if (error.name !== "AbortError") results.replaceChildren();
+            }
+          }
+
+          button.addEventListener("click", function () {
+            setOpen(!container.classList.contains("is-open"));
+          });
+
+          input.addEventListener("input", function () {
+            window.clearTimeout(suggestionTimer);
+            const query = input.value.trim();
+            if (query.length < 3) {
+              if (requestController) requestController.abort();
+              results.replaceChildren();
+              setStatus("", false);
+              return;
+            }
+            suggestionTimer = window.setTimeout(() => showSuggestions(query), 250);
+          });
+
+          form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const query = input.value.trim();
+            if (!query) {
+              setStatus("Enter an address or place to search.", true);
+              return;
+            }
+            window.clearTimeout(suggestionTimer);
+            findCandidates(query, "", false);
+          });
+
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") setOpen(false);
+          });
+          L.DomEvent.disableClickPropagation(container);
+          L.DomEvent.disableScrollPropagation(container);
+          return container;
+        }
+      });
+
+      map.addControl(new SearchControl());
     }
 
     function setLocateControlState(state) {
@@ -9224,6 +9553,7 @@ image: /media/2026/09/maps-featured.png
     activateQueryLayers();
     addBaseMapControl();
     addLocateControl();
+    addSearchControl();
     activateLocateQuery();
     map.rotateControl.setPosition("topleft");
 
@@ -9273,21 +9603,38 @@ image: /media/2026/09/maps-featured.png
       corner.classList.add("maps-top-left-menu");
       corner.insertBefore(toggleControl.getContainer(), corner.firstChild);
 
-      const locateControl = corner.querySelector(".leaflet-control-locate");
-      if (locateControl) {
-        corner.insertBefore(locateControl, toggleControl.getContainer().nextSibling);
-      }
-
       const layersControl = corner.querySelector(".maps-layers-control");
       const baseMapControl = corner.querySelector(".maps-basemap-control");
-      if (layersControl && baseMapControl) {
-        corner.insertBefore(baseMapControl, layersControl.nextSibling);
-      }
+      const searchControl = corner.querySelector(".maps-search-control");
+      const locateControl = corner.querySelector(".leaflet-control-locate");
+      const rotateControl = map.rotateControl && map.rotateControl.getContainer
+        ? map.rotateControl.getContainer()
+        : corner.querySelector(".leaflet-control-rotate");
+      const leadershipControl = corner.querySelector(".maps-leadership-locations-control");
+
+      [layersControl, baseMapControl, searchControl, locateControl, rotateControl, leadershipControl]
+        .filter(Boolean)
+        .reverse()
+        .forEach((control) => {
+          corner.insertBefore(control, toggleControl.getContainer().nextSibling);
+        });
 
       const attributionToggle = corner.querySelector(".maps-attribution-toggle");
       if (attributionToggle) {
         corner.appendChild(attributionToggle);
       }
+
+      try {
+        window.localStorage.removeItem("ray-maps-control-position");
+        window.localStorage.removeItem("ray-maps-control-offsets");
+        window.localStorage.removeItem("ray-maps-control-order");
+      } catch (error) {
+        // Storage can be unavailable in private browsing modes.
+      }
+      corner.style.transform = "";
+      Array.from(corner.children).forEach((control) => {
+        control.style.transform = "";
+      });
 
     }
 
