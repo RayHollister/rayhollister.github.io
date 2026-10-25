@@ -8928,6 +8928,16 @@ image: /media/2026/09/maps-featured.png
       popup.appendChild(line);
     }
 
+    function formatFldoeSchoolGrade(properties) {
+      const gradeOrRating = properties.school_grade || properties.school_improvement_rating;
+      if (!gradeOrRating) return "";
+      const year = properties.school_grade_year || "";
+      const formattedYear = /^\d{4}$/.test(year)
+        ? `20${year.slice(0, 2)}–${year.slice(2)}`
+        : year;
+      return [gradeOrRating, formattedYear ? `(${formattedYear})` : ""].filter(Boolean).join(" ");
+    }
+
     function createFldoeSchoolPopup(feature) {
       const properties = feature.properties || {};
       const popup = document.createElement("div");
@@ -8946,6 +8956,11 @@ image: /media/2026/09/maps-featured.png
       appendFldoePopupLine(popup, "", formatFldoeAddress(properties));
       appendFldoePopupLine(popup, "", properties.public_school_type || properties.category);
       appendFldoePopupLine(popup, "School type", properties.school_type);
+      appendFldoePopupLine(
+        popup,
+        properties.school_grade ? "Latest school grade" : "School improvement rating",
+        formatFldoeSchoolGrade(properties)
+      );
       appendFldoePopupLine(popup, "Grade levels", properties.grade_levels);
       const enrollment = properties.total_students || properties.enrollment;
       const schoolPopulation = [

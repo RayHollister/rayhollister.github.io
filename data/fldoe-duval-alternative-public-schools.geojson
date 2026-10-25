@@ -81,7 +81,9 @@
         "alt_school": "A",
         "alt_school_label": "Alternative Education Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0171&district=16",
-        "formatted_address": "5443 Moncrief Rd, Jacksonville FL 32209-3160"
+        "formatted_address": "5443 Moncrief Rd, Jacksonville FL 32209-3160",
+        "school_improvement_rating": "Maintaining",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -122,7 +124,9 @@
         "alt_school": "A",
         "alt_school_label": "Alternative Education Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0271&district=16",
-        "formatted_address": "3385 Hartsfield Rd, Jacksonville FL 32277-0917"
+        "formatted_address": "3385 Hartsfield Rd, Jacksonville FL 32277-0917",
+        "school_improvement_rating": "Maintaining",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -163,7 +167,9 @@
         "alt_school": "E",
         "alt_school_label": "ESE Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0281&district=16",
-        "formatted_address": "6910 Daughtry Blvd S., Jacksonville FL 32210-6844"
+        "formatted_address": "6910 Daughtry Blvd S., Jacksonville FL 32210-6844",
+        "school_improvement_rating": "Maintaining",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -204,7 +210,9 @@
         "alt_school": "A",
         "alt_school_label": "Alternative Education Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0291&district=16",
-        "formatted_address": "2115 Commonwealth Ave, Jacksonville FL 32209-6919"
+        "formatted_address": "2115 Commonwealth Ave, Jacksonville FL 32209-6919",
+        "school_improvement_rating": "Commendable",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -245,7 +253,9 @@
         "alt_school": "A",
         "alt_school_label": "Alternative Education Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0321&district=16",
-        "formatted_address": "1347 Palmer St, Atlantic Beach FL 32233-1347"
+        "formatted_address": "1347 Palmer St, Atlantic Beach FL 32233-1347",
+        "school_improvement_rating": "Commendable",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -327,7 +337,9 @@
         "alt_school": "D",
         "alt_school_label": "DJJ School",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0491&district=16",
-        "formatted_address": "1214 E. 8th St, Jacksonville FL 32206-4006"
+        "formatted_address": "1214 E. 8th St, Jacksonville FL 32206-4006",
+        "school_improvement_rating": "Commendable",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -368,7 +380,9 @@
         "alt_school": "A",
         "alt_school_label": "Alternative Education Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0531&district=16",
-        "formatted_address": "1584 Normandy Village Pkwy Ste 25, Jacksonville FL 32221-6800"
+        "formatted_address": "1584 Normandy Village Pkwy Ste 25, Jacksonville FL 32221-6800",
+        "school_improvement_rating": "Commendable",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -409,7 +423,9 @@
         "alt_school": "D",
         "alt_school_label": "DJJ School",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=0811&district=16",
-        "formatted_address": "2933 University Blvd N., Jacksonville FL 32211-3322"
+        "formatted_address": "2933 University Blvd N., Jacksonville FL 32211-3322",
+        "school_improvement_rating": "Maintaining",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -450,7 +466,9 @@
         "alt_school": "E",
         "alt_school_label": "ESE Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1701&district=16",
-        "formatted_address": "1301 W. Palm Ave, Jacksonville FL 32254-2349"
+        "formatted_address": "1301 W. Palm Ave, Jacksonville FL 32254-2349",
+        "school_improvement_rating": "Maintaining",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -491,7 +509,9 @@
         "alt_school": "A",
         "alt_school_label": "Alternative Education Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1761&district=16",
-        "formatted_address": "500 E. Adams St, Jacksonville FL 32202-2813"
+        "formatted_address": "500 E. Adams St, Jacksonville FL 32202-2813",
+        "school_improvement_rating": "Commendable",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -532,7 +552,9 @@
         "alt_school": "E",
         "alt_school_label": "ESE Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=1811&district=16",
-        "formatted_address": "7050 Melvin Rd, Jacksonville FL 32210"
+        "formatted_address": "7050 Melvin Rd, Jacksonville FL 32210",
+        "school_improvement_rating": "Maintaining",
+        "school_grade_year": "2526"
       }
     },
     {
@@ -573,7 +595,9 @@
         "alt_school": "E",
         "alt_school_label": "ESE Center",
         "report_card_url": "https://edudata.fldoe.org/ReportCards/Schools.html?school=2521&district=16",
-        "formatted_address": "11780 Alden Rd, Jacksonville FL 32246-2499"
+        "formatted_address": "11780 Alden Rd, Jacksonville FL 32246-2499",
+        "school_improvement_rating": "Maintaining",
+        "school_grade_year": "2526"
       }
     },
     {
