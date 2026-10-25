@@ -1266,6 +1266,24 @@ image: /media/2026/09/maps-featured.png
     const places = window.rayMapsPlaces;
     const Leaflet = L;
     const RayRotatedImageOverlay = Leaflet.RayRotatedImageOverlay;
+    const initialMapParams = new URLSearchParams(window.location.search);
+    const defaultMapCenter = [30.3322, -81.6557];
+    const defaultMapZoom = 11;
+    const requestedLatitude = initialMapParams.has("lat") ? Number(initialMapParams.get("lat")) : NaN;
+    const requestedLongitude = initialMapParams.has("lng") ? Number(initialMapParams.get("lng")) : NaN;
+    const requestedZoom = initialMapParams.has("zoom") ? Number(initialMapParams.get("zoom")) : NaN;
+    const requestedRotation = initialMapParams.has("rotation") ? Number(initialMapParams.get("rotation")) : NaN;
+    const hasRequestedMapCoordinates = Number.isFinite(requestedLatitude) && requestedLatitude >= -85.051129 && requestedLatitude <= 85.051129 &&
+      Number.isFinite(requestedLongitude) && requestedLongitude >= -180 && requestedLongitude <= 180;
+    const initialMapCenter = hasRequestedMapCoordinates
+      ? [requestedLatitude, requestedLongitude]
+      : defaultMapCenter;
+    const initialMapZoom = Number.isFinite(requestedZoom)
+      ? Math.max(4, Math.min(20, requestedZoom))
+      : defaultMapZoom;
+    const initialMapRotation = Number.isFinite(requestedRotation)
+      ? ((requestedRotation % 360) + 360) % 360
+      : 0;
     const map = Leaflet.map("ray-map", {
       minZoom: 4,
       maxZoom: 20,
@@ -1283,9 +1301,9 @@ image: /media/2026/09/maps-featured.png
         position: "topleft"
       },
       touchRotate: true,
-      bearing: 0,
+      bearing: initialMapRotation,
       fullscreenControl: false
-    }).setView([30.3322, -81.6557], 11);
+    }).setView(initialMapCenter, initialMapZoom);
     const mapLibrePane = map.createPane("mapLibrePane", map.getContainer());
     mapLibrePane.style.zIndex = "0";
     map._mapPane.style.zIndex = "1";
@@ -1301,6 +1319,34 @@ image: /media/2026/09/maps-featured.png
     const pollingLocationPointerPane = map.createPane("pollingLocationPointerPane", map._norotatePane);
     pollingLocationPointerPane.style.pointerEvents = "none";
     pollingLocationPointerPane.style.zIndex = "850";
+
+    let mapQueryUpdateTimer;
+
+    function formatMapQueryNumber(value, decimalPlaces) {
+      return String(Number(value.toFixed(decimalPlaces)));
+    }
+
+    function updateMapViewQueryUrl() {
+      const center = map.getCenter();
+      const zoom = map.getZoom();
+      const bearing = Number.isFinite(map.getBearing()) ? map.getBearing() : 0;
+      const normalizedBearing = ((bearing % 360) + 360) % 360;
+      const url = new URL(window.location.href);
+      url.searchParams.set("lat", formatMapQueryNumber(center.lat, 6));
+      url.searchParams.set("lng", formatMapQueryNumber(center.lng, 6));
+      url.searchParams.set("zoom", formatMapQueryNumber(zoom, 2));
+      url.searchParams.set("rotation", formatMapQueryNumber(normalizedBearing, 1));
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function scheduleMapViewQueryUpdate() {
+      window.clearTimeout(mapQueryUpdateTimer);
+      mapQueryUpdateTimer = window.setTimeout(updateMapViewQueryUrl, 120);
+    }
+
+    map.on("moveend zoomend", scheduleMapViewQueryUpdate);
+    map.on("rotate", scheduleMapViewQueryUpdate);
+    window.requestAnimationFrame(updateMapViewQueryUrl);
 
     const openFreeMapStyles = {
       positron: "https://tiles.openfreemap.org/styles/positron",
@@ -1925,8 +1971,10 @@ image: /media/2026/09/maps-featured.png
     let userLocationLatLng;
     let locateControlContainer;
     let locateControlIcon;
+    let locateControlLink;
     let locateShouldSetInitialView = false;
     let showYouAreHereCardWhenLocated = false;
+    let userLocationTrackingActive = false;
     let layersControlApi;
     let layersControlElement;
     const locationInfoControls = [];
@@ -1989,7 +2037,7 @@ image: /media/2026/09/maps-featured.png
       }
 
       function addHeadingListeners() {
-        if (userHeadingTrackingStarted) return;
+        if (!userLocationTrackingActive || userHeadingTrackingStarted) return;
         userHeadingTrackingStarted = true;
         window.addEventListener("deviceorientationabsolute", handleDeviceOrientation, true);
         window.addEventListener("deviceorientation", handleDeviceOrientation, true);
@@ -2006,6 +2054,14 @@ image: /media/2026/09/maps-featured.png
       }
     }
 
+    function stopMobileLocationHeading() {
+      window.removeEventListener("deviceorientationabsolute", handleDeviceOrientation, true);
+      window.removeEventListener("deviceorientation", handleDeviceOrientation, true);
+      userHeadingTrackingStarted = false;
+      userHeading = undefined;
+      userHeadingDisplayRotation = undefined;
+    }
+
     function createUserLocationIcon() {
       return L.divIcon({
         className: "maps-user-location-icon",
@@ -2016,7 +2072,17 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function updateLocateControlLabel() {
+      if (!locateControlLink) return;
+      const label = userLocationTrackingActive ? "Stop navigation" : "Show me where I am";
+      locateControlLink.title = label;
+      locateControlLink.setAttribute("aria-label", label);
+      locateControlLink.setAttribute("aria-pressed", String(userLocationTrackingActive));
+    }
+
     function startUserLocationTracking() {
+      userLocationTrackingActive = true;
+      updateLocateControlLabel();
       startMobileLocationHeading();
       if (locateControlContainer) {
         L.DomUtil.addClass(locateControlContainer, "requesting");
@@ -2034,6 +2100,34 @@ image: /media/2026/09/maps-featured.png
         setView: false,
         watch: true
       });
+    }
+
+    function stopUserLocationTracking() {
+      userLocationTrackingActive = false;
+      locateShouldSetInitialView = false;
+      showYouAreHereCardWhenLocated = false;
+      map.stopLocate();
+      stopMobileLocationHeading();
+      if (userLocationMarker) {
+        map.removeLayer(userLocationMarker);
+        userLocationMarker = undefined;
+      }
+      if (userAccuracyCircle) {
+        map.removeLayer(userAccuracyCircle);
+        userAccuracyCircle = undefined;
+      }
+      userLocationLatLng = undefined;
+      const userLocationCardIndex = pinnedBoundaryCards.findIndex((card) => card.layerType === "userLocation");
+      if (userLocationCardIndex >= 0) {
+        pinnedBoundaryCards.splice(userLocationCardIndex, 1);
+        renderPinnedCards();
+      }
+      updateLocationInfoControlVisibility();
+      setLocateControlState();
+      const url = new URL(window.location.href);
+      url.searchParams.delete("locate");
+      url.searchParams.delete("yah");
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
     }
 
     function activateLocateQuery() {
@@ -2060,12 +2154,17 @@ image: /media/2026/09/maps-featured.png
           link.setAttribute("aria-label", "Show me where I am");
           link.addEventListener("click", function (event) {
             event.preventDefault();
-            startUserLocationTracking();
+            if (userLocationTrackingActive) {
+              stopUserLocationTracking();
+            } else {
+              startUserLocationTracking();
+            }
           });
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
           locateControlContainer = container;
           locateControlIcon = icon;
+          locateControlLink = link;
           return container;
         }
       });
@@ -2083,6 +2182,7 @@ image: /media/2026/09/maps-featured.png
       if (state) {
         L.DomUtil.addClass(locateControlContainer, state);
       }
+      updateLocateControlLabel();
     }
 
     function isLocalGeolocationBlocked(error) {
@@ -2246,6 +2346,8 @@ image: /media/2026/09/maps-featured.png
     });
 
     map.on("locationerror", function (error) {
+      userLocationTrackingActive = false;
+      stopMobileLocationHeading();
       locateShouldSetInitialView = false;
       setLocateControlState();
       if (isLocalGeolocationBlocked(error)) {
@@ -3127,7 +3229,7 @@ image: /media/2026/09/maps-featured.png
     let historicMapPlacementEditor;
     const pinnedBoundaryCards = [];
     let pendingMapDataLoads = 0;
-    let initialVisibleLayerFitComplete = false;
+    let initialVisibleLayerFitComplete = hasRequestedMapCoordinates;
     let initialVisibleLayerFitTimeout;
     const busRouteLayersByRouteId = new Map();
     const busRouteMetadataByRouteId = new Map();
