@@ -49,6 +49,7 @@
                     {%- endfor -%}
                   </div>
                 </div>
+                <a class="page-link" href="{{ '/vote/' | relative_url }}">Voting Precincts &amp; Polling Locations</a>
               {%- elsif my_page.url == maps_primary_url -%}
                 <div class="nav-dropdown">
                   <div class="nav-dropdown__row">
@@ -62,7 +63,6 @@
                         <a class="nav-dropdown__link" href="{{ dropdown_page.url | relative_url }}">{{ dropdown_page.title | escape }}</a>
                       {%- endif -%}
                     {%- endfor -%}
-                    <a class="nav-dropdown__link" href="{{ '/maps/?layer=votingprecincts,pollinglocations' | relative_url }}">Voting Precincts &amp; Polling Locations</a>
                   </div>
                 </div>
               {%- else -%}
