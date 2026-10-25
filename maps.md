@@ -206,7 +206,7 @@ image: /media/2026/09/maps-featured.png
     width: 30px;
   }
 
-  #ray-map .leaflet-top.leaflet-left.maps-top-left-menu:not(.is-open) > .leaflet-control:not(.maps-top-left-menu-toggle) {
+  #ray-map .leaflet-top.leaflet-left.maps-top-left-menu:not(.is-open) > .leaflet-control:not(.maps-top-left-menu-toggle, .maps-elevation-legend) {
     display: none;
   }
 
@@ -2875,13 +2875,16 @@ image: /media/2026/09/maps-featured.png
           [3, 255, 255, 179],
           [4, 254, 204, 92],
           [5, 253, 141, 60],
-          [6, 215, 48, 39]
+          [6, 244, 109, 67],
+          [7, 215, 48, 39],
+          [8, 165, 0, 38],
+          [9, 103, 0, 31]
         ],
         Raster: {
           rasterFunction: "Remap",
           rasterFunctionArguments: {
-            InputRanges: [-1000, 0, 0, 1.524, 1.524, 3.048, 3.048, 6.096, 6.096, 9.144, 9.144, 15.24, 15.24, 1000],
-            OutputValues: [0, 1, 2, 3, 4, 5, 6],
+            InputRanges: [-1000, 0, 0, 1.524, 1.524, 3.048, 3.048, 6.096, 6.096, 9.144, 9.144, 15.24, 15.24, 18.288, 18.288, 24.384, 24.384, 36.576, 36.576, 1000],
+            OutputValues: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
             Raster: "$$"
           }
         }
@@ -5820,10 +5823,13 @@ image: /media/2026/09/maps-featured.png
         ["rgb(255 255 179)", "10–20 ft"],
         ["rgb(254 204 92)", "20–30 ft"],
         ["rgb(253 141 60)", "30–50 ft"],
-        ["rgb(215 48 39)", "50+ ft"]
+        ["rgb(244 109 67)", "50–60 ft"],
+        ["rgb(215 48 39)", "60–80 ft"],
+        ["rgb(165 0 38)", "80–120 ft"],
+        ["rgb(103 0 31)", "120+ ft"]
       ];
       const ElevationLegendControl = L.Control.extend({
-        options: { position: "bottomleft" },
+        options: { position: "topleft" },
         onAdd: function () {
           const container = L.DomUtil.create("div", "maps-elevation-legend");
           const heading = document.createElement("strong");
@@ -8845,6 +8851,11 @@ image: /media/2026/09/maps-featured.png
       const attributionToggle = corner.querySelector(".maps-attribution-toggle");
       if (attributionToggle) {
         corner.appendChild(attributionToggle);
+      }
+
+      const elevationLegend = corner.querySelector(".maps-elevation-legend");
+      if (elevationLegend) {
+        corner.appendChild(elevationLegend);
       }
     }
 
