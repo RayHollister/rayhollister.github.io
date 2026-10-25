@@ -33,6 +33,13 @@ image: /media/2026/09/maps-featured.png
     z-index: 1000;
   }
 
+  #ray-map .leaflet-top.leaflet-left.maps-top-left-menu > .leaflet-control {
+    clear: both;
+    float: left;
+    margin-left: 10px !important;
+    transform: none !important;
+  }
+
   .maps-page {
     --maps-control-panel-header-height: 2.05rem;
     --maps-control-panel-max-height: calc(100vh - 6rem);
@@ -9550,54 +9557,20 @@ image: /media/2026/09/maps-featured.png
       }
 
       function makeMenuControlsReorderable() {
-        const storageKey = "ray-maps-control-order";
         const controls = Array.from(corner.children).filter((control) => control !== toggleControl.getContainer());
-        const keyCounts = new Map();
 
         try {
           window.localStorage.removeItem("ray-maps-control-position");
           window.localStorage.removeItem("ray-maps-control-offsets");
+          window.localStorage.removeItem("ray-maps-control-order");
         } catch (error) {
           // Storage can be unavailable in private browsing modes.
         }
         corner.style.transform = "";
 
-        controls.forEach((control, index) => {
-          const classKey = Array.from(control.classList)
-            .filter((name) => name !== "leaflet-control" && name !== "leaflet-bar" && name !== "is-open")
-            .sort()
-            .join(".") || `control-${index}`;
-          const count = keyCounts.get(classKey) || 0;
-          keyCounts.set(classKey, count + 1);
-          control.dataset.mapsControlKey = count ? `${classKey}-${count}` : classKey;
+        controls.forEach((control) => {
           control.style.transform = "";
         });
-
-        try {
-          const savedOrder = JSON.parse(window.localStorage.getItem(storageKey) || "[]");
-          if (Array.isArray(savedOrder)) {
-            savedOrder.forEach((key) => {
-              const control = controls.find((item) => item.dataset.mapsControlKey === key);
-              if (control) corner.appendChild(control);
-            });
-            controls.filter((control) => !savedOrder.includes(control.dataset.mapsControlKey)).forEach((control) => {
-              corner.appendChild(control);
-            });
-          }
-        } catch (error) {
-          // Ignore invalid or unavailable saved order data.
-        }
-
-        function saveOrder() {
-          const order = Array.from(corner.children)
-            .filter((control) => control !== toggleControl.getContainer())
-            .map((control) => control.dataset.mapsControlKey);
-          try {
-            window.localStorage.setItem(storageKey, JSON.stringify(order));
-          } catch (error) {
-            // Storage can be unavailable in private browsing modes.
-          }
-        }
 
         controls.forEach((control) => {
           let dragState;
@@ -9617,7 +9590,13 @@ image: /media/2026/09/maps-featured.png
 
           control.addEventListener("pointermove", function (event) {
             if (!dragState || event.pointerId !== dragState.pointerId) return;
+            if (!event.metaKey) {
+              control.releasePointerCapture(event.pointerId);
+              dragState = null;
+              return;
+            }
             if (!dragState.active && Math.hypot(event.clientX - dragState.x, event.clientY - dragState.y) < 6) return;
+            event.preventDefault();
             dragState.active = true;
             suppressClick = true;
             control.classList.add("maps-control-reordering");
@@ -9629,7 +9608,6 @@ image: /media/2026/09/maps-featured.png
 
           function finishDrag(event) {
             if (!dragState || event.pointerId !== dragState.pointerId) return;
-            if (dragState.active) saveOrder();
             control.classList.remove("maps-control-reordering");
             dragState = null;
           }
@@ -9642,6 +9620,9 @@ image: /media/2026/09/maps-featured.png
             event.stopImmediatePropagation();
             suppressClick = false;
           }, true);
+          control.addEventListener("dragstart", function (event) {
+            event.preventDefault();
+          });
         });
       }
 
