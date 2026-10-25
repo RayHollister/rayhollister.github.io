@@ -120,7 +120,7 @@ exclude: true
   }
   .vote-person {
     align-items: start;
-    column-gap: 0.55rem;
+    column-gap: 1rem;
     display: grid;
     grid-template-columns: 115px minmax(0, 1fr);
     line-height: 1.25;
@@ -207,6 +207,15 @@ exclude: true
     .vote-card h2 {
       font-size: 1.15rem;
       line-height: 1.2;
+    }
+    .vote-person {
+      grid-template-columns: 72px minmax(0, 1fr);
+      column-gap: 0.7rem;
+      font-size: 0.9rem;
+    }
+    .vote-person img {
+      width: 72px;
+      height: 72px;
     }
     .vote-card a {
       min-height: 24px;
