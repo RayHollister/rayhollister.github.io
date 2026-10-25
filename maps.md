@@ -33,9 +33,6 @@ image: /media/2026/09/maps-featured.png
     z-index: 1000;
   }
 
-  #ray-map .leaflet-top.leaflet-left.maps-top-left-menu.maps-controls-dragging {
-    transition: none;
-  }
   .maps-page {
     --maps-control-panel-header-height: 2.05rem;
     --maps-control-panel-max-height: calc(100vh - 6rem);
@@ -241,13 +238,14 @@ image: /media/2026/09/maps-featured.png
     width: 30px;
   }
 
-  .maps-top-left-menu-toggle button {
+  #ray-map .maps-top-left-menu.is-open > .leaflet-control:not(.maps-top-left-menu-toggle):not(.is-open) {
     cursor: grab;
     touch-action: none;
   }
 
-  .maps-controls-dragging .maps-top-left-menu-toggle button {
-    cursor: grabbing;
+  #ray-map .maps-top-left-menu > .maps-control-reordering {
+    cursor: grabbing !important;
+    opacity: 0.55;
   }
 
   .maps-search-control {
@@ -274,23 +272,19 @@ image: /media/2026/09/maps-featured.png
     width: 15px;
   }
 
-  .maps-search-control__panel {
-    background: #fff;
-    border-radius: 4px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+  .maps-search-control__content {
     display: none;
     left: 40px;
-    padding: 0.5rem;
     position: absolute;
     top: 0;
     width: min(20rem, calc(100vw - 5.5rem));
   }
 
-  .maps-search-control.is-open .maps-search-control__panel {
+  .maps-search-control.is-open .maps-search-control__content {
     display: block;
   }
 
-  .maps-search-control.opens-left .maps-search-control__panel {
+  .maps-search-control.opens-left .maps-search-control__content {
     left: auto;
     right: 40px;
   }
@@ -301,6 +295,7 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-search-control__input {
+    background: #fff;
     border: 1px solid #8c959f;
     border-radius: 3px;
     box-sizing: border-box;
@@ -322,10 +317,13 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-search-control__status {
+    background: #fff;
+    border-radius: 3px;
     color: #57606a;
     font-size: 0.8rem;
     line-height: 1.25;
-    margin: 0.4rem 0 0;
+    margin: 0.25rem 0 0;
+    padding: 0.25rem 0.4rem;
   }
 
   .maps-search-control__results {
@@ -2312,12 +2310,12 @@ image: /media/2026/09/maps-featured.png
           const button = L.DomUtil.create("button", "maps-search-control__button", container);
           const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
           const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-          const panel = L.DomUtil.create("div", "maps-search-control__panel", container);
-          const form = L.DomUtil.create("form", "maps-search-control__form", panel);
+          const content = L.DomUtil.create("div", "maps-search-control__content", container);
+          const form = L.DomUtil.create("form", "maps-search-control__form", content);
           const input = L.DomUtil.create("input", "maps-search-control__input", form);
           const submit = L.DomUtil.create("button", "maps-search-control__submit", form);
-          const status = L.DomUtil.create("p", "maps-search-control__status", panel);
-          const results = L.DomUtil.create("div", "maps-search-control__results", panel);
+          const status = L.DomUtil.create("p", "maps-search-control__status", content);
+          const results = L.DomUtil.create("div", "maps-search-control__results", content);
           let requestController;
 
           button.type = "button";
@@ -2347,16 +2345,16 @@ image: /media/2026/09/maps-featured.png
               window.requestAnimationFrame(() => {
                 const mapBounds = map.getContainer().getBoundingClientRect();
                 const buttonBounds = button.getBoundingClientRect();
-                const panelBounds = panel.getBoundingClientRect();
-                container.classList.toggle("opens-left", buttonBounds.right + 40 + panelBounds.width > mapBounds.right);
-                const adjustedPanelBounds = panel.getBoundingClientRect();
+                const contentBounds = content.getBoundingClientRect();
+                container.classList.toggle("opens-left", buttonBounds.right + 40 + contentBounds.width > mapBounds.right);
+                const adjustedPanelBounds = content.getBoundingClientRect();
                 const overflowBottom = adjustedPanelBounds.bottom - mapBounds.bottom + 10;
-                panel.style.top = `${Math.min(0, -overflowBottom)}px`;
+                content.style.top = `${Math.min(0, -overflowBottom)}px`;
                 input.focus();
               });
             } else {
               container.classList.remove("opens-left");
-              panel.style.top = "";
+              content.style.top = "";
             }
           }
 
@@ -9504,93 +9502,6 @@ image: /media/2026/09/maps-featured.png
           button.setAttribute("aria-label", "Open map controls");
           button.setAttribute("aria-expanded", "false");
 
-          function makeControlsDraggable() {
-            const corner = container.parentElement;
-            const storageKey = "ray-maps-control-position";
-            let offset = { x: 0, y: 0 };
-            let dragStart;
-            let dragged = false;
-
-            function clampPosition(position) {
-              const mapBounds = map.getContainer().getBoundingClientRect();
-              const cornerBounds = corner.getBoundingClientRect();
-              const width = Math.max(30, cornerBounds.width);
-              const height = Math.max(30, cornerBounds.height);
-              return {
-                x: Math.max(0, Math.min(position.x, mapBounds.width - width - 10)),
-                y: Math.max(0, Math.min(position.y, mapBounds.height - height - 10))
-              };
-            }
-
-            function applyPosition(position, save) {
-              offset = clampPosition(position);
-              corner.style.transform = `translate(${Math.round(offset.x)}px, ${Math.round(offset.y)}px)`;
-              if (save) {
-                try {
-                  window.localStorage.setItem(storageKey, JSON.stringify(offset));
-                } catch (error) {
-                  // Storage can be unavailable in private browsing modes.
-                }
-              }
-            }
-
-            try {
-              const saved = JSON.parse(window.localStorage.getItem(storageKey) || "null");
-              if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
-                applyPosition(saved, false);
-              }
-            } catch (error) {
-              // Ignore invalid or unavailable saved positions.
-            }
-
-            button.addEventListener("pointerdown", function (event) {
-              if (event.button !== undefined && event.button !== 0) return;
-              dragStart = {
-                pointerId: event.pointerId,
-                x: event.clientX,
-                y: event.clientY,
-                offsetX: offset.x,
-                offsetY: offset.y
-              };
-              dragged = false;
-              button.setPointerCapture(event.pointerId);
-            });
-            button.addEventListener("pointermove", function (event) {
-              if (!dragStart || event.pointerId !== dragStart.pointerId) return;
-              const deltaX = event.clientX - dragStart.x;
-              const deltaY = event.clientY - dragStart.y;
-              if (!dragged && Math.hypot(deltaX, deltaY) < 5) return;
-              dragged = true;
-              corner.classList.add("maps-controls-dragging");
-              applyPosition({
-                x: dragStart.offsetX + deltaX,
-                y: dragStart.offsetY + deltaY
-              }, false);
-            });
-
-            function finishDrag(event) {
-              if (!dragStart || event.pointerId !== dragStart.pointerId) return;
-              if (dragged) applyPosition(offset, true);
-              dragStart = null;
-              corner.classList.remove("maps-controls-dragging");
-            }
-
-            button.addEventListener("pointerup", finishDrag);
-            button.addEventListener("pointercancel", finishDrag);
-            button.addEventListener("click", function (event) {
-              if (!dragged) return;
-              event.preventDefault();
-              event.stopImmediatePropagation();
-              dragged = false;
-            }, true);
-            map.on("resize", function () {
-              applyPosition(offset, true);
-            });
-            window.addEventListener("resize", function () {
-              applyPosition(offset, true);
-            });
-          }
-
           function setOpen(open) {
             const corner = container.parentElement;
             if (!corner) return;
@@ -9612,7 +9523,6 @@ image: /media/2026/09/maps-featured.png
           });
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
-          window.requestAnimationFrame(makeControlsDraggable);
           return container;
         }
       });
@@ -9643,6 +9553,119 @@ image: /media/2026/09/maps-featured.png
       if (attributionToggle) {
         corner.appendChild(attributionToggle);
       }
+
+      function makeMenuControlsDraggable() {
+        const storageKey = "ray-maps-control-offsets";
+        const controls = Array.from(corner.children).filter((control) => control !== toggleControl.getContainer());
+        const keyCounts = new Map();
+        const menuWasOpen = corner.classList.contains("is-open");
+        let savedOffsets = {};
+
+        corner.classList.add("is-open");
+
+        try {
+          window.localStorage.removeItem("ray-maps-control-position");
+          window.localStorage.removeItem("ray-maps-control-order");
+        } catch (error) {
+          // Storage can be unavailable in private browsing modes.
+        }
+        corner.style.transform = "";
+
+        controls.forEach((control, index) => {
+          const classKey = Array.from(control.classList)
+            .filter((name) => name !== "leaflet-control" && name !== "leaflet-bar" && name !== "is-open")
+            .sort()
+            .join(".") || `control-${index}`;
+          const count = keyCounts.get(classKey) || 0;
+          keyCounts.set(classKey, count + 1);
+          control.dataset.mapsControlKey = count ? `${classKey}-${count}` : classKey;
+        });
+
+        try {
+          const storedOffsets = JSON.parse(window.localStorage.getItem(storageKey) || "{}");
+          if (storedOffsets && typeof storedOffsets === "object" && !Array.isArray(storedOffsets)) {
+            savedOffsets = storedOffsets;
+          }
+        } catch (error) {
+          // Ignore invalid or unavailable saved position data.
+        }
+
+        controls.forEach((control) => {
+          const key = control.dataset.mapsControlKey;
+          let offset = savedOffsets[key] && Number.isFinite(savedOffsets[key].x) && Number.isFinite(savedOffsets[key].y)
+            ? savedOffsets[key]
+            : { x: 0, y: 0 };
+          let dragState;
+          let suppressClick = false;
+
+          function applyOffset(nextOffset) {
+            const mapBounds = map.getContainer().getBoundingClientRect();
+            const controlBounds = control.getBoundingClientRect();
+            const baseLeft = controlBounds.left - offset.x;
+            const baseTop = controlBounds.top - offset.y;
+            offset = {
+              x: Math.max(mapBounds.left - baseLeft, Math.min(nextOffset.x, mapBounds.right - baseLeft - controlBounds.width)),
+              y: Math.max(mapBounds.top - baseTop, Math.min(nextOffset.y, mapBounds.bottom - baseTop - controlBounds.height))
+            };
+            control.style.transform = `translate(${Math.round(offset.x)}px, ${Math.round(offset.y)}px)`;
+          }
+
+          applyOffset(offset);
+
+          control.addEventListener("pointerdown", function (event) {
+            if (!corner.classList.contains("is-open") || control.classList.contains("is-open")) return;
+            if (event.button !== undefined && event.button !== 0) return;
+            dragState = {
+              pointerId: event.pointerId,
+              x: event.clientX,
+              y: event.clientY,
+              offsetX: offset.x,
+              offsetY: offset.y,
+              active: false
+            };
+            control.setPointerCapture(event.pointerId);
+          });
+
+          control.addEventListener("pointermove", function (event) {
+            if (!dragState || event.pointerId !== dragState.pointerId) return;
+            if (!dragState.active && Math.hypot(event.clientX - dragState.x, event.clientY - dragState.y) < 6) return;
+            dragState.active = true;
+            suppressClick = true;
+            control.classList.add("maps-control-reordering");
+            applyOffset({
+              x: dragState.offsetX + event.clientX - dragState.x,
+              y: dragState.offsetY + event.clientY - dragState.y
+            });
+          });
+
+          function finishDrag(event) {
+            if (!dragState || event.pointerId !== dragState.pointerId) return;
+            if (dragState.active) {
+              savedOffsets[key] = offset;
+              try {
+                window.localStorage.setItem(storageKey, JSON.stringify(savedOffsets));
+              } catch (error) {
+                // Storage can be unavailable in private browsing modes.
+              }
+            }
+            control.classList.remove("maps-control-reordering");
+            dragState = null;
+          }
+
+          control.addEventListener("pointerup", finishDrag);
+          control.addEventListener("pointercancel", finishDrag);
+          control.addEventListener("click", function (event) {
+            if (!suppressClick) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            suppressClick = false;
+          }, true);
+        });
+
+        if (!menuWasOpen) corner.classList.remove("is-open");
+      }
+
+      makeMenuControlsDraggable();
 
     }
 
