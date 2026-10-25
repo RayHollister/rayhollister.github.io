@@ -1891,6 +1891,7 @@ image: /media/2026/09/maps-featured.png
     let locateControlContainer;
     let locateControlIcon;
     let locateShouldSetInitialView = false;
+    let showYouAreHereCardWhenLocated = false;
     let layersControlApi;
     let layersControlElement;
     const locationInfoControls = [];
@@ -1980,6 +1981,35 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function startUserLocationTracking() {
+      startMobileLocationHeading();
+      if (locateControlContainer) {
+        L.DomUtil.addClass(locateControlContainer, "requesting");
+        L.DomUtil.removeClass(locateControlContainer, "active");
+        L.DomUtil.removeClass(locateControlContainer, "following");
+      }
+      if (locateControlIcon) {
+        L.DomUtil.removeClass(locateControlIcon, "leaflet-control-locate-location-arrow");
+        L.DomUtil.addClass(locateControlIcon, "leaflet-control-locate-spinner");
+      }
+      locateShouldSetInitialView = true;
+      map.stopLocate();
+      map.locate({
+        enableHighAccuracy: true,
+        setView: false,
+        watch: true
+      });
+    }
+
+    function activateLocateQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const locateRequested = String(params.get("locate") || "").trim().toLowerCase() === "yes";
+      const youAreHereRequested = String(params.get("yah") || "").trim().toLowerCase() === "yes";
+      if (!locateRequested && !youAreHereRequested) return;
+      showYouAreHereCardWhenLocated = youAreHereRequested;
+      startUserLocationTracking();
+    }
+
     function addLocateControl() {
       const LocateControl = L.Control.extend({
         options: {
@@ -1995,19 +2025,7 @@ image: /media/2026/09/maps-featured.png
           link.setAttribute("aria-label", "Show me where I am");
           link.addEventListener("click", function (event) {
             event.preventDefault();
-            startMobileLocationHeading();
-            L.DomUtil.addClass(container, "requesting");
-            L.DomUtil.removeClass(container, "active");
-            L.DomUtil.removeClass(container, "following");
-            L.DomUtil.removeClass(icon, "leaflet-control-locate-location-arrow");
-            L.DomUtil.addClass(icon, "leaflet-control-locate-spinner");
-            locateShouldSetInitialView = true;
-            map.stopLocate();
-            map.locate({
-              enableHighAccuracy: true,
-              setView: false,
-              watch: true
-            });
+            startUserLocationTracking();
           });
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.disableScrollPropagation(container);
@@ -2185,6 +2203,10 @@ image: /media/2026/09/maps-featured.png
           radius: event.accuracy || 0,
           weight: 1
         }).addTo(map);
+      }
+      if (showYouAreHereCardWhenLocated) {
+        showYouAreHereCardWhenLocated = false;
+        showYouAreHereCardInPanel();
       }
     });
 
@@ -8314,6 +8336,7 @@ image: /media/2026/09/maps-featured.png
     activateQueryLayers();
     addBaseMapControl();
     addLocateControl();
+    activateLocateQuery();
     map.rotateControl.setPosition("topleft");
 
     function addTopLeftMenuToggle() {
