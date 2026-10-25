@@ -2004,7 +2004,7 @@ image: /media/2026/09/maps-featured.png
       const params = new URLSearchParams(window.location.search);
       if (!params.has("locate")) return;
       const value = String(params.get("locate") || "").trim().toLowerCase();
-      if (["0", "false", "no", "off"].includes(value)) return;
+      if (value !== "yes") return;
       startUserLocationTracking();
     }
 
