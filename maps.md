@@ -2153,7 +2153,7 @@ image: /media/2026/09/maps-featured.png
     function addLocateControl() {
       const LocateControl = L.Control.extend({
         options: {
-          position: "bottomright"
+          position: "topleft"
         },
         onAdd: function () {
           const container = L.DomUtil.create("div", "leaflet-control-locate leaflet-bar leaflet-control");
@@ -8855,6 +8855,11 @@ image: /media/2026/09/maps-featured.png
       const corner = toggleControl.getContainer().parentElement;
       corner.classList.add("maps-top-left-menu");
       corner.insertBefore(toggleControl.getContainer(), corner.firstChild);
+
+      const locateControl = corner.querySelector(".leaflet-control-locate");
+      if (locateControl) {
+        corner.insertBefore(locateControl, toggleControl.getContainer().nextSibling);
+      }
 
       const layersControl = corner.querySelector(".maps-layers-control");
       const baseMapControl = corner.querySelector(".maps-basemap-control");
