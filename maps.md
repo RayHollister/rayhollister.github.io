@@ -3289,6 +3289,8 @@ image: /media/2026/09/maps-featured.png
     let focusedBoundary;
     let votingPrecinctPollingPointer;
     let votingPrecinctPollingPointerPrecinct = "";
+    let schoolAttendancePointer;
+    let schoolAttendancePointerKey = "";
     const focusLayerStates = new Map();
     let compareModeEnabled = false;
     let compareToggleButton;
@@ -7285,6 +7287,89 @@ image: /media/2026/09/maps-featured.png
       votingPrecinctPollingPointerPrecinct = getVotingPrecinctNumber(feature);
     }
 
+    function getSchoolAttendancePointerKey(feature, layerType) {
+      const properties = feature.properties || {};
+      return `${layerType}:${properties.School_ID || properties.Nameshort || ""}`;
+    }
+
+    function normalizeSchoolMatchName(value) {
+      return String(value || "")
+        .toLowerCase()
+        .replace(/\b(elementary|middle|high|school|academy|gifted|talented|and|the|of|at)\b/g, "")
+        .replace(/[^a-z0-9]/g, "");
+    }
+
+    function findSchoolForAttendanceZone(feature) {
+      const properties = feature.properties || {};
+      const schoolId = String(properties.School_ID || "");
+      const schoolName = normalizeSchoolMatchName(properties.Nameshort || properties.School_Name_Number);
+      const dcpsSchoolLayers = [elementarySchoolsLayer, middleSchoolsLayer, highSchoolsLayer];
+      const fldoeSchoolLayers = [
+        fldoeTraditionalElementarySchoolsLayer,
+        fldoeTraditionalMiddleSchoolsLayer,
+        fldoeTraditionalHighSchoolsLayer,
+        fldoeTraditionalCombinationSchoolsLayer,
+        fldoeMagnetElementarySchoolsLayer,
+        fldoeMagnetMiddleSchoolsLayer,
+        fldoeMagnetHighSchoolsLayer,
+        fldoeMagnetCombinationSchoolsLayer,
+        fldoeAlternativeHighSchoolsLayer,
+        fldoeAlternativeCombinationSchoolsLayer
+      ];
+      let schoolFeature;
+
+      dcpsSchoolLayers.some((schoolLayer) => {
+        schoolLayer.eachLayer((layer) => {
+          const candidate = layer.feature;
+          const candidateProperties = candidate && candidate.properties || {};
+          const candidateId = String(candidateProperties.USER_SCL_ID || candidateProperties.USER_SCL_ID_TXT || "");
+          if (!schoolFeature && schoolId && candidateId === schoolId) schoolFeature = candidate;
+        });
+        return Boolean(schoolFeature);
+      });
+      if (schoolFeature || !schoolName) return schoolFeature;
+
+      fldoeSchoolLayers.some((schoolLayer) => {
+        schoolLayer.eachLayer((layer) => {
+          const candidate = layer.feature;
+          if (!schoolFeature && normalizeSchoolMatchName(getFldoeSchoolName(candidate)) === schoolName) {
+            schoolFeature = candidate;
+          }
+        });
+        return Boolean(schoolFeature);
+      });
+      return schoolFeature;
+    }
+
+    function clearSchoolAttendancePointer(pointerKey) {
+      if (pointerKey && pointerKey !== schoolAttendancePointerKey) return;
+      if (schoolAttendancePointer) map.removeLayer(schoolAttendancePointer);
+      schoolAttendancePointer = undefined;
+      schoolAttendancePointerKey = "";
+    }
+
+    function showSchoolAttendancePointer(feature, layerType) {
+      const schoolFeature = findSchoolForAttendanceZone(feature);
+      const coordinates = schoolFeature && schoolFeature.geometry && schoolFeature.geometry.coordinates;
+      clearSchoolAttendancePointer();
+      if (!coordinates || coordinates.length < 2) return;
+
+      const pointerIcon = L.divIcon({
+        className: "maps-polling-location-pointer-icon",
+        html: '<span class="maps-polling-location-pointer" aria-hidden="true"></span>',
+        iconAnchor: [14, 36],
+        iconSize: [28, 28]
+      });
+      schoolAttendancePointer = L.marker([coordinates[1], coordinates[0]], {
+        icon: pointerIcon,
+        interactive: false,
+        keyboard: false,
+        pane: "pollingLocationPointerPane",
+        zIndexOffset: 1000
+      }).addTo(map);
+      schoolAttendancePointerKey = getSchoolAttendancePointerKey(feature, layerType);
+    }
+
     function appendVotingPrecinctPollingLocation(popup, feature) {
       const precinct = getVotingPrecinctNumber(feature);
       const pollingFeature = findPollingLocationForPrecinct(feature);
@@ -7381,7 +7466,7 @@ image: /media/2026/09/maps-featured.png
         appendVotingPrecinctPollingLocation(popup, feature);
       }
 
-      if (layerType !== "zipCode") {
+      if (layerType !== "zipCode" && !layerType.startsWith("schoolAttendance")) {
         appendActivePointCounts(
           popup,
           pointCountFeature,
@@ -7628,6 +7713,9 @@ image: /media/2026/09/maps-featured.png
         if (layerType === "votingPrecinct") {
           showVotingPrecinctPollingPointer(feature);
         }
+        if (layerType.startsWith("schoolAttendance")) {
+          showSchoolAttendancePointer(feature, layerType);
+        }
         if (mapInteractionMode === "focus") {
           focusBoundaryFeature(feature, layer, mode, layerType);
         }
@@ -7638,6 +7726,9 @@ image: /media/2026/09/maps-featured.png
       layer.on("popupclose", function () {
         if (layerType === "votingPrecinct") {
           clearVotingPrecinctPollingPointer(getVotingPrecinctNumber(feature));
+        }
+        if (layerType.startsWith("schoolAttendance")) {
+          clearSchoolAttendancePointer(getSchoolAttendancePointerKey(feature, layerType));
         }
       });
       layer.on("contextmenu", function (event) {
