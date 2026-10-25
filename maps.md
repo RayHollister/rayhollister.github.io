@@ -1989,9 +1989,6 @@ image: /media/2026/09/maps-featured.png
       "district",
       "atLarge",
       "schoolBoard",
-      "schoolAttendanceElementary",
-      "schoolAttendanceMiddle",
-      "schoolAttendanceHigh",
       "floridaHouse",
       "floridaSenate",
       "congressional",
@@ -2240,6 +2237,17 @@ image: /media/2026/09/maps-featured.png
       const selectedControls = locationInfoControls
         .filter((control) => selectedLocationInfoLayerTypes.has(control.layerType))
         .sort((left, right) => {
+          const schoolAttendanceOrder = {
+            schoolAttendanceElementary: 0,
+            schoolAttendanceMiddle: 1,
+            schoolAttendanceHigh: 2
+          };
+          const leftSchoolOrder = schoolAttendanceOrder[left.layerType];
+          const rightSchoolOrder = schoolAttendanceOrder[right.layerType];
+          if (leftSchoolOrder !== undefined || rightSchoolOrder !== undefined) {
+            return (leftSchoolOrder === undefined ? 3 : leftSchoolOrder) -
+              (rightSchoolOrder === undefined ? 3 : rightSchoolOrder);
+          }
           if (left.layerType === "votingPrecinct") return -1;
           if (right.layerType === "votingPrecinct") return 1;
           return 0;
