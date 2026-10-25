@@ -2320,6 +2320,7 @@ image: /media/2026/09/maps-featured.png
           const status = L.DomUtil.create("p", "maps-search-control__status", content);
           const results = L.DomUtil.create("div", "maps-search-control__results", content);
           let requestController;
+          let suggestionTimer;
 
           button.type = "button";
           button.title = "Search addresses and places";
@@ -2333,13 +2334,16 @@ image: /media/2026/09/maps-featured.png
           input.type = "search";
           input.name = "map-search";
           input.placeholder = "Address or place";
-          input.autocomplete = "street-address";
+          input.autocomplete = "off";
           input.setAttribute("aria-label", "Address or place");
+          input.setAttribute("aria-autocomplete", "list");
+          input.setAttribute("aria-controls", "maps-search-results");
           submit.type = "submit";
           submit.textContent = "Search";
           status.hidden = true;
           status.setAttribute("aria-live", "polite");
           results.setAttribute("role", "list");
+          results.id = "maps-search-results";
 
           function setOpen(open) {
             container.classList.toggle("is-open", open);
@@ -2387,17 +2391,17 @@ image: /media/2026/09/maps-featured.png
             setOpen(false);
           }
 
-          button.addEventListener("click", function () {
-            setOpen(!container.classList.contains("is-open"));
-          });
+          function createResultButton(label, onClick) {
+            const result = document.createElement("button");
+            result.type = "button";
+            result.className = "maps-search-control__result";
+            result.setAttribute("role", "listitem");
+            result.textContent = label;
+            result.addEventListener("click", onClick);
+            results.appendChild(result);
+          }
 
-          form.addEventListener("submit", async function (event) {
-            event.preventDefault();
-            const query = input.value.trim();
-            if (!query) {
-              setStatus("Enter an address or place to search.", true);
-              return;
-            }
+          async function findCandidates(query, magicKey, selectFirst) {
             if (requestController) requestController.abort();
             requestController = new AbortController();
             results.replaceChildren();
@@ -2408,10 +2412,11 @@ image: /media/2026/09/maps-featured.png
                 SingleLine: query,
                 f: "json",
                 outFields: "Match_addr,Addr_type",
-                maxLocations: "6",
+                maxLocations: selectFirst ? "1" : "6",
                 location: "-81.6557,30.3322",
                 searchExtent: "-82.15,29.85,-81.15,30.75"
               });
+              if (magicKey) params.set("magicKey", magicKey);
               const response = await fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?${params}`, {
                 signal: requestController.signal
               });
@@ -2422,15 +2427,13 @@ image: /media/2026/09/maps-featured.png
                 setStatus("No matching locations found.", true);
                 return;
               }
+              if (selectFirst) {
+                selectCandidate(candidates[0]);
+                return;
+              }
               setStatus(`${candidates.length} result${candidates.length === 1 ? "" : "s"}`, false);
               candidates.forEach((candidate) => {
-                const result = document.createElement("button");
-                result.type = "button";
-                result.className = "maps-search-control__result";
-                result.setAttribute("role", "listitem");
-                result.textContent = candidate.address || "Search result";
-                result.addEventListener("click", () => selectCandidate(candidate));
-                results.appendChild(result);
+                createResultButton(candidate.address || "Search result", () => selectCandidate(candidate));
               });
             } catch (error) {
               if (error.name !== "AbortError") {
@@ -2439,6 +2442,63 @@ image: /media/2026/09/maps-featured.png
             } finally {
               submit.disabled = false;
             }
+          }
+
+          async function showSuggestions(query) {
+            if (requestController) requestController.abort();
+            requestController = new AbortController();
+            try {
+              const params = new URLSearchParams({
+                text: query,
+                f: "json",
+                maxSuggestions: "6",
+                location: "-81.6557,30.3322",
+                searchExtent: "-82.15,29.85,-81.15,30.75"
+              });
+              const response = await fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest?${params}`, {
+                signal: requestController.signal
+              });
+              if (!response.ok) throw new Error(`Suggestions returned ${response.status}`);
+              const data = await response.json();
+              const suggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
+              results.replaceChildren();
+              setStatus("", false);
+              suggestions.forEach((suggestion) => {
+                createResultButton(suggestion.text, () => {
+                  input.value = suggestion.text;
+                  findCandidates(suggestion.text, suggestion.magicKey, true);
+                });
+              });
+            } catch (error) {
+              if (error.name !== "AbortError") results.replaceChildren();
+            }
+          }
+
+          button.addEventListener("click", function () {
+            setOpen(!container.classList.contains("is-open"));
+          });
+
+          input.addEventListener("input", function () {
+            window.clearTimeout(suggestionTimer);
+            const query = input.value.trim();
+            if (query.length < 3) {
+              if (requestController) requestController.abort();
+              results.replaceChildren();
+              setStatus("", false);
+              return;
+            }
+            suggestionTimer = window.setTimeout(() => showSuggestions(query), 250);
+          });
+
+          form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const query = input.value.trim();
+            if (!query) {
+              setStatus("Enter an address or place to search.", true);
+              return;
+            }
+            window.clearTimeout(suggestionTimer);
+            findCandidates(query, "", false);
           });
 
           document.addEventListener("keydown", function (event) {
