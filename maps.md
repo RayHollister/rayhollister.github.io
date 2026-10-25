@@ -24,6 +24,7 @@ image: /media/2026/09/maps-featured.png
     margin-bottom: 10px;
   }
 
+  #ray-map .leaflet-bottom.leaflet-left,
   #ray-map .leaflet-bottom.leaflet-right {
     z-index: 800;
   }
@@ -214,7 +215,7 @@ image: /media/2026/09/maps-featured.png
     width: 30px;
   }
 
-  #ray-map .leaflet-top.leaflet-left.maps-top-left-menu:not(.is-open) > .leaflet-control:not(.maps-top-left-menu-toggle, .maps-elevation-legend) {
+  #ray-map .leaflet-top.leaflet-left.maps-top-left-menu:not(.is-open) > .leaflet-control:not(.maps-top-left-menu-toggle) {
     display: none;
   }
 
@@ -3049,26 +3050,35 @@ image: /media/2026/09/maps-featured.png
     const elevationColorLayer = new RegionalElevationGridLayer({
       attribution: elevationAttribution,
       getImageUrl: getElevationColorImageUrl,
+      keepBuffer: 4,
       opacity: 0.35,
-      pane: "elevationPane"
+      pane: "elevationPane",
+      updateWhenIdle: false,
+      updateWhenZooming: false
     });
     const elevationContoursOverviewLayer = new RegionalElevationGridLayer({
       attribution: elevationAttribution,
       getImageUrl: function (coords, tileSize) {
         return getElevationContourImageUrl.call(this, "3DEPElevation:Preset 10ft Contour Interval", coords, tileSize);
       },
+      keepBuffer: 4,
       maxZoom: 12,
       opacity: 0.35,
-      pane: "elevationPane"
+      pane: "elevationPane",
+      updateWhenIdle: false,
+      updateWhenZooming: false
     });
     const elevationContoursDetailLayer = new RegionalElevationGridLayer({
       attribution: elevationAttribution,
       getImageUrl: function (coords, tileSize) {
         return getElevationContourImageUrl.call(this, "3DEPElevation:Preset 5ft Contour Interval", coords, tileSize);
       },
+      keepBuffer: 4,
       minZoom: 13,
       opacity: 0.35,
-      pane: "elevationPane"
+      pane: "elevationPane",
+      updateWhenIdle: false,
+      updateWhenZooming: false
     });
     const elevationContoursLayer = L.layerGroup([
       elevationContoursOverviewLayer,
@@ -5842,7 +5852,7 @@ image: /media/2026/09/maps-featured.png
         ["rgb(103 0 31)", "120+ ft"]
       ];
       const ElevationLegendControl = L.Control.extend({
-        options: { position: "topleft" },
+        options: { position: "bottomleft" },
         onAdd: function () {
           const container = L.DomUtil.create("div", "maps-elevation-legend");
           const heading = document.createElement("strong");
@@ -8861,10 +8871,6 @@ image: /media/2026/09/maps-featured.png
         corner.appendChild(attributionToggle);
       }
 
-      const elevationLegend = corner.querySelector(".maps-elevation-legend");
-      if (elevationLegend) {
-        corner.appendChild(elevationLegend);
-      }
     }
 
     addTopLeftMenuToggle();
