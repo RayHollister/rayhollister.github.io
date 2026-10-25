@@ -979,6 +979,18 @@ image: /media/2026/09/maps-featured.png
     outline: 0;
   }
 
+  /* Keep boundary strokes at their final screen width during Leaflet's
+     temporary SVG scale so they do not appear to zoom again on redraw. */
+  #ray-map .leaflet-pane > svg path {
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* Smooth-wheel zoom already supplies every intermediate transform. Do not
+     let Leaflet's 250ms discrete-zoom transition replay the final SVG scale. */
+  #ray-map.maps-smooth-wheel-zooming .leaflet-pane > svg.leaflet-zoom-animated {
+    transition: none;
+  }
+
   #ray-map,
   #ray-map * {
     -webkit-tap-highlight-color: transparent;
