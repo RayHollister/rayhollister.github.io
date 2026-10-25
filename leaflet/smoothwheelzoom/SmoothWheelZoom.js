@@ -20,6 +20,7 @@ L.Map.SmoothWheelZoom = L.Handler.extend({
 
   removeHooks: function () {
     L.DomEvent.off(this._map._container, "wheel", this._onWheelScroll, this);
+    this._map._container.classList.remove("maps-smooth-wheel-zooming");
   },
 
   _onWheelScroll: function (event) {
@@ -32,6 +33,7 @@ L.Map.SmoothWheelZoom = L.Handler.extend({
   _onWheelStart: function (event) {
     var map = this._map;
     this._isWheeling = true;
+    map._container.classList.add("maps-smooth-wheel-zooming");
     this._wheelMousePosition = map.mouseEventToContainerPoint(event);
     this._centerPoint = map.getSize()._divideBy(2);
     this._startLatLng = map.containerPointToLatLng(this._centerPoint);
@@ -68,6 +70,9 @@ L.Map.SmoothWheelZoom = L.Handler.extend({
     this._isWheeling = false;
     cancelAnimationFrame(this._zoomAnimationId);
     this._map._moveEnd(true);
+    requestAnimationFrame(function () {
+      this._map._container.classList.remove("maps-smooth-wheel-zooming");
+    }.bind(this));
   },
 
   _updateWheelZoom: function () {

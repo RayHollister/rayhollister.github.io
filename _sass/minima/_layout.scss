@@ -123,7 +123,11 @@
  */
 .site-footer {
   border-top: 1px solid $border-color-01;
-  padding: $spacing-unit 0;
+  padding: $spacing-unit * .5 0;
+}
+.site-footer p {
+  font-size: $small-font-size;
+  line-height: $base-line-height;
 }
 
 .footer-heading {
