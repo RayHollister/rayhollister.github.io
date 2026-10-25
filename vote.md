@@ -9,7 +9,7 @@ exclude: true
 <style>
   .vote-intro {
     max-width: 46rem;
-    margin: 0 0 1.5rem;
+    margin: 1rem 0;
     padding: 1.25rem;
     border: 1px solid rgba(127, 127, 127, 0.3);
     border-radius: 10px;
