@@ -192,15 +192,21 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 ## Educational Institutions
 
 - [Florida Department of Education Know Your Schools Mapping](https://edudata.fldoe.org/ReportCards/Mapping.html)
-  - Traditional Public Elementary
-  - Traditional Public Middle
-  - Traditional Public High
-  - Traditional Public Combination
-  - Traditional Public Magnet
+  - Neighborhood Public Elementary
+  - Neighborhood Public Middle
+  - Neighborhood Public High
+  - Neighborhood Public Combination
+  - Magnet Public Elementary
+  - Magnet Public Middle
+  - Magnet Public High
+  - Magnet Public Combination
+  - Alternative Public High
+  - Alternative Public Combination
   - Charter Public Elementary
   - Charter Public Middle
   - Charter Public High
   - Charter Public Combination
+  - Neighborhood Public includes non-alternative district schools coded by FLDOE as either Non-Magnet or Magnet Program. A Magnet Program is offered within an otherwise neighborhood school. Magnet Public includes only records coded as Magnet School, identifying dedicated magnet schools. Alternative Public includes FLDOE Alternative Education Center, DJJ School, and ESE Center records, including alternative charter schools. Charter Public excludes records shown under Alternative Public so schools are not duplicated between menu groups.
 - [Florida Department of Education Private School Directory spreadsheet](https://www.floridaschoolchoice.org/information/privateschooldirectory/DownloadExcelFile.aspx)
   - Private Schools Elementary
   - Private Schools Middle
@@ -214,6 +220,10 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 ## Duval County Public Schools Lookup Map
 
 - [Duval County Public Schools lookup map](https://jacobs.maps.arcgis.com/apps/instant/lookup/index.html?appid=d9d3f3b133fb4c30b00886006f4aa0ed#find=30.306646122101068%2C-81.65127371701966)
+  - The Elementary School, Middle School, and High School attendance-zone layers use the app's [DCPS School Boundaries SY 2026–27 feature service](https://services9.arcgis.com/eNX73FDxjlKFtCtH/arcgis/rest/services/DCPS_School_Boundaries_SY2627/FeatureServer/0).
+  - Future-year layers use the separate [DCPS School Boundaries SY 2027–28 feature service](https://services9.arcgis.com/eNX73FDxjlKFtCtH/arcgis/rest/services/DCPS_School_Boundaries_SY2728/FeatureServer/0).
+  - The You Are Here card can identify the elementary, middle, and high school attendance zones containing the reported location for either school year.
+  - Each layer and card result is labeled by school year because assignments change between the two datasets. Confirm an assignment with Duval County Public Schools before making enrollment or housing decisions.
   - Elementary Schools
   - Middle Schools
   - High Schools

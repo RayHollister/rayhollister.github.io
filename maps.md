@@ -1201,7 +1201,7 @@ image: /media/2026/09/maps-featured.png
   }
 
   .maps-polling-location-pointer {
-    background: #7c3aed;
+    background: var(--maps-pointer-color, #7c3aed);
     border: 3px solid #fff;
     border-radius: 50% 50% 50% 0;
     box-shadow: 0 2px 6px rgb(0 0 0 / 45%);
@@ -1984,6 +1984,7 @@ image: /media/2026/09/maps-featured.png
     let layersControlApi;
     let layersControlElement;
     const locationInfoControls = [];
+    const locationInfoGroupControls = [];
     const selectedLocationInfoLayerTypes = new Set([
       "votingPrecinct",
       "district",
@@ -2223,6 +2224,7 @@ image: /media/2026/09/maps-featured.png
       locationInfoControls.forEach((control) => {
         control.input.checked = selectedLocationInfoLayerTypes.has(control.layerType);
       });
+      locationInfoGroupControls.forEach((control) => control.syncInput());
     }
 
     function openLayersMenuForLocationInfo() {
@@ -2237,6 +2239,20 @@ image: /media/2026/09/maps-featured.png
       const selectedControls = locationInfoControls
         .filter((control) => selectedLocationInfoLayerTypes.has(control.layerType))
         .sort((left, right) => {
+          const schoolAttendanceOrder = {
+            schoolAttendanceElementary: 0,
+            schoolAttendanceMiddle: 1,
+            schoolAttendanceHigh: 2,
+            schoolAttendanceFutureElementary: 3,
+            schoolAttendanceFutureMiddle: 4,
+            schoolAttendanceFutureHigh: 5
+          };
+          const leftSchoolOrder = schoolAttendanceOrder[left.layerType];
+          const rightSchoolOrder = schoolAttendanceOrder[right.layerType];
+          if (leftSchoolOrder !== undefined || rightSchoolOrder !== undefined) {
+            return (leftSchoolOrder === undefined ? 6 : leftSchoolOrder) -
+              (rightSchoolOrder === undefined ? 6 : rightSchoolOrder);
+          }
           if (left.layerType === "votingPrecinct") return -1;
           if (right.layerType === "votingPrecinct") return 1;
           return 0;
@@ -2768,6 +2784,31 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "border", "schoolBoard"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "border", "schoolBoard")
     });
+    function createSchoolAttendanceZoneLayer(level, mode, futureYear) {
+      const layerType = `schoolAttendance${futureYear ? "Future" : ""}${level}`;
+      const schoolType = {
+        Elementary: "ES",
+        Middle: "MS",
+        High: "HS"
+      }[level];
+      return L.geoJSON(null, {
+        filter: (feature) => (feature.properties || {}).SchoolType === schoolType,
+        style: (feature) => getBoundaryStyle(feature, mode, layerType),
+        onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, mode, layerType)
+      });
+    }
+    const elementaryAttendanceZoneFillLayer = createSchoolAttendanceZoneLayer("Elementary", "fill");
+    const elementaryAttendanceZoneBorderLayer = createSchoolAttendanceZoneLayer("Elementary", "border");
+    const middleAttendanceZoneFillLayer = createSchoolAttendanceZoneLayer("Middle", "fill");
+    const middleAttendanceZoneBorderLayer = createSchoolAttendanceZoneLayer("Middle", "border");
+    const highAttendanceZoneFillLayer = createSchoolAttendanceZoneLayer("High", "fill");
+    const highAttendanceZoneBorderLayer = createSchoolAttendanceZoneLayer("High", "border");
+    const futureElementaryAttendanceZoneFillLayer = createSchoolAttendanceZoneLayer("Elementary", "fill", true);
+    const futureElementaryAttendanceZoneBorderLayer = createSchoolAttendanceZoneLayer("Elementary", "border", true);
+    const futureMiddleAttendanceZoneFillLayer = createSchoolAttendanceZoneLayer("Middle", "fill", true);
+    const futureMiddleAttendanceZoneBorderLayer = createSchoolAttendanceZoneLayer("Middle", "border", true);
+    const futureHighAttendanceZoneFillLayer = createSchoolAttendanceZoneLayer("High", "fill", true);
+    const futureHighAttendanceZoneBorderLayer = createSchoolAttendanceZoneLayer("High", "border", true);
     const cityFillLayer = L.geoJSON(null, {
       style: (feature) => getBoundaryStyle(feature, "fill", "city"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "city")
@@ -3209,15 +3250,20 @@ image: /media/2026/09/maps-featured.png
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, getSchoolStyle("magnet")),
       onEachFeature: (feature, layer) => addSchoolInteractivity(feature, layer)
     });
-    const fldoeTraditionalElementarySchoolsLayer = createFldoeSchoolLayer("elementary");
-    const fldoeTraditionalMiddleSchoolsLayer = createFldoeSchoolLayer("middle");
-    const fldoeTraditionalHighSchoolsLayer = createFldoeSchoolLayer("high");
-    const fldoeTraditionalCombinationSchoolsLayer = createFldoeSchoolLayer("combination");
-    const fldoeTraditionalMagnetSchoolsLayer = createFldoeSchoolLayer("magnet");
-    const fldoeCharterElementarySchoolsLayer = createFldoeSchoolLayer("elementary");
-    const fldoeCharterMiddleSchoolsLayer = createFldoeSchoolLayer("middle");
-    const fldoeCharterHighSchoolsLayer = createFldoeSchoolLayer("high");
-    const fldoeCharterCombinationSchoolsLayer = createFldoeSchoolLayer("combination");
+    const fldoeTraditionalElementarySchoolsLayer = createFilteredFldoeSchoolLayer("elementary", isNeighborhoodPublicSchool);
+    const fldoeTraditionalMiddleSchoolsLayer = createFilteredFldoeSchoolLayer("middle", isNeighborhoodPublicSchool);
+    const fldoeTraditionalHighSchoolsLayer = createFilteredFldoeSchoolLayer("high", isNeighborhoodPublicSchool);
+    const fldoeTraditionalCombinationSchoolsLayer = createFilteredFldoeSchoolLayer("combination", isNeighborhoodPublicSchool);
+    const fldoeMagnetElementarySchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => isDedicatedMagnetPublicSchool(feature) && getFldoeSchoolType(feature) === "Elementary School");
+    const fldoeMagnetMiddleSchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => isDedicatedMagnetPublicSchool(feature) && getFldoeSchoolType(feature) === "Middle School");
+    const fldoeMagnetHighSchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => isDedicatedMagnetPublicSchool(feature) && getFldoeSchoolType(feature) === "High School");
+    const fldoeMagnetCombinationSchoolsLayer = createFilteredFldoeSchoolLayer("magnet", (feature) => isDedicatedMagnetPublicSchool(feature) && getFldoeSchoolType(feature) === "Combination School");
+    const fldoeAlternativeHighSchoolsLayer = createFilteredFldoeSchoolLayer("high", (feature) => getFldoeSchoolType(feature) === "High School");
+    const fldoeAlternativeCombinationSchoolsLayer = createFilteredFldoeSchoolLayer("combination", (feature) => getFldoeSchoolType(feature) === "Combination School");
+    const fldoeCharterElementarySchoolsLayer = createFilteredFldoeSchoolLayer("elementary", isNonAlternativePublicSchool);
+    const fldoeCharterMiddleSchoolsLayer = createFilteredFldoeSchoolLayer("middle", isNonAlternativePublicSchool);
+    const fldoeCharterHighSchoolsLayer = createFilteredFldoeSchoolLayer("high", isNonAlternativePublicSchool);
+    const fldoeCharterCombinationSchoolsLayer = createFilteredFldoeSchoolLayer("combination", isNonAlternativePublicSchool);
     const privateElementarySchoolsLayer = createPrivateSchoolLayer("elementary");
     const privateMiddleSchoolsLayer = createPrivateSchoolLayer("middle");
     const privateHighSchoolsLayer = createPrivateSchoolLayer("high");
@@ -3243,6 +3289,8 @@ image: /media/2026/09/maps-featured.png
     let focusedBoundary;
     let votingPrecinctPollingPointer;
     let votingPrecinctPollingPointerPrecinct = "";
+    let schoolAttendancePointer;
+    let schoolAttendancePointerKey = "";
     const focusLayerStates = new Map();
     let compareModeEnabled = false;
     let compareToggleButton;
@@ -3314,6 +3362,18 @@ image: /media/2026/09/maps-featured.png
         councilAtLargeBorderLayer,
         schoolBoardDistrictFillLayer,
         schoolBoardDistrictBorderLayer,
+        elementaryAttendanceZoneFillLayer,
+        elementaryAttendanceZoneBorderLayer,
+        middleAttendanceZoneFillLayer,
+        middleAttendanceZoneBorderLayer,
+        highAttendanceZoneFillLayer,
+        highAttendanceZoneBorderLayer,
+        futureElementaryAttendanceZoneFillLayer,
+        futureElementaryAttendanceZoneBorderLayer,
+        futureMiddleAttendanceZoneFillLayer,
+        futureMiddleAttendanceZoneBorderLayer,
+        futureHighAttendanceZoneFillLayer,
+        futureHighAttendanceZoneBorderLayer,
         cityFillLayer,
         cityBorderLayer,
         countyFillLayer,
@@ -3391,7 +3451,12 @@ image: /media/2026/09/maps-featured.png
         fldoeTraditionalMiddleSchoolsLayer,
         fldoeTraditionalHighSchoolsLayer,
         fldoeTraditionalCombinationSchoolsLayer,
-        fldoeTraditionalMagnetSchoolsLayer,
+        fldoeMagnetElementarySchoolsLayer,
+        fldoeMagnetMiddleSchoolsLayer,
+        fldoeMagnetHighSchoolsLayer,
+        fldoeMagnetCombinationSchoolsLayer,
+        fldoeAlternativeHighSchoolsLayer,
+        fldoeAlternativeCombinationSchoolsLayer,
         fldoeCharterElementarySchoolsLayer,
         fldoeCharterMiddleSchoolsLayer,
         fldoeCharterHighSchoolsLayer,
@@ -3420,6 +3485,18 @@ image: /media/2026/09/maps-featured.png
         councilAtLargeBorderLayer,
         schoolBoardDistrictFillLayer,
         schoolBoardDistrictBorderLayer,
+        elementaryAttendanceZoneFillLayer,
+        elementaryAttendanceZoneBorderLayer,
+        middleAttendanceZoneFillLayer,
+        middleAttendanceZoneBorderLayer,
+        highAttendanceZoneFillLayer,
+        highAttendanceZoneBorderLayer,
+        futureElementaryAttendanceZoneFillLayer,
+        futureElementaryAttendanceZoneBorderLayer,
+        futureMiddleAttendanceZoneFillLayer,
+        futureMiddleAttendanceZoneBorderLayer,
+        futureHighAttendanceZoneFillLayer,
+        futureHighAttendanceZoneBorderLayer,
         cityFillLayer,
         cityBorderLayer,
         countyFillLayer,
@@ -3477,7 +3554,12 @@ image: /media/2026/09/maps-featured.png
         fldoeTraditionalMiddleSchoolsLayer,
         fldoeTraditionalHighSchoolsLayer,
         fldoeTraditionalCombinationSchoolsLayer,
-        fldoeTraditionalMagnetSchoolsLayer,
+        fldoeMagnetElementarySchoolsLayer,
+        fldoeMagnetMiddleSchoolsLayer,
+        fldoeMagnetHighSchoolsLayer,
+        fldoeMagnetCombinationSchoolsLayer,
+        fldoeAlternativeHighSchoolsLayer,
+        fldoeAlternativeCombinationSchoolsLayer,
         fldoeCharterElementarySchoolsLayer,
         fldoeCharterMiddleSchoolsLayer,
         fldoeCharterHighSchoolsLayer,
@@ -3625,6 +3707,18 @@ image: /media/2026/09/maps-featured.png
         councilAtLargeBorderLayer,
         schoolBoardDistrictFillLayer,
         schoolBoardDistrictBorderLayer,
+        elementaryAttendanceZoneFillLayer,
+        elementaryAttendanceZoneBorderLayer,
+        middleAttendanceZoneFillLayer,
+        middleAttendanceZoneBorderLayer,
+        highAttendanceZoneFillLayer,
+        highAttendanceZoneBorderLayer,
+        futureElementaryAttendanceZoneFillLayer,
+        futureElementaryAttendanceZoneBorderLayer,
+        futureMiddleAttendanceZoneFillLayer,
+        futureMiddleAttendanceZoneBorderLayer,
+        futureHighAttendanceZoneFillLayer,
+        futureHighAttendanceZoneBorderLayer,
         cityFillLayer,
         cityBorderLayer,
         countyFillLayer,
@@ -3681,7 +3775,12 @@ image: /media/2026/09/maps-featured.png
         fldoeTraditionalMiddleSchoolsLayer,
         fldoeTraditionalHighSchoolsLayer,
         fldoeTraditionalCombinationSchoolsLayer,
-        fldoeTraditionalMagnetSchoolsLayer,
+        fldoeMagnetElementarySchoolsLayer,
+        fldoeMagnetMiddleSchoolsLayer,
+        fldoeMagnetHighSchoolsLayer,
+        fldoeMagnetCombinationSchoolsLayer,
+        fldoeAlternativeHighSchoolsLayer,
+        fldoeAlternativeCombinationSchoolsLayer,
         fldoeCharterElementarySchoolsLayer,
         fldoeCharterMiddleSchoolsLayer,
         fldoeCharterHighSchoolsLayer,
@@ -3704,6 +3803,12 @@ image: /media/2026/09/maps-featured.png
         councilDistrictFillLayer,
         councilAtLargeFillLayer,
         schoolBoardDistrictFillLayer,
+        elementaryAttendanceZoneFillLayer,
+        middleAttendanceZoneFillLayer,
+        highAttendanceZoneFillLayer,
+        futureElementaryAttendanceZoneFillLayer,
+        futureMiddleAttendanceZoneFillLayer,
+        futureHighAttendanceZoneFillLayer,
         cityFillLayer,
         countyFillLayer,
         neighborhoodFillLayer,
@@ -4402,7 +4507,12 @@ image: /media/2026/09/maps-featured.png
         { layer: fldoeTraditionalMiddleSchoolsLayer, layerType: "fldoeSchool" },
         { layer: fldoeTraditionalHighSchoolsLayer, layerType: "fldoeSchool" },
         { layer: fldoeTraditionalCombinationSchoolsLayer, layerType: "fldoeSchool" },
-        { layer: fldoeTraditionalMagnetSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeMagnetElementarySchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeMagnetMiddleSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeMagnetHighSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeMagnetCombinationSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeAlternativeHighSchoolsLayer, layerType: "fldoeSchool" },
+        { layer: fldoeAlternativeCombinationSchoolsLayer, layerType: "fldoeSchool" },
         { layer: fldoeCharterElementarySchoolsLayer, layerType: "fldoeSchool" },
         { layer: fldoeCharterMiddleSchoolsLayer, layerType: "fldoeSchool" },
         { layer: fldoeCharterHighSchoolsLayer, layerType: "fldoeSchool" },
@@ -5098,6 +5208,83 @@ image: /media/2026/09/maps-featured.png
       return heading;
     }
 
+    function appendSchoolAttendanceZoneGroup(parent, label, definitions) {
+      const heading = document.createElement("div");
+      const layerLabel = document.createElement("label");
+      const layerInput = document.createElement("input");
+      const headingText = document.createElement("span");
+      const locationLabel = document.createElement("label");
+      const locationInput = document.createElement("input");
+
+      heading.className = "maps-layer-subheading maps-layer-group-row maps-school-attendance-group";
+      layerLabel.className = "maps-layer-group-row__name";
+      layerInput.type = "checkbox";
+      layerInput.className = "leaflet-control-layers-selector";
+      layerInput.setAttribute("aria-label", `Show all ${label}`);
+      headingText.textContent = label;
+      layerLabel.appendChild(layerInput);
+      layerLabel.appendChild(headingText);
+
+      locationLabel.className = "maps-location-info-column";
+      locationInput.type = "checkbox";
+      locationInput.className = "leaflet-control-layers-selector";
+      locationInput.setAttribute("aria-label", `Show all ${label} on You are here card`);
+      locationLabel.appendChild(locationInput);
+      heading.appendChild(layerLabel);
+      heading.appendChild(locationLabel);
+      parent.appendChild(heading);
+
+      const rowControls = definitions.map((definition) => appendGeographyLayerRow(
+        parent,
+        definition.name,
+        definition.overlayLayer,
+        definition.borderLayer,
+        { locationLayerType: definition.layerType }
+      ));
+
+      function syncLayerInput() {
+        const states = rowControls.map((control) => (
+          map.hasLayer(control.overlayControl.layer) || map.hasLayer(control.borderControl.layer)
+        ));
+        layerInput.checked = states.every(Boolean);
+        layerInput.indeterminate = states.some(Boolean) && !layerInput.checked;
+      }
+
+      function syncLocationInput() {
+        const states = definitions.map((definition) => selectedLocationInfoLayerTypes.has(definition.layerType));
+        locationInput.checked = states.every(Boolean);
+        locationInput.indeterminate = states.some(Boolean) && !locationInput.checked;
+      }
+
+      layerInput.addEventListener("change", function () {
+        const enabled = layerInput.checked;
+        rowControls.forEach((control) => {
+          if (enabled) {
+            setBoundaryLayer(getSelectedGeographyControl(control.geographyControl), true, true);
+          } else {
+            setBoundaryLayer(control.overlayControl, false, true);
+            setBoundaryLayer(control.borderControl, false, true);
+          }
+        });
+        syncLayerInput();
+      });
+      locationInput.addEventListener("change", function () {
+        definitions.forEach((definition) => {
+          if (locationInput.checked) {
+            selectedLocationInfoLayerTypes.add(definition.layerType);
+          } else {
+            selectedLocationInfoLayerTypes.delete(definition.layerType);
+          }
+        });
+        updateYouAreHereCard();
+      });
+
+      boundaryLayerControls.push({ syncInput: syncLayerInput });
+      locationInfoGroupControls.push({ syncInput: syncLocationInput });
+      syncLayerInput();
+      syncLocationInput();
+    }
+
     function appendLayerControls(parent, controls) {
       controls.forEach((control) => {
         parent.appendChild(control.labelElement);
@@ -5623,6 +5810,14 @@ image: /media/2026/09/maps-featured.png
         row.appendChild(locationLabel);
       }
       parent.appendChild(row);
+      return {
+        borderControl,
+        geographyControl,
+        layerInput,
+        locationInput,
+        overlayControl,
+        row
+      };
     }
 
     function addDistrictLayerControl() {
@@ -5717,12 +5912,21 @@ image: /media/2026/09/maps-featured.png
             createBoundaryLayerInput("Tri-Rail Stations", triRailStationsLayer, { countLabel: "Tri-Rail Stations" })
           ];
           overlays.appendChild(createLayerAccordion("Trains", trainControls, false));
-          const traditionalPublicSchoolControls = [
-            createBoundaryLayerInput("Elementary", fldoeTraditionalElementarySchoolsLayer, { countLabel: "Traditional Public Elementary" }),
-            createBoundaryLayerInput("Middle", fldoeTraditionalMiddleSchoolsLayer, { countLabel: "Traditional Public Middle" }),
-            createBoundaryLayerInput("High", fldoeTraditionalHighSchoolsLayer, { countLabel: "Traditional Public High" }),
-            createBoundaryLayerInput("Combination", fldoeTraditionalCombinationSchoolsLayer, { countLabel: "Traditional Public Combination" }),
-            createBoundaryLayerInput("Magnet", fldoeTraditionalMagnetSchoolsLayer, { countLabel: "Traditional Public Magnet" })
+          const neighborhoodPublicSchoolControls = [
+            createBoundaryLayerInput("Elementary", fldoeTraditionalElementarySchoolsLayer, { countLabel: "Neighborhood Public Elementary" }),
+            createBoundaryLayerInput("Middle", fldoeTraditionalMiddleSchoolsLayer, { countLabel: "Neighborhood Public Middle" }),
+            createBoundaryLayerInput("High", fldoeTraditionalHighSchoolsLayer, { countLabel: "Neighborhood Public High" }),
+            createBoundaryLayerInput("Combination", fldoeTraditionalCombinationSchoolsLayer, { countLabel: "Neighborhood Public Combination" })
+          ];
+          const magnetPublicSchoolControls = [
+            createBoundaryLayerInput("Elementary", fldoeMagnetElementarySchoolsLayer, { countLabel: "Magnet Public Elementary" }),
+            createBoundaryLayerInput("Middle", fldoeMagnetMiddleSchoolsLayer, { countLabel: "Magnet Public Middle" }),
+            createBoundaryLayerInput("High", fldoeMagnetHighSchoolsLayer, { countLabel: "Magnet Public High" }),
+            createBoundaryLayerInput("Combination", fldoeMagnetCombinationSchoolsLayer, { countLabel: "Magnet Public Combination" })
+          ];
+          const alternativePublicSchoolControls = [
+            createBoundaryLayerInput("High", fldoeAlternativeHighSchoolsLayer, { countLabel: "Alternative Public High" }),
+            createBoundaryLayerInput("Combination", fldoeAlternativeCombinationSchoolsLayer, { countLabel: "Alternative Public Combination" })
           ];
           const charterPublicSchoolControls = [
             createBoundaryLayerInput("Elementary", fldoeCharterElementarySchoolsLayer, { countLabel: "Charter Public Elementary" }),
@@ -5739,18 +5943,39 @@ image: /media/2026/09/maps-featured.png
           const postSecondarySchoolControls = [
             createBoundaryLayerInput("Post-Secondary Schools", postSecondarySchoolsLayer)
           ];
-          const fldoeSchoolControls = traditionalPublicSchoolControls.concat(charterPublicSchoolControls, privateSchoolControls, postSecondarySchoolControls);
+          const fldoeSchoolControls = neighborhoodPublicSchoolControls.concat(magnetPublicSchoolControls, alternativePublicSchoolControls, charterPublicSchoolControls, privateSchoolControls, postSecondarySchoolControls);
 
           overlays.appendChild(createLayerHeading("Education"));
+          appendSchoolAttendanceZoneGroup(overlays, "Attendance Zones (2026–27)", [
+            { name: "Elementary School", overlayLayer: elementaryAttendanceZoneFillLayer, borderLayer: elementaryAttendanceZoneBorderLayer, layerType: "schoolAttendanceElementary" },
+            { name: "Middle School", overlayLayer: middleAttendanceZoneFillLayer, borderLayer: middleAttendanceZoneBorderLayer, layerType: "schoolAttendanceMiddle" },
+            { name: "High School", overlayLayer: highAttendanceZoneFillLayer, borderLayer: highAttendanceZoneBorderLayer, layerType: "schoolAttendanceHigh" }
+          ]);
+          appendSchoolAttendanceZoneGroup(overlays, "Attendance Zones (2027–28)", [
+            { name: "Elementary School", overlayLayer: futureElementaryAttendanceZoneFillLayer, borderLayer: futureElementaryAttendanceZoneBorderLayer, layerType: "schoolAttendanceFutureElementary" },
+            { name: "Middle School", overlayLayer: futureMiddleAttendanceZoneFillLayer, borderLayer: futureMiddleAttendanceZoneBorderLayer, layerType: "schoolAttendanceFutureMiddle" },
+            { name: "High School", overlayLayer: futureHighAttendanceZoneFillLayer, borderLayer: futureHighAttendanceZoneBorderLayer, layerType: "schoolAttendanceFutureHigh" }
+          ]);
+          overlays.appendChild(createLayerSubheading("School Locations"));
           appendLayerControls(overlays, [
             createLayerGroupToggle("All Schools", fldoeSchoolControls)
           ]);
           appendLayerControls(overlays, postSecondarySchoolControls);
-          overlays.appendChild(createLayerSubheading("Traditional Public"));
+          overlays.appendChild(createLayerSubheading("Neighborhood Public"));
           appendLayerControls(overlays, [
-            createLayerGroupToggle("Toggle all", traditionalPublicSchoolControls)
+            createLayerGroupToggle("Toggle all", neighborhoodPublicSchoolControls)
           ]);
-          appendLayerControls(overlays, traditionalPublicSchoolControls);
+          appendLayerControls(overlays, neighborhoodPublicSchoolControls);
+          overlays.appendChild(createLayerSubheading("Magnet Public"));
+          appendLayerControls(overlays, [
+            createLayerGroupToggle("Toggle all", magnetPublicSchoolControls)
+          ]);
+          appendLayerControls(overlays, magnetPublicSchoolControls);
+          overlays.appendChild(createLayerSubheading("Alternative Public"));
+          appendLayerControls(overlays, [
+            createLayerGroupToggle("Toggle all", alternativePublicSchoolControls)
+          ]);
+          appendLayerControls(overlays, alternativePublicSchoolControls);
           overlays.appendChild(createLayerSubheading("Charter Public"));
           appendLayerControls(overlays, [
             createLayerGroupToggle("Toggle all", charterPublicSchoolControls)
@@ -5910,6 +6135,12 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["councildistrict", "councildistricts", "citycouncildistrict", "citycouncildistricts"], councilDistrictFillLayer, { group: "boundaries", slug: "citycouncildistrict", alternateLayers: [councilDistrictBorderLayer] });
       registerQueryLayer(["councilatlarge", "councildistrictatlarge", "citycouncilatlarge", "citycouncildistrictatlarge"], councilAtLargeFillLayer, { group: "boundaries", slug: "citycouncilatlarge", alternateLayers: [councilAtLargeBorderLayer] });
       registerQueryLayer(["schoolboard", "schoolboarddistrict", "schoolboarddistricts"], schoolBoardDistrictFillLayer, { group: "boundaries", slug: "schoolboarddistricts", alternateLayers: [schoolBoardDistrictBorderLayer] });
+      registerQueryLayer(["elementaryattendancezones", "elementaryschoolzones", "elementaryzones"], elementaryAttendanceZoneFillLayer, { group: "boundaries", slug: "elementaryattendancezones", alternateLayers: [elementaryAttendanceZoneBorderLayer] });
+      registerQueryLayer(["middleattendancezones", "middleschoolzones", "middlezones"], middleAttendanceZoneFillLayer, { group: "boundaries", slug: "middleattendancezones", alternateLayers: [middleAttendanceZoneBorderLayer] });
+      registerQueryLayer(["highattendancezones", "highschoolzones", "highzones"], highAttendanceZoneFillLayer, { group: "boundaries", slug: "highattendancezones", alternateLayers: [highAttendanceZoneBorderLayer] });
+      registerQueryLayer(["elementaryattendancezones2728", "elementaryschoolzones2728", "futureelementaryzones"], futureElementaryAttendanceZoneFillLayer, { group: "boundaries", slug: "elementaryattendancezones2728", alternateLayers: [futureElementaryAttendanceZoneBorderLayer] });
+      registerQueryLayer(["middleattendancezones2728", "middleschoolzones2728", "futuremiddlezones"], futureMiddleAttendanceZoneFillLayer, { group: "boundaries", slug: "middleattendancezones2728", alternateLayers: [futureMiddleAttendanceZoneBorderLayer] });
+      registerQueryLayer(["highattendancezones2728", "highschoolzones2728", "futurehighzones"], futureHighAttendanceZoneFillLayer, { group: "boundaries", slug: "highattendancezones2728", alternateLayers: [futureHighAttendanceZoneBorderLayer] });
       registerQueryLayer(["cities", "cityboundaries"], cityFillLayer, { group: "boundaries", slug: "cities", alternateLayers: [cityBorderLayer] });
       registerQueryLayer(["county", "counties", "countyboundaries", "duvalcounty", "duvalcountyboundary", "countyboundary"], countyFillLayer, { group: "boundaries", slug: "counties", alternateLayers: [countyBorderLayer] });
       registerQueryLayer(["votingprecinct", "votingprecincts", "precinct", "precincts"], votingPrecinctFillLayer, { group: "boundaries", slug: "votingprecincts", alternateLayers: [votingPrecinctBorderLayer] });
@@ -5955,11 +6186,16 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["skywaystations", "jtaskywaystations"], skywayStationsLayer, { slug: "skywaystations" });
       registerQueryLayer(["ferry", "stjohnsriverferry", "stjohnsferry"], ferryRouteLayer, { slug: "ferry" });
       registerQueryLayer(["ferrylandings", "mayportferrylanding", "fortgeorgeferrylanding"], ferryLandingsLayer, { slug: "ferrylandings" });
-      registerQueryLayer(["traditionalpublicelementary", "publicelementary", "elementaryschools"], fldoeTraditionalElementarySchoolsLayer, { slug: "traditionalpublicelementary" });
-      registerQueryLayer(["traditionalpublicmiddle", "publicmiddle", "middleschools"], fldoeTraditionalMiddleSchoolsLayer, { slug: "traditionalpublicmiddle" });
-      registerQueryLayer(["traditionalpublichigh", "publichigh", "highschools"], fldoeTraditionalHighSchoolsLayer, { slug: "traditionalpublichigh" });
-      registerQueryLayer(["traditionalpubliccombination", "publiccombination"], fldoeTraditionalCombinationSchoolsLayer, { slug: "traditionalpubliccombination" });
-      registerQueryLayer(["traditionalpublicmagnet", "publicmagnet", "magnetschools"], fldoeTraditionalMagnetSchoolsLayer, { slug: "traditionalpublicmagnet" });
+      registerQueryLayer(["neighborhoodpublicelementary", "traditionalpublicelementary", "publicelementary", "elementaryschools"], fldoeTraditionalElementarySchoolsLayer, { slug: "neighborhoodpublicelementary" });
+      registerQueryLayer(["neighborhoodpublicmiddle", "traditionalpublicmiddle", "publicmiddle", "middleschools"], fldoeTraditionalMiddleSchoolsLayer, { slug: "neighborhoodpublicmiddle" });
+      registerQueryLayer(["neighborhoodpublichigh", "traditionalpublichigh", "publichigh", "highschools"], fldoeTraditionalHighSchoolsLayer, { slug: "neighborhoodpublichigh" });
+      registerQueryLayer(["neighborhoodpubliccombination", "traditionalpubliccombination", "publiccombination"], fldoeTraditionalCombinationSchoolsLayer, { slug: "neighborhoodpubliccombination" });
+      registerQueryLayer(["magnetpublicelementary", "magnetelementary"], fldoeMagnetElementarySchoolsLayer, { slug: "magnetpublicelementary" });
+      registerQueryLayer(["magnetpublicmiddle", "magnetmiddle"], fldoeMagnetMiddleSchoolsLayer, { slug: "magnetpublicmiddle" });
+      registerQueryLayer(["magnetpublichigh", "magnethigh"], fldoeMagnetHighSchoolsLayer, { slug: "magnetpublichigh" });
+      registerQueryLayer(["magnetpubliccombination", "magnetcombination"], fldoeMagnetCombinationSchoolsLayer, { slug: "magnetpubliccombination" });
+      registerQueryLayer(["alternativepublichigh", "alternativehigh"], fldoeAlternativeHighSchoolsLayer, { slug: "alternativepublichigh" });
+      registerQueryLayer(["alternativepubliccombination", "alternativecombination"], fldoeAlternativeCombinationSchoolsLayer, { slug: "alternativepubliccombination" });
       registerQueryLayer(["charterelementary", "charterpublicelementary"], fldoeCharterElementarySchoolsLayer, { slug: "charterelementary" });
       registerQueryLayer(["chartermiddle", "charterpublicmiddle"], fldoeCharterMiddleSchoolsLayer, { slug: "chartermiddle" });
       registerQueryLayer(["charterhigh", "charterpublichigh"], fldoeCharterHighSchoolsLayer, { slug: "charterhigh" });
@@ -6006,6 +6242,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "schoolBoard") {
         return Number.parseInt(properties.school_board_district || properties.SB, 10);
+      }
+      if (layerType.startsWith("schoolAttendance")) {
+        return getStringColorNumber(properties.Nameshort || properties.School_ID || "School attendance zone");
       }
       if (layerType === "neighborhood") {
         return getStringColorNumber(properties.NAME || properties.NUM_NAME || "Neighborhoods");
@@ -6153,6 +6392,24 @@ image: /media/2026/09/maps-featured.png
       if (layerType === "schoolBoard") {
         return mode === "border" ? schoolBoardDistrictBorderLayer : schoolBoardDistrictFillLayer;
       }
+      if (layerType === "schoolAttendanceElementary") {
+        return mode === "border" ? elementaryAttendanceZoneBorderLayer : elementaryAttendanceZoneFillLayer;
+      }
+      if (layerType === "schoolAttendanceMiddle") {
+        return mode === "border" ? middleAttendanceZoneBorderLayer : middleAttendanceZoneFillLayer;
+      }
+      if (layerType === "schoolAttendanceHigh") {
+        return mode === "border" ? highAttendanceZoneBorderLayer : highAttendanceZoneFillLayer;
+      }
+      if (layerType === "schoolAttendanceFutureElementary") {
+        return mode === "border" ? futureElementaryAttendanceZoneBorderLayer : futureElementaryAttendanceZoneFillLayer;
+      }
+      if (layerType === "schoolAttendanceFutureMiddle") {
+        return mode === "border" ? futureMiddleAttendanceZoneBorderLayer : futureMiddleAttendanceZoneFillLayer;
+      }
+      if (layerType === "schoolAttendanceFutureHigh") {
+        return mode === "border" ? futureHighAttendanceZoneBorderLayer : futureHighAttendanceZoneFillLayer;
+      }
       if (layerType === "neighborhood") {
         return mode === "border" ? neighborhoodBorderLayer : neighborhoodFillLayer;
       }
@@ -6209,6 +6466,9 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "schoolBoard") {
         return properties.label || (properties.school_board_district ? `Duval County School Board District ${properties.school_board_district}` : "Duval County School Board District");
+      }
+      if (layerType.startsWith("schoolAttendance")) {
+        return properties.Nameshort || properties.School_Name_Number || "School attendance zone";
       }
       if (layerType === "neighborhood") {
         return properties.NAME || properties.NUM_NAME || "Neighborhoods";
@@ -6279,6 +6539,11 @@ image: /media/2026/09/maps-featured.png
       }
       if (layerType === "schoolBoard") {
         return properties.member_name || "";
+      }
+      if (layerType.startsWith("schoolAttendance")) {
+        const futureYear = layerType.startsWith("schoolAttendanceFuture");
+        const level = layerType.replace(futureYear ? "schoolAttendanceFuture" : "schoolAttendance", "");
+        return `${futureYear ? "2027–28" : "2026–27"} ${level} School attendance zone`;
       }
       if (layerType === "neighborhood") {
         return properties.NUM_NAME && properties.NUM_NAME !== properties.NAME ? properties.NUM_NAME : "";
@@ -7022,6 +7287,93 @@ image: /media/2026/09/maps-featured.png
       votingPrecinctPollingPointerPrecinct = getVotingPrecinctNumber(feature);
     }
 
+    function getSchoolAttendancePointerKey(feature, layerType) {
+      const properties = feature.properties || {};
+      return `${layerType}:${properties.School_ID || properties.Nameshort || ""}`;
+    }
+
+    function normalizeSchoolMatchName(value) {
+      return String(value || "")
+        .toLowerCase()
+        .replace(/\br[\s.]*l\b/g, "rl")
+        .replace(/\b(elementary|middle|high|senior|school|academy|gifted|talented|boulevard|and|the|of|at|[a-z])\b/g, "")
+        .replace(/[^a-z0-9]/g, "");
+    }
+
+    function findSchoolForAttendanceZone(feature) {
+      const properties = feature.properties || {};
+      const schoolId = String(properties.School_ID || "");
+      const schoolName = normalizeSchoolMatchName(properties.Nameshort || properties.School_Name_Number);
+      const dcpsSchoolLayers = [elementarySchoolsLayer, middleSchoolsLayer, highSchoolsLayer];
+      const fldoeSchoolLayers = [
+        fldoeTraditionalElementarySchoolsLayer,
+        fldoeTraditionalMiddleSchoolsLayer,
+        fldoeTraditionalHighSchoolsLayer,
+        fldoeTraditionalCombinationSchoolsLayer,
+        fldoeMagnetElementarySchoolsLayer,
+        fldoeMagnetMiddleSchoolsLayer,
+        fldoeMagnetHighSchoolsLayer,
+        fldoeMagnetCombinationSchoolsLayer,
+        fldoeAlternativeHighSchoolsLayer,
+        fldoeAlternativeCombinationSchoolsLayer
+      ];
+      let dcpsSchoolLayer;
+      let fldoeSchoolLayer;
+
+      dcpsSchoolLayers.some((schoolLayer) => {
+        schoolLayer.eachLayer((layer) => {
+          const candidate = layer.feature;
+          const candidateProperties = candidate && candidate.properties || {};
+          const candidateId = String(candidateProperties.USER_SCL_ID || candidateProperties.USER_SCL_ID_TXT || "");
+          if (!dcpsSchoolLayer && schoolId && candidateId === schoolId) dcpsSchoolLayer = layer;
+        });
+        return Boolean(dcpsSchoolLayer);
+      });
+
+      fldoeSchoolLayers.some((schoolLayer) => {
+        schoolLayer.eachLayer((layer) => {
+          const candidate = layer.feature;
+          if (!fldoeSchoolLayer && normalizeSchoolMatchName(getFldoeSchoolName(candidate)) === schoolName) {
+            fldoeSchoolLayer = layer;
+          }
+        });
+        return Boolean(fldoeSchoolLayer);
+      });
+      return fldoeSchoolLayer || dcpsSchoolLayer;
+    }
+
+    function clearSchoolAttendancePointer(pointerKey) {
+      if (pointerKey && pointerKey !== schoolAttendancePointerKey) return;
+      if (schoolAttendancePointer) map.removeLayer(schoolAttendancePointer);
+      schoolAttendancePointer = undefined;
+      schoolAttendancePointerKey = "";
+    }
+
+    function showSchoolAttendancePointer(feature, layerType) {
+      const schoolLayer = findSchoolForAttendanceZone(feature);
+      const schoolLatLng = schoolLayer && schoolLayer.getLatLng && schoolLayer.getLatLng();
+      const schoolType = (feature.properties || {}).SchoolType;
+      const fallbackStyle = getSchoolStyle({ ES: "elementary", MS: "middle", HS: "high" }[schoolType]);
+      const pointerColor = schoolLayer && schoolLayer.options && schoolLayer.options.fillColor || fallbackStyle.fillColor;
+      clearSchoolAttendancePointer();
+      if (!schoolLatLng) return;
+
+      const pointerIcon = L.divIcon({
+        className: "maps-polling-location-pointer-icon",
+        html: `<span class="maps-polling-location-pointer" style="--maps-pointer-color: ${pointerColor}" aria-hidden="true"></span>`,
+        iconAnchor: [14, 34],
+        iconSize: [28, 28]
+      });
+      schoolAttendancePointer = L.marker(schoolLatLng, {
+        icon: pointerIcon,
+        interactive: false,
+        keyboard: false,
+        pane: "pollingLocationPointerPane",
+        zIndexOffset: 1000
+      }).addTo(map);
+      schoolAttendancePointerKey = getSchoolAttendancePointerKey(feature, layerType);
+    }
+
     function appendVotingPrecinctPollingLocation(popup, feature) {
       const precinct = getVotingPrecinctNumber(feature);
       const pollingFeature = findPollingLocationForPrecinct(feature);
@@ -7118,7 +7470,7 @@ image: /media/2026/09/maps-featured.png
         appendVotingPrecinctPollingLocation(popup, feature);
       }
 
-      if (layerType !== "zipCode") {
+      if (layerType !== "zipCode" && !layerType.startsWith("schoolAttendance")) {
         appendActivePointCounts(
           popup,
           pointCountFeature,
@@ -7365,6 +7717,9 @@ image: /media/2026/09/maps-featured.png
         if (layerType === "votingPrecinct") {
           showVotingPrecinctPollingPointer(feature);
         }
+        if (layerType.startsWith("schoolAttendance")) {
+          showSchoolAttendancePointer(feature, layerType);
+        }
         if (mapInteractionMode === "focus") {
           focusBoundaryFeature(feature, layer, mode, layerType);
         }
@@ -7375,6 +7730,9 @@ image: /media/2026/09/maps-featured.png
       layer.on("popupclose", function () {
         if (layerType === "votingPrecinct") {
           clearVotingPrecinctPollingPointer(getVotingPrecinctNumber(feature));
+        }
+        if (layerType.startsWith("schoolAttendance")) {
+          clearSchoolAttendancePointer(getSchoolAttendancePointerKey(feature, layerType));
         }
       });
       layer.on("contextmenu", function (event) {
@@ -8084,6 +8442,24 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function getFldoeSchoolType(feature) {
+      return (feature.properties || {}).school_type || "";
+    }
+
+    function isNonAlternativePublicSchool(feature) {
+      return (feature.properties || {}).alt_school === "N";
+    }
+
+    function isNeighborhoodPublicSchool(feature) {
+      const properties = feature.properties || {};
+      return properties.alt_school === "N" && ["P", "Z"].includes(properties.magnet_status);
+    }
+
+    function isDedicatedMagnetPublicSchool(feature) {
+      const properties = feature.properties || {};
+      return properties.alt_school === "N" && properties.magnet_status === "S";
+    }
+
     function createFilteredFldoeSchoolLayer(type, filter) {
       return L.geoJSON(null, {
         filter,
@@ -8641,6 +9017,42 @@ image: /media/2026/09/maps-featured.png
       }
     );
     loadBoundaryLayers(
+      "/data/duval-school-attendance-zones-2026-27.geojson",
+      elementaryAttendanceZoneFillLayer,
+      elementaryAttendanceZoneBorderLayer,
+      "Duval County elementary school attendance zones"
+    );
+    loadBoundaryLayers(
+      "/data/duval-school-attendance-zones-2026-27.geojson",
+      middleAttendanceZoneFillLayer,
+      middleAttendanceZoneBorderLayer,
+      "Duval County middle school attendance zones"
+    );
+    loadBoundaryLayers(
+      "/data/duval-school-attendance-zones-2026-27.geojson",
+      highAttendanceZoneFillLayer,
+      highAttendanceZoneBorderLayer,
+      "Duval County high school attendance zones"
+    );
+    loadBoundaryLayers(
+      "/data/duval-school-attendance-zones-2027-28.geojson",
+      futureElementaryAttendanceZoneFillLayer,
+      futureElementaryAttendanceZoneBorderLayer,
+      "Duval County 2027–28 elementary school attendance zones"
+    );
+    loadBoundaryLayers(
+      "/data/duval-school-attendance-zones-2027-28.geojson",
+      futureMiddleAttendanceZoneFillLayer,
+      futureMiddleAttendanceZoneBorderLayer,
+      "Duval County 2027–28 middle school attendance zones"
+    );
+    loadBoundaryLayers(
+      "/data/duval-school-attendance-zones-2027-28.geojson",
+      futureHighAttendanceZoneFillLayer,
+      futureHighAttendanceZoneBorderLayer,
+      "Duval County 2027–28 high school attendance zones"
+    );
+    loadBoundaryLayers(
       "/data/city-boundaries.geojson",
       cityFillLayer,
       cityBorderLayer,
@@ -8773,7 +9185,12 @@ image: /media/2026/09/maps-featured.png
     loadGeoJsonLayer("/data/fldoe-duval-traditional-public-middle-schools.geojson", fldoeTraditionalMiddleSchoolsLayer, "FLDOE traditional public middle schools");
     loadGeoJsonLayer("/data/fldoe-duval-traditional-public-high-schools.geojson", fldoeTraditionalHighSchoolsLayer, "FLDOE traditional public high schools");
     loadGeoJsonLayer("/data/fldoe-duval-traditional-public-combination-schools.geojson", fldoeTraditionalCombinationSchoolsLayer, "FLDOE traditional public combination schools");
-    loadGeoJsonLayer("/data/fldoe-duval-traditional-public-magnet-schools.geojson", fldoeTraditionalMagnetSchoolsLayer, "FLDOE traditional public magnet schools");
+    loadGeoJsonLayer("/data/fldoe-duval-traditional-public-magnet-schools.geojson", fldoeMagnetElementarySchoolsLayer, "FLDOE magnet public elementary schools");
+    loadGeoJsonLayer("/data/fldoe-duval-traditional-public-magnet-schools.geojson", fldoeMagnetMiddleSchoolsLayer, "FLDOE magnet public middle schools");
+    loadGeoJsonLayer("/data/fldoe-duval-traditional-public-magnet-schools.geojson", fldoeMagnetHighSchoolsLayer, "FLDOE magnet public high schools");
+    loadGeoJsonLayer("/data/fldoe-duval-traditional-public-magnet-schools.geojson", fldoeMagnetCombinationSchoolsLayer, "FLDOE magnet public combination schools");
+    loadGeoJsonLayer("/data/fldoe-duval-alternative-public-schools.geojson", fldoeAlternativeHighSchoolsLayer, "FLDOE alternative public high schools");
+    loadGeoJsonLayer("/data/fldoe-duval-alternative-public-schools.geojson", fldoeAlternativeCombinationSchoolsLayer, "FLDOE alternative public combination schools");
     loadGeoJsonLayer("/data/fldoe-duval-charter-public-elementary-schools.geojson", fldoeCharterElementarySchoolsLayer, "FLDOE charter public elementary schools");
     loadGeoJsonLayer("/data/fldoe-duval-charter-public-middle-schools.geojson", fldoeCharterMiddleSchoolsLayer, "FLDOE charter public middle schools");
     loadGeoJsonLayer("/data/fldoe-duval-charter-public-high-schools.geojson", fldoeCharterHighSchoolsLayer, "FLDOE charter public high schools");
