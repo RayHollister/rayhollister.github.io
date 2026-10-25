@@ -90,8 +90,8 @@ exclude: true
     gap: 1rem;
     max-width: 46rem;
   }
-  .vote-results:not(:empty) {
-    margin-bottom: 1.5rem;
+  .vote-results > * {
+    margin-block: 0;
   }
   .vote-card {
     min-width: 0;
@@ -152,11 +152,10 @@ exclude: true
     padding-block: 0.18rem;
   }
   .vote-note {
-    margin: 0.25rem 0;
     font-size: 0.92rem;
   }
   .vote-section-heading {
-    margin: 0.75rem 0 0;
+    margin-block: 0;
   }
   @media screen and (max-width: 599px) {
     .post-header {
@@ -190,7 +189,6 @@ exclude: true
       padding-block: 0.7rem;
     }
     .vote-card {
-      margin-bottom: 0.85rem;
       padding: 0.9rem;
     }
     .vote-card--primary {
@@ -213,12 +211,10 @@ exclude: true
       min-height: 24px;
     }
     .vote-note {
-      margin: 1rem 0 1.25rem;
-      padding: 0 0.2rem;
+      padding-inline: 0.2rem;
       line-height: 1.45;
     }
     .vote-section-heading {
-      margin: 1.35rem 0 0.8rem;
       font-size: 1.45rem;
       line-height: 1.25;
     }
