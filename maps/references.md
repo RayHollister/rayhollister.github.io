@@ -192,15 +192,21 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 ## Educational Institutions
 
 - [Florida Department of Education Know Your Schools Mapping](https://edudata.fldoe.org/ReportCards/Mapping.html)
-  - Traditional Public Elementary
-  - Traditional Public Middle
-  - Traditional Public High
-  - Traditional Public Combination
-  - Traditional Public Magnet
+  - Neighborhood Public Elementary
+  - Neighborhood Public Middle
+  - Neighborhood Public High
+  - Neighborhood Public Combination
+  - Magnet Public Elementary
+  - Magnet Public Middle
+  - Magnet Public High
+  - Magnet Public Combination
+  - Alternative Public High
+  - Alternative Public Combination
   - Charter Public Elementary
   - Charter Public Middle
   - Charter Public High
   - Charter Public Combination
+  - Neighborhood Public includes non-magnet, non-alternative district schools. Magnet Public includes FLDOE Magnet School and Magnet Program records. Alternative Public includes FLDOE Alternative Education Center, DJJ School, and ESE Center records, including alternative charter schools. Charter Public excludes records shown under Alternative Public so schools are not duplicated between menu groups.
 - [Florida Department of Education Private School Directory spreadsheet](https://www.floridaschoolchoice.org/information/privateschooldirectory/DownloadExcelFile.aspx)
   - Private Schools Elementary
   - Private Schools Middle
