@@ -1,8 +1,8 @@
 ---
 layout: page
-title: Vote
+title: Jacksonville Voting Precinct & Polling Place Finder
 permalink: /vote/
-description: "Use your location to find your Duval County voting precinct, polling place, and elected representatives."
+description: "Find your Jacksonville and Duval County voting precinct, assigned polling place, City Council district, School Board district, and elected representatives using your current location."
 exclude: true
 ---
 
@@ -116,10 +116,11 @@ exclude: true
 </style>
 
 <div class="vote-intro">
-  <p>Use your current location to find your voting precinct, assigned polling place, and representatives.</p>
-  <p>Your coordinates stay in your browser and are only compared with the same local boundary data used by the <a href="/maps/">Maps</a> page.</p>
+  <p>Find your Jacksonville voting precinct, assigned Duval County polling place, and elected representatives using your current location.</p>
+  <p>The results include your Jacksonville City Council district, at-large council members, Duval County School Board district, Florida House and Senate districts, U.S. House district, and Florida’s U.S. senators.</p>
+  <p>Your coordinates stay in your browser and are only compared with the local Jacksonville and Duval County boundary data used by the <a href="/maps/">Maps</a> page.</p>
   <div class="vote-actions">
-    <button class="vote-locate" id="vote-locate" type="button">Use my location</button>
+    <button class="vote-locate" id="vote-locate" type="button">Find my voting information</button>
     <p class="vote-status" id="vote-status" aria-live="polite">Location has not been requested.</p>
   </div>
 </div>
@@ -412,7 +413,7 @@ exclude: true
         setStatus(error.message || "Could not determine your location.", true);
       }).finally(() => {
         locateButton.disabled = false;
-        locateButton.textContent = "Use my location";
+      locateButton.textContent = "Find my voting information";
       });
     }
 
