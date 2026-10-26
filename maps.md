@@ -1364,13 +1364,13 @@ image: /media/2026/09/maps-featured.png
     .maps-page,
     .maps-shell {
       height: calc(100vh - 48px);
-      height: calc(100dvh - 48px);
+      height: calc(100svh - 48px);
       min-height: 0;
     }
 
     #ray-map {
       height: calc(100vh - 48px);
-      height: calc(100dvh - 48px);
+      height: calc(100svh - 48px);
       min-height: 0;
     }
 
@@ -2459,15 +2459,11 @@ image: /media/2026/09/maps-featured.png
             input.blur();
 
             const restore = function () {
-              document.documentElement.scrollTop = 0;
-              document.body.scrollTop = 0;
-              window.scrollTo(0, 0);
               map.invalidateSize({ pan: false });
             };
 
             window.requestAnimationFrame(restore);
-            window.setTimeout(restore, 150);
-            window.setTimeout(restore, 350);
+            window.setTimeout(restore, 300);
           }
 
           function setOpen(open) {
