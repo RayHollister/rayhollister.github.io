@@ -119,6 +119,10 @@ image: /media/2026/09/maps-featured.png
     margin-top: 0.25rem;
   }
 
+  .maps-district-popup .maps-property-popup__address {
+    line-height: 1;
+  }
+
   .maps-district-popup .maps-route-pdf-link {
     margin-top: 0.25rem;
   }
@@ -6407,6 +6411,10 @@ image: /media/2026/09/maps-featured.png
     function addDuvalPropertyClickHandler() {
       let propertyRequestId = 0;
 
+      function titleCasePropertyAddressPart(value) {
+        return String(value || "").trim().toLocaleLowerCase("en-US").replace(/\b[a-z]/g, (character) => character.toUpperCase());
+      }
+
       map.on("click", async function (event) {
         if (!map.hasLayer(duvalPropertyLinesLayer) || map.getZoom() < 17) return;
         const target = event.originalEvent && event.originalEvent.target;
@@ -6448,22 +6456,24 @@ image: /media/2026/09/maps-featured.png
             ? `${realEstateNumber.slice(0, 6)}-${realEstateNumber.slice(6)}`
             : String(properties.RE || realEstateNumber).trim();
           const streetAddress = [
-            properties.STREET_NO,
-            properties.ST_DIR,
-            properties.ST_NAME,
-            properties.ST_TYPE,
-            properties.UNIT_NO
-          ].map((value) => String(value || "").trim()).filter(Boolean).join(" ");
+            String(properties.STREET_NO || "").trim(),
+            String(properties.ST_DIR || "").trim().toUpperCase(),
+            titleCasePropertyAddressPart(properties.ST_NAME),
+            titleCasePropertyAddressPart(properties.ST_TYPE),
+            titleCasePropertyAddressPart(properties.UNIT_NO)
+          ].filter(Boolean).join(" ");
           const locality = [
             String(properties.ADDRCITY || "").trim(),
             properties.ZIPCODE
           ].filter(Boolean).join(" FL ");
           const content = document.createElement("div");
-          const heading = document.createElement("strong");
-          heading.textContent = "Duval County property";
           content.className = "maps-district-popup";
-          content.appendChild(heading);
-          appendSchoolPopupLine(content, streetAddress);
+          if (streetAddress) {
+            const addressLine = document.createElement("span");
+            addressLine.className = "maps-property-popup__address";
+            addressLine.textContent = streetAddress;
+            content.appendChild(addressLine);
+          }
           appendSchoolPopupLine(content, locality);
           appendSchoolPopupLine(content, displayRealEstateNumber ? `RE #: ${displayRealEstateNumber}` : "");
           if (realEstateNumber) {
