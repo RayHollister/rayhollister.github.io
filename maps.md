@@ -6498,6 +6498,19 @@ image: /media/2026/09/maps-featured.png
         return String(value || "").trim().toLocaleLowerCase("en-US").replace(/\b[a-z]/g, (character) => character.toUpperCase());
       }
 
+      function propertySearchSlug(value) {
+        return String(value || "").trim().replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "");
+      }
+
+      function appendPropertySearchLink(content, label, href) {
+        const link = document.createElement("a");
+        link.href = href;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = label;
+        content.appendChild(link);
+      }
+
       map.on("click", async function (event) {
         if (!map.hasLayer(duvalPropertyLinesLayer) || map.getZoom() < 17) return;
         const target = event.originalEvent && event.originalEvent.target;
@@ -6546,6 +6559,9 @@ image: /media/2026/09/maps-featured.png
             String(properties.ADDRCITY || "").trim(),
             properties.ZIPCODE
           ].filter(Boolean).join(" FL ");
+          const city = titleCasePropertyAddressPart(properties.ADDRCITY);
+          const zipCode = String(properties.ZIPCODE || "").trim();
+          const propertySearchAddress = [streetAddress, city, "FL", zipCode].filter(Boolean).join(", ");
           const acreage = Number(properties.ACRES);
           const marketLandValue = Number(properties.TOT_LND_VA);
           const improvementValue = Number(properties.TOT_IMPR_V);
@@ -6582,6 +6598,16 @@ image: /media/2026/09/maps-featured.png
             detailsLink.rel = "noopener";
             detailsLink.textContent = "View Property Appraiser details";
             content.appendChild(detailsLink);
+          }
+          if (streetAddress && city) {
+            const searchHeading = document.createElement("strong");
+            const streetSlug = propertySearchSlug(streetAddress);
+            const citySlug = propertySearchSlug(city);
+            searchHeading.textContent = "Find this property";
+            content.appendChild(searchHeading);
+            appendPropertySearchLink(content, "Zillow", `https://www.zillow.com/homes/${propertySearchSlug(propertySearchAddress)}_rb/`);
+            appendPropertySearchLink(content, "Redfin", `https://www.redfin.com/search?q=${encodeURIComponent(propertySearchAddress)}`);
+            appendPropertySearchLink(content, "Realtor.com", `https://www.realtor.com/realestateandhomes-search/${streetSlug}_${citySlug}_FL_${encodeURIComponent(zipCode)}`);
           }
           popup.setContent(content).update();
         } catch (error) {
