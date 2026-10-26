@@ -14,6 +14,19 @@ image: /media/2026/09/maps-featured.png
 <link rel="stylesheet" href="/leaflet/fullscreen/Control.FullScreen.css">
 
 <style>
+  html.maps-page-document,
+  body.maps-page-body {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body.maps-page-body {
+    inset: 0;
+    position: fixed;
+    width: 100%;
+  }
+
   .leaflet-container {
     background: #ffffff;
   }
@@ -1405,6 +1418,11 @@ image: /media/2026/09/maps-featured.png
     <div id="ray-map" aria-label="Interactive map"></div>
   </div>
 </section>
+
+<script>
+  document.documentElement.classList.add("maps-page-document");
+  document.body.classList.add("maps-page-body");
+</script>
 
 <script src="/leaflet/leaflet.js"></script>
 <script src="/leaflet/imageoverlay-rotated/Leaflet.ImageOverlay.Rotated.js"></script>
