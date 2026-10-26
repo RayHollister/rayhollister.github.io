@@ -5133,7 +5133,19 @@ image: /media/2026/09/maps-featured.png
             })
             .catch(() => {
               button.textContent = "Copy failed";
-            });
+          });
+        }
+      ));
+      mapContextMenuElement.appendChild(createContextMenuButton(
+        "Open in Google Street View",
+        "Open Google Street View at these coordinates",
+        () => {
+          const streetViewUrl = new URL("https://www.google.com/maps/@");
+          streetViewUrl.searchParams.set("api", "1");
+          streetViewUrl.searchParams.set("map_action", "pano");
+          streetViewUrl.searchParams.set("viewpoint", `${event.latlng.lat},${event.latlng.lng}`);
+          window.open(streetViewUrl.toString(), "_blank", "noopener");
+          hideMapContextMenu();
         }
       ));
 
