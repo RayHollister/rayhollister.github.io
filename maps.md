@@ -1390,7 +1390,11 @@ image: /media/2026/09/maps-featured.png
     }
 
     .maps-search-control__input {
-      font-size: 16px;
+      -webkit-appearance: none;
+      appearance: none;
+      font-size: 17px !important;
+      line-height: 1.25;
+      touch-action: manipulation;
     }
 
   }
