@@ -119,6 +119,14 @@ image: /media/2026/09/maps-featured.png
     margin-top: 0.25rem;
   }
 
+  .maps-district-popup .maps-property-popup__address {
+    line-height: 1;
+  }
+
+  .maps-district-popup .maps-property-popup__zillow-link {
+    line-height: 2;
+  }
+
   .maps-district-popup .maps-route-pdf-link {
     margin-top: 0.25rem;
   }
@@ -1419,14 +1427,14 @@ image: /media/2026/09/maps-featured.png
       ? [requestedLatitude, requestedLongitude]
       : defaultMapCenter;
     const initialMapZoom = Number.isFinite(requestedZoom)
-      ? Math.max(4, Math.min(20, requestedZoom))
+      ? Math.max(4, Math.min(23, requestedZoom))
       : defaultMapZoom;
     const initialMapRotation = Number.isFinite(requestedRotation)
       ? ((requestedRotation % 360) + 360) % 360
       : 0;
     const map = Leaflet.map("ray-map", {
       minZoom: 4,
-      maxZoom: 20,
+      maxZoom: 23,
       maxBounds: [[-85.051129, -Infinity], [85.051129, Infinity]],
       maxBoundsViscosity: 1,
       zoomControl: false,
@@ -1494,24 +1502,95 @@ image: /media/2026/09/maps-featured.png
       bright: "https://tiles.openfreemap.org/styles/bright",
       threeD: "https://tiles.openfreemap.org/styles/liberty"
     };
+    const esriTileServiceUrl = (serviceName) => `https://services.arcgisonline.com/ArcGIS/rest/services/${serviceName}/MapServer/tile/{z}/{y}/{x}`;
+    const duvalAerialYears = [2004, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
     const baseMapStyles = {
       positron: {
         label: "Positron",
+        group: "OpenFreeMap",
         getStyle: () => openFreeMapStyles.positron
       },
       bright: {
         label: "Bright",
+        group: "OpenFreeMap",
         getStyle: () => openFreeMapStyles.bright
       },
       threeD: {
         label: "3D",
+        group: "OpenFreeMap",
         getStyle: () => openFreeMapStyles.threeD
       },
       googleSatellite: {
         label: "Google Satellite",
+        group: "Google",
         type: "tile",
-        url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
-      }
+        url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+        attribution: "Google Satellite"
+      },
+      worldImagery: {
+        label: "World Imagery",
+        group: "Esri",
+        type: "tile",
+        url: esriTileServiceUrl("World_Imagery"),
+        attribution: "Esri World Imagery"
+      },
+      worldImageryHybrid: {
+        label: "World Imagery Hybrid",
+        group: "Esri",
+        type: "tile",
+        urls: [
+          esriTileServiceUrl("World_Imagery"),
+          esriTileServiceUrl("Reference/World_Boundaries_and_Places")
+        ],
+        attribution: "Esri World Imagery"
+      },
+      worldStreets: {
+        label: "World Streets",
+        group: "Esri",
+        getStyle: () => "https://www.arcgis.com/sharing/rest/content/items/26144ad356a84eedad17ca19dac22bd5/resources/styles/root.json"
+      },
+      worldStreetsNight: {
+        label: "World Streets (Night)",
+        group: "Esri",
+        getStyle: () => "https://www.arcgis.com/sharing/rest/content/items/e0887bf9806a4a6ab1a69a1dc208d056/resources/styles/root.json"
+      },
+      worldTerrain: {
+        label: "World Terrain",
+        group: "Esri",
+        type: "tile",
+        urls: [
+          esriTileServiceUrl("Elevation/World_Hillshade"),
+          esriTileServiceUrl("Reference/World_Reference_Overlay")
+        ],
+        attribution: "Esri World Terrain"
+      },
+      worldDarkGray: {
+        label: "World Dark Gray",
+        group: "Esri",
+        getStyle: () => "https://www.arcgis.com/sharing/rest/content/items/fc3e102d1c464522820d7f957b19a467/resources/styles/root.json"
+      },
+      worldTopographic: {
+        label: "World Topographic",
+        group: "Esri",
+        type: "tile",
+        url: esriTileServiceUrl("World_Topo_Map"),
+        attribution: "Esri World Topographic"
+      },
+      worldLightGray: {
+        label: "World Light Gray",
+        group: "Esri",
+        getStyle: () => "https://www.arcgis.com/sharing/rest/content/items/ec91ba75ca6f4143a9f0567eb896a0b5/resources/styles/root.json"
+      },
+      ...Object.fromEntries(duvalAerialYears.map((year) => [`duvalAerial${year}`, {
+        label: `Duval Aerial ${year}`,
+        group: "Duval Aerial",
+        type: "tile",
+        url: `https://maps.coj.net/coj/rest/services/imagery/Duval${year}/MapServer/tile/{z}/{y}/{x}`,
+        attribution: `City of Jacksonville Duval Aerial ${year}`,
+        // The 2017 cache numbers its Jacksonville-only levels 0–12 instead of
+        // using the equivalent Web Mercator levels 9–21.
+        tileOptions: year === 2017 ? { zoomOffset: -9 } : undefined
+      }]))
     };
     const createMapLibreLayer = typeof L.maplibreGL === "function"
       ? L.maplibreGL.bind(L)
@@ -1675,10 +1754,13 @@ image: /media/2026/09/maps-featured.png
         map.removeLayer(baseMapLayer);
       }
       if (config.type === "tile") {
-        baseMapLayer = L.tileLayer(config.url, {
-          attribution: "Google Satellite",
-          maxZoom: 20
-        }).addTo(map);
+        const tileLayers = (config.urls || [config.url]).map((url) => L.tileLayer(url, {
+          attribution: config.attribution || "",
+          maxZoom: 23,
+          ...(config.tileOptions || {})
+        }));
+        baseMapLayer = tileLayers.length === 1 ? tileLayers[0] : L.layerGroup(tileLayers);
+        baseMapLayer.addTo(map);
       } else {
         let nextStyle;
         try {
@@ -1714,6 +1796,10 @@ image: /media/2026/09/maps-featured.png
       if (!baseMapLayer) return;
       if (baseMapLayer.setOpacity) {
         baseMapLayer.setOpacity(baseMapTileOpacity);
+      } else if (baseMapLayer.eachLayer) {
+        baseMapLayer.eachLayer((layer) => {
+          if (layer.setOpacity) layer.setOpacity(baseMapTileOpacity);
+        });
       }
       const container = getBaseMapLayerContainer();
       if (container) {
@@ -1880,8 +1966,13 @@ image: /media/2026/09/maps-featured.png
           const container = L.DomUtil.create("div", "maps-basemap-control leaflet-bar leaflet-control");
           const body = document.createElement("div");
           let controlApi;
+          let currentGroup = "";
           container.appendChild(body);
           Object.entries(baseMapStyles).forEach(([key, config]) => {
+            if (config.group && config.group !== currentGroup) {
+              body.appendChild(createLayerSubheading(config.group));
+              currentGroup = config.group;
+            }
             const button = document.createElement("button");
             button.type = "button";
             button.dataset.baseMap = key;
@@ -3249,6 +3340,49 @@ image: /media/2026/09/maps-featured.png
       style: (feature) => getBoundaryStyle(feature, "fill", "healthZone"),
       onEachFeature: (feature, layer) => addBoundaryInteractivity(feature, layer, "fill", "healthZone")
     });
+    const duvalPropertyLinesServiceUrl = "https://maps.coj.net/coj/rest/services/CityBiz/Parcels/MapServer/export";
+    const DuvalPropertyLinesLayer = L.GridLayer.extend({
+      createTile: function (coords, done) {
+        const tile = document.createElement("img");
+        const tileSize = this.getTileSize();
+        const topLeftPoint = coords.scaleBy(tileSize);
+        const bottomRightPoint = topLeftPoint.add(tileSize);
+        const northWest = this._map.unproject(topLeftPoint, coords.z);
+        const southEast = this._map.unproject(bottomRightPoint, coords.z);
+        const projectedNorthWest = this._map.options.crs.project(northWest);
+        const projectedSouthEast = this._map.options.crs.project(southEast);
+        const bbox = [
+          projectedNorthWest.x,
+          projectedSouthEast.y,
+          projectedSouthEast.x,
+          projectedNorthWest.y
+        ].join(",");
+        const params = new URLSearchParams({
+          bbox,
+          bboxSR: "3857",
+          imageSR: "3857",
+          size: `${tileSize.x},${tileSize.y}`,
+          format: "png32",
+          transparent: "true",
+          layers: "show:0",
+          f: "image"
+        });
+
+        tile.alt = "";
+        tile.decoding = "async";
+        tile.onload = function () { done(null, tile); };
+        tile.onerror = function (error) { done(error, tile); };
+        tile.src = `${duvalPropertyLinesServiceUrl}?${params.toString()}`;
+        return tile;
+      }
+    });
+    const duvalPropertyLinesLayer = new DuvalPropertyLinesLayer({
+      attribution: '<a href="https://maps.coj.net/coj/rest/services/CityBiz/Parcels/MapServer" target="_blank" rel="noopener">City of Jacksonville GIS</a>',
+      minZoom: 17,
+      maxZoom: 23,
+      opacity: 0.8,
+      zIndex: 250
+    });
     const elevationWmsUrl = "https://elevation.nationalmap.gov/arcgis/services/3DEPElevation/ImageServer/WMSServer";
     const elevationImageServerUrl = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage";
     const elevationAttribution = '<a href="https://www.usgs.gov/programs/national-geospatial-program/national-map" target="_blank" rel="noopener">USGS The National Map</a> · <a href="https://www.usgs.gov/3d-elevation-program" target="_blank" rel="noopener">3DEP</a>';
@@ -3858,6 +3992,7 @@ image: /media/2026/09/maps-featured.png
         healthZoneFillLayer,
         healthZoneBorderLayer,
         healthZoneByZipCodeLayer,
+        duvalPropertyLinesLayer,
         floodZoneFillLayer,
         floodZoneBorderLayer,
         evacuationZoneFillLayer,
@@ -4998,7 +5133,19 @@ image: /media/2026/09/maps-featured.png
             })
             .catch(() => {
               button.textContent = "Copy failed";
-            });
+          });
+        }
+      ));
+      mapContextMenuElement.appendChild(createContextMenuButton(
+        "Open in Google Street View",
+        "Open Google Street View at these coordinates",
+        () => {
+          const streetViewUrl = new URL("https://www.google.com/maps/@");
+          streetViewUrl.searchParams.set("api", "1");
+          streetViewUrl.searchParams.set("map_action", "pano");
+          streetViewUrl.searchParams.set("viewpoint", `${event.latlng.lat},${event.latlng.lng}`);
+          window.open(streetViewUrl.toString(), "_blank", "noopener");
+          hideMapContextMenu();
         }
       ));
 
@@ -6331,6 +6478,12 @@ image: /media/2026/09/maps-featured.png
             href: "/maps/references/#health",
             locationLayerType: "healthZone"
           });
+          appendLayerControls(overlays, [
+            createBoundaryLayerInput("Duval County Property Lines", duvalPropertyLinesLayer, {
+              countable: false,
+              geometryType: "line"
+            })
+          ]);
           const layerHeaderActions = createLayerHeaderActions();
           layersControlApi = setupCollapsibleMapControl(container, "Layers", list, {
             iconPath: "M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z",
@@ -6354,10 +6507,129 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function addDuvalPropertyClickHandler() {
+      let propertyRequestId = 0;
+
+      function titleCasePropertyAddressPart(value) {
+        return String(value || "").trim().toLocaleLowerCase("en-US").replace(/\b[a-z]/g, (character) => character.toUpperCase());
+      }
+
+      function propertySearchSlug(value) {
+        return String(value || "").trim().replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "");
+      }
+
+      map.on("click", async function (event) {
+        if (!map.hasLayer(duvalPropertyLinesLayer) || map.getZoom() < 17) return;
+        const target = event.originalEvent && event.originalEvent.target;
+        if (target && target.closest && target.closest(".leaflet-interactive, .leaflet-marker-icon, .leaflet-control")) return;
+
+        const requestId = ++propertyRequestId;
+        const popup = L.popup({ maxWidth: 300 })
+          .setLatLng(event.latlng)
+          .setContent("Looking up property…")
+          .openOn(map);
+        const projectedPoint = map.options.crs.project(event.latlng);
+        const params = new URLSearchParams({
+          f: "json",
+          geometry: JSON.stringify({
+            x: projectedPoint.x,
+            y: projectedPoint.y,
+            spatialReference: { wkid: 3857 }
+          }),
+          geometryType: "esriGeometryPoint",
+          inSR: "3857",
+          spatialRel: "esriSpatialRelIntersects",
+          outFields: "RE,RE_NOSPACE,STREET_NO,ST_DIR,ST_NAME,ST_TYPE,UNIT_NO,ADDRCITY,ZIPCODE,ACRES,DESCPU,SALESLDD,SALESLMM,SALESLYY,TOT_LND_VA,TOT_IMPR_V",
+          returnGeometry: "false"
+        });
+
+        try {
+          const response = await fetch(`https://maps.coj.net/coj/rest/services/CityBiz/Parcels/MapServer/0/query?${params}`);
+          if (!response.ok) throw new Error(`Property query returned ${response.status}`);
+          const result = await response.json();
+          if (requestId !== propertyRequestId || popup !== map._popup) return;
+          const properties = result.features && result.features[0] && result.features[0].attributes;
+          if (!properties) {
+            popup.setContent("No property record was found at this location.").update();
+            return;
+          }
+
+          const realEstateNumber = String(properties.RE_NOSPACE || properties.RE || "").replace(/\D/g, "");
+          const streetAddress = [
+            String(properties.STREET_NO || "").trim(),
+            String(properties.ST_DIR || "").trim().toUpperCase(),
+            titleCasePropertyAddressPart(properties.ST_NAME),
+            titleCasePropertyAddressPart(properties.ST_TYPE),
+            titleCasePropertyAddressPart(properties.UNIT_NO)
+          ].filter(Boolean).join(" ");
+          const locality = [
+            String(properties.ADDRCITY || "").trim(),
+            properties.ZIPCODE
+          ].filter(Boolean).join(" FL ");
+          const city = titleCasePropertyAddressPart(properties.ADDRCITY);
+          const zipCode = String(properties.ZIPCODE || "").trim();
+          const propertySearchAddress = [streetAddress, city, "FL", zipCode].filter(Boolean).join(", ");
+          const acreage = Number(properties.ACRES);
+          const marketLandValue = Number(properties.TOT_LND_VA);
+          const improvementValue = Number(properties.TOT_IMPR_V);
+          const hasAcreage = properties.ACRES !== null && properties.ACRES !== "" && Number.isFinite(acreage);
+          const hasMarketLandValue = properties.TOT_LND_VA !== null && properties.TOT_LND_VA !== "" && Number.isFinite(marketLandValue);
+          const hasImprovementValue = properties.TOT_IMPR_V !== null && properties.TOT_IMPR_V !== "" && Number.isFinite(improvementValue);
+          const justMarketValue = hasMarketLandValue && hasImprovementValue ? marketLandValue + improvementValue : null;
+          const saleDay = Number(properties.SALESLDD);
+          const saleMonth = Number(properties.SALESLMM);
+          const saleYear = Number(properties.SALESLYY);
+          const hasSaleDate = Number.isInteger(saleDay) && saleDay >= 1 && saleDay <= 31 &&
+            Number.isInteger(saleMonth) && saleMonth >= 1 && saleMonth <= 12 &&
+            Number.isInteger(saleYear) && saleYear >= 1800;
+          const lastSaleDate = hasSaleDate
+            ? new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeZone: "UTC" }).format(new Date(Date.UTC(saleYear, saleMonth - 1, saleDay)))
+            : "";
+          const content = document.createElement("div");
+          content.className = "maps-district-popup";
+          if (streetAddress) {
+            const addressLine = document.createElement("span");
+            addressLine.className = "maps-property-popup__address";
+            addressLine.textContent = streetAddress;
+            content.appendChild(addressLine);
+          }
+          appendSchoolPopupLine(content, locality);
+          appendSchoolPopupLine(content, hasAcreage ? `Acreage: ${acreage.toLocaleString("en-US", { maximumFractionDigits: 3 })}` : "");
+          appendSchoolPopupLine(content, properties.DESCPU ? `Property use: ${String(properties.DESCPU).trim()}` : "");
+          appendSchoolPopupLine(content, lastSaleDate ? `Last sale date: ${lastSaleDate}` : "");
+          appendSchoolPopupLine(content, justMarketValue !== null ? `Just market value: ${justMarketValue.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}` : "");
+          if (realEstateNumber) {
+            const detailsLink = document.createElement("a");
+            detailsLink.href = `https://paopropertysearch.coj.net/Basic/Detail.aspx?RE=${encodeURIComponent(realEstateNumber)}`;
+            detailsLink.target = "_blank";
+            detailsLink.rel = "noopener";
+            detailsLink.textContent = "View Property Appraiser details";
+            content.appendChild(detailsLink);
+          }
+          if (streetAddress && city) {
+            const zillowLink = document.createElement("a");
+            zillowLink.className = "maps-property-popup__zillow-link";
+            zillowLink.href = `https://www.zillow.com/homes/${propertySearchSlug(propertySearchAddress)}_rb/`;
+            zillowLink.target = "_blank";
+            zillowLink.rel = "noopener";
+            zillowLink.textContent = "Look up on Zillow";
+            content.appendChild(zillowLink);
+          }
+          popup.setContent(content).update();
+        } catch (error) {
+          console.warn(error);
+          if (requestId === propertyRequestId && popup === map._popup) {
+            popup.setContent("Property details are temporarily unavailable.").update();
+          }
+        }
+      });
+    }
+
     function addElevationClickHandler() {
       let elevationRequestId = 0;
 
       map.on("click", async function (event) {
+        if (map.hasLayer(duvalPropertyLinesLayer) && map.getZoom() >= 17) return;
         if (!map.hasLayer(elevationColorLayer) && !map.hasLayer(elevationContoursLayer)) return;
         const target = event.originalEvent && event.originalEvent.target;
         if (target && target.closest && target.closest(".leaflet-interactive, .leaflet-marker-icon, .leaflet-control")) return;
@@ -6494,6 +6766,7 @@ image: /media/2026/09/maps-featured.png
       registerQueryLayer(["cpac", "cpacs", "planningdistricts"], cpacFillLayer, { group: "boundaries", slug: "cpacs", alternateLayers: [cpacBorderLayer] });
       registerQueryLayer(["health", "healthzone", "healthzones"], healthZoneFillLayer, { group: "boundaries", slug: "healthzones", alternateLayers: [healthZoneBorderLayer] });
       registerQueryLayer(["healthzones-byzipcodes", "healthzonesbyzipcodes", "healthzonesbyzip", "healthzoneslistedzips"], healthZoneByZipCodeLayer, { group: "boundaries", slug: "healthzones-byzipcodes" });
+      registerQueryLayer(["propertylines", "parcels", "parcelboundaries", "duvalpropertylines"], duvalPropertyLinesLayer, { slug: "propertylines" });
       registerQueryLayer(["elevation", "elevationcolor", "terrain", "tintedhillshade", "3dep"], elevationColorLayer, { slug: "elevation" });
       registerQueryLayer(["elevationcontours", "contours", "5ftcontours", "terraincontours"], elevationContoursLayer, { slug: "elevationcontours" });
       registerQueryLayer(["flood", "floodzone", "floodzones", "fema"], floodZoneFillLayer, { group: "boundaries", slug: "floodzones", alternateLayers: [floodZoneBorderLayer] });
@@ -9577,6 +9850,7 @@ image: /media/2026/09/maps-featured.png
     }).addTo(map);
     addPinnedCardPanel();
     addFocusKeyboardShortcut();
+    addDuvalPropertyClickHandler();
     addElevationClickHandler();
     addElevationLegend();
     addCompareKeyboardShortcut();
