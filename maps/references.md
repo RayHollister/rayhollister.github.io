@@ -232,6 +232,10 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 
 ## Health
 
+- Duval County Property Lines:
+  - Live parcel-boundary map service: [City of Jacksonville GIS Duval County Parcels](https://maps.coj.net/coj/rest/services/CityBiz/Parcels/MapServer).
+  - Property lines appear at zoom level 17 and closer, following the source service's visibility range.
+  - Parcel boundaries are provided for general reference and should not be treated as a survey or used to resolve a property-line dispute.
 - Health Zones:
   - There is no official map and no official ZIP-code list defining the Duval County Health Zones. Florida Department of Health in Duval County confirmed this directly in October 2026.
   - The Health Zone map was developed in 2008. Based on the geographic boundaries, Florida Department of Health in Duval County said it would be reasonable to consider Duval County residents within ZIP codes 32259 and 32081 as part of Health Zone 3, but those areas may not have been represented within Duval County at that time and their inclusion cannot be definitively confirmed.
