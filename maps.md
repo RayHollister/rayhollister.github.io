@@ -14,6 +14,19 @@ image: /media/2026/09/maps-featured.png
 <link rel="stylesheet" href="/leaflet/fullscreen/Control.FullScreen.css">
 
 <style>
+  html.maps-page-document,
+  body.maps-page-body {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body.maps-page-body {
+    inset: 0;
+    position: fixed;
+    width: 100%;
+  }
+
   .leaflet-container {
     background: #ffffff;
   }
@@ -1364,13 +1377,13 @@ image: /media/2026/09/maps-featured.png
     .maps-page,
     .maps-shell {
       height: calc(100vh - 48px);
-      height: calc(100dvh - 48px);
+      height: calc(100svh - 48px);
       min-height: 0;
     }
 
     #ray-map {
       height: calc(100vh - 48px);
-      height: calc(100dvh - 48px);
+      height: calc(100svh - 48px);
       min-height: 0;
     }
 
@@ -1389,6 +1402,14 @@ image: /media/2026/09/maps-featured.png
       overflow: auto;
     }
 
+    .maps-search-control__input {
+      -webkit-appearance: none;
+      appearance: none;
+      font-size: 17px !important;
+      line-height: 1.25;
+      touch-action: manipulation;
+    }
+
   }
 </style>
 
@@ -1398,9 +1419,14 @@ image: /media/2026/09/maps-featured.png
   </div>
 </section>
 
+<script>
+  document.documentElement.classList.add("maps-page-document");
+  document.body.classList.add("maps-page-body");
+</script>
+
 <script src="/leaflet/leaflet.js"></script>
 <script src="/leaflet/imageoverlay-rotated/Leaflet.ImageOverlay.Rotated.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/leaflet-rotate@0.2.8/dist/leaflet-rotate-src.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-rotate@0.4.0/dist/leaflet-rotate-src.js"></script>
 <script src="/leaflet/smoothwheelzoom/SmoothWheelZoom.js"></script>
 <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.js"></script>
@@ -2447,6 +2473,17 @@ image: /media/2026/09/maps-featured.png
           results.setAttribute("role", "list");
           results.id = "maps-search-results";
 
+          function restoreViewportAfterSearch() {
+            input.blur();
+
+            const restore = function () {
+              map.invalidateSize({ pan: false });
+            };
+
+            window.requestAnimationFrame(restore);
+            window.setTimeout(restore, 300);
+          }
+
           function setOpen(open) {
             container.classList.toggle("is-open", open);
             button.setAttribute("aria-expanded", String(open));
@@ -2462,6 +2499,7 @@ image: /media/2026/09/maps-featured.png
                 input.focus();
               });
             } else {
+              input.blur();
               container.classList.remove("opens-left");
               content.style.top = "";
             }
@@ -2489,8 +2527,11 @@ image: /media/2026/09/maps-featured.png
                 showYouAreHereCardInPanel();
               })
               .openPopup();
-            map.setView(latLng, Math.max(map.getZoom(), 16));
             setOpen(false);
+            restoreViewportAfterSearch();
+            window.requestAnimationFrame(() => {
+              map.setView(latLng, Math.max(map.getZoom(), 16));
+            });
           }
 
           function createResultButton(label, onClick) {
