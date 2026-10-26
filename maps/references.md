@@ -235,6 +235,7 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 - Duval County Property Lines:
   - Live parcel-boundary map service: [City of Jacksonville GIS Duval County Parcels](https://maps.coj.net/coj/rest/services/CityBiz/Parcels/MapServer).
   - Property lines appear at zoom level 17 and closer, following the source service's visibility range.
+  - Clicking a visible parcel queries its real-estate number from the City GIS service and links to the corresponding [Duval County Property Appraiser property record](https://paopropertysearch.coj.net/Basic/Search.aspx).
   - Parcel boundaries are provided for general reference and should not be treated as a survey or used to resolve a property-line dispute.
 - Health Zones:
   - There is no official map and no official ZIP-code list defining the Duval County Health Zones. Florida Department of Health in Duval County confirmed this directly in October 2026.

@@ -6404,10 +6404,91 @@ image: /media/2026/09/maps-featured.png
       });
     }
 
+    function addDuvalPropertyClickHandler() {
+      let propertyRequestId = 0;
+
+      map.on("click", async function (event) {
+        if (!map.hasLayer(duvalPropertyLinesLayer) || map.getZoom() < 17) return;
+        const target = event.originalEvent && event.originalEvent.target;
+        if (target && target.closest && target.closest(".leaflet-interactive, .leaflet-marker-icon, .leaflet-control")) return;
+
+        const requestId = ++propertyRequestId;
+        const popup = L.popup({ maxWidth: 300 })
+          .setLatLng(event.latlng)
+          .setContent("Looking up property…")
+          .openOn(map);
+        const projectedPoint = map.options.crs.project(event.latlng);
+        const params = new URLSearchParams({
+          f: "json",
+          geometry: JSON.stringify({
+            x: projectedPoint.x,
+            y: projectedPoint.y,
+            spatialReference: { wkid: 3857 }
+          }),
+          geometryType: "esriGeometryPoint",
+          inSR: "3857",
+          spatialRel: "esriSpatialRelIntersects",
+          outFields: "RE,RE_NOSPACE,STREET_NO,ST_DIR,ST_NAME,ST_TYPE,UNIT_NO,ADDRCITY,ZIPCODE",
+          returnGeometry: "false"
+        });
+
+        try {
+          const response = await fetch(`https://maps.coj.net/coj/rest/services/CityBiz/Parcels/MapServer/0/query?${params}`);
+          if (!response.ok) throw new Error(`Property query returned ${response.status}`);
+          const result = await response.json();
+          if (requestId !== propertyRequestId || popup !== map._popup) return;
+          const properties = result.features && result.features[0] && result.features[0].attributes;
+          if (!properties) {
+            popup.setContent("No property record was found at this location.").update();
+            return;
+          }
+
+          const realEstateNumber = String(properties.RE_NOSPACE || properties.RE || "").replace(/\D/g, "");
+          const displayRealEstateNumber = realEstateNumber.length === 10
+            ? `${realEstateNumber.slice(0, 6)}-${realEstateNumber.slice(6)}`
+            : String(properties.RE || realEstateNumber).trim();
+          const streetAddress = [
+            properties.STREET_NO,
+            properties.ST_DIR,
+            properties.ST_NAME,
+            properties.ST_TYPE,
+            properties.UNIT_NO
+          ].map((value) => String(value || "").trim()).filter(Boolean).join(" ");
+          const locality = [
+            String(properties.ADDRCITY || "").trim(),
+            properties.ZIPCODE
+          ].filter(Boolean).join(" FL ");
+          const content = document.createElement("div");
+          const heading = document.createElement("strong");
+          heading.textContent = "Duval County property";
+          content.className = "maps-district-popup";
+          content.appendChild(heading);
+          appendSchoolPopupLine(content, streetAddress);
+          appendSchoolPopupLine(content, locality);
+          appendSchoolPopupLine(content, displayRealEstateNumber ? `RE #: ${displayRealEstateNumber}` : "");
+          if (realEstateNumber) {
+            const detailsLink = document.createElement("a");
+            detailsLink.href = `https://paopropertysearch.coj.net/Basic/Detail.aspx?RE=${encodeURIComponent(realEstateNumber)}`;
+            detailsLink.target = "_blank";
+            detailsLink.rel = "noopener";
+            detailsLink.textContent = "View Property Appraiser details";
+            content.appendChild(detailsLink);
+          }
+          popup.setContent(content).update();
+        } catch (error) {
+          console.warn(error);
+          if (requestId === propertyRequestId && popup === map._popup) {
+            popup.setContent("Property details are temporarily unavailable.").update();
+          }
+        }
+      });
+    }
+
     function addElevationClickHandler() {
       let elevationRequestId = 0;
 
       map.on("click", async function (event) {
+        if (map.hasLayer(duvalPropertyLinesLayer) && map.getZoom() >= 17) return;
         if (!map.hasLayer(elevationColorLayer) && !map.hasLayer(elevationContoursLayer)) return;
         const target = event.originalEvent && event.originalEvent.target;
         if (target && target.closest && target.closest(".leaflet-interactive, .leaflet-marker-icon, .leaflet-control")) return;
@@ -9628,6 +9709,7 @@ image: /media/2026/09/maps-featured.png
     }).addTo(map);
     addPinnedCardPanel();
     addFocusKeyboardShortcut();
+    addDuvalPropertyClickHandler();
     addElevationClickHandler();
     addElevationLegend();
     addCompareKeyboardShortcut();
