@@ -1498,24 +1498,95 @@ image: /media/2026/09/maps-featured.png
       bright: "https://tiles.openfreemap.org/styles/bright",
       threeD: "https://tiles.openfreemap.org/styles/liberty"
     };
+    const esriTileServiceUrl = (serviceName) => `https://services.arcgisonline.com/ArcGIS/rest/services/${serviceName}/MapServer/tile/{z}/{y}/{x}`;
+    const duvalAerialYears = [2004, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
     const baseMapStyles = {
       positron: {
         label: "Positron",
+        group: "OpenFreeMap",
         getStyle: () => openFreeMapStyles.positron
       },
       bright: {
         label: "Bright",
+        group: "OpenFreeMap",
         getStyle: () => openFreeMapStyles.bright
       },
       threeD: {
         label: "3D",
+        group: "OpenFreeMap",
         getStyle: () => openFreeMapStyles.threeD
       },
       googleSatellite: {
         label: "Google Satellite",
+        group: "Google",
         type: "tile",
-        url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
-      }
+        url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+        attribution: "Google Satellite"
+      },
+      worldImagery: {
+        label: "World Imagery",
+        group: "Esri",
+        type: "tile",
+        url: esriTileServiceUrl("World_Imagery"),
+        attribution: "Esri World Imagery"
+      },
+      worldImageryHybrid: {
+        label: "World Imagery Hybrid",
+        group: "Esri",
+        type: "tile",
+        urls: [
+          esriTileServiceUrl("World_Imagery"),
+          esriTileServiceUrl("Reference/World_Boundaries_and_Places")
+        ],
+        attribution: "Esri World Imagery"
+      },
+      worldStreets: {
+        label: "World Streets",
+        group: "Esri",
+        getStyle: () => "https://www.arcgis.com/sharing/rest/content/items/26144ad356a84eedad17ca19dac22bd5/resources/styles/root.json"
+      },
+      worldStreetsNight: {
+        label: "World Streets (Night)",
+        group: "Esri",
+        getStyle: () => "https://www.arcgis.com/sharing/rest/content/items/e0887bf9806a4a6ab1a69a1dc208d056/resources/styles/root.json"
+      },
+      worldTerrain: {
+        label: "World Terrain",
+        group: "Esri",
+        type: "tile",
+        urls: [
+          esriTileServiceUrl("Elevation/World_Hillshade"),
+          esriTileServiceUrl("Reference/World_Reference_Overlay")
+        ],
+        attribution: "Esri World Terrain"
+      },
+      worldDarkGray: {
+        label: "World Dark Gray",
+        group: "Esri",
+        getStyle: () => "https://www.arcgis.com/sharing/rest/content/items/fc3e102d1c464522820d7f957b19a467/resources/styles/root.json"
+      },
+      worldTopographic: {
+        label: "World Topographic",
+        group: "Esri",
+        type: "tile",
+        url: esriTileServiceUrl("World_Topo_Map"),
+        attribution: "Esri World Topographic"
+      },
+      worldLightGray: {
+        label: "World Light Gray",
+        group: "Esri",
+        getStyle: () => "https://www.arcgis.com/sharing/rest/content/items/ec91ba75ca6f4143a9f0567eb896a0b5/resources/styles/root.json"
+      },
+      ...Object.fromEntries(duvalAerialYears.map((year) => [`duvalAerial${year}`, {
+        label: `Duval Aerial ${year}`,
+        group: "Duval Aerial",
+        type: "tile",
+        url: `https://maps.coj.net/coj/rest/services/imagery/Duval${year}/MapServer/tile/{z}/{y}/{x}`,
+        attribution: `City of Jacksonville Duval Aerial ${year}`,
+        // The 2017 cache numbers its Jacksonville-only levels 0–12 instead of
+        // using the equivalent Web Mercator levels 9–21.
+        tileOptions: year === 2017 ? { zoomOffset: -9 } : undefined
+      }]))
     };
     const createMapLibreLayer = typeof L.maplibreGL === "function"
       ? L.maplibreGL.bind(L)
@@ -1679,10 +1750,13 @@ image: /media/2026/09/maps-featured.png
         map.removeLayer(baseMapLayer);
       }
       if (config.type === "tile") {
-        baseMapLayer = L.tileLayer(config.url, {
-          attribution: "Google Satellite",
-          maxZoom: 20
-        }).addTo(map);
+        const tileLayers = (config.urls || [config.url]).map((url) => L.tileLayer(url, {
+          attribution: config.attribution || "",
+          maxZoom: 20,
+          ...(config.tileOptions || {})
+        }));
+        baseMapLayer = tileLayers.length === 1 ? tileLayers[0] : L.layerGroup(tileLayers);
+        baseMapLayer.addTo(map);
       } else {
         let nextStyle;
         try {
@@ -1718,6 +1792,10 @@ image: /media/2026/09/maps-featured.png
       if (!baseMapLayer) return;
       if (baseMapLayer.setOpacity) {
         baseMapLayer.setOpacity(baseMapTileOpacity);
+      } else if (baseMapLayer.eachLayer) {
+        baseMapLayer.eachLayer((layer) => {
+          if (layer.setOpacity) layer.setOpacity(baseMapTileOpacity);
+        });
       }
       const container = getBaseMapLayerContainer();
       if (container) {
@@ -1884,8 +1962,13 @@ image: /media/2026/09/maps-featured.png
           const container = L.DomUtil.create("div", "maps-basemap-control leaflet-bar leaflet-control");
           const body = document.createElement("div");
           let controlApi;
+          let currentGroup = "";
           container.appendChild(body);
           Object.entries(baseMapStyles).forEach(([key, config]) => {
+            if (config.group && config.group !== currentGroup) {
+              body.appendChild(createLayerSubheading(config.group));
+              currentGroup = config.group;
+            }
             const button = document.createElement("button");
             button.type = "button";
             button.dataset.baseMap = key;

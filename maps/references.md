@@ -22,6 +22,8 @@ If you appreciate this project, you can [buy me a coffee! ☕️](https://buymea
 - 3D: [OpenFreeMap Liberty](https://tiles.openfreemap.org/styles/liberty)
 - OpenFreeMap project documentation: [OpenFreeMap quick start](https://openfreemap.org/quick_start/) and [hyperknot/openfreemap](https://github.com/hyperknot/openfreemap)
 - Google Satellite: [Google satellite tile endpoint](https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z})
+- Esri World Imagery, World Imagery Hybrid, World Streets, World Streets (Night), World Terrain, World Dark Gray, World Topographic, and World Light Gray: [ArcGIS Living Atlas basemaps](https://www.arcgis.com/home/group.html?id=702026e41f6641fb85da88efe79dc166)
+- Duval Aerial imagery for 2004, 2015–2017, and 2019–2026: [City of Jacksonville imagery services](https://maps.coj.net/coj/rest/services/imagery)
 
 ## Historic Maps
 
