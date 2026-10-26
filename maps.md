@@ -1423,14 +1423,14 @@ image: /media/2026/09/maps-featured.png
       ? [requestedLatitude, requestedLongitude]
       : defaultMapCenter;
     const initialMapZoom = Number.isFinite(requestedZoom)
-      ? Math.max(4, Math.min(20, requestedZoom))
+      ? Math.max(4, Math.min(23, requestedZoom))
       : defaultMapZoom;
     const initialMapRotation = Number.isFinite(requestedRotation)
       ? ((requestedRotation % 360) + 360) % 360
       : 0;
     const map = Leaflet.map("ray-map", {
       minZoom: 4,
-      maxZoom: 20,
+      maxZoom: 23,
       maxBounds: [[-85.051129, -Infinity], [85.051129, Infinity]],
       maxBoundsViscosity: 1,
       zoomControl: false,
@@ -1752,7 +1752,7 @@ image: /media/2026/09/maps-featured.png
       if (config.type === "tile") {
         const tileLayers = (config.urls || [config.url]).map((url) => L.tileLayer(url, {
           attribution: config.attribution || "",
-          maxZoom: 20,
+          maxZoom: 23,
           ...(config.tileOptions || {})
         }));
         baseMapLayer = tileLayers.length === 1 ? tileLayers[0] : L.layerGroup(tileLayers);
@@ -3375,7 +3375,7 @@ image: /media/2026/09/maps-featured.png
     const duvalPropertyLinesLayer = new DuvalPropertyLinesLayer({
       attribution: '<a href="https://maps.coj.net/coj/rest/services/CityBiz/Parcels/MapServer" target="_blank" rel="noopener">City of Jacksonville GIS</a>',
       minZoom: 17,
-      maxZoom: 20,
+      maxZoom: 23,
       opacity: 0.8,
       zIndex: 250
     });
@@ -6519,7 +6519,7 @@ image: /media/2026/09/maps-featured.png
           geometryType: "esriGeometryPoint",
           inSR: "3857",
           spatialRel: "esriSpatialRelIntersects",
-          outFields: "RE,RE_NOSPACE,STREET_NO,ST_DIR,ST_NAME,ST_TYPE,UNIT_NO,ADDRCITY,ZIPCODE",
+          outFields: "RE,RE_NOSPACE,STREET_NO,ST_DIR,ST_NAME,ST_TYPE,UNIT_NO,ADDRCITY,ZIPCODE,ACRES,DESCPU,SALESLDD,SALESLMM,SALESLYY,CAMA_VAL",
           returnGeometry: "false"
         });
 
@@ -6535,9 +6535,6 @@ image: /media/2026/09/maps-featured.png
           }
 
           const realEstateNumber = String(properties.RE_NOSPACE || properties.RE || "").replace(/\D/g, "");
-          const displayRealEstateNumber = realEstateNumber.length === 10
-            ? `${realEstateNumber.slice(0, 6)}-${realEstateNumber.slice(6)}`
-            : String(properties.RE || realEstateNumber).trim();
           const streetAddress = [
             String(properties.STREET_NO || "").trim(),
             String(properties.ST_DIR || "").trim().toUpperCase(),
@@ -6549,6 +6546,19 @@ image: /media/2026/09/maps-featured.png
             String(properties.ADDRCITY || "").trim(),
             properties.ZIPCODE
           ].filter(Boolean).join(" FL ");
+          const acreage = Number(properties.ACRES);
+          const camaValue = Number(properties.CAMA_VAL);
+          const hasAcreage = properties.ACRES !== null && properties.ACRES !== "" && Number.isFinite(acreage);
+          const hasCamaValue = properties.CAMA_VAL !== null && properties.CAMA_VAL !== "" && Number.isFinite(camaValue);
+          const saleDay = Number(properties.SALESLDD);
+          const saleMonth = Number(properties.SALESLMM);
+          const saleYear = Number(properties.SALESLYY);
+          const hasSaleDate = Number.isInteger(saleDay) && saleDay >= 1 && saleDay <= 31 &&
+            Number.isInteger(saleMonth) && saleMonth >= 1 && saleMonth <= 12 &&
+            Number.isInteger(saleYear) && saleYear >= 1800;
+          const lastSaleDate = hasSaleDate
+            ? new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeZone: "UTC" }).format(new Date(Date.UTC(saleYear, saleMonth - 1, saleDay)))
+            : "";
           const content = document.createElement("div");
           content.className = "maps-district-popup";
           if (streetAddress) {
@@ -6558,7 +6568,10 @@ image: /media/2026/09/maps-featured.png
             content.appendChild(addressLine);
           }
           appendSchoolPopupLine(content, locality);
-          appendSchoolPopupLine(content, displayRealEstateNumber ? `RE #: ${displayRealEstateNumber}` : "");
+          appendSchoolPopupLine(content, hasAcreage ? `Acreage: ${acreage.toLocaleString("en-US", { maximumFractionDigits: 3 })}` : "");
+          appendSchoolPopupLine(content, properties.DESCPU ? `Property use: ${String(properties.DESCPU).trim()}` : "");
+          appendSchoolPopupLine(content, lastSaleDate ? `Last sale date: ${lastSaleDate}` : "");
+          appendSchoolPopupLine(content, hasCamaValue ? `CAMA value: ${camaValue.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}` : "");
           if (realEstateNumber) {
             const detailsLink = document.createElement("a");
             detailsLink.href = `https://paopropertysearch.coj.net/Basic/Detail.aspx?RE=${encodeURIComponent(realEstateNumber)}`;
