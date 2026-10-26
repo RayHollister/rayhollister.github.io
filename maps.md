@@ -6600,12 +6600,7 @@ image: /media/2026/09/maps-featured.png
             content.appendChild(detailsLink);
           }
           if (streetAddress && city) {
-            const searchHeading = document.createElement("strong");
-            searchHeading.textContent = "Find this property";
-            content.appendChild(searchHeading);
-            appendPropertySearchLink(content, "Zillow", `https://www.zillow.com/homes/${propertySearchSlug(propertySearchAddress)}_rb/`);
-            appendPropertySearchLink(content, "Redfin", `https://www.google.com/search?q=${encodeURIComponent(`site:redfin.com "${propertySearchAddress}"`)}`);
-            appendPropertySearchLink(content, "Realtor.com", `https://www.google.com/search?q=${encodeURIComponent(`site:realtor.com "${propertySearchAddress}"`)}`);
+            appendPropertySearchLink(content, "Look up on Zillow", `https://www.zillow.com/homes/${propertySearchSlug(propertySearchAddress)}_rb/`);
           }
           popup.setContent(content).update();
         } catch (error) {
