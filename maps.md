@@ -6519,7 +6519,7 @@ image: /media/2026/09/maps-featured.png
           geometryType: "esriGeometryPoint",
           inSR: "3857",
           spatialRel: "esriSpatialRelIntersects",
-          outFields: "RE,RE_NOSPACE,STREET_NO,ST_DIR,ST_NAME,ST_TYPE,UNIT_NO,ADDRCITY,ZIPCODE,ACRES,DESCPU,SALESLDD,SALESLMM,SALESLYY,CAMA_VAL",
+          outFields: "RE,RE_NOSPACE,STREET_NO,ST_DIR,ST_NAME,ST_TYPE,UNIT_NO,ADDRCITY,ZIPCODE,ACRES,DESCPU,SALESLDD,SALESLMM,SALESLYY,TOT_LND_VA,TOT_IMPR_V",
           returnGeometry: "false"
         });
 
@@ -6547,9 +6547,12 @@ image: /media/2026/09/maps-featured.png
             properties.ZIPCODE
           ].filter(Boolean).join(" FL ");
           const acreage = Number(properties.ACRES);
-          const camaValue = Number(properties.CAMA_VAL);
+          const marketLandValue = Number(properties.TOT_LND_VA);
+          const improvementValue = Number(properties.TOT_IMPR_V);
           const hasAcreage = properties.ACRES !== null && properties.ACRES !== "" && Number.isFinite(acreage);
-          const hasCamaValue = properties.CAMA_VAL !== null && properties.CAMA_VAL !== "" && Number.isFinite(camaValue);
+          const hasMarketLandValue = properties.TOT_LND_VA !== null && properties.TOT_LND_VA !== "" && Number.isFinite(marketLandValue);
+          const hasImprovementValue = properties.TOT_IMPR_V !== null && properties.TOT_IMPR_V !== "" && Number.isFinite(improvementValue);
+          const justMarketValue = hasMarketLandValue && hasImprovementValue ? marketLandValue + improvementValue : null;
           const saleDay = Number(properties.SALESLDD);
           const saleMonth = Number(properties.SALESLMM);
           const saleYear = Number(properties.SALESLYY);
@@ -6571,7 +6574,7 @@ image: /media/2026/09/maps-featured.png
           appendSchoolPopupLine(content, hasAcreage ? `Acreage: ${acreage.toLocaleString("en-US", { maximumFractionDigits: 3 })}` : "");
           appendSchoolPopupLine(content, properties.DESCPU ? `Property use: ${String(properties.DESCPU).trim()}` : "");
           appendSchoolPopupLine(content, lastSaleDate ? `Last sale date: ${lastSaleDate}` : "");
-          appendSchoolPopupLine(content, hasCamaValue ? `CAMA value: ${camaValue.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}` : "");
+          appendSchoolPopupLine(content, justMarketValue !== null ? `Just market value: ${justMarketValue.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}` : "");
           if (realEstateNumber) {
             const detailsLink = document.createElement("a");
             detailsLink.href = `https://paopropertysearch.coj.net/Basic/Detail.aspx?RE=${encodeURIComponent(realEstateNumber)}`;
