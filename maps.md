@@ -1389,6 +1389,10 @@ image: /media/2026/09/maps-featured.png
       overflow: auto;
     }
 
+    .maps-search-control__input {
+      font-size: 16px;
+    }
+
   }
 </style>
 
