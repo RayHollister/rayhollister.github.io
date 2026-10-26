@@ -123,6 +123,10 @@ image: /media/2026/09/maps-featured.png
     line-height: 1;
   }
 
+  .maps-district-popup .maps-property-popup__zillow-link {
+    line-height: 2;
+  }
+
   .maps-district-popup .maps-route-pdf-link {
     margin-top: 0.25rem;
   }
@@ -6502,15 +6506,6 @@ image: /media/2026/09/maps-featured.png
         return String(value || "").trim().replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "");
       }
 
-      function appendPropertySearchLink(content, label, href) {
-        const link = document.createElement("a");
-        link.href = href;
-        link.target = "_blank";
-        link.rel = "noopener";
-        link.textContent = label;
-        content.appendChild(link);
-      }
-
       map.on("click", async function (event) {
         if (!map.hasLayer(duvalPropertyLinesLayer) || map.getZoom() < 17) return;
         const target = event.originalEvent && event.originalEvent.target;
@@ -6600,7 +6595,13 @@ image: /media/2026/09/maps-featured.png
             content.appendChild(detailsLink);
           }
           if (streetAddress && city) {
-            appendPropertySearchLink(content, "Look up on Zillow", `https://www.zillow.com/homes/${propertySearchSlug(propertySearchAddress)}_rb/`);
+            const zillowLink = document.createElement("a");
+            zillowLink.className = "maps-property-popup__zillow-link";
+            zillowLink.href = `https://www.zillow.com/homes/${propertySearchSlug(propertySearchAddress)}_rb/`;
+            zillowLink.target = "_blank";
+            zillowLink.rel = "noopener";
+            zillowLink.textContent = "Look up on Zillow";
+            content.appendChild(zillowLink);
           }
           popup.setContent(content).update();
         } catch (error) {
