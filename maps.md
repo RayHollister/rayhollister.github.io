@@ -6601,13 +6601,11 @@ image: /media/2026/09/maps-featured.png
           }
           if (streetAddress && city) {
             const searchHeading = document.createElement("strong");
-            const streetSlug = propertySearchSlug(streetAddress);
-            const citySlug = propertySearchSlug(city);
             searchHeading.textContent = "Find this property";
             content.appendChild(searchHeading);
             appendPropertySearchLink(content, "Zillow", `https://www.zillow.com/homes/${propertySearchSlug(propertySearchAddress)}_rb/`);
-            appendPropertySearchLink(content, "Redfin", `https://www.redfin.com/search?q=${encodeURIComponent(propertySearchAddress)}`);
-            appendPropertySearchLink(content, "Realtor.com", `https://www.realtor.com/realestateandhomes-search/${streetSlug}_${citySlug}_FL_${encodeURIComponent(zipCode)}`);
+            appendPropertySearchLink(content, "Redfin", `https://www.google.com/search?q=${encodeURIComponent(`site:redfin.com "${propertySearchAddress}"`)}`);
+            appendPropertySearchLink(content, "Realtor.com", `https://www.google.com/search?q=${encodeURIComponent(`site:realtor.com "${propertySearchAddress}"`)}`);
           }
           popup.setContent(content).update();
         } catch (error) {
