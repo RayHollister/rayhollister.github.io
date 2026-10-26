@@ -2455,6 +2455,21 @@ image: /media/2026/09/maps-featured.png
           results.setAttribute("role", "list");
           results.id = "maps-search-results";
 
+          function restoreViewportAfterSearch() {
+            input.blur();
+
+            const restore = function () {
+              document.documentElement.scrollTop = 0;
+              document.body.scrollTop = 0;
+              window.scrollTo(0, 0);
+              map.invalidateSize({ pan: false });
+            };
+
+            window.requestAnimationFrame(restore);
+            window.setTimeout(restore, 150);
+            window.setTimeout(restore, 350);
+          }
+
           function setOpen(open) {
             container.classList.toggle("is-open", open);
             button.setAttribute("aria-expanded", String(open));
@@ -2470,6 +2485,7 @@ image: /media/2026/09/maps-featured.png
                 input.focus();
               });
             } else {
+              input.blur();
               container.classList.remove("opens-left");
               content.style.top = "";
             }
@@ -2497,8 +2513,11 @@ image: /media/2026/09/maps-featured.png
                 showYouAreHereCardInPanel();
               })
               .openPopup();
-            map.setView(latLng, Math.max(map.getZoom(), 16));
             setOpen(false);
+            restoreViewportAfterSearch();
+            window.requestAnimationFrame(() => {
+              map.setView(latLng, Math.max(map.getZoom(), 16));
+            });
           }
 
           function createResultButton(label, onClick) {
