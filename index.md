@@ -81,13 +81,19 @@ exclude: true
         </div>
     </a>
     <h3 id="projects">Projects I am pretty proud of:</h3>
-    <a title="Knowledge Cutoff" href="https://knowledgecutoff.email/">
-        <div class="social KnowledgeCutoff"><i class="fa-brands fa-knowledgecutoff"></i>
-            <div class="title"><span class="projectname">Knowledge Cutoff</span></div>
+    <a title="JaxMaps" href="https://jaxmaps.org/">
+        <div class="social JaxMaps"><i class="fa-brands fa-jaxmaps"></i>
+            <div class="title"><span class="projectname">JaxMaps</span><span class="platform">Jacksonville &amp; Northeast Florida</span></div>
         </div>
+    </a>
     <a title="JaxPlays" href="https://jaxplays.org/" title="JaxPlays is your go-to source for all live theatre productions in Jacksonville, Florida and all of Northeast Florida and Southeast Georgia.">
         <div class="social JaxPlays"><i class="fa-brands fa-jaxplays"></i>
             <div class="title"><span class="projectname">JaxPlays</span><span class="platform">JaxPlays</span></div>
+        </div>
+    </a>
+    <a title="Knowledge Cutoff" href="https://knowledgecutoff.email/">
+        <div class="social KnowledgeCutoff"><i class="fa-brands fa-knowledgecutoff"></i>
+            <div class="title"><span class="projectname">Knowledge Cutoff</span></div>
         </div>
     </a>
     <a title="Hollister's Books" href="https://hollistersbooks.com/">
