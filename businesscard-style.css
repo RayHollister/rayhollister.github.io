@@ -239,6 +239,26 @@ i {
     background: #24292f;
 }
 
+.JaxMaps {
+    background: #000;
+}
+
+.fa-jaxmaps {
+    margin-right: 5px;
+    margin-left: -10px;
+}
+
+.fa-jaxmaps:before {
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+    content: "";
+    margin-right: 5px;
+    background: url(https://jaxmaps.org/favicon.svg) no-repeat center;
+    background-size: contain;
+    filter: invert(1);
+}
+
 .fa-jaxplays {
     margin-right: 5px;
     margin-left: -10px;

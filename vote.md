@@ -245,11 +245,11 @@ exclude: true
 <div class="vote-intro">
   <p>Find your Jacksonville voting precinct, assigned Duval County polling place, and elected representatives using your current location.</p>
   <p>The results include your Jacksonville City Council district, at-large council members, Duval County School Board district, Florida House and Senate districts, U.S. House district, and Florida’s U.S. senators.</p>
-  <p>Your coordinates stay in your browser and are only compared with the local Jacksonville and Duval County boundary data used by the <a href="/maps/">Maps</a> page.</p>
+  <p>Your coordinates stay in your browser and are only compared with the local Jacksonville and Duval County boundary data used by <a href="https://jaxmaps.org/">JaxMaps</a>.</p>
 </div>
 
 <template id="vote-note-template">
-  <p class="vote-note">Boundary and polling-place information can change. Always confirm your assignment with the <a href="https://www.duvalelections.gov/204/Polling-Location-Finder" target="_blank" rel="noopener">Duval County Supervisor of Elections polling-location finder</a>. See <a href="/maps/references/">Maps References</a> for sources and limitations.</p>
+  <p class="vote-note">Boundary and polling-place information can change. Always confirm your assignment with the <a href="https://www.duvalelections.gov/204/Polling-Location-Finder" target="_blank" rel="noopener">Duval County Supervisor of Elections polling-location finder</a>. See <a href="https://jaxmaps.org/references/">JaxMaps References</a> for sources and limitations.</p>
 </template>
 
 <script>
